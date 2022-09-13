@@ -8,7 +8,7 @@ import 'theme_color.dart';
 class ThemeText {
   const ThemeText._();
 
-  static TextTheme get _poppinsTextTheme => GoogleFonts.poppinsTextTheme();
+  static TextTheme get _poppinsTextTheme => GoogleFonts.cairoTextTheme();
 
   static TextStyle get _whiteHeadline6 => _poppinsTextTheme.headline6!.copyWith(
         fontSize: Sizes.dimen_20.sp,

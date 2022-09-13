@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import '../common/extensions/size_extensions.dart';
+import '../presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
@@ -22,7 +24,7 @@ class BaseMaterialApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Adzily Support',
+      title: 'YaMaiter',
       //navigatorKey: navigatorKey,
 
       /// builder ==> build with ResponsiveWrapper and break points
@@ -41,6 +43,9 @@ class BaseMaterialApp extends StatelessWidget {
 
       /// main theme
       theme: ThemeData(
+          textTheme: GoogleFonts.cairoTextTheme(
+            Theme.of(context).textTheme,
+          ),
           primaryColor: AppColor.primaryDarkColor,
           primaryColorDark: AppColor.primaryDarkColor,
           splashColor: AppColor.accentColor.withOpacity(0.3),
@@ -69,7 +74,7 @@ class BaseMaterialApp extends StatelessWidget {
           )),
 
       /// home
-      home: const MainScreen(),
+      home: const ChooseUserTypeScreen(),
       onGenerateRoute: (RouteSettings settings) {
         final routes = Routes.getRoutes(settings);
         final WidgetBuilder? builder = routes[settings.name];
