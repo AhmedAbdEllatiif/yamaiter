@@ -11,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 
 import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../router/route_helper.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_check_box.dart';
@@ -122,7 +123,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                           // dropdown
                           AppDropDownField(
                             hintText: "دائرة المحكمة الكلية العليا",
-                            itemsList: governoratesList,
+                            itemsList: subGovernoratesList,
                             onChanged: (value) {
                               if (value != null) {
                                 _subGovernorate = value;
@@ -178,11 +179,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                     // already a user go to login
                     LoginOrRegisterWidget(
                       isLogin: false,
-                      onPressed: () {},
+                      onPressed: () =>_navigateToLoginScreen(),
                     ),
 
                     // bottom space
-                    SizedBox(height: Sizes.dimen_16.h),
+                    SizedBox(height: Sizes.dimen_30.h),
                   ]),
             ),
           ),
@@ -200,9 +201,8 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
     return false;
   }
 
-  bool _isPasswordNotMatched() {
-    final password = passwordController.value.text;
-    final rePassword = rePasswordController.value.text;
-    return password != rePassword;
-  }
+  /// to login
+  void _navigateToLoginScreen() =>
+      RouteHelper().loginScreen(context,isClearStack: true);
+
 }

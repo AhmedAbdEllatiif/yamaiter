@@ -88,7 +88,7 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
       },
 
       // items
-      items: governoratesList.map((String value) {
+      items: widget.itemsList.map((String value) {
         return DropdownMenuItem<String>(
           value: value,
           child: Text(value),
