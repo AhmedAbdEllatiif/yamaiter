@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/extensions/widgetExtension.dart';
 
 import '../../common/constants/sizes.dart';
+import '../../common/enum/animation_type.dart';
 import '../themes/theme_color.dart';
 
 class AppButton extends StatelessWidget {
@@ -14,6 +16,7 @@ class AppButton extends StatelessWidget {
   final EdgeInsets margin;
   final double? height;
   final bool isTextButton;
+  final bool withAnimation;
   final Icon? icon;
 
   const AppButton({
@@ -25,11 +28,28 @@ class AppButton extends StatelessWidget {
     this.height,
     this.icon,
     this.isTextButton = false,
+    this.withAnimation = false,
      this.textColor = AppColor.white,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    return withAnimation ? button(context).animate(
+        slideDuration: const Duration(milliseconds: 300),
+        fadeDuration: const Duration(milliseconds: 300),
+        map: {
+          AnimationType.slide: {
+            SlideOffset.begin: const Offset(0.0, 0.5),
+            SlideOffset.end: const Offset(0.0, 0.0),
+          },
+          AnimationType.fade: {
+            FadeOpacity.begin: 0.5,
+            FadeOpacity.end: 1.0,
+          },
+        }) : button(context);
+  }
+
+  Widget button(BuildContext context){
     return Container(
       // height: Sizes.dimen_16.h,
       margin: margin,
@@ -53,6 +73,7 @@ class AppButton extends StatelessWidget {
           : _elevatedButton(context),
     );
   }
+
 
   /// return custom text button
   Widget _customTextButton(BuildContext context){
