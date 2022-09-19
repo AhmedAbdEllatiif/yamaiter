@@ -4,6 +4,7 @@ enum AppErrorType {
   localDB,
   unauthorizedUser,
   badRequest,
+  pickImage,
 }
 
 /// Extension to convert AppErrorType to string
