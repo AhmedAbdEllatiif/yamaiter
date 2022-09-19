@@ -47,7 +47,7 @@ class ChooseUserTypeScreen extends StatelessWidget {
                 text: "تسجيل دخول",
                 textColor: AppColor.primaryDarkColor,
                 color: AppColor.accentColor,
-                onPressed: () {},
+                onPressed: ()=> _navigateToLoginScreen(context),
               ),
             ],
           ),
@@ -56,9 +56,15 @@ class ChooseUserTypeScreen extends StatelessWidget {
     );
   }
 
+  /// to register lawyer
   void _navigateToRegisterLawyer(BuildContext context) =>
       RouteHelper().registerLawyer(context);
 
+  /// to register client
   void _navigateToRegisterClient(BuildContext context) =>
       RouteHelper().registerClient(context);
+  
+  /// to login
+  void _navigateToLoginScreen(BuildContext context) =>
+      RouteHelper().loginScreen(context,isClearStack: false);
 }

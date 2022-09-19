@@ -15,6 +15,8 @@ import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_check_box.dart';
 import '../../widgets/app_logo.dart';
+import '../../widgets/logo_with_title_widget.dart';
+import '../../widgets/text_login_instead.dart';
 
 class RegisterLawyerScreen extends StatefulWidget {
   const RegisterLawyerScreen({Key? key}) : super(key: key);
@@ -60,11 +62,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
         // body
         body: BlocListener<PickImageCubit, PickImageState>(
           listener: (context, state) {
-            if(state is ErrorWhilePickingImage){
+            if (state is ErrorWhilePickingImage) {
               print("Error >> ${state.appError}");
             }
 
-            if(state is ImagePicked){
+            if (state is ImagePicked) {
               print("ImagePicked >> ${state.image.path}");
             }
           },
@@ -76,23 +78,9 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    // logo
-                    Padding(
-                      padding: EdgeInsets.only(
-                          bottom: Sizes.dimen_3.h, top: Sizes.dimen_5.h),
-                      child: AppLogo(
-                        size: Sizes.dimen_70.h,
-                      ),
-                    ),
-
-                    Padding(
-                      padding: EdgeInsets.only(bottom: Sizes.dimen_16.h),
-                      child: Text(
-                        "تسجيل محامى جديد",
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.headline6!.copyWith(
-                            color: AppColor.white, fontWeight: FontWeight.bold),
-                      ),
+                    // LogoWithTitleWidget
+                    const LogoWithTitleWidget(
+                      title: "تسجيل محامى جديد",
                     ),
 
                     // Form
@@ -188,25 +176,9 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                     ),
 
                     // already a user go to login
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          "لديك حساب بالفعل؟",
-                          style:
-                              Theme.of(context).textTheme.titleSmall!.copyWith(
-                                    color: AppColor.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
-                        AppButton(
-                          text: "قم بتسجيل الدخول",
-                          isTextButton: true,
-                          textColor: AppColor.accentColor,
-                          color: AppColor.accentColor,
-                          onPressed: () {},
-                        ),
-                      ],
+                    LoginOrRegisterWidget(
+                      isLogin: false,
+                      onPressed: () {},
                     ),
 
                     // bottom space
