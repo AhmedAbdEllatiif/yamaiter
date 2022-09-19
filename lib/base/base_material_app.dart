@@ -29,16 +29,19 @@ class BaseMaterialApp extends StatelessWidget {
 
       /// builder ==> build with ResponsiveWrapper and break points
       builder: (context, widget) =>
-          ResponsiveWrapper.builder(
-            ClampingScrollWrapper.builder(context, widget!),
-            maxWidth: 1200,
-            defaultScale: true,
-            breakpoints: [
-              const ResponsiveBreakpoint.resize(350, name: MOBILE),
-              const ResponsiveBreakpoint.autoScale(600, name: TABLET),
-              const ResponsiveBreakpoint.resize(800, name: DESKTOP),
-              const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-            ],
+          Directionality(
+            textDirection: TextDirection.rtl,
+            child: ResponsiveWrapper.builder(
+              ClampingScrollWrapper.builder(context, widget!),
+              maxWidth: 1200,
+              defaultScale: true,
+              breakpoints: [
+                const ResponsiveBreakpoint.resize(350, name: MOBILE),
+                const ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+              ],
+            ),
           ),
 
       /// main theme

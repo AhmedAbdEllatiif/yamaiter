@@ -61,7 +61,7 @@ class AppButton extends StatelessWidget {
       borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_30.w)),
       child: Container(
         padding: const EdgeInsets.all(Sizes.dimen_6),
-        decoration: BoxDecoration(
+      /*  decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           border: Border.all(
             color: AppColor.accentColor,
@@ -69,7 +69,7 @@ class AppButton extends StatelessWidget {
           borderRadius: BorderRadius.all(
             Radius.circular(Sizes.dimen_30.w),
           ),
-        ),
+        ),*/
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -77,6 +77,7 @@ class AppButton extends StatelessWidget {
               text,
               style: Theme.of(context).textTheme.button!.copyWith(
                 color: textColor,
+                fontWeight: FontWeight.bold,
                 fontSize: ResponsiveValue(context,
                     defaultValue: Sizes.dimen_12.sp,
                     valueWhen: [
