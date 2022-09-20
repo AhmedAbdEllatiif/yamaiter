@@ -10,6 +10,9 @@ class AppDropDownField extends StatefulWidget {
   final String? errorText;
   final List<String> itemsList;
   final Function(String?) onChanged;
+  final double? height;
+  final double? width;
+  final EdgeInsets? margin;
 
   const AppDropDownField({
     Key? key,
@@ -17,6 +20,9 @@ class AppDropDownField extends StatefulWidget {
     this.hintText,
     this.errorText,
     required this.onChanged,
+    this.height,
+    this.width,
+    this.margin,
   }) : super(key: key);
 
   @override
@@ -26,74 +32,80 @@ class AppDropDownField extends StatefulWidget {
 class _AppDropDownFieldState extends State<AppDropDownField> {
   @override
   Widget build(BuildContext context) {
-    return DropdownButtonFormField<String>(
-      isExpanded: true,
-      //value: "A",
+    return Container(
+      height: widget.height,
+      width: widget.width,
+      margin: widget.margin,
+      child: DropdownButtonFormField<String>(
+        isExpanded: true,
+        //value: "A",
 
-      // decoration
-      decoration: InputDecoration(
-        filled: true,
-        fillColor: AppColor.primaryColor,
-        // hint text / style
-        hintText: widget.hintText,
-        hintStyle: const TextStyle(color: AppColor.white),
+        // decoration
+        decoration: InputDecoration(
+          filled: true,
+          fillColor: AppColor.primaryColor,
+          // hint text / style
+          hintText: widget.hintText,
+          hintStyle: const TextStyle(color: AppColor.white),
 
-        // error text
-        errorText: widget.errorText,
-        errorStyle: const TextStyle(
-          color: AppColor.accentColor,
-          fontWeight: FontWeight.normal,
+          // error text
+          errorText: widget.errorText,
+          errorStyle: const TextStyle(
+            color: AppColor.accentColor,
+            fontWeight: FontWeight.normal,
+          ),
+
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.accentColor),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.red),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.accentColor),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
         ),
 
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+        // iconEnabledColor
+        iconEnabledColor: AppColor.white,
+
+        // text style
+        style: const TextStyle(color: AppColor.white),
+
+        // dropdownColor
+        dropdownColor: AppColor.primaryColor,
+
+        // dropDownRadius
+        borderRadius: BorderRadius.all(
+          Radius.circular(AppUtils.cornerRadius.w),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.accentColor),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.red),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.accentColor),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
+
+        // onChanged
+        onChanged: widget.onChanged,
+
+        validator: (value) {
+          // if (value == null) return "* اختر المحافظة محل العمل";
+          // if (value.isEmpty) return "* اختر المحافظة محل العمل";
+          if (value == null) return "* مطلوب ادخاله";
+          if (value.isEmpty) return "* مطلوب ادخاله";
+        },
+
+        // items
+        items: widget.itemsList.map((String value) {
+          return DropdownMenuItem<String>(
+            value: value,
+            child: Text(value),
+          );
+        }).toList(),
       ),
-
-      // iconEnabledColor
-      iconEnabledColor: AppColor.white,
-
-      // text style
-      style: const TextStyle(color: AppColor.white),
-
-      // dropdownColor
-      dropdownColor: AppColor.primaryColor,
-
-      // dropDownRadius
-      borderRadius: BorderRadius.all(
-        Radius.circular(AppUtils.cornerRadius.w),
-      ),
-
-      // onChanged
-      onChanged: widget.onChanged,
-
-      validator: (value) {
-        // if (value == null) return "* اختر المحافظة محل العمل";
-        // if (value.isEmpty) return "* اختر المحافظة محل العمل";
-        if (value == null) return "* مطلوب ادخاله";
-        if (value.isEmpty) return "* مطلوب ادخاله";
-      },
-
-      // items
-      items: widget.itemsList.map((String value) {
-        return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
-        );
-      }).toList(),
     );
   }
 }

@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/presentation/logic/pick_images/pick_image_cubit.dart';
-import 'package:yamaiter/presentation/logic/pick_images/pick_image_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
+
+import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 
 class UploadIdImageWidget extends StatelessWidget {
   final Function() onPressed;
@@ -24,7 +24,8 @@ class UploadIdImageWidget extends StatelessWidget {
           children: [
             // the full container
             Container(
-              constraints: BoxConstraints(minHeight: Sizes.dimen_28.h),
+              //constraints: BoxConstraints(minHeight: Sizes.dimen_28.h),
+              padding: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h),
               decoration: BoxDecoration(
                 color: AppColor.primaryColor,
                 border: Border.all(color: getBorderColor(state)),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/logo_with_title_widget.dart';
@@ -70,6 +72,7 @@ class LoginScreen extends StatelessWidget {
                 color: AppColor.accentColor,
                 onPressed: () {
                   if (_isFormValid()) {
+                    _saveForAutoLogin(context,token: "This is new token");
                     _navigateToMainScreen(context);
                   }
                 },
@@ -94,7 +97,7 @@ class LoginScreen extends StatelessWidget {
 
   /// to main screen
   void _navigateToMainScreen(BuildContext context) =>
-      RouteHelper().main(context, isClearStack: false);
+      RouteHelper().main(context, isClearStack: true);
 
   /// to forget password screen
   void _navigateToForgetPasswordScreen(BuildContext context) =>
@@ -110,5 +113,9 @@ class LoginScreen extends StatelessWidget {
       return _formKey.currentState!.validate();
     }
     return false;
+  }
+
+  void _saveForAutoLogin(BuildContext context, {required String token}) {
+    context.read<AutoLoginCubit>().save(token);
   }
 }

@@ -20,6 +20,11 @@ class AppTextField extends StatefulWidget {
   final int? maxLength;
   final bool? enabled;
   final String? rePassword;
+  final double? height;
+  final double? width;
+  final int? minLines;
+  final int? maxLines;
+  final EdgeInsets? margin;
 
   const AppTextField({
     Key? key,
@@ -30,7 +35,14 @@ class AppTextField extends StatefulWidget {
     this.textInputType = TextInputType.text,
     this.label,
     this.textInputAction = TextInputAction.next,
-    this.maxLength, this.enabled, this.rePassword,
+    this.maxLength,
+    this.enabled,
+    this.rePassword,
+    this.height,
+    this.width,
+    this.margin,
+    this.minLines = 1,
+    this.maxLines = 1,
   }) : super(key: key);
 
   @override
@@ -53,94 +65,109 @@ class _AppTextFieldState extends State<AppTextField> {
     // to rebuild icon with setState
     _icon = _buildIcon();
 
-    return TextFormField(
-      // controller
-      controller: widget.controller,
+    return Container(
+      height: widget.height,
+      width: widget.width,
+      margin: widget.margin,
+      child: TextFormField(
+        // controller
+        controller: widget.controller,
 
-      // enabled
-      enabled: widget.enabled,
+        // enabled
+        enabled: widget.enabled,
 
-      // max length with counter
-      //maxLength: widget.maxLength,
+        // max length with counter
+        //maxLength: widget.maxLength,
 
-      // max length without counter
-      inputFormatters: [
-         LengthLimitingTextInputFormatter(widget.maxLength),
-      ],
+        // max length without counter
+        inputFormatters: [
+          LengthLimitingTextInputFormatter(widget.maxLength),
+        ],
 
-      // cursor color
-      cursorColor: AppColor.white,
+        // max and min lines
+        minLines: widget.textInputType == TextInputType.visiblePassword
+            ? 1
+            : widget.minLines,
+        maxLines: widget.textInputType == TextInputType.visiblePassword
+            ? 1
+            : widget.maxLength,
 
-      // text style
-      style: const TextStyle(color: AppColor.white),
+        // cursor color
+        cursorColor: AppColor.white,
 
-      textInputAction: widget.textInputAction,
+        // text style
+        style: const TextStyle(color: AppColor.white),
 
-      // input decoration
-      decoration: InputDecoration(
-        // borders
-        fillColor: AppColor.primaryColor,
-        filled: true,
+        textInputAction: widget.textInputAction,
 
-        disabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+        // input decoration
+        decoration: InputDecoration(
+          // borders
+          fillColor: AppColor.primaryColor,
+          filled: true,
+
+          disabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderSide:
+                BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.accentColor),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          errorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.red),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: const BorderSide(color: AppColor.red),
+            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+          ),
+
+          // label text
+          labelText: widget.label,
+          labelStyle: const TextStyle(color: AppColor.white),
+
+          //hintText:  widget.label,
+          //hintStyle:  const TextStyle(color: AppColor.white),
+
+          // error text
+          errorText: widget.errorText,
+          errorStyle: const TextStyle(
+            color: AppColor.accentColor,
+            fontWeight: FontWeight.normal,
+          ),
+
+          // icon
+          suffixIcon: _icon,
         ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.accentColor),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
-        errorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.red),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
-        focusedErrorBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: AppColor.red),
-          borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-        ),
 
-        // label text
-        labelText: widget.label,
-        labelStyle: const TextStyle(color: AppColor.white),
+        // keyboardType
+        keyboardType: widget.textInputType,
 
-        //hintText:  widget.label,
-        //hintStyle:  const TextStyle(color: AppColor.white),
+        obscureText: _isObscure,
 
-        // error text
-        errorText: widget.errorText,
-        errorStyle: const TextStyle(
-          color: AppColor.accentColor,
-          fontWeight: FontWeight.normal,
-        ),
-
-        // icon
-        suffixIcon: _icon,
-      ),
-
-      // keyboardType
-      keyboardType: widget.textInputType,
-
-      obscureText: _isObscure,
-
-      // validator
-      validator: widget.validator ?? validate,
-    ).animate(
-        slideDuration: const Duration(milliseconds: 300),
-        fadeDuration: const Duration(milliseconds: 300),
-        map: {
-          AnimationType.slide: {
-            SlideOffset.begin: const Offset(0.0, 0.5),
-            SlideOffset.end: const Offset(0.0, 0.0),
-          },
-          AnimationType.fade: {
-            FadeOpacity.begin: 0.5,
-            FadeOpacity.end: 1.0,
-          },
-        });
+        // validator
+        validator: widget.validator ?? validate,
+      ).animate(
+          slideDuration: const Duration(milliseconds: 300),
+          fadeDuration: const Duration(milliseconds: 300),
+          map: {
+            AnimationType.slide: {
+              SlideOffset.begin: const Offset(0.0, 0.5),
+              SlideOffset.end: const Offset(0.0, 0.0),
+            },
+            AnimationType.fade: {
+              FadeOpacity.begin: 0.5,
+              FadeOpacity.end: 1.0,
+            },
+          }),
+    );
   }
 
   /// return true if the textInput is visiblePassword
@@ -187,8 +214,8 @@ class _AppTextFieldState extends State<AppTextField> {
       }
     }
 
-    if(value == null) return "* مطلوب ادخاله" ;
-    if(value.isEmpty) return "* مطلوب ادخاله" ;
+    if (value == null) return "* مطلوب ادخاله";
+    if (value.isEmpty) return "* مطلوب ادخاله";
     return null;
   }
 
@@ -203,9 +230,8 @@ class _AppTextFieldState extends State<AppTextField> {
 
   /// return a nullable string of password validation
   String? passwordValidation(String value) {
-
-    if(widget.rePassword != null){
-      if(value != widget.rePassword){
+    if (widget.rePassword != null) {
+      if (value != widget.rePassword) {
         return "* يجب أن تكون كلمات المرور هي نفسها";
       }
     }

@@ -30,8 +30,9 @@ class CustomAppBar extends PreferredSize{
                     top: Sizes.dimen_12.h,
                     left: Sizes.dimen_15.w,
                     right: Sizes.dimen_10.w),
-                constraints: BoxConstraints(maxHeight: Sizes.dimen_22.h),
-                height: Sizes.dimen_18.h,
+                padding:  EdgeInsets.symmetric(vertical: Sizes.dimen_10.w),
+               // constraints: BoxConstraints(maxHeight: Sizes.dimen_22.h),
+                //height: Sizes.dimen_18.h,
                 decoration: BoxDecoration(
                   color: AppColor.primaryColor,
                   border: Border.all(color: Colors.transparent),
@@ -45,7 +46,7 @@ class CustomAppBar extends PreferredSize{
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "ابحث عن محامى.. ؟",
+                        "يامتر ابحث عن محامى.. ؟",
                         style: Theme.of(context)
                             .textTheme
                             .titleMedium!

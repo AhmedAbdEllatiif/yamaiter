@@ -53,15 +53,16 @@ class AppButton extends StatelessWidget {
     return Container(
       // height: Sizes.dimen_16.h,
       margin: margin,
-      height: height ??
+      /*height: height ??
           ResponsiveValue<double>(context,
               defaultValue: Sizes.dimen_20.h,
               valueWhen: [
                 Condition.equals(name: TABLET, value: Sizes.dimen_30.h),
                 Condition.largerThan(name: TABLET, value: Sizes.dimen_30.h),
-                Condition.equals(name: MOBILE, value: Sizes.dimen_20.h),
+                Condition.equals(name: MOBILE, value: Sizes.dimen_25.h),
                 Condition.smallerThan(name: MOBILE, value: Sizes.dimen_40.h),
-              ]).value,
+              ]).value,*/
+
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_20.w)),
         /* gradient: const LinearGradient(
@@ -142,34 +143,37 @@ class AppButton extends StatelessWidget {
           )
       ),
       onPressed: onPressed,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(
-            text,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
-              color: textColor,
-              fontWeight: FontWeight.w500,
-              fontSize: ResponsiveValue(context,
-                  defaultValue: Sizes.dimen_12.sp,
-                  valueWhen: [
-                    Condition.largerThan(
-                        name: TABLET, value: Sizes.dimen_12.sp),
-                    Condition.equals(
-                        name: TABLET, value: Sizes.dimen_12.sp),
-                    Condition.equals(
-                        name: MOBILE, value: Sizes.dimen_18.sp),
-                    Condition.smallerThan(
-                        name: MOBILE, value: Sizes.dimen_15.sp),
-                  ]).value,
+      child: Container(
+        padding: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              text,
+              style: Theme.of(context).textTheme.headline6!.copyWith(
+                color: textColor,
+                fontWeight: FontWeight.w500,
+                fontSize: ResponsiveValue(context,
+                    defaultValue: Sizes.dimen_12.sp,
+                    valueWhen: [
+                      Condition.largerThan(
+                          name: TABLET, value: Sizes.dimen_12.sp),
+                      Condition.equals(
+                          name: TABLET, value: Sizes.dimen_12.sp),
+                      Condition.equals(
+                          name: MOBILE, value: Sizes.dimen_18.sp),
+                      Condition.smallerThan(
+                          name: MOBILE, value: Sizes.dimen_15.sp),
+                    ]).value,
+              ),
             ),
-          ),
-          if (icon != null)
-            SizedBox(
-              width: Sizes.dimen_5.w,
-            ),
-          if (icon != null) icon!
-        ],
+            if (icon != null)
+              SizedBox(
+                width: Sizes.dimen_5.w,
+              ),
+            if (icon != null) icon!
+          ],
+        ),
       ),
     );
   }

@@ -5,13 +5,13 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
-import 'package:yamaiter/presentation/logic/pick_images/pick_image_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 
 import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../router/route_helper.dart';
+import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_check_box.dart';
