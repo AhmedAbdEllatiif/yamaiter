@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
+import 'package:yamaiter/common/enum/static_screens.dart';
 import '../common/extensions/size_extensions.dart';
-import '../presentation/journeys/choose_user_type/choose_user_type_screen.dart';
-import '../presentation/journeys/main/main_screen.dart';
+import '../presentation/journeys/drawer/screens/static_screen.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
 
@@ -70,6 +70,7 @@ class BaseMaterialApp extends StatelessWidget {
           /// default card theme
           cardTheme: CardTheme(
             elevation: 10.0,
+            shadowColor: AppColor.black,
             shape: RoundedRectangleBorder(
               borderRadius:
               BorderRadius.all(Radius.circular(Sizes.dimen_10.w)),
@@ -77,7 +78,7 @@ class BaseMaterialApp extends StatelessWidget {
           )),
 
       /// home
-      home: const ChooseUserTypeScreen(),
+      home:  StaticScreen(staticScreenType: StaticScreenType.privacy,),
       onGenerateRoute: (RouteSettings settings) {
         final routes = Routes.getRoutes(settings);
         final WidgetBuilder? builder = routes[settings.name];
