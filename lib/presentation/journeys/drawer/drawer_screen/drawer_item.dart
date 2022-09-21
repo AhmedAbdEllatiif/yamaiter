@@ -16,7 +16,7 @@ class DrawerItem extends StatelessWidget {
     return Material(
       color: AppColor.primaryDarkColor,
       child: InkWell(
-        onTap: (){},
+        onTap: onPressed,
         splashColor: AppColor.accentColor,
         hoverColor: AppColor.accentColor,
         child: Container(
