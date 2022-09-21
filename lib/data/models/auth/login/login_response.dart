@@ -76,7 +76,7 @@ class UserModel extends UserEntity {
   final int id;
   final String name;
   final String email;
-  final int phone;
+  final dynamic phone;
   final dynamic emailVerifiedAt;
   final String userableType;
   final int userableId;
@@ -86,7 +86,7 @@ class UserModel extends UserEntity {
 
 
   factory UserModel.fromJson(Map<String, dynamic> json) => UserModel(
-        id: json["id"] - 1,
+        id: json["id"] ?? -1,
         name: json["name"] ?? AppUtils.undefined,
         email: json["email"] ?? AppUtils.undefined,
         phone: json["phone"] ?? AppUtils.undefined,

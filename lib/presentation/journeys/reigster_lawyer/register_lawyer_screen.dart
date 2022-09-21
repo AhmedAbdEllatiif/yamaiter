@@ -1,21 +1,26 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yamaiter/common/constants/app_constants.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
+import 'package:yamaiter/presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 
 import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/functions/common_functions.dart';
 import '../../../router/route_helper.dart';
+import '../../logic/cubit/auto_login/auto_login_cubit.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_check_box.dart';
-import '../../widgets/app_logo.dart';
+import '../../widgets/loading_widget.dart';
 import '../../widgets/logo_with_title_widget.dart';
 import '../../widgets/text_login_instead.dart';
 
@@ -28,24 +33,32 @@ class RegisterLawyerScreen extends StatefulWidget {
 
 class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneNumController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
-  String _governorate = " ";
-  String _subGovernorate = " ";
+  String _governorate = "";
+  String _subGovernorate = "";
+  String _idImagePath = "";
 
   // pick image cubit
   late final PickImageCubit _pickImageCubit;
+
+  // RegisterLawyerCubit
+  late final RegisterLawyerCubit _registerLawyerCubit;
 
   @override
   void initState() {
     super.initState();
     _pickImageCubit = getItInstance<PickImageCubit>();
+    _registerLawyerCubit = getItInstance<RegisterLawyerCubit>();
   }
 
   @override
   void dispose() {
     _pickImageCubit.close();
+    _registerLawyerCubit.close();
     super.dispose();
   }
 
@@ -54,6 +67,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _pickImageCubit),
+        BlocProvider(create: (context) => _registerLawyerCubit),
       ],
       child: Scaffold(
         backgroundColor: AppColor.primaryDarkColor,
@@ -61,16 +75,42 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
         appBar: AppBar(),
 
         // body
-        body: BlocListener<PickImageCubit, PickImageState>(
-          listener: (context, state) {
-            if (state is ErrorWhilePickingImage) {
-              print("Error >> ${state.appError}");
-            }
+        body: MultiBlocListener(
+          listeners: [
+            //==> pick image listener
+            BlocListener<PickImageCubit, PickImageState>(
+              listener: (context, state) {
+                if (state is ErrorWhilePickingImage) {
+                  print("Error >> ${state.appError}");
+                }
 
-            if (state is ImagePicked) {
-              print("ImagePicked >> ${state.image.path}");
-            }
-          },
+                if (state is ImagePicked) {
+                  _idImagePath = state.image.path;
+                  print("ImagePicked >> ${state.image.path}");
+                }
+              },
+            ),
+
+            //==>register lawyer listener
+            BlocListener<RegisterLawyerCubit, RegisterLawyerState>(
+              listener: (context, state) {
+                if (state is ErrorWhileRegistrationLawyer) {
+                  // show snackBar
+                  showSnackBar(context, message: "حدث خطأ ما حاول مرة أخرى");
+                  log("RegisterLawyerScreen Error >> ${state.appError}");
+                }
+
+                if (state is RegisterLawyerSuccess) {
+                  // save for auto login
+                  _saveForAutoLogin(context,
+                      token: state.registerResponseEntity.token);
+                  // navigate to main screen
+                  _navigateToMainScreen(context);
+                  log("RegisterLawyerScreen RegisterLawyerSuccess");
+                }
+              },
+            ),
+          ],
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Padding(
@@ -94,19 +134,24 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                         runSpacing: 20, //
                         children: [
                           // name
-                          const AppTextField(label: "الأسم"),
+                          AppTextField(
+                            label: "الأسم",
+                            controller: nameController,
+                          ),
 
                           // phone num
-                          const AppTextField(
+                          AppTextField(
                             label: "رقم الهاتف المحمول",
                             textInputType: TextInputType.number,
                             maxLength: 11,
+                            controller: phoneNumController,
                           ),
 
                           // email
-                          const AppTextField(
+                          AppTextField(
                             label: "البريد الاكترونى",
                             textInputType: TextInputType.emailAddress,
+                            controller: emailController,
                           ),
 
                           // governoratesList
@@ -158,28 +203,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                       ),
                     ),
 
-                    // submit button
-                    Padding(
-                      padding: EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
-                      child: AppButton(
-                        text: "تسجيل",
-                        textColor: AppColor.primaryDarkColor,
-                        color: AppColor.accentColor,
-                        onPressed: () {
-                          print("$_governorate >> $_subGovernorate");
-                          if (_isFormValid()) {}
-                        },
-                      ),
-                    ),
-
-                    AppCheckBoxTiel(
-                      onChanged: (value) {},
-                    ),
-
-                    // already a user go to login
-                    LoginOrRegisterWidget(
-                      isLogin: false,
-                      onPressed: () =>_navigateToLoginScreen(),
+                    /// loading or button
+                    BlocBuilder<RegisterLawyerCubit, RegisterLawyerState>(
+                      builder: (context, state) {
+                        return switchLoadingState(state);
+                      },
                     ),
 
                     // bottom space
@@ -192,17 +220,90 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
     );
   }
 
+  /// to show loading or other widget according loading state
+  Widget switchLoadingState(RegisterLawyerState state) {
+    if (state is LoadingRegisterLawyer) {
+      return const LoadingWidget();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        // submit button
+        Padding(
+          padding: EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
+          child: AppButton(
+            text: "تسجيل",
+            textColor: AppColor.primaryDarkColor,
+            color: AppColor.accentColor,
+            onPressed: () {
+              if (_isFormValid()) {
+                registerNewLawyer();
+              }
+            },
+          ),
+        ),
+
+        AppCheckBoxTiel(
+          onChanged: (value) {},
+        ),
+
+        // already a user go to login
+        LoginOrRegisterWidget(
+          isLogin: false,
+          onPressed: () => _navigateToLoginScreen(),
+        ),
+      ],
+    );
+  }
+
+  /// to send register lawyer request
+  void registerNewLawyer() {
+    log("registerNewLawyer >> send Request");
+    // init RegisterLawyerRequestParams
+    final String name = nameController.value.text;
+    final String email = emailController.value.text;
+    final String phone = phoneNumController.value.text;
+    final String governorates = _governorate;
+    final String courtName = _subGovernorate;
+    final String password = passwordController.value.text;
+    final String idPhotoPath = _idImagePath;
+
+    // send register request
+    _registerLawyerCubit.tryToRegister(
+      name: name,
+      email: email,
+      phone: phone,
+      governorates: governorates,
+      courtName: courtName,
+      password: password,
+      idPhotoPath: idPhotoPath,
+    );
+  }
+
   /// return true if the form is valid
   bool _isFormValid() {
+    log("Password >> ${passwordController.value.text},"
+        " Repassword >> ${rePasswordController.value.text}");
     if (_formKey.currentState != null) {
-      _pickImageCubit.validate();
-      return _formKey.currentState!.validate();
+      if (_idImagePath.isNotEmpty) {
+        return _formKey.currentState!.validate();
+      } else {
+        log("RegisterLawyerScreen >> trying to register but _idImagePath is empty");
+      }
     }
     return false;
   }
 
   /// to login
   void _navigateToLoginScreen() =>
-      RouteHelper().loginScreen(context,isClearStack: true);
+      RouteHelper().loginScreen(context, isClearStack: true);
 
+  /// to main screen
+  void _navigateToMainScreen(BuildContext context) =>
+      RouteHelper().main(context, isClearStack: true);
+
+  /// to save token for auto login
+  void _saveForAutoLogin(BuildContext context, {required String token}) {
+    context.read<AutoLoginCubit>().save(token);
+  }
 }

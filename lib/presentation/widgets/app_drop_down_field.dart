@@ -78,7 +78,9 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         iconEnabledColor: AppColor.white,
 
         // text style
-        style: const TextStyle(color: AppColor.white),
+        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: AppColor.white
+        ),
 
         // dropdownColor
         dropdownColor: AppColor.primaryColor,

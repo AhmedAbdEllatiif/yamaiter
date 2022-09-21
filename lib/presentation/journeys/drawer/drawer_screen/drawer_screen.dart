@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_screen/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../logic/cubit/auto_login/auto_login_cubit.dart';
 
@@ -35,6 +36,7 @@ class DrawerScreen extends StatelessWidget {
                  DrawerItem(iconData: Icons.question_mark_outlined, title: "اتصل بنا", onPressed: () {  },),
                  DrawerItem(iconData: Icons.logout_outlined, title: "تسجيل الخروج", onPressed: () {
                    context.read<AutoLoginCubit>().delete();
+                   RouteHelper().loginScreen(context, isClearStack: true);
                  },),
               ],
             ),
