@@ -1,10 +1,17 @@
 enum AppErrorType {
-  api,
   sharedPreferences,
   localDB,
-  unauthorizedUser,
   badRequest,
   pickImage,
+
+  // apiErrors
+  api,
+  unauthorizedUser,
+  userAlreadyExists,
+  wrongPassword,
+  wrongEmail,
+
+  unDefined,
 }
 
 /// Extension to convert AppErrorType to string

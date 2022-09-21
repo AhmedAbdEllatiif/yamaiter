@@ -137,7 +137,11 @@ class _AppTextFieldState extends State<AppTextField> {
           //hintStyle:  const TextStyle(color: AppColor.white),
 
           // error text
-          errorText: widget.errorText,
+          errorText: widget.errorText != null
+              ? widget.errorText!.isNotEmpty
+                  ? widget.errorText
+                  : null
+              : null,
           errorStyle: const TextStyle(
             color: AppColor.accentColor,
             fontWeight: FontWeight.normal,

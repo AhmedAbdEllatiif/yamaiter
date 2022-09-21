@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
 import 'package:yamaiter/domain/use_cases/app_settings/auto_login/get_auto_login.dart';
+import 'package:yamaiter/domain/use_cases/login.dart';
+import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
@@ -96,6 +98,11 @@ Future init() async {
   );
 
   ///************************ init usecases *********************************\\\
+  //==> LoginCase
+  getItInstance.registerFactory<LoginCase>(
+        () => LoginCase(remoteRepository: getItInstance()),
+  );
+
   //==> GetAutoLogin
   getItInstance.registerLazySingleton<GetAutoLoginCase>(() => GetAutoLoginCase(
         appSettingsRepository: getItInstance(),

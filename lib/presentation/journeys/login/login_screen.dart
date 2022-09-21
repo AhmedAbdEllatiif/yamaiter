@@ -1,20 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
+import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/logo_with_title_widget.dart';
 import 'package:yamaiter/presentation/widgets/text_login_instead.dart';
 
 import '../../../common/constants/sizes.dart';
+import '../../../common/functions/common_functions.dart';
 import '../../../router/route_helper.dart';
+import '../../logic/cubit/login/login_cubit.dart';
 import '../../widgets/app_button.dart';
-import '../../widgets/app_logo.dart';
 
-class LoginScreen extends StatelessWidget {
-  LoginScreen({Key? key}) : super(key: key);
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   /// controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -22,77 +30,153 @@ class LoginScreen extends StatelessWidget {
   /// GlobalKey
   final _formKey = GlobalKey<FormState>();
 
+  /// login cubit
+  late final LoginCubit _loginCubit;
+
+  @override
+  void initState() {
+    super.initState();
+    _loginCubit = getItInstance<LoginCubit>();
+  }
+
+  @override
+  void dispose() {
+    _loginCubit.close();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primaryDarkColor,
-      appBar: AppBar(),
-      body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_40.w),
-        child: SingleChildScrollView(
-          child: Column(
-            //mainAxisAlignment: MainAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LogoWithTitleWidget
-              const LogoWithTitleWidget(
-                title: "تسجيل الدخول",
-              ),
+    return BlocProvider(
+      create: (_) => _loginCubit,
+      child: Scaffold(
+        backgroundColor: AppColor.primaryDarkColor,
 
-              // form
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    AppTextField(
-                      label: "البريد الإلكتروني",
-                      textInputType: TextInputType.emailAddress,
-                      controller: emailController,
-                    ),
-                    SizedBox(
-                      height: Sizes.dimen_5.h,
-                    ),
-                    AppTextField(
-                      label: "كلمة مرور",
-                      textInputType: TextInputType.visiblePassword,
-                      controller: passwordController,
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: Sizes.dimen_5.h,
-              ),
+        /// appBar
+        appBar: AppBar(),
 
-              // login button
-              AppButton(
-                text: "تسجيل دخول",
-                textColor: AppColor.primaryDarkColor,
-                color: AppColor.accentColor,
-                onPressed: () {
-                  if (_isFormValid()) {
-                    _saveForAutoLogin(context,token: "This is new token");
-                    _navigateToMainScreen(context);
-                  }
-                },
-              ),
-              SizedBox(
-                height: Sizes.dimen_5.h,
-              ),
+        /// body
+        body: BlocListener<LoginCubit, LoginState>(
+          listener: (_, state) {
+            // error
+            if (state is ErrorWhileLogin) {
+              // show snackBar
+              showSnackBar(context, message: "حدث خطأ ما حاول مرة أخرى");
+            }
+            // success
+            if (state is LoginSuccess) {
+              // save for auto login
+              _saveForAutoLogin(context,
+                  token: state.loginResponseEntity.token);
+              // navigate to main screen
+              _navigateToMainScreen(context);
+            }
+          },
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_40.w),
+            child: SingleChildScrollView(
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // LogoWithTitleWidget
+                  const LogoWithTitleWidget(
+                    title: "تسجيل الدخول",
+                  ),
 
-              // LoginOrRegisterWidget
-              LoginOrRegisterWidget(
-                isLogin: true,
-                onPressed: () => _navigateToChooserUserTypeScreen(context),
-                onForgetPasswordPressed: () =>
-                    _navigateToForgetPasswordScreen(context),
-              )
-            ],
+                  // form
+                  Form(
+                    key: _formKey,
+                    child: BlocBuilder<LoginCubit, LoginState>(
+                      builder: (context, state) {
+                        return Column(
+                          children: [
+                            AppTextField(
+                              label: "البريد الإلكتروني",
+                              errorText: _getEmailErrorMessage(state),
+                              textInputType: TextInputType.emailAddress,
+                              controller: emailController,
+                            ),
+                            SizedBox(
+                              height: Sizes.dimen_5.h,
+                            ),
+                            AppTextField(
+                              label: "كلمة مرور",
+                              errorText: _getPasswordErrorMessage(state),
+                              textInputType: TextInputType.visiblePassword,
+                              controller: passwordController,
+                            ),
+
+                            //==> space between form and login button
+                            SizedBox(
+                              height: Sizes.dimen_5.h,
+                            ),
+
+                            switchLoadingState(state)
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),
     );
+  }
+
+  /// to show loading or other widget according loading state
+  Widget switchLoadingState(LoginState state) {
+    if (state is LoadingLogin) {
+      return const LoadingWidget();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        //==> login button
+        AppButton(
+          text: "تسجيل دخول",
+          textColor: AppColor.primaryDarkColor,
+          color: AppColor.accentColor,
+          onPressed: () {
+            if (_isFormValid()) {
+              _sendLoginRequest();
+            }
+          },
+        ),
+        SizedBox(
+          height: Sizes.dimen_5.h,
+        ),
+
+        // LoginOrRegisterWidget
+        LoginOrRegisterWidget(
+          isLogin: true,
+          onPressed: () => _navigateToChooserUserTypeScreen(context),
+          onForgetPasswordPressed: () =>
+              _navigateToForgetPasswordScreen(context),
+        )
+      ],
+    );
+  }
+
+  /// return an error message according error from [state]
+  String _getPasswordErrorMessage(LoginState state) {
+    if (state is WrongPassword) {
+      return "* إدخال كلمة مرور خاطئة";
+    }
+
+    return "";
+  }
+
+  /// return an error message according error from [state]
+  String _getEmailErrorMessage(LoginState state) {
+    if (state is WrongEmail) {
+      return "* إدخال بريد إلكتروني خاطئ";
+    }
+    return "";
   }
 
   /// to main screen
@@ -107,7 +191,7 @@ class LoginScreen extends StatelessWidget {
   void _navigateToChooserUserTypeScreen(BuildContext context) =>
       RouteHelper().chooseUserType(context);
 
-  /// To validate the current form
+  /// to validate the current form
   bool _isFormValid() {
     if (_formKey.currentState != null) {
       return _formKey.currentState!.validate();
@@ -115,6 +199,14 @@ class LoginScreen extends StatelessWidget {
     return false;
   }
 
+  /// to send login request
+  void _sendLoginRequest() {
+    final email = emailController.value.text;
+    final password = passwordController.value.text;
+    _loginCubit.tryToLogin(email: email, password: password);
+  }
+
+  /// to save token for auto login
   void _saveForAutoLogin(BuildContext context, {required String token}) {
     context.read<AutoLoginCubit>().save(token);
   }
