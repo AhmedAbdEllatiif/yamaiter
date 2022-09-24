@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/loginRequest.dart';
-import 'package:yamaiter/data/api/requests/registerRequest.dart';
+import 'package:yamaiter/data/api/requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 
@@ -57,7 +57,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future registerLawyer(RegisterRequestModel registerRequestModel) async{
     // init request
-    final registerRequest = RegisterRequest();
+    final registerRequest = RegisterLawyerRequest();
     final request = await registerRequest(registerRequestModel);
 
     // send a request

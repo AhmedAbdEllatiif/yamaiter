@@ -6,7 +6,7 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/post_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 
-class RegisterRequest extends PostRequest<RegisterRequestModel> {
+class RegisterLawyerRequest extends PostRequest<RegisterRequestModel> {
   @override
   Future<http.MultipartRequest> call(RegisterRequestModel params) async {
     var request = initPostRequest(RequestType.registerLawyer, "");
