@@ -7,7 +7,6 @@ import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
-import '../data/api/rest_http_methods.dart';
 import '../data/data_source/app_settings_local_data_source.dart';
 import '../data/data_source/remote_data_source.dart';
 import '../data/repositories/app_settings_repository_impl.dart';
@@ -30,18 +29,9 @@ Future init() async {
   /// RestApi
   getItInstance.registerFactory<http.Client>(() => initHttpClient());
 
-  /// Http methods
-  getItInstance.registerFactory<RestApiMethods>(
-    () => RestApiMethods(
-      restApiClient: getItInstance(),
-    ),
-  );
-
   ///*************************** init DataSource **********************\\\
   getItInstance.registerFactory<RemoteDataSource>(
-    () => RemoteDataSourceImpl(
-      restApiMethods: getItInstance(),
-    ),
+    () => RemoteDataSourceImpl(),
   );
 
   //==> AppSettingsDataSource
@@ -101,12 +91,12 @@ Future init() async {
   ///************************ init usecases *********************************\\\
   //==> LoginCase
   getItInstance.registerFactory<LoginCase>(
-        () => LoginCase(remoteRepository: getItInstance()),
+    () => LoginCase(remoteRepository: getItInstance()),
   );
 
   //==> RegisterLawyerCase
   getItInstance.registerFactory<RegisterLawyerCase>(
-        () => RegisterLawyerCase(remoteRepository: getItInstance()),
+    () => RegisterLawyerCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

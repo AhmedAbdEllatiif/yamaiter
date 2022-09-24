@@ -2,13 +2,13 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
-import 'package:yamaiter/data/api/requests/loginRequest.dart';
-import 'package:yamaiter/data/api/requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
+import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 
 import '../../domain/entities/app_error.dart';
-import '../api/rest_http_methods.dart';
+
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 
@@ -19,9 +19,7 @@ abstract class RemoteDataSource {
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
-  final RestApiMethods restApiMethods;
-
-  RemoteDataSourceImpl({required this.restApiMethods});
+  RemoteDataSourceImpl();
 
   /// Login
   @override
@@ -55,7 +53,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future registerLawyer(RegisterRequestModel registerRequestModel) async{
+  Future registerLawyer(RegisterRequestModel registerRequestModel) async {
     // init request
     final registerRequest = RegisterLawyerRequest();
     final request = await registerRequest(registerRequestModel);
@@ -67,10 +65,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     final response = await http.Response.fromStream(streamResponse);
     log("registerLawyer >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return registerResponseModelFromJson(response.body);
-    // default
+      // default
       default:
         return AppError(AppErrorType.api,
             message: "Status Code >> ${response.statusCode}"

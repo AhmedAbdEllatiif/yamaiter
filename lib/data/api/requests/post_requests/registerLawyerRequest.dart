@@ -9,7 +9,8 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 class RegisterLawyerRequest extends PostRequest<RegisterRequestModel> {
   @override
   Future<http.MultipartRequest> call(RegisterRequestModel params) async {
-    var request = initPostRequest(RequestType.registerLawyer, "");
+    var request =
+        initPostRequest(requestType: RequestType.registerLawyer, token: "");
     request.fields["email"] = params.email;
     request.fields["name"] = params.name;
     request.fields["phone"] = params.phone;
