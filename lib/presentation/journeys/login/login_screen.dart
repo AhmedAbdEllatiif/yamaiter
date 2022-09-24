@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
@@ -208,6 +208,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// to save token for auto login
   void _saveForAutoLogin(BuildContext context, {required String token}) {
-    context.read<AutoLoginCubit>().save(token);
+    context.read<UserTokenCubit>().save(token);
   }
 }

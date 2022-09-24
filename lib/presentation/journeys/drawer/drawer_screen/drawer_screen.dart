@@ -7,7 +7,7 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/sizes.dart';
-import '../../../logic/cubit/auto_login/auto_login_cubit.dart';
+import '../../../logic/cubit/user_token/user_token_cubit.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -38,7 +38,7 @@ class DrawerScreen extends StatelessWidget {
                  DrawerItem(iconData: Icons.shield_outlined, title: "شروط الاستخدام", onPressed: () {  },),
                  DrawerItem(iconData: Icons.question_mark_outlined, title: "اتصل بنا", onPressed: () {  },),
                  DrawerItem(iconData: Icons.logout_outlined, title: "تسجيل الخروج", onPressed: () {
-                   context.read<AutoLoginCubit>().delete();
+                   context.read<UserTokenCubit>().delete();
                    RouteHelper().loginScreen(context, isClearStack: true);
                  },),
               ],

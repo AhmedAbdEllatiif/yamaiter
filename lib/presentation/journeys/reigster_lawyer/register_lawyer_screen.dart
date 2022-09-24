@@ -15,7 +15,7 @@ import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/functions/common_functions.dart';
 import '../../../router/route_helper.dart';
-import '../../logic/cubit/auto_login/auto_login_cubit.dart';
+import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
@@ -322,6 +322,6 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
 
   /// to save token for auto login
   void _saveForAutoLogin(BuildContext context, {required String token}) {
-    context.read<AutoLoginCubit>().save(token);
+    context.read<UserTokenCubit>().save(token);
   }
 }

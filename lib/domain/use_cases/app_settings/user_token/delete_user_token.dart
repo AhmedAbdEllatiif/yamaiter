@@ -1,19 +1,20 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../entities/app_error.dart';
-import '../../../entities/auto_login_entity.dart';
+import '../../../entities/params/no_params.dart';
 import '../../../repositories/app_settings_repository.dart';
 import '../../use_case.dart';
 
 
-class SaveAutoLoginCase extends UseCase<void, AutoLoginEntity> {
+
+class DeleteUserTokenCase extends UseCase<void, NoParams> {
   final AppSettingsRepository appSettingsRepository;
 
-  SaveAutoLoginCase({
+  DeleteUserTokenCase({
     required this.appSettingsRepository,
   });
 
   @override
-  Future<Either<AppError, void>> call(AutoLoginEntity params) async =>
-      appSettingsRepository.saveLoginStatus(params);
+  Future<Either<AppError, void>> call(NoParams params) async =>
+      appSettingsRepository.deleteAutoLogin();
 }

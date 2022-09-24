@@ -7,7 +7,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
-import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import '../common/extensions/size_extensions.dart';
 import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
 import '../presentation/themes/theme_color.dart';
@@ -24,12 +24,12 @@ class BaseMaterialApp extends StatefulWidget {
 }
 
 class _BaseMaterialAppState extends State<BaseMaterialApp> {
-  late final AutoLoginCubit autoLoginCubit;
+  late final UserTokenCubit userToken;
 
   @override
   void initState() {
-    autoLoginCubit = getItInstance<AutoLoginCubit>();
-    autoLoginCubit.loadCurrentAutoLoginStatus();
+    userToken = getItInstance<UserTokenCubit>();
+    userToken.loadCurrentAutoLoginStatus();
     super.initState();
   }
 
@@ -37,7 +37,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => autoLoginCubit,
+      create: (context) => userToken,
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'YaMaiter',
@@ -123,6 +123,6 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
   @override
   void dispose() {
     super.dispose();
-    autoLoginCubit.close();
+    userToken.close();
   }
 }

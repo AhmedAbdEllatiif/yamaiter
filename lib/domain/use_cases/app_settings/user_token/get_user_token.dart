@@ -5,10 +5,10 @@ import '../../../entities/params/no_params.dart';
 import '../../../repositories/app_settings_repository.dart';
 import '../../use_case.dart';
 
-class GetAutoLoginCase extends UseCase<String, NoParams> {
+class GetUserTokenCase extends UseCase<String, NoParams> {
   final AppSettingsRepository appSettingsRepository;
 
-  GetAutoLoginCase({
+  GetUserTokenCase({
     required this.appSettingsRepository,
   });
 

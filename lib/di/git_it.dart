@@ -1,11 +1,10 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
-import 'package:yamaiter/domain/use_cases/app_settings/auto_login/get_auto_login.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
-import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
 import '../data/api/rest_http_methods.dart';
@@ -14,8 +13,9 @@ import '../data/data_source/remote_data_source.dart';
 import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
 import '../data/repositories/remote_repository_impl.dart';
-import '../domain/use_cases/app_settings/auto_login/delete_auto_login.dart';
-import '../domain/use_cases/app_settings/auto_login/save_auto_login.dart';
+import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
+import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
+import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/login/login_cubit.dart';
 import '../presentation/logic/cubit/pick_images/pick_image_cubit.dart';
@@ -90,11 +90,11 @@ Future init() async {
   );
 
   //==> AutoLoginCubit
-  getItInstance.registerFactory<AutoLoginCubit>(
-    () => AutoLoginCubit(
-      saveAutoLoginCase: getItInstance(),
-      getAutoLoginCase: getItInstance(),
-      deleteAutoLoginCase: getItInstance(),
+  getItInstance.registerFactory<UserTokenCubit>(
+    () => UserTokenCubit(
+      saveUserTokenCase: getItInstance(),
+      getUserTokenCase: getItInstance(),
+      deleteUserTokenCase: getItInstance(),
     ),
   );
 
@@ -110,19 +110,19 @@ Future init() async {
   );
 
   //==> GetAutoLogin
-  getItInstance.registerLazySingleton<GetAutoLoginCase>(() => GetAutoLoginCase(
+  getItInstance.registerLazySingleton<GetUserTokenCase>(() => GetUserTokenCase(
         appSettingsRepository: getItInstance(),
       ));
 
   //==> SaveAutoLogin
   getItInstance
-      .registerLazySingleton<SaveAutoLoginCase>(() => SaveAutoLoginCase(
+      .registerLazySingleton<SaveUserTokenCase>(() => SaveUserTokenCase(
             appSettingsRepository: getItInstance(),
           ));
 
   //==> DeleteAutoLogin
   getItInstance
-      .registerLazySingleton<DeleteAutoLoginCase>(() => DeleteAutoLoginCase(
+      .registerLazySingleton<DeleteUserTokenCase>(() => DeleteUserTokenCase(
             appSettingsRepository: getItInstance(),
           ));
 }
