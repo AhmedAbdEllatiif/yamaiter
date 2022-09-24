@@ -4,6 +4,8 @@ import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
+import 'package:yamaiter/presentation/logic/cubit/about/about_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/about/about_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
@@ -12,6 +14,7 @@ import '../data/data_source/remote_data_source.dart';
 import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
 import '../data/repositories/remote_repository_impl.dart';
+import '../domain/use_cases/about.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
@@ -79,6 +82,11 @@ Future init() async {
     () => ForgetPasswordCubit(),
   );
 
+  //==> AboutCubit
+  getItInstance.registerFactory<AboutCubit>(
+    () => AboutCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -115,4 +123,9 @@ Future init() async {
       .registerLazySingleton<DeleteUserTokenCase>(() => DeleteUserTokenCase(
             appSettingsRepository: getItInstance(),
           ));
+
+  //==> GetAboutCase
+  getItInstance.registerFactory<GetAboutCase>(
+    () => GetAboutCase(remoteRepository: getItInstance()),
+  );
 }

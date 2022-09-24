@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/models/app_settings_models/about_response_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
@@ -76,6 +77,26 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to register
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<AboutResponseModel>>> getAboutApp(String userToken) async {
+    try {
+      // send get about request
+      final result = await remoteDataSource.getAbout(userToken);
+
+      // received about
+      if (result is List<AboutResponseModel>) {
+        return Right(result);
+      }
+
+      // failed to get about
       else {
         return Left(result);
       }

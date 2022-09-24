@@ -12,24 +12,19 @@ class StaticPageContentWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Card(
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_12.w),
-            child: Container(
-              constraints: BoxConstraints(
-                maxHeight: ScreenUtil.screenHeight -
-                    (ScreenUtil.statusBarHeight +
-                        ScreenUtil.bottomBarHeight +
-                        Sizes.dimen_120.h),
-              ),
-              child: Scrollbar(
-                child: SingleChildScrollView(child: child),
-              ),
-            ),
+    return Card(
+      child: Padding(
+        padding: EdgeInsets.symmetric(
+            vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_12.w),
+        child: Container(
+          constraints: BoxConstraints(
+            maxHeight: ScreenUtil.screenHeight -
+                (ScreenUtil.statusBarHeight +
+                    ScreenUtil.bottomBarHeight +
+                    Sizes.dimen_120.h),
+          ),
+          child: Scrollbar(
+            child: SingleChildScrollView(child: child),
           ),
         ),
       ),

@@ -40,4 +40,9 @@ class RouteHelper {
   void forgetPassword(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.forgetPassword);
   }
+
+  /// To about screen \\\
+  void aboutScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.about);
+  }
 }

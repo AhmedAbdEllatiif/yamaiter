@@ -25,20 +25,18 @@ http.MultipartRequest initPostRequest({required RequestType requestType, require
   return request;
 }
 
-/// return a get request
-http.Request initGetRequest(
-    {required RequestType requestType, required String token}) {
+/// return a get response
+Future<http.Response> initGetRequest(
+    {required RequestType requestType, required String token}) async {
   // build url according to request type
   final url = ApiConstants.buildUrl(requestType);
 
   // build post request
-  final request = http.Request("GET", Uri.parse(url));
-  request.headers.addAll(
-    {
-      "Accept": "application/json",
-      "Authorization": "Bearer $token",
-    },
-  );
+  final response = await http.get(Uri.parse(url),headers: {
+    "Accept": "application/json",
+    "Authorization": "Bearer $token",
+  });
 
-  return request;
+
+  return response;
 }

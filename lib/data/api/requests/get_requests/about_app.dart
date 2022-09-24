@@ -6,9 +6,9 @@ import '../../constants.dart';
 
 class GetAboutRequest extends GetRequest<String> {
   @override
-  Future<http.Request> call(String userToken) async {
-    var request =
-        initGetRequest(requestType: RequestType.about, token: userToken);
-    return request;
+  Future<http.Response> call(String userToken) async {
+    var response =
+        await initGetRequest(requestType: RequestType.about, token: userToken);
+    return response;
   }
 }
