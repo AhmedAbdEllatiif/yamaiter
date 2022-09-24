@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../common/constants/app_utils.dart';
-import '../../common/constants/drop_down_list.dart';
 import '../themes/theme_color.dart';
 
 class AppDropDownField extends StatefulWidget {
@@ -44,7 +43,12 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         decoration: InputDecoration(
           filled: true,
           fillColor: AppColor.primaryColor,
-          // hint text / style
+
+          // to decrease the height size
+          isDense: true,
+          contentPadding: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+
+          // hint text style
           hintText: widget.hintText,
           hintStyle: const TextStyle(color: AppColor.white),
 

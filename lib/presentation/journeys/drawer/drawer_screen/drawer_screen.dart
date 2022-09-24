@@ -1,10 +1,12 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_screen/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
+import '../../../../common/constants/sizes.dart';
 import '../../../logic/cubit/auto_login/auto_login_cubit.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -18,6 +20,7 @@ class DrawerScreen extends StatelessWidget {
         children: [
           Container(
             color: AppColor.green,
+            height: ScreenUtil.screenHeight * 0.15,
           ),
 
           Expanded(

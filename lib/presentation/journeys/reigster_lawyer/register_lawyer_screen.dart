@@ -48,6 +48,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   // RegisterLawyerCubit
   late final RegisterLawyerCubit _registerLawyerCubit;
 
+
   @override
   void initState() {
     super.initState();
@@ -129,9 +130,8 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                       key: _formKey,
                       child: Wrap(
                         alignment: WrapAlignment.center,
-                        spacing:
-                            20, // to apply margin in the main axis of the wrap
-                        runSpacing: 20, //
+                        //spacing: 20, // to apply margin in the main axis of the wrap
+                        runSpacing: Sizes.dimen_4.h, //
                         children: [
                           // name
                           AppTextField(
@@ -228,9 +228,18 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+
+        Padding(
+          padding: EdgeInsets.only(top: Sizes.dimen_4.h),
+          child: AppCheckBoxTiel(
+            onChanged: (value) {},
+          ),
+        ),
+
+
         // submit button
         Padding(
-          padding: EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
+          padding: EdgeInsets.symmetric(vertical: Sizes.dimen_4.h),
           child: AppButton(
             text: "تسجيل",
             textColor: AppColor.primaryDarkColor,
@@ -243,9 +252,6 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
           ),
         ),
 
-        AppCheckBoxTiel(
-          onChanged: (value) {},
-        ),
 
         // already a user go to login
         LoginOrRegisterWidget(
@@ -284,11 +290,23 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   bool _isFormValid() {
     log("Password >> ${passwordController.value.text},"
         " Repassword >> ${rePasswordController.value.text}");
+    if(phoneNumController.value.text.length != 11 ){
+      showSnackBar(context, message: "رقم هاتف غير صحيح");
+      return false;
+    }
     if (_formKey.currentState != null) {
-      if (_idImagePath.isNotEmpty) {
-        return _formKey.currentState!.validate();
-      } else {
-        log("RegisterLawyerScreen >> trying to register but _idImagePath is empty");
+      if(passwordController.value.text != rePasswordController.value.text){
+        showSnackBar(context, message: "* يجب أن تكون كلمات المرور هي نفسها");
+        return false;
+      }
+      else if(_formKey.currentState!.validate()){
+        if(_idImagePath.isEmpty){
+          showSnackBar(context, message: "ارفاق صورة الكارنيه مطلوبة");
+          return false;
+        }else {
+          log("RegisterLawyerScreen >> trying to register but _idImagePath is empty");
+        }
+        return true;
       }
     }
     return false;

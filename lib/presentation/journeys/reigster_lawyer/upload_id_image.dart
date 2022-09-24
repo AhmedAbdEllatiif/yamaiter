@@ -23,23 +23,20 @@ class UploadIdImageWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // the full container
-            Container(
-              //constraints: BoxConstraints(minHeight: Sizes.dimen_28.h),
-              padding: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h),
-              decoration: BoxDecoration(
-                color: AppColor.primaryColor,
-                border: Border.all(color: getBorderColor(state)),
+            Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: AppColor.accentColor,
+                hoverColor: AppColor.accentColor,
                 borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-              ),
-              child: Material(
-                color: Colors.transparent,
-
-                // inkwell
-                child: InkWell(
-                  splashColor: AppColor.accentColor,
-                  hoverColor: AppColor.accentColor,
-                  borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-                  onTap: onPressed,
+                onTap: onPressed,
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: Sizes.dimen_4.h),
+                  decoration: BoxDecoration(
+                    color: AppColor.primaryColor,
+                    border: Border.all(color: getBorderColor(state)),
+                    borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+                  ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_14.w),
 
@@ -58,25 +55,28 @@ class UploadIdImageWidget extends StatelessWidget {
 
                         // icon with picked image name
                         Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.end,
                             children: [
                               //==> icon
                               getIcon(state),
 
                               //==> text image name
                               if (state is ImagePicked)
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                  child: Text(
-                                    getPickedImageName(state),
-                                    overflow: TextOverflow.ellipsis,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption!
-                                        .copyWith(
-                                          color: AppColor.accentColor,
-                                        ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      getPickedImageName(state),
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption!
+                                          .copyWith(
+                                            color: AppColor.accentColor,
+                                          ),
+                                    ),
                                   ),
                                 )
                             ],

@@ -144,7 +144,7 @@ class AppButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
+        padding: EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [

@@ -20,7 +20,7 @@ void showSnackBar(BuildContext context, {required String message}) {
           ),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: AppColor.accentColor,
+        backgroundColor: AppColor.white,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.dimen_20.w)),

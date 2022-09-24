@@ -106,6 +106,13 @@ class _AppTextFieldState extends State<AppTextField> {
           fillColor: AppColor.primaryColor,
           filled: true,
 
+          // to decrease the height size
+          //isDense: true,
+          contentPadding: widget.icon == null ||
+                  widget.textInputType == TextInputType.visiblePassword
+              ? const EdgeInsets.fromLTRB(10, 10, 10, 0)
+              : const EdgeInsets.fromLTRB(8, 8, 8, 0),
+
           disabledBorder: OutlineInputBorder(
             borderSide:
                 BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
@@ -234,11 +241,11 @@ class _AppTextFieldState extends State<AppTextField> {
 
   /// return a nullable string of password validation
   String? passwordValidation(String value) {
-    if (widget.rePassword != null) {
+    /*if (widget.rePassword != null) {
       if (value != widget.rePassword) {
         return "* يجب أن تكون كلمات المرور هي نفسها";
       }
-    }
+    }*/
 
     // empty value
     if (value.isEmpty) return '* من فضلك أدخل كلمة مرور';

@@ -9,6 +9,7 @@ import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/auto_login/auto_login_cubit.dart';
 import '../common/extensions/size_extensions.dart';
+import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
 
@@ -51,6 +52,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
                 maxWidth: 1200,
                 defaultScale: true,
                 breakpoints: [
+                  const ResponsiveBreakpoint.autoScale(220, name: "S"),
                   const ResponsiveBreakpoint.resize(350, name: MOBILE),
                   const ResponsiveBreakpoint.autoScale(600, name: TABLET),
                   const ResponsiveBreakpoint.resize(800, name: DESKTOP),
@@ -95,14 +97,15 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             )),
 
         /// home
-        home: BlocBuilder<AutoLoginCubit, AutoLoginState>(
+        home: OnBoardingScreen(),
+        /*home: BlocBuilder<AutoLoginCubit, AutoLoginState>(
           builder: (context, state) {
             if(state.userToken.isNotEmpty){
               return const MainScreen();
             }
             return LoginScreen();
           },
-        ),
+        ),*/
         onGenerateRoute: (RouteSettings settings) {
           final routes = Routes.getRoutes(settings);
           final WidgetBuilder? builder = routes[settings.name];

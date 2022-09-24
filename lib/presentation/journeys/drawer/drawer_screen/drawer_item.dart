@@ -14,7 +14,7 @@ class DrawerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: AppColor.primaryDarkColor,
+      color: Colors.transparent,
       child: InkWell(
         onTap: onPressed,
         splashColor: AppColor.accentColor,
@@ -30,12 +30,12 @@ class DrawerItem extends StatelessWidget {
                 color: AppColor.white,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_2.w),
+                padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_15.w),
                 child: Text(
                   title,
                   style: Theme.of(context)
                       .textTheme
-                      .titleMedium!
+                      .titleSmall!
                       .copyWith(color: AppColor.white),
                 ),
               )

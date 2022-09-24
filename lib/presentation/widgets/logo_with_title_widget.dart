@@ -18,14 +18,15 @@ class LogoWithTitleWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(
-            bottom: Sizes.dimen_10.h,
+            bottom: Sizes.dimen_4.h,
           ),
           child: AppLogo(
             size: Sizes.dimen_70.h,
           ),
         ),
+
         Padding(
-          padding: EdgeInsets.only(bottom: Sizes.dimen_16.h),
+          padding: EdgeInsets.only(bottom: Sizes.dimen_10.h),
           child: Text(
            title,
             textAlign: TextAlign.center,
