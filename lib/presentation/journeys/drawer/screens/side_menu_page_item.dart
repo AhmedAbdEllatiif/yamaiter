@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/domain/entities/data/about/about_section_entity.dart';
 
 import '../../../../common/constants/sizes.dart';
+import '../../../../domain/entities/data/side_menu_page_entity.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/static_pages_content_widget.dart';
 import '../../../widgets/static_pages_title_widget.dart';
 
-class DrawerScreenItem extends StatelessWidget {
+class SideMenuPageItem extends StatelessWidget {
   final String title;
 
-  final List<AboutSectionEntity> sections;
+  final List<SideMenuPageSectionEntity> sections;
 
-  const DrawerScreenItem(
+  const SideMenuPageItem(
       {Key? key, required this.title, required this.sections})
       : super(key: key);
 
@@ -46,8 +46,8 @@ class DrawerScreenItem extends StatelessWidget {
                   //maxLines: 500,
                   textAlign: TextAlign.start,
                   style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                        color: AppColor.primaryDarkColor,
-                      ),
+                    color: AppColor.primaryDarkColor,
+                  ),
                 ),
               );
             },

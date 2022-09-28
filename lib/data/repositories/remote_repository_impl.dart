@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
-import 'package:yamaiter/data/models/app_settings_models/about_response_model.dart';
+import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
@@ -69,7 +69,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
       );
 
       // send login request
-      final result = await remoteDataSource.registerLawyer(registerRequestModel);
+      final result =
+          await remoteDataSource.registerLawyer(registerRequestModel);
 
       // success to register
       if (result is RegisterResponseModel) {
@@ -86,13 +87,58 @@ class RemoteRepositoryImpl extends RemoteRepository {
   }
 
   @override
-  Future<Either<AppError, List<AboutResponseModel>>> getAboutApp(String userToken) async {
+  Future<Either<AppError, List<SideMenuPageResponseModel>>> getAboutApp(
+      String userToken) async {
     try {
       // send get about request
       final result = await remoteDataSource.getAbout(userToken);
 
       // received about
-      if (result is List<AboutResponseModel>) {
+      if (result is List<SideMenuPageResponseModel>) {
+        return Right(result);
+      }
+
+      // failed to get about
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// TermsAndConditionResponseModel
+  @override
+  Future<Either<AppError, List<SideMenuPageResponseModel>>>
+      getTermsAndConditions(String userToken) async {
+    try {
+      // send get about request
+      final result = await remoteDataSource.getTermsAndConditions(userToken);
+
+      // received about
+      if (result is List<SideMenuPageResponseModel>) {
+        return Right(result);
+      }
+
+      // failed to get about
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// privacy
+  @override
+  Future<Either<AppError, List<SideMenuPageResponseModel>>> getPrivacy(
+      String userToken) async{
+    try {
+      // send get privacy request
+      final result = await remoteDataSource.getPrivacyAndPolicy(userToken);
+
+      // received privacy
+      if (result is List<SideMenuPageResponseModel>) {
         return Right(result);
       }
 

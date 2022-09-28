@@ -35,8 +35,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final remoteDataSource = getItInstance<RemoteDataSource>();
-    remoteDataSource.getAbout("11|V6jfpeDmCaNjT2VTWgKycvF2O0VYdow8XliuSvB6");
     pageController.addListener(() {});
     print("ScreenHeight >> ${ScreenUtil.screenHeight}");
     return Scaffold(

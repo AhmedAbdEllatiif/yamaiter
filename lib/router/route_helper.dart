@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/router/route_list.dart';
 
+import '../domain/entities/screen_arguments/side_menu_page_args.dart';
+
 class RouteHelper {
   RouteHelper();
 
@@ -44,5 +46,12 @@ class RouteHelper {
   /// To about screen \\\
   void aboutScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.about);
+  }
+
+  /// To terms and conditions screen \\\
+  void sideMenuPage(BuildContext context,
+      {required SideMenuPageArguments arguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.sideMenuPage, arguments: arguments);
   }
 }

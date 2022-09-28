@@ -5,7 +5,7 @@ import '../../common/enum/app_error_type.dart';
 import '../../domain/entities/app_error.dart';
 import '../../domain/entities/auto_login_entity.dart';
 import '../../domain/repositories/app_settings_repository.dart';
-import '../data_source/app_settings_local_data_source.dart';
+import '../data_source/app_settings_data_source.dart';
 
 class AppSettingsRepositoryImpl extends AppSettingsRepository {
   final AppSettingsDataSource appSettingsDataSource;

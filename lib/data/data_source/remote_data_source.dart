@@ -3,14 +3,15 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
+import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 
 import '../../domain/entities/app_error.dart';
-
-import '../models/app_settings_models/about_response_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 
@@ -107,10 +108,12 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     switch (response.statusCode) {
       // success
       case 200:
-        return listOfAboutModels(jsonDecode(response.body)["data"]);
+        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
       // unAuthorized
       case 401:
-        return registerResponseModelFromJson(response.body);
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
       // default
       default:
         return AppError(AppErrorType.api,
@@ -121,22 +124,65 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// help
   @override
-  Future getHelp(String userToken) {
-    // TODO: implement getHelp
-    throw UnimplementedError();
+  Future getHelp(String userToken) async{
+
   }
 
   /// privacyAndPolicy
   @override
-  Future getPrivacyAndPolicy(String userToken) {
-    // TODO: implement getPrivacyAndPolicy
-    throw UnimplementedError();
+  Future getPrivacyAndPolicy(String userToken) async{
+    log("getPrivacyAndPolicy >> Start request");
+    // init request
+    final getPrivacyRequest = GetPrivacyRequest();
+
+    // response
+    final response = await getPrivacyRequest(userToken);
+
+    log("getPrivacyAndPolicy >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getPrivacyAndPolicy Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "getPrivacyAndPolicy Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
   }
 
   /// termsAndConditions
   @override
-  Future getTermsAndConditions(String userToken) {
-    // TODO: implement getTermsAndConditions
-    throw UnimplementedError();
+  Future getTermsAndConditions(String userToken) async{
+    log("termsAndConditions >> Start request");
+    // init request
+    final getTermsAndConditions = GetTermsAndConditionsRequest();
+
+    // response
+    final response = await getTermsAndConditions(userToken);
+
+    log("termsAndConditions >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "termsAndConditions Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "termsAndConditions Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
   }
 }

@@ -2,14 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
-import 'package:yamaiter/domain/use_cases/login.dart';
+import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
-import 'package:yamaiter/presentation/logic/cubit/about/about_cubit.dart';
-import 'package:yamaiter/presentation/logic/cubit/about/about_cubit.dart';
+import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
-import '../data/data_source/app_settings_local_data_source.dart';
+import '../data/data_source/app_settings_data_source.dart';
 import '../data/data_source/remote_data_source.dart';
 import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
@@ -82,9 +82,9 @@ Future init() async {
     () => ForgetPasswordCubit(),
   );
 
-  //==> AboutCubit
-  getItInstance.registerFactory<AboutCubit>(
-    () => AboutCubit(),
+  //==> SideMenuPageCubit
+  getItInstance.registerFactory<SideMenuPageCubit>(
+    () => SideMenuPageCubit(),
   );
 
   //==> AutoLoginCubit
@@ -100,6 +100,15 @@ Future init() async {
   //==> LoginCase
   getItInstance.registerFactory<LoginCase>(
     () => LoginCase(remoteRepository: getItInstance()),
+  );
+//==> GetTermsAndConditionCase
+  getItInstance.registerFactory<GetTermsAndConditionsCase>(
+    () => GetTermsAndConditionsCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetPrivacyCase
+  getItInstance.registerFactory<GetPrivacyCase>(
+    () => GetPrivacyCase(remoteRepository: getItInstance()),
   );
 
   //==> RegisterLawyerCase

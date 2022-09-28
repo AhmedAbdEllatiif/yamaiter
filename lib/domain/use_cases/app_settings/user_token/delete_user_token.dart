@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../entities/app_error.dart';
-import '../../../entities/params/no_params.dart';
+import '../../../../data/params/no_params.dart';
 import '../../../repositories/app_settings_repository.dart';
 import '../../use_case.dart';
 
