@@ -25,6 +25,7 @@ class AppTextField extends StatefulWidget {
   final int? minLines;
   final int? maxLines;
   final EdgeInsets? margin;
+  final TextStyle? labelStyle;
 
   const AppTextField({
     Key? key,
@@ -41,6 +42,7 @@ class AppTextField extends StatefulWidget {
     this.height,
     this.width,
     this.margin,
+    this.labelStyle,
     this.minLines = 1,
     this.maxLines = 1,
   }) : super(key: key);
@@ -138,7 +140,7 @@ class _AppTextFieldState extends State<AppTextField> {
 
           // label text
           labelText: widget.label,
-          labelStyle: const TextStyle(color: AppColor.white),
+          labelStyle: widget.labelStyle?? const TextStyle(color: AppColor.white),
 
           //hintText:  widget.label,
           //hintStyle:  const TextStyle(color: AppColor.white),

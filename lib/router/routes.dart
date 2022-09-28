@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
 import 'package:yamaiter/presentation/journeys/forget_password/forget_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
@@ -30,9 +32,14 @@ class Routes {
         /// chooseUserType
         RouteList.chooseUserType: (context) => const ChooseUserTypeScreen(),
 
-
         /// editProfile
         RouteList.editProfile: (context) => const EditProfileScreen(),
+
+        /// settings
+        RouteList.settings: (context) => const SettingsScreen(),
+
+        /// editPassword
+        RouteList.editPassword: (context) => const EditPasswordScreen(),
 
         /// SideMenuPageScreen
         RouteList.sideMenuPage: (context) => SideMenuPageScreen(

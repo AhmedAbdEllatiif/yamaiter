@@ -38,7 +38,7 @@ class DrawerScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     GestureDetector(
-                      onTap: (){
+                      onTap: () {
                         RouteHelper().editProfile(context);
                       },
                       child: CircleAvatar(
@@ -127,8 +127,8 @@ class DrawerScreen extends StatelessWidget {
             child: ListView(
               children: [
                 DrawerItem(
-                  iconData: Icons.shopping_bag,
-                  title: "مهماتى",
+                  iconData: Icons.shopping_bag_outlined,
+                  title: "مهامى",
                   onPressed: () {},
                 ),
                 DrawerItem(
@@ -137,29 +137,31 @@ class DrawerScreen extends StatelessWidget {
                   onPressed: () {},
                 ),
                 DrawerItem(
-                  iconData: Icons.surround_sound,
+                  iconData: Icons.surround_sound_outlined,
                   title: "إعلاناتى",
                   onPressed: () {},
                 ),
                 DrawerItem(
-                  iconData: Icons.shopping_bag,
+                  iconData: Icons.shopping_bag_outlined,
                   title: "اقراراتى الضريبية",
                   onPressed: () {},
                 ),
                 DrawerItem(
-                  iconData: Icons.sos,
+                  iconData: Icons.sos_outlined,
                   title: "نداءات الاستغاثة",
                   onPressed: () {},
                 ),
                 DrawerItem(
-                  iconData: Icons.chat,
+                  iconData: Icons.chat_outlined,
                   title: "المحادثات",
                   onPressed: () {},
                 ),
                 DrawerItem(
                   iconData: Icons.settings_outlined,
                   title: "الاعدادت",
-                  onPressed: () {},
+                  onPressed: () {
+                    _navigateToSettingsScreen(context);
+                  },
                 ),
 
                 /// about
@@ -205,12 +207,14 @@ class DrawerScreen extends StatelessWidget {
     );
   }
 
+  void _navigateToSettingsScreen(BuildContext context) =>
+      RouteHelper().settingsScreen(context);
+
   void _navigateToAboutScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
         context,
         arguments: SideMenuPageArguments(
-            pageTitle: "من نحن",
-            sideMenuPage: SideMenuPage.about),
+            pageTitle: "من نحن", sideMenuPage: SideMenuPage.about),
       );
 
   void _navigateToTermsAndConditionsScreen(BuildContext context) =>
@@ -225,7 +229,6 @@ class DrawerScreen extends StatelessWidget {
       RouteHelper().sideMenuPage(
         context,
         arguments: SideMenuPageArguments(
-            pageTitle: "سياسة الخصوصية",
-            sideMenuPage: SideMenuPage.privacy),
+            pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
 }

@@ -60,4 +60,16 @@ class RouteHelper {
     Navigator.of(context)
         .pushNamed(RouteList.editProfile);
   }
+
+  /// To settings screen \\\
+  void settingsScreen(BuildContext context,) {
+    Navigator.of(context)
+        .pushNamed(RouteList.settings);
+  }
+
+  /// To editPassword screen \\\
+  void editPasswordScreen(BuildContext context,) {
+    Navigator.of(context)
+        .pushNamed(RouteList.editPassword);
+  }
 }

@@ -7,7 +7,7 @@ import '../constants/sizes.dart';
 /// show snackBar
 /// * [context] the current context to show snackBar
 /// * [message] the required message to show
-void showSnackBar(BuildContext context, {required String message}) {
+void showSnackBar(BuildContext context, {required String message,Color? textColor,Color? backgroundColor}) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(
@@ -15,12 +15,12 @@ void showSnackBar(BuildContext context, {required String message}) {
         content: Text(
           message,
           style:  Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: AppColor.primaryDarkColor,
+            color: textColor??AppColor.primaryDarkColor,
             fontWeight: FontWeight.bold,
           ),
           textAlign: TextAlign.center,
         ),
-        backgroundColor: AppColor.white,
+        backgroundColor: backgroundColor??AppColor.white,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(Sizes.dimen_20.w)),
