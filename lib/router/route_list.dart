@@ -7,5 +7,6 @@ class RouteList{
   static const String forgetPassword = "/forgetPassword";
   static const String about = "/about";
   static const String sideMenuPage = "/sideMenuPage";
+  static const String editProfile = "/editProfile";
 
 }

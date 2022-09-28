@@ -37,10 +37,15 @@ class DrawerScreen extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    CircleAvatar(
-                      minRadius: Sizes.dimen_30.w,
-                      backgroundImage: AssetImage(
-                        AssetsImages.personAvatar,
+                    GestureDetector(
+                      onTap: (){
+                        RouteHelper().editProfile(context);
+                      },
+                      child: CircleAvatar(
+                        minRadius: Sizes.dimen_30.w,
+                        backgroundImage: AssetImage(
+                          AssetsImages.personAvatar,
+                        ),
                       ),
                     ),
                     Padding(

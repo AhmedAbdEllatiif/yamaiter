@@ -54,4 +54,10 @@ class RouteHelper {
     Navigator.of(context)
         .pushNamed(RouteList.sideMenuPage, arguments: arguments);
   }
+
+  /// To edit profile screen \\\
+  void editProfile(BuildContext context,) {
+    Navigator.of(context)
+        .pushNamed(RouteList.editProfile);
+  }
 }

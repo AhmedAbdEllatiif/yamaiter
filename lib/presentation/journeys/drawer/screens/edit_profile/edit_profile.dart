@@ -67,7 +67,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         },
         child: Scaffold(
           /// appBar
-          appBar: CustomAppBar(context),
+          appBar: AppBar(title: const Text("الملف الشخصى"),),
 
           /// body
           body: Padding(
@@ -181,7 +181,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                                           if (_isFormValid()) {}
                                         },
                                       ),
-                                    )
+                                    ),
+                                    //==> bottom space
+                                    SizedBox(height: Sizes.dimen_10.h),
                                   ],
                                 ),
                               ),

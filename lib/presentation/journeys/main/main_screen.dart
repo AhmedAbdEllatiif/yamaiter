@@ -18,16 +18,17 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       /// _scaffoldKey
       key: _scaffoldKey,
 
       /// appBar
-      appBar: CustomAppBar(context),
+      appBar: CustomAppBar(
+        context: context,
+        onMenuPressed: () => _openDrawer(),
+      ),
 
       /// drawer
       drawer: DrawerScreen(),
-
 
       /// body
       body: const Center(
@@ -62,18 +63,14 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
-
-  void _openDrawer(){
-    if(_scaffoldKey.currentState!= null){
+  void _openDrawer() {
+    if (_scaffoldKey.currentState != null) {
       _scaffoldKey.currentState!.openDrawer();
     }
   }
 
-
   void _onItemTapped(int index) {
-    if(index == 0){
-      _openDrawer();
-    }
+    if (index == 0) {}
     setState(() {
       _selectedIndex = index;
     });
