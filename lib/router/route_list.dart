@@ -10,5 +10,6 @@ class RouteList{
   static const String editProfile = "/editProfile";
   static const String settings = "/settings";
   static const String editPassword = "/editPassword";
+  static const String help = "/help";
 
 }

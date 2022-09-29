@@ -4,12 +4,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_screen/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/sizes.dart';
+import '../../../../common/enum/animation_type.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 
@@ -18,6 +20,7 @@ class DrawerScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final items = drawerItems(context);
     return Container(
       color: AppColor.primaryDarkColor,
       //padding: EdgeInsets.only(top: Sizes.dimen_1.h),
@@ -124,88 +127,34 @@ class DrawerScreen extends StatelessWidget {
 
           /// menu items
           Expanded(
-            child: ListView(
-              children: [
-                DrawerItem(
-                  iconData: Icons.shopping_bag_outlined,
-                  title: "مهامى",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.list_alt_outlined,
-                  title: "منشوراتى",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.surround_sound_outlined,
-                  title: "إعلاناتى",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.shopping_bag_outlined,
-                  title: "اقراراتى الضريبية",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.sos_outlined,
-                  title: "نداءات الاستغاثة",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.chat_outlined,
-                  title: "المحادثات",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.settings_outlined,
-                  title: "الاعدادت",
-                  onPressed: () {
-                    _navigateToSettingsScreen(context);
-                  },
-                ),
-
-                /// about
-                DrawerItem(
-                  iconData: Icons.info_outline,
-                  title: "من نحن",
-                  onPressed: () {
-                    _navigateToAboutScreen(context);
-                  },
-                ),
-                DrawerItem(
-                  iconData: Icons.shield_outlined,
-                  title: "سياسة الخصوصية",
-                  onPressed: () {
-                    _navigateToPrivacyScreen(context);
-                  },
-                ),
-                DrawerItem(
-                  iconData: Icons.shield_outlined,
-                  title: "شروط الاستخدام",
-                  onPressed: () {
-                    _navigateToTermsAndConditionsScreen(context);
-                  },
-                ),
-                DrawerItem(
-                  iconData: Icons.question_mark_outlined,
-                  title: "اتصل بنا",
-                  onPressed: () {},
-                ),
-                DrawerItem(
-                  iconData: Icons.logout_outlined,
-                  title: "تسجيل الخروج",
-                  onPressed: () {
-                    context.read<UserTokenCubit>().delete();
-                    RouteHelper().loginScreen(context, isClearStack: true);
-                  },
-                ),
-              ],
+            child: ListView.builder(
+              physics: BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                return items[index].animate(
+                    slideDuration: Duration(milliseconds: 300 + (70 * index)),
+                    fadeDuration: Duration(milliseconds: 300 + (50 * index)),
+                    map: {
+                      AnimationType.slide: {
+                        SlideOffset.begin: const Offset(0.5, 0.0),
+                        SlideOffset.end: const Offset(0.0, 0.0),
+                      },
+                      AnimationType.fade: {
+                        FadeOpacity.begin: 0.5,
+                        FadeOpacity.end: 1.0,
+                      },
+                    });
+              },
             ),
           )
         ],
       ),
     );
   }
+
+  void _navigateToHelpScreen(BuildContext context) =>
+      RouteHelper().helpScreen(context);
 
   void _navigateToSettingsScreen(BuildContext context) =>
       RouteHelper().settingsScreen(context);
@@ -231,4 +180,87 @@ class DrawerScreen extends StatelessWidget {
         arguments: SideMenuPageArguments(
             pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
+
+  List<Widget> drawerItems(BuildContext context) => [
+        DrawerItem(
+          iconData: Icons.shopping_bag_outlined,
+          title: "مهامى",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.list_alt_outlined,
+          title: "منشوراتى",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.surround_sound_outlined,
+          title: "إعلاناتى",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.shopping_bag_outlined,
+          title: "اقراراتى الضريبية",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.sos_outlined,
+          title: "نداءات الاستغاثة",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.chat_outlined,
+          title: "المحادثات",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.settings_outlined,
+          title: "الاعدادت",
+          onPressed: () {
+            _navigateToSettingsScreen(context);
+          },
+        ),
+
+        /// about
+        DrawerItem(
+          iconData: Icons.info_outline,
+          title: "من نحن",
+          onPressed: () {
+            _navigateToAboutScreen(context);
+          },
+        ),
+        DrawerItem(
+          iconData: Icons.shield_outlined,
+          title: "سياسة الخصوصية",
+          onPressed: () {
+            _navigateToPrivacyScreen(context);
+          },
+        ),
+        DrawerItem(
+          iconData: Icons.shield_outlined,
+          title: "شروط الاستخدام",
+          onPressed: () {
+            _navigateToTermsAndConditionsScreen(context);
+          },
+        ),
+        DrawerItem(
+          iconData: Icons.help_outline_outlined,
+          title: "المساعدة",
+          onPressed: () {
+            _navigateToHelpScreen(context);
+          },
+        ),
+        DrawerItem(
+          iconData: Icons.question_mark_outlined,
+          title: "اتصل بنا",
+          onPressed: () {},
+        ),
+        DrawerItem(
+          iconData: Icons.logout_outlined,
+          title: "تسجيل الخروج",
+          onPressed: () {
+            context.read<UserTokenCubit>().delete();
+            RouteHelper().loginScreen(context, isClearStack: true);
+          },
+        ),
+      ];
 }

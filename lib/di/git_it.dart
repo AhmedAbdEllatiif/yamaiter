@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
+import 'package:yamaiter/domain/use_cases/help.dart';
+import 'package:yamaiter/domain/use_cases/help.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
@@ -19,6 +21,7 @@ import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
+import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import '../presentation/logic/cubit/login/login_cubit.dart';
 import '../presentation/logic/cubit/pick_images/pick_image_cubit.dart';
 import '../presentation/logic/cubit/register_client/register_client_cubit.dart';
@@ -101,9 +104,20 @@ Future init() async {
   getItInstance.registerFactory<LoginCase>(
     () => LoginCase(remoteRepository: getItInstance()),
   );
-//==> GetTermsAndConditionCase
+
+  //==> GetTermsAndConditionCase
   getItInstance.registerFactory<GetTermsAndConditionsCase>(
     () => GetTermsAndConditionsCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetHelpCubit
+  getItInstance.registerFactory<GetHelpCubit>(
+    () => GetHelpCubit(),
+  );
+
+  //==> GetHelpCase
+  getItInstance.registerFactory<GetHelpCase>(
+    () => GetHelpCase(remoteRepository: getItInstance()),
   );
 
   //==> GetPrivacyCase

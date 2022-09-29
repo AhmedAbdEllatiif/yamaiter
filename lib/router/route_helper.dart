@@ -72,4 +72,10 @@ class RouteHelper {
     Navigator.of(context)
         .pushNamed(RouteList.editPassword);
   }
+
+  /// To help screen \\\
+  void helpScreen(BuildContext context,) {
+    Navigator.of(context)
+        .pushNamed(RouteList.help);
+  }
 }

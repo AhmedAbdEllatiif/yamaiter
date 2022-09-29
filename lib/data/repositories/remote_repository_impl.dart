@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
@@ -132,7 +133,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// privacy
   @override
   Future<Either<AppError, List<SideMenuPageResponseModel>>> getPrivacy(
-      String userToken) async{
+      String userToken) async {
     try {
       // send get privacy request
       final result = await remoteDataSource.getPrivacyAndPolicy(userToken);
@@ -143,6 +144,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get about
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// Help
+  @override
+  Future<Either<AppError, List<HelpResponseModel>>> getHelp(
+      String userToken) async {
+    try {
+      // send get help request
+      final result = await remoteDataSource.getHelp(userToken);
+
+      // received help
+      if (result is List<HelpResponseModel>) {
+        return Right(result);
+      }
+
+      // failed to get help
       else {
         return Left(result);
       }

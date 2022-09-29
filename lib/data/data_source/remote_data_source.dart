@@ -3,10 +3,12 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
@@ -80,7 +82,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
     // retrieve a response from stream response
     final response = await http.Response.fromStream(streamResponse);
-    log("registerLawyer >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+    log("registerLawyer >> ResponseCode: ${response.statusCode}");
     switch (response.statusCode) {
       // success
       case 200:
@@ -103,7 +105,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // response
     final response = await getAbout(userToken);
 
-    log("getAbout >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+    log("getAbout >> ResponseCode: ${response.statusCode}, ");
 
     switch (response.statusCode) {
       // success
@@ -112,8 +114,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
+            message: "Status Code >> ${response.statusCode}");
       // default
       default:
         return AppError(AppErrorType.api,
@@ -124,13 +125,35 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// help
   @override
-  Future getHelp(String userToken) async{
+  Future getHelp(String userToken) async {
+    log("getHelp >> Start request");
+    // init request
+    final getHelpRequest = GetHelpRequest();
 
+    // response
+    final response = await getHelpRequest(userToken);
+
+    log("getHelp >> ResponseCode: ${response.statusCode}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return listOfHelpQuestionModel(jsonDecode(response.body)["data"]);
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getHelp Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "getHelp Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
   }
 
   /// privacyAndPolicy
   @override
-  Future getPrivacyAndPolicy(String userToken) async{
+  Future getPrivacyAndPolicy(String userToken) async {
     log("getPrivacyAndPolicy >> Start request");
     // init request
     final getPrivacyRequest = GetPrivacyRequest();
@@ -138,18 +161,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // response
     final response = await getPrivacyRequest(userToken);
 
-    log("getPrivacyAndPolicy >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+    log("getPrivacyAndPolicy >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "getPrivacyAndPolicy Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-    // default
+            message:
+                "getPrivacyAndPolicy Status Code >> ${response.statusCode}");
+      // default
       default:
         return AppError(AppErrorType.api,
             message: "getPrivacyAndPolicy Status Code >> ${response.statusCode}"
@@ -159,7 +182,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// termsAndConditions
   @override
-  Future getTermsAndConditions(String userToken) async{
+  Future getTermsAndConditions(String userToken) async {
     log("termsAndConditions >> Start request");
     // init request
     final getTermsAndConditions = GetTermsAndConditionsRequest();
@@ -167,18 +190,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // response
     final response = await getTermsAndConditions(userToken);
 
-    log("termsAndConditions >> ResponseCode: ${response.statusCode}, Body:${jsonDecode(response.body)}");
+    log("termsAndConditions >> ResponseCode: ${response.statusCode},");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "termsAndConditions Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-    // default
+            message:
+                "termsAndConditions Status Code >> ${response.statusCode}");
+      // default
       default:
         return AppError(AppErrorType.api,
             message: "termsAndConditions Status Code >> ${response.statusCode}"
