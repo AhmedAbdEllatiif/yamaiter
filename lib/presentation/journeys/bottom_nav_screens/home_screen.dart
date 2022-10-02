@@ -1,4 +1,10 @@
 import 'package:flutter/cupertino.dart';
+import 'package:yamaiter/common/extensions/size_extensions.dart';
+
+import '../../../common/constants/app_utils.dart';
+import '../../../common/constants/assets_constants.dart';
+import '../../../domain/entities/data/ad_entity.dart';
+import '../../widgets/ads_list/ads_list_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -10,8 +16,21 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return  const Center(
-      child: Text("Home Page"),
+    return Padding(
+      padding: EdgeInsets.symmetric(
+          horizontal: AppUtils.mainPagesHorizontalPadding.w,
+          vertical: AppUtils.mainPagesVerticalPadding.h),
+      child: Column(
+        children: const [
+          AdsListViewWidget(
+            adsList: [
+              AdEntity(id: 0, url: AssetsImages.adSample),
+              AdEntity(id: 1, url: AssetsImages.adSample),
+              AdEntity(id: 1, url: AssetsImages.adSample),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

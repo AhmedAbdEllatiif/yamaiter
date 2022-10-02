@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/constants/drop_down_list.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
+import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
@@ -11,6 +13,7 @@ import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 
 import '../../../common/constants/sizes.dart';
+import '../../widgets/ads_list/ads_list_view.dart';
 
 class SosScreen extends StatefulWidget {
   const SosScreen({Key? key}) : super(key: key);
@@ -20,16 +23,28 @@ class SosScreen extends StatefulWidget {
 }
 
 class _SosScreenState extends State<SosScreen> {
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
+        padding: EdgeInsets.symmetric(
+            horizontal: AppUtils.mainPagesHorizontalPadding.w,
+            vertical: AppUtils.mainPagesVerticalPadding.h),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            /// content card
+            /// Ads ListView
+            const AdsListViewWidget(
+              adsList: [
+                AdEntity(id: 0, url: AssetsImages.adSample),
+                AdEntity(id: 1, url: AssetsImages.adSample),
+                AdEntity(id: 1, url: AssetsImages.adSample),
+              ],
+            ),
+
+            ///  card
             Padding(
               padding: EdgeInsets.only(top: Sizes.dimen_10.h),
               child: ScrollableAppCard(

@@ -11,6 +11,8 @@ class AssetsImages {
   static const String slide3 = '${_baseImages}slide3.png';
 
   static const String personAvatar = '${_baseImages}person_avatar.png';
+
+  static const String adSample = '${_baseImages}ad_sample.png';
 }
 
 class AssetsLottie {
