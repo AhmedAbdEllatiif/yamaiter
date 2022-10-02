@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 class ScreenUtil {
   static late ScreenUtil _instance;
   static const int defaultWidth = 414;
@@ -28,7 +30,17 @@ class ScreenUtil {
   static void init(
       {num width = defaultWidth,
         num height = defaultHeight,
-        bool allowFontScaling = false}) {
+        bool allowFontScaling = false,
+      }) {
+
+    print("init ..........\n}");
+    print("devicePixelRatio >> ${window.devicePixelRatio}");
+    print("physicalSize.width >> ${window.physicalSize.width}");
+    print("physicalSize.height >> ${window.physicalSize.height}");
+    print("padding.top >> ${window.padding.top}");
+    print("padding.bottom >> ${window.padding.bottom}");
+    print("textScaleFactor >> ${window.textScaleFactor}");
+    print("end ..........\n}");
     _instance = ScreenUtil._();
     _instance.uiWidthPx = width;
     _instance.uiHeightPx = height;
@@ -39,6 +51,36 @@ class ScreenUtil {
     _statusBarHeight = window.padding.top;
     _bottomBarHeight = window.padding.bottom;
     _textScaleFactor = window.textScaleFactor;
+  }
+
+  static void initWithMediaQuery(
+      {num width = defaultWidth,
+        num height = defaultHeight,
+        bool allowFontScaling = false,
+        required EdgeInsets padding,
+        required double screenWidth,
+        required double screenHeight,
+        required double pixelRatio,
+        required double textScaleFactor
+      }) {
+    print("initWithMediaQuery \n............");
+    print("devicePixelRatio >> $pixelRatio ");
+    print("_screenWidth >> $screenWidth");
+    print("_screenHeight >> $screenHeight");
+    print("padding.top >> ${padding.top}");
+    print("padding.bottom >> ${padding.bottom}");
+    print("textScaleFactor >> ${window.textScaleFactor}");
+    print("End \n............");
+    _instance = ScreenUtil._();
+    _instance.uiWidthPx = width;
+    _instance.uiHeightPx = height;
+    _instance.allowFontScaling = allowFontScaling;
+    _pixelRatio = pixelRatio ;
+    _screenWidth = screenWidth;
+    _screenHeight = screenHeight;
+    _statusBarHeight = 66.0;
+    _bottomBarHeight = padding.bottom;
+    _textScaleFactor = textScaleFactor;
   }
 
   /// The number of font pixels for each logical pixel.

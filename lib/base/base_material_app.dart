@@ -5,7 +5,6 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import '../common/extensions/size_extensions.dart';
@@ -14,7 +13,6 @@ import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
 
 import '../router/routes.dart';
-
 
 class BaseMaterialApp extends StatefulWidget {
   const BaseMaterialApp({Key? key}) : super(key: key);
@@ -33,7 +31,6 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -44,29 +41,26 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         //navigatorKey: navigatorKey,
 
         /// builder ==> build with ResponsiveWrapper and break points
-        builder: (context, widget) =>
-            Directionality(
-              textDirection: TextDirection.rtl,
-              child: ResponsiveWrapper.builder(
-                ClampingScrollWrapper.builder(context, widget!),
-                maxWidth: 1200,
-                defaultScale: true,
-                breakpoints: [
-                  const ResponsiveBreakpoint.autoScale(220, name: "S"),
-                  const ResponsiveBreakpoint.resize(350, name: MOBILE),
-                  const ResponsiveBreakpoint.autoScale(600, name: TABLET),
-                  const ResponsiveBreakpoint.resize(800, name: DESKTOP),
-                  const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-                ],
-              ),
-            ),
+        builder: (context, widget) => Directionality(
+          textDirection: TextDirection.rtl,
+          child: ResponsiveWrapper.builder(
+            ClampingScrollWrapper.builder(context, widget!),
+            maxWidth: 1200,
+            defaultScale: true,
+            breakpoints: [
+              const ResponsiveBreakpoint.autoScale(220, name: "S"),
+              const ResponsiveBreakpoint.resize(350, name: MOBILE),
+              const ResponsiveBreakpoint.autoScale(600, name: TABLET),
+              const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+              const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+            ],
+          ),
+        ),
 
         /// main theme
         theme: ThemeData(
             textTheme: GoogleFonts.cairoTextTheme(
-              Theme
-                  .of(context)
-                  .textTheme,
+              Theme.of(context).textTheme,
             ),
             primaryColor: AppColor.primaryDarkColor,
             primaryColorDark: AppColor.primaryDarkColor,
@@ -74,6 +68,24 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             shadowColor: AppColor.accentColor,
             colorScheme: ColorScheme.fromSwatch().copyWith(
               secondary: AppColor.accentColor, // Your accent color
+            ),
+
+            /// navigationBarTheme
+            navigationBarTheme: NavigationBarThemeData(
+              height: 65,
+              indicatorColor: AppColor.accentColor,
+              //indicatorColor: Colors.transparent,
+              backgroundColor: AppColor.primaryDarkColor,
+              labelBehavior:
+                  NavigationDestinationLabelBehavior.alwaysHide,
+              labelTextStyle: MaterialStateProperty.all(
+                const TextStyle(
+                  //fontSize: 13.0,
+                  //fontWeight: FontWeight.w700,
+                  color: AppColor.white,
+                  //letterSpacing: 1.0,
+                ),
+              ),
             ),
 
             /// appBar theme
@@ -87,19 +99,19 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             scaffoldBackgroundColor: Colors.white,
 
             /// default card theme
-            cardTheme: CardTheme(
+            cardTheme: const CardTheme(
               elevation: 10.0,
               shadowColor: AppColor.black,
               shape: RoundedRectangleBorder(
                 borderRadius:
-                BorderRadius.all(Radius.circular(AppUtils.cornerRadius.w)),
+                    BorderRadius.all(Radius.circular(AppUtils.cornerRadius)),
               ),
             )),
 
         /// home
         home: BlocBuilder<UserTokenCubit, UserTokenState>(
           builder: (context, state) {
-            if(state.userToken.isNotEmpty){
+            if (state.userToken.isNotEmpty) {
               return const MainScreen();
             }
             return const OnBoardingScreen();
@@ -117,11 +129,10 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     );
   }
 
-
   /// dispose
   @override
   void dispose() {
-    super.dispose();
     userToken.close();
+    super.dispose();
   }
 }

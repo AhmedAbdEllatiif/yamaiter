@@ -26,6 +26,7 @@ class AppTextField extends StatefulWidget {
   final int? maxLines;
   final EdgeInsets? margin;
   final TextStyle? labelStyle;
+  final bool withFocusedBorder;
 
   const AppTextField({
     Key? key,
@@ -43,6 +44,7 @@ class AppTextField extends StatefulWidget {
     this.width,
     this.margin,
     this.labelStyle,
+    this.withFocusedBorder = true,
     this.minLines = 1,
     this.maxLines = 1,
   }) : super(key: key);
@@ -125,10 +127,12 @@ class _AppTextFieldState extends State<AppTextField> {
                 BorderSide(color: AppColor.primaryColor.withOpacity(0.2)),
             borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: const BorderSide(color: AppColor.accentColor),
-            borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-          ),
+          focusedBorder: widget.withFocusedBorder
+              ? OutlineInputBorder(
+                  borderSide: const BorderSide(color: AppColor.accentColor),
+                  borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+                )
+              : const OutlineInputBorder(borderSide: const BorderSide(color: AppColor.primaryColor),),
           errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColor.red),
             borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
@@ -140,7 +144,8 @@ class _AppTextFieldState extends State<AppTextField> {
 
           // label text
           labelText: widget.label,
-          labelStyle: widget.labelStyle?? const TextStyle(color: AppColor.white),
+          labelStyle:
+              widget.labelStyle ?? const TextStyle(color: AppColor.white),
 
           //hintText:  widget.label,
           //hintStyle:  const TextStyle(color: AppColor.white),

@@ -9,7 +9,7 @@ import 'package:yamaiter/presentation/widgets/app_button.dart';
 import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
-import 'package:yamaiter/presentation/widgets/static_pages_title_widget.dart';
+import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../di/git_it.dart';
@@ -78,7 +78,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 //==> title
-                const StaticPageTitleWidget(title: "تعديل الملف الشخصى"),
+                const AppContentTitleWidget(title: "تعديل الملف الشخصى"),
 
                 //==> person icon and text
                 Expanded(

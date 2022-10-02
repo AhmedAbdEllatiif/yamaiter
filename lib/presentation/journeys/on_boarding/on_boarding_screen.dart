@@ -28,6 +28,12 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   bool showButton = false;
 
   @override
+  void initState() {
+    super.initState();
+    _initScreenUtil();
+  }
+
+  @override
   void dispose() {
     pageController.dispose();
     super.dispose();
@@ -36,7 +42,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   @override
   Widget build(BuildContext context) {
     pageController.addListener(() {});
-    print("ScreenHeight >> ${ScreenUtil.screenHeight}");
     return Scaffold(
       // /*bottomSheet: Container(
       //   color: AppColor.white,
@@ -150,7 +155,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       textColor: AppColor.primaryDarkColor,
                       color: AppColor.accentColor,
                       withAnimation: true,
-                      onPressed: () =>_navigateToChooseUserTypeScreen(),
+                      onPressed: () => _navigateToChooseUserTypeScreen(),
                     ),
                   )),
                 ],
@@ -161,6 +166,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     );
   }
 
-  void _navigateToChooseUserTypeScreen()=>
+  void _navigateToChooseUserTypeScreen() =>
       RouteHelper().chooseUserType(context);
+
+  /// to ensure init ScreenUtil
+  void _initScreenUtil() {
+    if (ScreenUtil.screenHeight == 0) {
+      ScreenUtil.init();
+      /*final h = MediaQuery.of(context).size.height;
+      final w = MediaQuery.of(context).size.width;
+      final padding = MediaQuery.of(context).padding;
+      final aspectRatio = MediaQuery.of(context).devicePixelRatio;
+      final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+      final widthInPixels = w * aspectRatio;
+      final heightInPixels = h * aspectRatio;
+      ScreenUtil.initWithMediaQuery(
+        height: h,
+        width: w,
+        pixelRatio: aspectRatio,
+        padding: padding,
+        screenHeight: heightInPixels,
+        screenWidth: widthInPixels,
+        textScaleFactor: textScaleFactor,
+      );*/
+    }
+  }
 }

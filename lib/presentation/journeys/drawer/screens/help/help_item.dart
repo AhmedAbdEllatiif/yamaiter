@@ -3,7 +3,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/help_question_entity.dart';
 
 import '../../../../../common/constants/sizes.dart';
-import '../../../../widgets/static_pages_title_widget.dart';
+import '../../../../widgets/app_content_title_widget.dart';
 import 'help_expansion_item.dart';
 
 class HelpScreenItem extends StatelessWidget {
@@ -27,7 +27,7 @@ class HelpScreenItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             //==> title
-            StaticPageTitleWidget(title: questionEntity.title),
+            AppContentTitleWidget(title: questionEntity.title),
 
             SizedBox(
               height: Sizes.dimen_8.h,

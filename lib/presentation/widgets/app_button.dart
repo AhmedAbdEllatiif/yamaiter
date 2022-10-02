@@ -18,6 +18,7 @@ class AppButton extends StatelessWidget {
   final bool isTextButton;
   final bool withAnimation;
   final Icon? icon;
+  final double? width;
 
   const AppButton({
     Key? key,
@@ -27,6 +28,7 @@ class AppButton extends StatelessWidget {
     this.color = AppColor.primaryColor,
     this.height,
     this.icon,
+    this.width,
     this.isTextButton = false,
     this.withAnimation = false,
      this.textColor = AppColor.white,
@@ -53,6 +55,7 @@ class AppButton extends StatelessWidget {
     return Container(
       // height: Sizes.dimen_16.h,
       margin: margin,
+      width: width,
       /*height: height ??
           ResponsiveValue<double>(context,
               defaultValue: Sizes.dimen_20.h,

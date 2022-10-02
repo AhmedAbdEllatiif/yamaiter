@@ -12,6 +12,7 @@ class AppDropDownField extends StatefulWidget {
   final double? height;
   final double? width;
   final EdgeInsets? margin;
+  final bool isLastItemHighlighted;
 
   const AppDropDownField({
     Key? key,
@@ -22,6 +23,7 @@ class AppDropDownField extends StatefulWidget {
     this.height,
     this.width,
     this.margin,
+    this.isLastItemHighlighted = false,
   }) : super(key: key);
 
   @override
@@ -82,9 +84,10 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         iconEnabledColor: AppColor.white,
 
         // text style
-        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-            color: AppColor.white
-        ),
+        style: Theme.of(context)
+            .textTheme
+            .bodyMedium!
+            .copyWith(color: AppColor.white),
 
         // dropdownColor
         dropdownColor: AppColor.primaryColor,
@@ -103,15 +106,40 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
           if (value == null) return "* مطلوب ادخاله";
           if (value.isEmpty) return "* مطلوب ادخاله";
         },
-
         // items
-        items: widget.itemsList.map((String value) {
-          return DropdownMenuItem<String>(
-            value: value,
-            child: Text(value),
-          );
-        }).toList(),
+        items: _items(),
       ),
     );
+  }
+
+  List<DropdownMenuItem<String>> _items() {
+    final List<DropdownMenuItem<String>> items = [];
+    widget.itemsList.asMap().forEach((index, element) {
+      items.add(DropdownMenuItem<String>(
+        value: element,
+        alignment:
+            widget.isLastItemHighlighted && index == widget.itemsList.length - 1
+                ? AlignmentDirectional.center
+                : AlignmentDirectional.centerStart,
+        child:
+            widget.isLastItemHighlighted && index == widget.itemsList.length - 1
+                ? Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        color: AppColor.accentColor,
+                        borderRadius: BorderRadius.circular(10)),
+                    child: Text(
+                      element,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        color: AppColor.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
+                : Text(element),
+      ));
+    });
+    return items;
   }
 }

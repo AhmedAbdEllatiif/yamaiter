@@ -4,10 +4,10 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import '../../common/constants/sizes.dart';
 import '../../common/screen_utils/screen_util.dart';
 
-class StaticPageContentWidget extends StatelessWidget {
+class ScrollableAppCard extends StatelessWidget {
   final Widget child;
 
-  const StaticPageContentWidget({Key? key, required this.child})
+  const ScrollableAppCard({Key? key, required this.child})
       : super(key: key);
 
   @override

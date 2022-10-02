@@ -6,7 +6,7 @@ import '../../../../common/functions/common_functions.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/app_button.dart';
 import '../../../widgets/app_text_field.dart';
-import '../../../widgets/static_pages_title_widget.dart';
+import '../../../widgets/app_content_title_widget.dart';
 
 class EditPasswordScreen extends StatefulWidget {
   const EditPasswordScreen({Key? key}) : super(key: key);
@@ -42,7 +42,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //==> title
-              const StaticPageTitleWidget(title: "تعديل كلمة المرور"),
+              const AppContentTitleWidget(title: "تعديل كلمة المرور"),
 
               SizedBox(
                 height: Sizes.dimen_20.h,

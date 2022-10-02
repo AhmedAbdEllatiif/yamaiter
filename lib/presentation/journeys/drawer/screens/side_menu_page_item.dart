@@ -4,8 +4,8 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../domain/entities/data/side_menu_page_entity.dart';
 import '../../../themes/theme_color.dart';
-import '../../../widgets/static_pages_content_widget.dart';
-import '../../../widgets/static_pages_title_widget.dart';
+import '../../../widgets/scrollable_app_card.dart';
+import '../../../widgets/app_content_title_widget.dart';
 
 class SideMenuPageItem extends StatelessWidget {
   final String title;
@@ -26,7 +26,7 @@ class SideMenuPageItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //==> title
-          StaticPageTitleWidget(
+          AppContentTitleWidget(
             title: title,
           ),
 
@@ -39,7 +39,7 @@ class SideMenuPageItem extends StatelessWidget {
             separatorBuilder: (_, index) => SizedBox(height: Sizes.dimen_10.h),
             itemCount: sections.length,
             itemBuilder: (_, index) {
-              return StaticPageContentWidget(
+              return ScrollableAppCard(
                 child: Text(
                   sections[index].description,
                   overflow: TextOverflow.clip,

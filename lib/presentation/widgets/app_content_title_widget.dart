@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import '../themes/theme_color.dart';
 
-class StaticPageTitleWidget extends StatelessWidget {
+class AppContentTitleWidget extends StatelessWidget {
   final String title;
-  const StaticPageTitleWidget({Key? key, required this.title}) : super(key: key);
+  const AppContentTitleWidget({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,7 +7,7 @@ import 'package:yamaiter/presentation/widgets/title_with_divider.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/screen_utils/screen_util.dart';
 import '../../../../../router/route_helper.dart';
-import '../../../../widgets/static_pages_title_widget.dart';
+import '../../../../widgets/app_content_title_widget.dart';
 import 'notifiaction_item_switcher.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -34,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //==> title
-              const StaticPageTitleWidget(title: "الاعدادات"),
+              const AppContentTitleWidget(title: "الاعدادات"),
 
               Container(
                 padding: EdgeInsets.only(top: Sizes.dimen_10.h),

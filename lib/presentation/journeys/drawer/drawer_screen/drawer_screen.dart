@@ -128,7 +128,7 @@ class DrawerScreen extends StatelessWidget {
           /// menu items
           Expanded(
             child: ListView.builder(
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: items.length,
               itemBuilder: (context, index) {

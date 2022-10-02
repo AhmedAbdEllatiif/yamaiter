@@ -11,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/text_login_instead.dart';
 
 import '../../../common/constants/sizes.dart';
 import '../../../common/functions/common_functions.dart';
+import '../../../common/screen_utils/screen_util.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/login/login_cubit.dart';
 import '../../widgets/app_button.dart';
@@ -36,6 +37,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
+    _initScreenUtil();
     _loginCubit = getItInstance<LoginCubit>();
   }
 
@@ -209,5 +211,14 @@ class _LoginScreenState extends State<LoginScreen> {
   /// to save token for auto login
   void _saveForAutoLogin(BuildContext context, {required String token}) {
     context.read<UserTokenCubit>().save(token);
+  }
+
+  /// to ensure init ScreenUtil
+  void _initScreenUtil(){
+    if (ScreenUtil.screenHeight == 0) {
+      final h = MediaQuery.of(context).size.height;
+      final w = MediaQuery.of(context).size.width;
+      ScreenUtil.init(height: h,width: w);
+    }
   }
 }
