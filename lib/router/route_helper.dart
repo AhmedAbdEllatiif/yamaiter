@@ -84,4 +84,9 @@ class RouteHelper {
     Navigator.of(context)
         .pushNamed(RouteList.mySos);
   }
+
+  /// To contact us screen \\\
+  void contactUsScreen(BuildContext context,) {
+   throw (UnimplementedError("Create Contact us screen"));
+  }
 }

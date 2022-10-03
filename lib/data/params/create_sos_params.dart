@@ -1,4 +1,4 @@
-import 'package:yamaiter/data/models/sos/sos_request_model.dart';
+import 'package:yamaiter/data/models/sos/create_sos/sos_request_model.dart';
 
 class CreateSosParams {
   final SosRequestModel sosRequestModel;

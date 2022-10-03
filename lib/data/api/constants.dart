@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+
 
 class ApiConstants {
   static const String _baseUrl = 'http://ya-maitre.herokuapp.com/api';
@@ -11,6 +11,7 @@ class ApiConstants {
   static final String _termsAndConditions =
       _baseUrl + EndPoints.termsAndConditions;
   static final String _distresses = _baseUrl + EndPoints.distresses;
+  static final String _mySosList = _baseUrl + EndPoints.mySosList;
 
   static String buildUrl(RequestType requestType) {
     switch (requestType) {
@@ -34,6 +35,8 @@ class ApiConstants {
       // distresses
       case RequestType.distresses:
         return _distresses;
+      case RequestType.mySosList:
+        return _mySosList;
     }
   }
 }
@@ -59,6 +62,9 @@ class EndPoints {
 
   /// distresses
   static String distresses = "/distresses";
+
+  /// my sos
+  static String mySosList = "/show-distresses";
 }
 
 /// The api request type
@@ -70,4 +76,5 @@ enum RequestType {
   privacyAndPolicy,
   help,
   distresses,
+  mySosList,
 }

@@ -6,6 +6,6 @@ class AppUtils {
   static const double screenHorizontalPadding = Sizes.dimen_30;
   static const double mainPagesHorizontalPadding = Sizes.dimen_10;
   static const double mainPagesVerticalPadding = Sizes.dimen_5;
-  static const String undefined = "Undefined";
+  static const String undefined = "غير معروف";
 
 }

@@ -264,7 +264,7 @@ class _CreateSosScreenState extends State<CreateSosScreen> {
 
   /// navigate to contact us
   void _navigateToContactUs() =>
-      UnimplementedError("Navigate to Contact us not implemented");
+      RouteHelper().contactUsScreen(context);
 
   /// navigate to my sos
   void _navigateToMySosScreen()=>

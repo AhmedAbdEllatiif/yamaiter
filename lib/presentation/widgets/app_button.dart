@@ -19,6 +19,7 @@ class AppButton extends StatelessWidget {
   final bool withAnimation;
   final Icon? icon;
   final double? width;
+  final double? fontSize;
 
   const AppButton({
     Key? key,
@@ -32,6 +33,7 @@ class AppButton extends StatelessWidget {
     this.isTextButton = false,
     this.withAnimation = false,
      this.textColor = AppColor.white,
+    this.fontSize,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,7 @@ class AppButton extends StatelessWidget {
 
   Widget button(BuildContext context){
     return Container(
-      // height: Sizes.dimen_16.h,
+       height: height,
       margin: margin,
       width: width,
       /*height: height ??
@@ -103,7 +105,7 @@ class AppButton extends StatelessWidget {
               style: Theme.of(context).textTheme.button!.copyWith(
                 color: textColor,
                 fontWeight: FontWeight.bold,
-                fontSize: ResponsiveValue(context,
+                fontSize: fontSize ?? ResponsiveValue(context,
                     defaultValue: Sizes.dimen_12.sp,
                     valueWhen: [
                       Condition.largerThan(
@@ -156,7 +158,7 @@ class AppButton extends StatelessWidget {
               style: Theme.of(context).textTheme.headline6!.copyWith(
                 color: textColor,
                 fontWeight: FontWeight.w500,
-                fontSize: ResponsiveValue(context,
+                fontSize:fontSize?? ResponsiveValue(context,
                     defaultValue: Sizes.dimen_12.sp,
                     valueWhen: [
                       Condition.largerThan(

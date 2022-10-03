@@ -14,6 +14,7 @@ import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/animation_type.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../widgets/image_name_rating_widget.dart';
 
 class DrawerScreen extends StatelessWidget {
   const DrawerScreen({Key? key}) : super(key: key);
@@ -37,58 +38,15 @@ class DrawerScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// Avatar and rating
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        RouteHelper().editProfile(context);
-                      },
-                      child: CircleAvatar(
-                        minRadius: Sizes.dimen_30.w,
-                        backgroundImage: AssetImage(
-                          AssetsImages.personAvatar,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding:
-                          EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text(
-                            "John Micheal",
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(color: AppColor.white),
-                          ),
-                          RatingBar.builder(
-                            initialRating: 3,
-                            minRating: 1,
-                            itemSize: Sizes.dimen_16.w,
-                            direction: Axis.horizontal,
-                            allowHalfRating: true,
-                            itemCount: 5,
-                            itemPadding:
-                                const EdgeInsets.symmetric(horizontal: 0.0),
-                            unratedColor: AppColor.accentColor.withOpacity(0.5),
-                            ignoreGestures: true,
-                            itemBuilder: (context, _) => const Icon(
-                              Icons.star,
-                              color: AppColor.accentColor,
-                            ),
-                            onRatingUpdate: (rating) {
-                              print(rating);
-                            },
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
+                ImageNameRatingWidget(
+                  name: "John Micheal",
+                  imgUrl: AssetsImages.personAvatar,
+                  rating: 3,
+                  onPressed: () {
+                    RouteHelper().editProfile(context);
+                  },
                 ),
+
 
                 /// text balance
                 RichText(
@@ -159,6 +117,9 @@ class DrawerScreen extends StatelessWidget {
   void _navigateToSettingsScreen(BuildContext context) =>
       RouteHelper().settingsScreen(context);
 
+  void _navigateMySosListScreen(BuildContext context) =>
+      RouteHelper().mySosScreen(context);
+
   void _navigateToAboutScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
         context,
@@ -205,7 +166,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.sos_outlined,
           title: "نداءات الاستغاثة",
-          onPressed: () {},
+          onPressed: () => _navigateMySosListScreen(context),
         ),
         DrawerItem(
           iconData: Icons.chat_outlined,
@@ -215,9 +176,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.settings_outlined,
           title: "الاعدادت",
-          onPressed: () {
-            _navigateToSettingsScreen(context);
-          },
+          onPressed: () => _navigateToSettingsScreen(context),
         ),
 
         /// about
@@ -231,23 +190,17 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.shield_outlined,
           title: "سياسة الخصوصية",
-          onPressed: () {
-            _navigateToPrivacyScreen(context);
-          },
+          onPressed: () => _navigateToPrivacyScreen(context),
         ),
         DrawerItem(
           iconData: Icons.shield_outlined,
           title: "شروط الاستخدام",
-          onPressed: () {
-            _navigateToTermsAndConditionsScreen(context);
-          },
+          onPressed: () => _navigateToTermsAndConditionsScreen(context),
         ),
         DrawerItem(
           iconData: Icons.help_outline_outlined,
           title: "المساعدة",
-          onPressed: () {
-            _navigateToHelpScreen(context);
-          },
+          onPressed: () => _navigateToHelpScreen(context),
         ),
         DrawerItem(
           iconData: Icons.question_mark_outlined,

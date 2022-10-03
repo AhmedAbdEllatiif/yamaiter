@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
@@ -19,6 +20,7 @@ import '../../domain/entities/app_error.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
+import '../models/sos/sos_model.dart';
 
 abstract class RemoteDataSource {
   /// login
@@ -41,6 +43,9 @@ abstract class RemoteDataSource {
 
   /// create sos
   Future<dynamic> createSos(CreateSosParams params);
+
+  /// get my sos
+  Future<dynamic> getMySos(String userToken);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -215,38 +220,70 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// CreateSosParams
   @override
-  Future createSos(CreateSosParams params) async{
+  Future createSos(CreateSosParams params) async {
     log("createSos >> Start request");
     // init request
     final createSos = CreateSosRequest();
 
     // response
-    final response = await createSos(params.sosRequestModel,params.token);
+    final response = await createSos(params.sosRequestModel, params.token);
 
     log("createSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return SuccessModel();
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
-            message:
-            "createSos Status Code >> ${response.statusCode}");
-    // unAuthorized
+            message: "createSos Status Code >> ${response.statusCode}");
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message:
-            "createSos Status Code >> ${response.statusCode}");
-    // default
+            message: "createSos Status Code >> ${response.statusCode}");
+      // default
       default:
         return AppError(AppErrorType.api,
-            message: "termsAndConditions Status Code >> ${response.statusCode}"
+            message: "createSos Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
+    }
+  }
+
+  @override
+  Future getMySos(String userToken) async {
+    try {
+      log("getMySos >> Start request");
+      // init request
+      final getMySos = GetMySosRequest();
+
+      // response
+      final response = await getMySos(userToken);
+
+      log("getMySos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return mySosResponseModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getMySos Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getMySos Status Code >> ${response.statusCode}");
+        // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "getMySos Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } on Exception catch (e) {
+      rethrow;
     }
   }
 }
