@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
@@ -56,37 +57,57 @@ class RouteHelper {
   }
 
   /// To edit profile screen \\\
-  void editProfile(BuildContext context,) {
-    Navigator.of(context)
-        .pushNamed(RouteList.editProfile);
+  void editProfile(
+    BuildContext context,
+  ) {
+    Navigator.of(context).pushNamed(RouteList.editProfile);
   }
 
   /// To settings screen \\\
-  void settingsScreen(BuildContext context,) {
-    Navigator.of(context)
-        .pushNamed(RouteList.settings);
+  void settingsScreen(
+    BuildContext context,
+  ) {
+    Navigator.of(context).pushNamed(RouteList.settings);
   }
 
   /// To editPassword screen \\\
-  void editPasswordScreen(BuildContext context,) {
-    Navigator.of(context)
-        .pushNamed(RouteList.editPassword);
+  void editPasswordScreen(
+    BuildContext context,
+  ) {
+    Navigator.of(context).pushNamed(RouteList.editPassword);
   }
 
   /// To help screen \\\
-  void helpScreen(BuildContext context,) {
-    Navigator.of(context)
-        .pushNamed(RouteList.help);
+  void helpScreen(
+    BuildContext context,
+  ) {
+    Navigator.of(context).pushNamed(RouteList.help);
+  }
+
+  /// To create sos screen \\\
+  void createSos(
+      BuildContext context,
+      ) {
+    Navigator.of(context).pushNamed(RouteList.createSos);
   }
 
   /// To my sos screen \\\
-  void mySosScreen(BuildContext context,) {
-    Navigator.of(context)
-        .pushNamed(RouteList.mySos);
+  void mySosScreen(
+    BuildContext context,
+  ) {
+    Navigator.of(context).pushNamed(RouteList.mySos);
+  }
+
+  /// To single sos screen \\\
+  void singleSosScreen(BuildContext context,
+      {required SingleScreenArguments arguments}) {
+    Navigator.of(context).pushNamed(RouteList.singleSos, arguments: arguments);
   }
 
   /// To contact us screen \\\
-  void contactUsScreen(BuildContext context,) {
-   throw (UnimplementedError("Create Contact us screen"));
+  void contactUsScreen(
+    BuildContext context,
+  ) {
+    throw (UnimplementedError("Create Contact us screen"));
   }
 }

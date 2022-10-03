@@ -3,8 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/themes/theme_color.dart';
+import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/sos_item/sos_item.dart';
@@ -65,85 +66,134 @@ class _MySosScreenState extends State<MySosScreen> {
                 ],
               ),
 
-              BlocBuilder<GetMySosCubit, GetMySosState>(builder: (_, state) {
-                //==> loading
-                if (state is LoadingGetMySosList) {
-                  return const Center(
-                    child: LoadingWidget(),
-                  );
-                }
+              Padding(
+                padding: EdgeInsets.symmetric(vertical: Sizes.dimen_16.h),
+                child: Column(
+                  children: [
 
-                //==> unAuthorized
-                if (state is UnAuthorizedGetMySosList) {
-                  return Center(
-                    child: AppErrorWidget(
-                      appTypeError: AppErrorType.unauthorizedUser,
-                      buttonText: "تسجيل الدخول",
-                      onPressedRetry: () => _navigateToLogin(),
+                    /// title with add new sos
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const AppContentTitleWidget(
+                          title: "نداءات الاستغاثة",
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(1.5),
+                              decoration: BoxDecoration(
+                                border: Border.all(color: AppColor.primaryDarkColor)
+                              ),
+                              child: Icon(
+                                Icons.add,
+                                color: AppColor.primaryDarkColor,
+                                size: Sizes.dimen_12.w,
+                              ),
+                            ),
+
+                            GestureDetector(
+                              onTap: ()=>_navigateCreateSos(),
+                              child: Padding(
+                                padding:  EdgeInsets.symmetric(horizontal: Sizes.dimen_5.w),
+                                child: Text("اضف نداء استغاثة",
+                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                                  color: AppColor.primaryDarkColor
+                                ),),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
                     ),
-                  );
-                }
 
-                //==> notActivatedUser
-                if (state is NotActivatedUserToGetMySosList) {
-                  return Center(
-                    child: AppErrorWidget(
-                      appTypeError: AppErrorType.notActivatedUser,
-                      buttonText: "تواصل معنا",
-                      onPressedRetry: () => _navigateToContactUs(),
+                    /// list of my sos
+                    Padding(
+                      padding:  EdgeInsets.only(top: Sizes.dimen_10.h),
+                      child: BlocBuilder<GetMySosCubit, GetMySosState>(
+                          builder: (_, state) {
+                        //==> loading
+                        if (state is LoadingGetMySosList) {
+                          return const Center(
+                            child: LoadingWidget(),
+                          );
+                        }
+
+                        //==> unAuthorized
+                        if (state is UnAuthorizedGetMySosList) {
+                          return Center(
+                            child: AppErrorWidget(
+                              appTypeError: AppErrorType.unauthorizedUser,
+                              buttonText: "تسجيل الدخول",
+                              onPressedRetry: () => _navigateToLogin(),
+                            ),
+                          );
+                        }
+
+                        //==> notActivatedUser
+                        if (state is NotActivatedUserToGetMySosList) {
+                          return Center(
+                            child: AppErrorWidget(
+                              appTypeError: AppErrorType.notActivatedUser,
+                              buttonText: "تواصل معنا",
+                              onPressedRetry: () => _navigateToContactUs(),
+                            ),
+                          );
+                        }
+
+                        //==> notActivatedUser
+                        if (state is ErrorWhileGettingMySosList) {
+                          return Center(
+                            child: AppErrorWidget(
+                              appTypeError: state.appError.appErrorType,
+                              onPressedRetry: () => _fetchMySosList(),
+                            ),
+                          );
+                        }
+
+                        //==> fetched
+                        if (state is MySosListFetchedSuccessfully) {
+                          final fetchedList = state.sosEntityList;
+                          return ListView.separated(
+                            physics: const BouncingScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: fetchedList.length,
+                            separatorBuilder: (context, index) => SizedBox(
+                              height: Sizes.dimen_2.h,
+                            ),
+                            itemBuilder: (context, index) {
+                              return SosItem(sosEntity: fetchedList[index],withCallLawyer: false,);
+                            },
+                          );
+                        }
+
+                        /* return ListView.separated(
+                          physics: const BouncingScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: 2,
+                          separatorBuilder: (context, index) => SizedBox(
+                            height: Sizes.dimen_2.h,
+                          ),
+                          itemBuilder: (context, index) {
+                            return const SosItem(sosEntity: SosEntity(
+                              id: 0,
+                              title: "This is title",
+                              description: "This is Description",
+                              creatorName: "Ahmed Mohammed",
+                              creatorPhoneNum: "01124466700",
+                              creatorRating: 4,
+                              governorate: "Cairo",
+                              createdAt: "29-08-2022"
+                            ));
+                          },
+                        );*/
+                        //==> other
+                        return const SizedBox.shrink();
+                      }),
                     ),
-                  );
-                }
-
-                //==> notActivatedUser
-                if (state is ErrorWhileGettingMySosList) {
-                  return Center(
-                    child: AppErrorWidget(
-                      appTypeError: state.appError.appErrorType,
-                      onPressedRetry: () => _fetchMySosList(),
-                    ),
-                  );
-                }
-
-                //==> fetched
-                if (state is MySosListFetchedSuccessfully) {
-                  final fetchedList = state.sosEntityList;
-                  return ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: fetchedList.length,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: Sizes.dimen_2.h,
-                    ),
-                    itemBuilder: (context, index) {
-                      return SosItem(sosEntity: fetchedList[index]);
-                    },
-                  );
-                }
-
-               /* return ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 2,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: Sizes.dimen_2.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    return const SosItem(sosEntity: SosEntity(
-                      id: 0,
-                      title: "This is title",
-                      description: "This is Description",
-                      creatorName: "Ahmed Mohammed",
-                      creatorPhoneNum: "01124466700",
-                      creatorRating: 4,
-                      governorate: "Cairo",
-                      createdAt: "29-08-2022"
-                    ));
-                  },
-                );*/
-                //==> other
-                return const SizedBox.shrink();
-              }),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
@@ -156,6 +206,9 @@ class _MySosScreenState extends State<MySosScreen> {
 
     _getMySosCubit.fetchMySosList(userToken: userToken);
   }
+
+  void _navigateCreateSos() =>
+      RouteHelper().createSos(context);
 
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);

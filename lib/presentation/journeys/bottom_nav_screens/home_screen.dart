@@ -16,21 +16,10 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(
-          horizontal: AppUtils.mainPagesHorizontalPadding.w,
-          vertical: AppUtils.mainPagesVerticalPadding.h),
-      child: Column(
-        children: const [
-          AdsListViewWidget(
-            adsList: [
-              AdEntity(id: 0, url: AssetsImages.adSample),
-              AdEntity(id: 1, url: AssetsImages.adSample),
-              AdEntity(id: 1, url: AssetsImages.adSample),
-            ],
-          ),
-        ],
-      ),
+    return Column(
+      children: const [
+
+      ],
     );
   }
 }
