@@ -1,10 +1,14 @@
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/sos/sos_request_model.dart';
+import 'package:yamaiter/data/models/sos/sos_response_model.dart';
+import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 
+import '../../data/models/success_model.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../entities/app_error.dart';
 
@@ -31,4 +35,8 @@ abstract class RemoteRepository {
 
   /// help
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(String userToken);
+
+
+  /// create sos
+  Future<Either<AppError, SuccessModel>> createSos(CreateSosParams createSosParams);
 }

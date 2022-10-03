@@ -7,6 +7,9 @@ import 'package:yamaiter/data/models/app_settings_models/side_menu_response_mode
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/sos/sos_request_model.dart';
+import 'package:yamaiter/data/models/sos/sos_response_model.dart';
+import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
@@ -16,6 +19,7 @@ import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
+import '../models/success_model.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
   final RemoteDataSource remoteDataSource;
@@ -163,6 +167,27 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received help
       if (result is List<HelpResponseModel>) {
+        return Right(result);
+      }
+
+      // failed to get help
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// createSos
+  @override
+  Future<Either<AppError, SuccessModel>> createSos(CreateSosParams createSosParams) async{
+    try {
+      // send get help request
+      final result = await remoteDataSource.createSos(createSosParams);
+
+      // received help
+      if (result is SuccessModel) {
         return Right(result);
       }
 

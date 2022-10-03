@@ -51,7 +51,9 @@ class AppErrorWidget extends StatelessWidget {
                 message.isEmpty
                     ? appTypeError == AppErrorType.api
                         ? "Check network connection"
-                        : 'Something is gone wrong'
+                        : appTypeError == AppErrorType.unauthorizedUser
+                            ? 'تحتاج الى تسجيل الدخول '
+                            : 'Something is gone wrong'
                     : message,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)

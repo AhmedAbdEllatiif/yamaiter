@@ -12,8 +12,11 @@ import 'package:yamaiter/data/models/app_settings_models/help_response_model.dar
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/success_model.dart';
+import 'package:yamaiter/data/params/create_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/post_requests/create_sos.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 
@@ -35,6 +38,9 @@ abstract class RemoteDataSource {
 
   /// help
   Future<dynamic> getHelp(String userToken);
+
+  /// create sos
+  Future<dynamic> createSos(CreateSosParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -202,6 +208,41 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             message:
                 "termsAndConditions Status Code >> ${response.statusCode}");
       // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "termsAndConditions Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+
+  /// CreateSosParams
+  @override
+  Future createSos(CreateSosParams params) async{
+    log("createSos >> Start request");
+    // init request
+    final createSos = CreateSosRequest();
+
+    // response
+    final response = await createSos(params.sosRequestModel,params.token);
+
+    log("createSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return SuccessModel();
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message:
+            "createSos Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message:
+            "createSos Status Code >> ${response.statusCode}");
+    // default
       default:
         return AppError(AppErrorType.api,
             message: "termsAndConditions Status Code >> ${response.statusCode}"

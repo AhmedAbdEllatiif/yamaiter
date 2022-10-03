@@ -11,5 +11,6 @@ class RouteList{
   static const String settings = "/settings";
   static const String editPassword = "/editPassword";
   static const String help = "/help";
+  static const String mySos = "/mySos";
 
 }

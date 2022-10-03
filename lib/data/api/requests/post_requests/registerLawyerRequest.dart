@@ -3,14 +3,14 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
-import 'package:yamaiter/data/api/requests/post_request.dart';
+import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 
-class RegisterLawyerRequest extends PostRequest<RegisterRequestModel> {
+class RegisterLawyerRequest extends MultiPartPostRequest<RegisterRequestModel> {
   @override
   Future<http.MultipartRequest> call(RegisterRequestModel params) async {
     var request =
-        initPostRequest(requestType: RequestType.registerLawyer, token: "");
+        initMultiPartPostRequest(requestType: RequestType.registerLawyer, token: "");
     request.fields["email"] = params.email;
     request.fields["name"] = params.name;
     request.fields["phone"] = params.phone;

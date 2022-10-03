@@ -78,4 +78,10 @@ class RouteHelper {
     Navigator.of(context)
         .pushNamed(RouteList.help);
   }
+
+  /// To my sos screen \\\
+  void mySosScreen(BuildContext context,) {
+    Navigator.of(context)
+        .pushNamed(RouteList.mySos);
+  }
 }

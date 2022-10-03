@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
+import 'package:yamaiter/presentation/journeys/create_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
 import 'package:yamaiter/presentation/journeys/forget_password/forget_password_screen.dart';
@@ -44,6 +46,9 @@ class Routes {
 
         /// help
         RouteList.help: (context) => const HelpScreen(),
+
+       /// mySos
+       RouteList.mySos: (context) => const MySosScreen(),
 
         /// SideMenuPageScreen
         RouteList.sideMenuPage: (context) => SideMenuPageScreen(

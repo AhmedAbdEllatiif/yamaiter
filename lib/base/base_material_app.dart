@@ -78,6 +78,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
               backgroundColor: AppColor.primaryDarkColor,
               labelBehavior:
                   NavigationDestinationLabelBehavior.alwaysHide,
+              indicatorShape: const CircleBorder(),
               labelTextStyle: MaterialStateProperty.all(
                 const TextStyle(
                   //fontSize: 13.0,
@@ -109,6 +110,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             )),
 
         /// home
+        //home: MainScreen(),
         home: BlocBuilder<UserTokenCubit, UserTokenState>(
           builder: (context, state) {
             if (state.userToken.isNotEmpty) {

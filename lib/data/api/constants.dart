@@ -10,6 +10,7 @@ class ApiConstants {
   static final String _help = _baseUrl + EndPoints.help;
   static final String _termsAndConditions =
       _baseUrl + EndPoints.termsAndConditions;
+  static final String _distresses = _baseUrl + EndPoints.distresses;
 
   static String buildUrl(RequestType requestType) {
     switch (requestType) {
@@ -30,6 +31,9 @@ class ApiConstants {
       // help
       case RequestType.help:
         return _help;
+      // distresses
+      case RequestType.distresses:
+        return _distresses;
     }
   }
 }
@@ -52,6 +56,9 @@ class EndPoints {
 
   /// help
   static String help = "/help";
+
+  /// distresses
+  static String distresses = "/distresses";
 }
 
 /// The api request type
@@ -62,4 +69,5 @@ enum RequestType {
   termsAndConditions,
   privacyAndPolicy,
   help,
+  distresses,
 }

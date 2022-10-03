@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 
@@ -6,7 +7,7 @@ import '../../../common/constants/sizes.dart';
 import '../../../common/screen_utils/screen_util.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/icon_with_badge.dart';
-import '../bottom_nav_screens/sos_screen.dart';
+import '../create_sos_screen.dart';
 import '../drawer/drawer_screen/drawer_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -39,10 +40,10 @@ class _MainScreenState extends State<MainScreen> {
       ),
 
       /// drawer
-      drawer: DrawerScreen(),
+      drawer: const DrawerScreen(),
 
       /// body
-      body:_currentSelectedPage(_selectedIndex),
+      body: _currentSelectedPage(_selectedIndex),
 
       bottomNavigationBar: NavigationBar(
         // currentIndex
@@ -51,68 +52,12 @@ class _MainScreenState extends State<MainScreen> {
         // onTap
         onDestinationSelected: _onItemTapped,
 
+        // animation duration
+        animationDuration: const Duration(milliseconds: 1000),
+
         // destinations
         destinations: _currentDestinations(),
       ),
-
-      floatingActionButton: _selectedIndex == 0
-          ? Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                FloatingActionButton(
-                  child: const Icon(
-                    Icons.add,
-                    color: AppColor.primaryDarkColor,
-                  ),
-                  onPressed: () {},
-                ),
-                /*const Text(
-                  "Add Article",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                )*/
-              ],
-            )
-          : null,
-
-      /* bottomNavigationBar: NavigationBar(
-        backgroundColor: AppColor.primaryDarkColor,
-        selectedItemColor: AppColor.white,
-        unselectedItemColor: AppColor.white.withOpacity(0.3),
-        type: BottomNavigationBarType.fixed,
-      showSelectedLabels: true,
-        showUnselectedLabels: false,
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: 'الرئيسية',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.sos_outlined),
-            label: "الاستغاثات",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.book_online_outlined),
-            label: 'المنشورات',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'اضافة منشور',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_bag_outlined),
-            label: 'المهمات',
-          ),BottomNavigationBarItem(
-            icon: Icon(Icons.notifications_active_outlined),
-            label: 'الاشعارات',
-          ),
-        ],
-
-        // currentIndex
-        currentIndex: _selectedIndex,
-
-        // onTap
-        onTap: _onItemTapped,
-      ),*/
     );
   }
 
@@ -138,112 +83,6 @@ class _MainScreenState extends State<MainScreen> {
     }
   }
 
-  List<Widget> _whiteDestinations() {
-    return [
-      /// home
-      NavigationDestination(
-        //==> icon with badge
-        icon: IconWithBadge(
-          iconData: Icons.home_outlined,
-          iconColor: AppColor.white,
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-        ),
-
-        //==> selected icon
-        selectedIcon: IconButton(
-          icon: const Icon(
-            Icons.home,
-            color: AppColor.white,
-            size: 40,
-          ),
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-        ),
-
-        //==> label
-        label: 'الرئيسية',
-      ),
-
-      /// sos
-      NavigationDestination(
-        //==> icon with badge
-        icon: IconWithBadge(
-          iconData: Icons.sos_outlined,
-          iconColor: AppColor.white,
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 1;
-            });
-          },
-        ),
-
-        //==> selected icon
-        selectedIcon: const Icon(
-          Icons.sos,
-          color: AppColor.white,
-          size: 40,
-        ),
-        label: "الاستغاثات",
-      ),
-
-      /// book
-      const NavigationDestination(
-        icon: Icon(
-          Icons.book_online_outlined,
-          color: AppColor.primaryColor,
-        ),
-        selectedIcon: Icon(
-          Icons.book_online,
-          color: AppColor.white,
-          size: 40,
-        ),
-        label: 'المنشورات',
-      ),
-      // NavigationDestination(
-      //   icon: Icon(
-      //     Icons.add,
-      //     color: AppColor.primaryColor,
-      //   ),
-      //   selectedIcon: Icon(
-      //     Icons.add_outlined,
-      //     color: AppColor.primaryDarkColor,
-      //   ),
-      //   label: 'اضافة منشور',
-      // ),
-      const NavigationDestination(
-        icon: Icon(
-          Icons.shopping_bag_outlined,
-          color: AppColor.white,
-        ),
-        selectedIcon: Icon(
-          Icons.shopping_bag,
-          color: AppColor.white,
-          size: 40,
-        ),
-        label: 'المهمات',
-      ),
-      // NavigationDestination(
-      //   icon: Icon(
-      //     Icons.notifications_active_outlined,
-      //     color: AppColor.white,
-      //   ),
-      //   selectedIcon: Icon(
-      //     Icons.notifications_active,
-      //     color: AppColor.white,
-      //  size: 40,
-      //   ),
-      //   label: 'الاشعارات',
-      // ),
-    ];
-  }
-
   List<Widget> _currentDestinations() {
     return [
       /// home
@@ -267,17 +106,49 @@ class _MainScreenState extends State<MainScreen> {
         //==> label
         label: 'الرئيسية',
       ),
+
+      /// sos
       const NavigationDestination(
+        //==> icon
         icon: Icon(
           Icons.sos,
           color: AppColor.primaryColor,
         ),
+        //==>selectedIcon
         selectedIcon: Icon(
           Icons.sos_outlined,
           color: AppColor.primaryDarkColor,
         ),
         label: "الاستغاثات",
       ),
+
+      /// add
+      NavigationDestination(
+        icon: Container(
+          padding: EdgeInsets.all(Sizes.dimen_5.w),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: AppColor.primaryColor),
+            // borderRadius: BorderRadius.circular(10)
+          ),
+          child: const Icon(
+            Icons.add,
+            color: AppColor.primaryColor,
+            size: 30,
+          ),
+        ),
+        selectedIcon: Container(
+          padding: EdgeInsets.all(Sizes.dimen_5.w),
+          child: const Icon(
+            Icons.add_outlined,
+            color: AppColor.primaryDarkColor,
+            size: 30,
+          ),
+        ),
+        label: 'اضافة منشور',
+      ),
+
+      /// articles
       const NavigationDestination(
         icon: Icon(
           Icons.book_online_outlined,
@@ -289,17 +160,9 @@ class _MainScreenState extends State<MainScreen> {
         ),
         label: 'المنشورات',
       ),
-      // NavigationDestination(
-      //   icon: Icon(
-      //     Icons.add,
-      //     color: AppColor.primaryColor,
-      //   ),
-      //   selectedIcon: Icon(
-      //     Icons.add_outlined,
-      //     color: AppColor.primaryDarkColor,
-      //   ),
-      //   label: 'اضافة منشور',
-      // ),
+
+
+      ///
       const NavigationDestination(
         icon: Icon(
           Icons.shopping_bag_outlined,
@@ -311,27 +174,15 @@ class _MainScreenState extends State<MainScreen> {
         ),
         label: 'المهمات',
       ),
-      // NavigationDestination(
-      //   icon: Icon(
-      //     Icons.notifications_active,
-      //     color: AppColor.primaryColor,
-      //   ),
-      //   selectedIcon: Icon(
-      //     Icons.notifications_active_outlined,
-      //     color: AppColor.primaryDarkColor,
-      //   ),
-      //   label: 'الاشعارات',
-      // ),
     ];
   }
 
-
-  Widget _currentSelectedPage(int index){
-    if(index == 0){
+  Widget _currentSelectedPage(int index) {
+    if (index == 0) {
       return HomeScreen();
     }
-    if(index == 1){
-      return SosScreen();
+    if (index == 1) {
+      return CreateSosScreen();
     }
 
     return HomeScreen();

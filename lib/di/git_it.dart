@@ -7,6 +7,8 @@ import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
@@ -20,6 +22,7 @@ import '../domain/use_cases/about.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
+import '../domain/use_cases/create_sos.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import '../presentation/logic/cubit/login/login_cubit.dart';
@@ -90,6 +93,11 @@ Future init() async {
     () => SideMenuPageCubit(),
   );
 
+  //==> CreateSosCubit
+  getItInstance.registerFactory<CreateSosCubit>(
+    () => CreateSosCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -128,6 +136,11 @@ Future init() async {
   //==> RegisterLawyerCase
   getItInstance.registerFactory<RegisterLawyerCase>(
     () => RegisterLawyerCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateSosCase
+  getItInstance.registerFactory<CreateSosCase>(
+    () => CreateSosCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin
