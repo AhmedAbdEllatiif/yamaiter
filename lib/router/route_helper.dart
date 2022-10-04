@@ -91,6 +91,11 @@ class RouteHelper {
   }
 
   /// To create sos screen \\\
+  void addSos(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.addSos);
+  }
+
+  /// To create sos screen \\\
   void deleteSos(BuildContext context,
       {required DeleteSosArguments deleteSosArguments}) {
     Navigator.of(context)
@@ -100,8 +105,14 @@ class RouteHelper {
   /// To my sos screen \\\
   void mySosScreen(
     BuildContext context,
+  {bool isReplacement = false}
   ) {
-    Navigator.of(context).pushNamed(RouteList.mySos);
+    if(isReplacement){
+      Navigator.of(context).pushReplacementNamed(RouteList.mySos);
+    }else{
+      Navigator.of(context).pushNamed(RouteList.mySos);
+    }
+
   }
 
   /// To single sos screen \\\

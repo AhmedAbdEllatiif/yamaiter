@@ -93,7 +93,7 @@ class _MySosScreenState extends State<MySosScreen> {
                             ),
 
                             GestureDetector(
-                              onTap: ()=>_navigateCreateSos(),
+                              onTap: ()=>_navigateAddSos(),
                               child: Padding(
                                 padding:  EdgeInsets.symmetric(horizontal: Sizes.dimen_5.w),
                                 child: Text("اضف نداء استغاثة",
@@ -207,8 +207,8 @@ class _MySosScreenState extends State<MySosScreen> {
     _getMySosCubit.fetchMySosList(userToken: userToken);
   }
 
-  void _navigateCreateSos() =>
-      RouteHelper().createSos(context);
+  void _navigateAddSos() =>
+      RouteHelper().addSos(context);
 
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);

@@ -111,15 +111,15 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             )),
 
         /// home
-        //home: DeleteSosScreen(),
-        home: BlocBuilder<UserTokenCubit, UserTokenState>(
-          builder: (context, state) {
-            if (state.userToken.isNotEmpty) {
-              return const MainScreen();
-            }
-            return const OnBoardingScreen();
-          },
-        ),
+        home: MainScreen(),
+        // home: BlocBuilder<UserTokenCubit, UserTokenState>(
+        //   builder: (context, state) {
+        //     if (state.userToken.isNotEmpty) {
+        //       return const MainScreen();
+        //     }
+        //     return const OnBoardingScreen();
+        //   },
+        // ),
         onGenerateRoute: (RouteSettings settings) {
           final routes = Routes.getRoutes(settings);
           final WidgetBuilder? builder = routes[settings.name];

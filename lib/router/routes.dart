@@ -12,6 +12,7 @@ import 'package:yamaiter/presentation/journeys/forget_password/forget_password_s
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/register_client/register_client_screen.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/register_lawyer_screen.dart';
+import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
@@ -56,6 +57,9 @@ class Routes {
 
         /// createSos
         RouteList.createSos: (context) => const CreateSosScreen(),
+
+        /// add sos
+        RouteList.addSos: (context) => const AddSosScreen(),
 
         /// deleteSos
         RouteList.deleteSos: (context) => DeleteSosScreen(

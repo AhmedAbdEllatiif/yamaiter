@@ -4,7 +4,8 @@ import '../themes/theme_color.dart';
 
 class AppContentTitleWidget extends StatelessWidget {
   final String title;
-  const AppContentTitleWidget({Key? key, required this.title}) : super(key: key);
+  final Color textColor;
+  const AppContentTitleWidget({Key? key, required this.title,  this.textColor = AppColor.primaryDarkColor,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class AppContentTitleWidget extends StatelessWidget {
       Text(
         title,
         style: Theme.of(context).textTheme.titleMedium!.copyWith(
-            color: AppColor.primaryDarkColor,
+            color: textColor,
             fontWeight: FontWeight.bold),
       );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 
@@ -66,10 +67,13 @@ class _MainScreenState extends State<MainScreen> {
 
             Expanded(
                 child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: IndexedStack(index: _selectedIndex,children:[HomeScreen(),
-                    AllSosScreen()
-                    ] ))),
+              physics: const BouncingScrollPhysics(),
+              child: IndexedStack(index: _selectedIndex, children: const [
+                HomeScreen(),
+                AllSosScreen(),
+                ChooseToAddScreen(),
+              ]),
+            )),
           ],
         ),
       ),
