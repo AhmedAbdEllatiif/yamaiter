@@ -208,11 +208,32 @@ class RemoteRepositoryImpl extends RemoteRepository {
       final result = await remoteDataSource.getMySos(userToken);
 
       // received my sos list
-      if (result is MySosResponseModel) {
+      if (result is SosResponseModel) {
         return Right(result.mySosList);
       }
 
       // failed to get my sos
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// getAllSosList
+  @override
+  Future<Either<AppError, List<SosEntity>>> getAllSosList(String userToken) async {
+    try {
+      // send get all sos list request
+      final result = await remoteDataSource.getAllSos(userToken);
+
+      // received all sos list
+      if (result is SosResponseModel) {
+        return Right(result.mySosList);
+      }
+
+      // failed to get all sos
       else {
         return Left(result);
       }

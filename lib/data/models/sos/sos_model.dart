@@ -9,20 +9,30 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 
 import '../user_lawyer_model.dart';
 
-MySosResponseModel mySosResponseModelFromJson(String str) =>
-    MySosResponseModel.fromJson(json.decode(str));
+SosResponseModel mySosResponseModelFromDistressDataJson(String str) =>
+    SosResponseModel.fromJsonDistressData(json.decode(str));
 
-class MySosResponseModel {
-  MySosResponseModel({
+SosResponseModel mySosResponseModelFromAllDistressDataCallsJson(String str) =>
+    SosResponseModel.fromJsonAllDistressDataCalls(json.decode(str));
+
+class SosResponseModel {
+  SosResponseModel({
     required this.mySosList,
   });
 
   final List<SosModel> mySosList;
 
-  factory MySosResponseModel.fromJson(Map<String, dynamic> json) =>
-      MySosResponseModel(
+  factory SosResponseModel.fromJsonDistressData(Map<String, dynamic> json) =>
+      SosResponseModel(
         mySosList: List<SosModel>.from(
           json["Distress Data"].map((x) => SosModel.fromJson(x)),
+        ),
+      );
+
+  factory SosResponseModel.fromJsonAllDistressDataCalls(Map<String, dynamic> json) =>
+      SosResponseModel(
+        mySosList: List<SosModel>.from(
+          json["All Distresses calls"].map((x) => SosModel.fromJson(x)),
         ),
       );
 }

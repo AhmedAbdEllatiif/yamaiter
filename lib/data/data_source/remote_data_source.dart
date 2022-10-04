@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
@@ -46,6 +47,9 @@ abstract class RemoteDataSource {
 
   /// get my sos
   Future<dynamic> getMySos(String userToken);
+
+  /// get all sos
+  Future<dynamic> getAllSos(String userToken);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -267,7 +271,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       switch (response.statusCode) {
         // success
         case 200:
-          return mySosResponseModelFromJson(response.body);
+          return mySosResponseModelFromDistressDataJson(response.body);
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
@@ -284,6 +288,37 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       }
     } on Exception catch (e) {
       rethrow;
+    }
+  }
+
+  @override
+  Future getAllSos(String userToken) async {
+    log("getAllSos >> Start request");
+    // init request
+    final allSosRequest = GetAllSosRequest();
+
+    // response
+    final response = await allSosRequest(userToken);
+
+    log("getAllSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return mySosResponseModelFromAllDistressDataCallsJson(response.body);
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "getAllSos Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getAllSos Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "getAllSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
     }
   }
 }

@@ -12,6 +12,7 @@ class ApiConstants {
       _baseUrl + EndPoints.termsAndConditions;
   static final String _distresses = _baseUrl + EndPoints.distresses;
   static final String _mySosList = _baseUrl + EndPoints.mySosList;
+  static final String _allSosList = _baseUrl + EndPoints.allSosList;
 
   static String buildUrl(RequestType requestType) {
     switch (requestType) {
@@ -37,6 +38,8 @@ class ApiConstants {
         return _distresses;
       case RequestType.mySosList:
         return _mySosList;
+      case RequestType.allSosList:
+        return _allSosList;
     }
   }
 }
@@ -65,6 +68,9 @@ class EndPoints {
 
   /// my sos
   static String mySosList = "/show-distresses";
+
+  /// all sos
+  static String allSosList = "/distresses";
 }
 
 /// The api request type
@@ -77,4 +83,5 @@ enum RequestType {
   help,
   distresses,
   mySosList,
+  allSosList,
 }

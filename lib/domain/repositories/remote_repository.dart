@@ -42,4 +42,7 @@ abstract class RemoteRepository {
 
   /// return a list of current user sos
   Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken);
+
+  /// return a list of all  sos
+  Future<Either<AppError, List<SosEntity>>> getAllSosList(String userToken);
 }

@@ -13,6 +13,9 @@ class GetMySosInitial extends GetMySosState {}
 /// loading
 class LoadingGetMySosList extends GetMySosState {}
 
+/// empty
+class EmptyMySosList extends GetMySosState {}
+
 /// unAuthorized
 class UnAuthorizedGetMySosList extends GetMySosState {}
 

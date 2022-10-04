@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
+import 'package:yamaiter/domain/use_cases/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/help.dart';
@@ -11,6 +12,7 @@ import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
@@ -106,6 +108,10 @@ Future init() async {
     () => GetMySosCubit(),
   );
 
+  //==> GetAllSosCubit
+  getItInstance.registerFactory<GetAllSosCubit>(
+        () => GetAllSosCubit(),
+  );
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -149,6 +155,11 @@ Future init() async {
   //==> CreateSosCase
   getItInstance.registerFactory<CreateSosCase>(
     () => CreateSosCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetAllSosListCase
+  getItInstance.registerFactory<GetAllSosListCase>(
+        () => GetAllSosListCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMySosListCase
