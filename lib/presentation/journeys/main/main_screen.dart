@@ -11,7 +11,7 @@ import '../../../domain/entities/data/ad_entity.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/ads_list/ads_list_view.dart';
 import '../../widgets/icon_with_badge.dart';
-import '../create_sos_screen.dart';
+import '../sos/create_sos_screen.dart';
 import '../drawer/drawer_screen/drawer_screen.dart';
 
 class MainScreen extends StatefulWidget {

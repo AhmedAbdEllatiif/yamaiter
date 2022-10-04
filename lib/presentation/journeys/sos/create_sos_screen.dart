@@ -18,11 +18,12 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../common/constants/sizes.dart';
-import '../../common/enum/app_error_type.dart';
-import '../logic/cubit/user_token/user_token_cubit.dart';
-import '../widgets/ads_list/ads_list_view.dart';
-import '../widgets/app_error_widget.dart';
+import '../../../common/constants/sizes.dart';
+import '../../../common/enum/app_error_type.dart';
+import '../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../widgets/ads_list/ads_list_view.dart';
+import '../../widgets/ads_list/ads_list_view.dart';
+import '../../widgets/app_error_widget.dart';
 
 class CreateSosScreen extends StatefulWidget {
   const CreateSosScreen({Key? key}) : super(key: key);

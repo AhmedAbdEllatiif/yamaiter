@@ -134,7 +134,7 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                   SizedBox(height: Sizes.dimen_12.h),
 
 
-                  if(widget.singleScreenArguments.withCallButton)
+                  if(widget.singleScreenArguments.withCallButton )
                   AppButton(
                       text: "اتصل بالمحامى",
                       textColor: AppColor.accentColor,

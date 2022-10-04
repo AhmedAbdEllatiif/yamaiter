@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
@@ -85,10 +86,15 @@ class RouteHelper {
   }
 
   /// To create sos screen \\\
-  void createSos(
-      BuildContext context,
-      ) {
+  void createSos(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.createSos);
+  }
+
+  /// To create sos screen \\\
+  void deleteSos(BuildContext context,
+      {required DeleteSosArguments deleteSosArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.deleteSos, arguments: deleteSosArguments);
   }
 
   /// To my sos screen \\\

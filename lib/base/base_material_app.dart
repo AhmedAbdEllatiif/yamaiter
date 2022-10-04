@@ -9,6 +9,7 @@ import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import '../common/extensions/size_extensions.dart';
 import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
+import '../presentation/journeys/sos/delete_sos.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
 
@@ -110,7 +111,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             )),
 
         /// home
-        //home: MainScreen(),
+        //home: DeleteSosScreen(),
         home: BlocBuilder<UserTokenCubit, UserTokenState>(
           builder: (context, state) {
             if (state.userToken.isNotEmpty) {

@@ -9,6 +9,7 @@ import 'package:yamaiter/presentation/widgets/sos_item/sos_menu_item.dart';
 
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../../../router/route_helper.dart';
 import '../image_name_rating_widget.dart';
 
@@ -151,99 +152,103 @@ class _SosItemState extends State<SosItem> {
                           ),
                         ),
                       ),
-
-
-                      if(widget.withCallLawyer)
-                      Padding(
-                        padding:  EdgeInsets.only(top: Sizes.dimen_3.h,),
-                        child: GestureDetector(
-                          onTap: () {
-                            //_navigateToSingleSosScreen();
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 5),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                  color: AppColor.primaryDarkColor,
-                                  borderRadius: BorderRadius.circular(
-                                      AppUtils.cornerRadius)),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Sizes.dimen_10.w),
-                              child: Row(
-                                children: [
-                                  Icon(
-                                    Icons.call_outlined,
-                                    color: AppColor.accentColor,
-                                    size: Sizes.dimen_16.w,
-                                  ),
-                                  Text(
-                                    "اتصل بالمحامى",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .caption!
-                                        .copyWith(color: AppColor.accentColor),
-                                  ),
-                                ],
+                      if (widget.withCallLawyer)
+                        Padding(
+                          padding: EdgeInsets.only(
+                            top: Sizes.dimen_3.h,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              //_navigateToSingleSosScreen();
+                            },
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                    color: AppColor.primaryDarkColor,
+                                    borderRadius: BorderRadius.circular(
+                                        AppUtils.cornerRadius)),
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: Sizes.dimen_10.w),
+                                child: Row(
+                                  children: [
+                                    Icon(
+                                      Icons.call_outlined,
+                                      color: AppColor.accentColor,
+                                      size: Sizes.dimen_16.w,
+                                    ),
+                                    Text(
+                                      "اتصل بالمحامى",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption!
+                                          .copyWith(
+                                              color: AppColor.accentColor),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ],
               ),
             ),
-
-            if(!widget.withCallLawyer)
-            Positioned(
-              top: 0.0,
-              left: Sizes.dimen_10.w,
-              child: GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _isMenuOpened = !_isMenuOpened;
-                  });
-                },
-                child: Text(
-                  "...",
-                  style: TextStyle(
-                      fontSize: Sizes.dimen_20.sp,
-                      color: AppColor.primaryDarkColor,
-                      fontWeight: FontWeight.bold),
-                ),
-              ),
-            ),
-
-            if(!widget.withCallLawyer)
-            if (_isMenuOpened)
+            if (!widget.withCallLawyer)
               Positioned(
-                top: Sizes.dimen_30,
+                top: 0.0,
                 left: Sizes.dimen_10.w,
-                child: Container(
-                  padding: EdgeInsets.all(Sizes.dimen_5.w),
-                  decoration: BoxDecoration(
-                      color: AppColor.white,
-                      border: Border.all(color: AppColor.primaryDarkColor)),
-                  child: Column(
-                    children: [
-                      SosMenuItem(
-                        text: "Option1",
-                        onPressed: () {},
-                      ),
-                      SosMenuItem(
-                        text: "Option2",
-                        onPressed: () {},
-                      ),
-                    ],
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      _isMenuOpened = !_isMenuOpened;
+                    });
+                  },
+                  child: Text(
+                    "...",
+                    style: TextStyle(
+                        fontSize: Sizes.dimen_20.sp,
+                        color: AppColor.primaryDarkColor,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),
+            if (!widget.withCallLawyer)
+              if (_isMenuOpened)
+                Positioned(
+                  top: Sizes.dimen_30,
+                  left: Sizes.dimen_10.w,
+                  child: Container(
+                    padding: EdgeInsets.all(Sizes.dimen_5.w),
+                    decoration: BoxDecoration(
+                        color: AppColor.white,
+                        border: Border.all(color: AppColor.primaryDarkColor)),
+                    child: Column(
+                      children: [
+                        SosMenuItem(
+                          text: "Option1",
+                          onPressed: () {},
+                        ),
+                        SosMenuItem(
+                          text: "حذف الاستغاثة",
+                          onPressed: () => _navigateToDeleteSosScreen(),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
           ]),
         ),
       ),
     );
   }
+
+  /// To navigate to delete sos
+  void _navigateToDeleteSosScreen() => RouteHelper().deleteSos(context,
+      deleteSosArguments: DeleteSosArguments(sosId: widget.sosEntity.id));
 
   /// To navigate to single screen sos
   void _navigateToSingleSosScreen() => RouteHelper().singleSosScreen(context,

@@ -14,5 +14,6 @@ class RouteList{
   static const String mySos = "/mySos";
   static const String singleSos = "/singleSos";
   static const String createSos = "/createSos";
+  static const String deleteSos = "/deleteSos";
 
 }

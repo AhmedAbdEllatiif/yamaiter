@@ -20,6 +20,7 @@ class AppButton extends StatelessWidget {
   final Icon? icon;
   final double? width;
   final double? fontSize;
+  final EdgeInsets? padding;
 
   const AppButton({
     Key? key,
@@ -33,7 +34,7 @@ class AppButton extends StatelessWidget {
     this.isTextButton = false,
     this.withAnimation = false,
      this.textColor = AppColor.white,
-    this.fontSize,
+    this.fontSize, this.padding,
   }) : super(key: key);
 
   @override
@@ -149,7 +150,7 @@ class AppButton extends StatelessWidget {
       ),
       onPressed: onPressed,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
+        padding: padding??EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
