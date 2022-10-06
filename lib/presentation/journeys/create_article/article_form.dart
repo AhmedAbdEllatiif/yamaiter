@@ -273,7 +273,8 @@ class _ArticleFormState extends State<ArticleForm> {
   }
 
   /// to navigate to my articles screen
-  void _navigateToMyArticlesScreen() => RouteHelper().myArticlesScreen(context);
+  void _navigateToMyArticlesScreen() =>
+      RouteHelper().myArticlesScreen(context, isReplacement: true);
 
   /// navigate to login
   void _navigateToLogin() =>

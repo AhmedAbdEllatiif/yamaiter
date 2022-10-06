@@ -123,8 +123,12 @@ class RouteHelper {
   }
 
   /// To create my articles screen \\\
-  void myArticlesScreen(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.myArticles);
+  void myArticlesScreen(BuildContext context, {required bool isReplacement}) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.myArticles);
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myArticles);
+    }
   }
 
   /// To contact us screen \\\
