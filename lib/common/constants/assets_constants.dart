@@ -13,6 +13,14 @@ class AssetsImages {
   static const String personAvatar = '${_baseImages}person_avatar.png';
 
   static const String adSample = '${_baseImages}ad_sample.png';
+
+  static const String publishAdSvg = '${_baseImages}publish_ad_icon.svg';
+
+  static const String newsPaperSvg = '${_baseImages}newspaper.svg';
+
+  static const String documentsSvg = '${_baseImages}documents.svg';
+
+  static const String sosSvg = '${_baseImages}sos.svg';
 }
 
 class AssetsLottie {

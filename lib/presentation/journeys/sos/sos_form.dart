@@ -16,6 +16,7 @@ import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
+import 'package:yamaiter/presentation/widgets/text_field_large_container.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/sizes.dart';
@@ -73,13 +74,15 @@ class _SosFormState extends State<SosForm> {
           physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(
-                horizontal: AppUtils.mainPagesHorizontalPadding.w,
-                vertical: AppUtils.mainPagesVerticalPadding.h),
-            child:
+              horizontal: AppUtils.mainPagesHorizontalPadding.w,
+              vertical: AppUtils.mainPagesVerticalPadding.h,
+            ),
 
-                ///  card
-                Padding(
-              padding: EdgeInsets.only(top: Sizes.dimen_10.h),
+            ///  card
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: Sizes.dimen_10.h,
+              ),
               child: BlocBuilder<CreateSosCubit, CreateSosState>(
                 builder: (context, state) {
                   /// UnAuthorizedCreateSos
@@ -171,16 +174,8 @@ class _SosFormState extends State<SosForm> {
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
 
-              Container(
-                padding: EdgeInsets.symmetric(
-                    vertical: Sizes.dimen_8.h, horizontal: Sizes.dimen_5.w),
-                constraints: BoxConstraints(
-                    minHeight: ScreenUtil.screenHeight * 0.15,
-                    maxHeight: ScreenUtil.screenHeight * 0.30),
-                decoration: BoxDecoration(
-                    color: AppColor.primaryColor,
-                    borderRadius: BorderRadius.circular(AppUtils.cornerRadius)),
-                child: AppTextField(
+              TextFieldLargeContainer(
+                appTextField: AppTextField(
                   controller: descriptionController,
                   label: "اكتب تفاصيل ما تتعرض له للنشر على زملائك",
                   maxLines: 20,

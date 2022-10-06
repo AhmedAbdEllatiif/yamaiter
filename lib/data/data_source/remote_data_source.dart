@@ -8,13 +8,16 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
+import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
+import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
@@ -50,6 +53,9 @@ abstract class RemoteDataSource {
 
   /// get all sos
   Future<dynamic> getAllSos(String userToken);
+
+  /// registerLawyer
+  Future<dynamic> createArticle(CreateArticleParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -318,6 +324,39 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       default:
         return AppError(AppErrorType.api,
             message: "getAllSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// createArticle
+  @override
+  Future createArticle(CreateArticleParams params) async {
+    // init request
+    final createArticleRequest = CreateArticleRequest();
+    final request = await createArticleRequest(params);
+
+    // send a request
+    final streamResponse = await request.send();
+
+    // retrieve a response from stream response
+    final response = await http.Response.fromStream(streamResponse);
+    log("createArticle >> ResponseCode: ${response.statusCode}");
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return SuccessModel();
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "createArticle Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "createArticle Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "createArticle Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

@@ -180,6 +180,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                           //const AppTextField(label: "إرفاق صورة كارنيه النقابة "),
 
                           UploadIdImageWidget(
+                            text: "إرفاق صورة كارنيه النقابة ",
                             onPressed: () {
                               _pickImageCubit.pickSingleImage();
                             },

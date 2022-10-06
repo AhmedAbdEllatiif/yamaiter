@@ -10,6 +10,7 @@ import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
@@ -27,6 +28,7 @@ import '../domain/use_cases/about.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
+import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/create_sos.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
@@ -110,7 +112,12 @@ Future init() async {
 
   //==> GetAllSosCubit
   getItInstance.registerFactory<GetAllSosCubit>(
-        () => GetAllSosCubit(),
+    () => GetAllSosCubit(),
+  );
+
+  //==> CreateArticleCubit
+  getItInstance.registerFactory<CreateArticleCubit>(
+    () => CreateArticleCubit(),
   );
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
@@ -159,12 +166,17 @@ Future init() async {
 
   //==> GetAllSosListCase
   getItInstance.registerFactory<GetAllSosListCase>(
-        () => GetAllSosListCase(remoteRepository: getItInstance()),
+    () => GetAllSosListCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMySosListCase
   getItInstance.registerFactory<GetMySosListCase>(
     () => GetMySosListCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateArticleCase
+  getItInstance.registerFactory<CreateArticleCase>(
+    () => CreateArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

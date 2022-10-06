@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 
 import '../../data/models/success_model.dart';
+import '../../data/params/create_article_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../entities/app_error.dart';
 
@@ -36,13 +37,17 @@ abstract class RemoteRepository {
   /// help
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(String userToken);
 
-
   /// create sos
-  Future<Either<AppError, SuccessModel>> createSos(CreateSosParams createSosParams);
+  Future<Either<AppError, SuccessModel>> createSos(
+      CreateSosParams createSosParams);
 
   /// return a list of current user sos
   Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken);
 
   /// return a list of all  sos
   Future<Either<AppError, List<SosEntity>>> getAllSosList(String userToken);
+
+  /// create article
+  Future<Either<AppError, SuccessModel>> createArticle(
+      CreateArticleParams params);
 }

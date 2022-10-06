@@ -4,14 +4,15 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
-import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 
 class UploadIdImageWidget extends StatelessWidget {
   final Function() onPressed;
+  final String text;
 
-  const UploadIdImageWidget({Key? key, required this.onPressed})
+  const UploadIdImageWidget(
+      {Key? key, required this.onPressed, required this.text})
       : super(key: key);
 
   @override
@@ -35,25 +36,26 @@ class UploadIdImageWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColor.primaryColor,
                     border: Border.all(color: getBorderColor(state)),
-                    borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+                    borderRadius:
+                        BorderRadius.circular(AppUtils.cornerRadius.w),
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_14.w),
 
-                    // row of title and icon
+                    //==> row of title and icon
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       mainAxisSize: MainAxisSize.max,
                       children: [
-                        // text title
-                        const Expanded(
+                        /// text title
+                        Expanded(
                           child: Text(
-                            "إرفاق صورة كارنيه النقابة ",
-                            style: TextStyle(color: AppColor.white),
+                            text,
+                            style: const TextStyle(color: AppColor.white),
                           ),
                         ),
 
-                        // icon with picked image name
+                        /// icon with picked image name
                         Expanded(
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,10 +65,12 @@ class UploadIdImageWidget extends StatelessWidget {
                               getIcon(state),
 
                               //==> text image name
-                              if (state is ImagePicked)
+                              if (state is ImagePicked ||
+                                  state is MultiImagesPicked)
                                 Expanded(
                                   child: Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
                                     child: Text(
                                       getPickedImageName(state),
                                       overflow: TextOverflow.ellipsis,
@@ -93,7 +97,9 @@ class UploadIdImageWidget extends StatelessWidget {
             if (state is NoImageSelected || state is ErrorWhilePickingImage)
               Padding(
                 padding: EdgeInsets.only(
-                    top: Sizes.dimen_2.h, right: Sizes.dimen_10.w,),
+                  top: Sizes.dimen_2.h,
+                  right: Sizes.dimen_10.w,
+                ),
                 child: Text(
                   getErrorText(state),
                   style: Theme.of(context).textTheme.caption!.copyWith(
@@ -107,22 +113,25 @@ class UploadIdImageWidget extends StatelessWidget {
     );
   }
 
-
-  Widget getIcon(PickImageState state){
-    return state is ImagePicked ? Center(
-      child: Icon(
-        getIconData(state),
-        color: getIconColor(state),
-      ),
-    ):Icon(
-      getIconData(state),
-      color: getIconColor(state),
-    );
+  Widget getIcon(PickImageState state) {
+    return state is ImagePicked
+        ? Center(
+            child: Icon(
+              getIconData(state),
+              color: getIconColor(state),
+            ),
+          )
+        : Icon(
+            getIconData(state),
+            color: getIconColor(state),
+          );
   }
 
   /// return icon color
   Color? getIconColor(PickImageState state) =>
-      state is ImagePicked ? AppColor.accentColor : AppColor.white;
+      state is ImagePicked || state is MultiImagesPicked
+          ? AppColor.accentColor
+          : AppColor.white;
 
   /// return the border color
   Color getBorderColor(PickImageState state) =>
@@ -131,12 +140,23 @@ class UploadIdImageWidget extends StatelessWidget {
           : Colors.transparent;
 
   /// return the icon data
-  IconData? getIconData(PickImageState state) =>
-      state is ImagePicked ? Icons.image_outlined : Icons.cloud_upload_outlined;
+  IconData? getIconData(PickImageState state) => state is ImagePicked
+      ? Icons.image_outlined
+      : state is MultiImagesPicked
+          ? Icons.photo_library_outlined
+          : Icons.cloud_upload_outlined;
 
   /// return picked image name
-  String getPickedImageName(PickImageState state) =>
-      state is ImagePicked ? state.image.name : "";
+  String getPickedImageName(PickImageState state) {
+    if (state is ImagePicked) {
+      return state.image.name;
+    }
+    if (state is MultiImagesPicked) {
+      return "${state.selectedImagesPaths.length.toString()} تم اختيارها ";
+    }
+
+    return "";
+  }
 
   ///  return the error text
   String getErrorText(PickImageState state) {

@@ -9,14 +9,7 @@ part 'pick_image_state.dart';
 class PickImageCubit extends Cubit<PickImageState> {
   PickImageCubit() : super(const PickImageInitial());
 
-  void validate() {
-    if (state.imageFile == null) {
-      _emitIfNotClosed(const NoImageSelected());
-    } else {
-      _emitIfNotClosed(ImagePicked(image: state.imageFile!));
-    }
-  }
-
+  /// to pick single image
   void pickSingleImage() async {
     final ImagePicker picker = ImagePicker();
     try {
@@ -34,6 +27,50 @@ class PickImageCubit extends Cubit<PickImageState> {
           appError: AppError(AppErrorType.pickImage, message: "$e"),
         ),
       );
+    }
+  }
+
+  /// to pick multi images
+  void pickMultiImage() async {
+    final ImagePicker picker = ImagePicker();
+    try {
+      final List<XFile>? selectedImages = await picker.pickMultiImage(
+          //maxWidth: maxWidth,
+          //maxHeight: maxHeight,
+          //imageQuality: quality,
+          );
+
+      List<String> strList = [];
+      if (selectedImages != null) {
+        for (var element in selectedImages) {
+          strList.add(element.path);
+        }
+      }
+      _emitIfNotClosed(MultiImagesPicked(selectedImagesPaths: strList));
+    } catch (e) {
+      _emitIfNotClosed(
+        ErrorWhilePickingImage(
+          appError: AppError(AppErrorType.pickImage, message: "$e"),
+        ),
+      );
+    }
+  }
+
+  /// to validate on single image selected
+  void validateOnSingleImage() {
+    if (state.imageFile == null) {
+      _emitIfNotClosed(const NoImageSelected());
+    } else {
+      _emitIfNotClosed(ImagePicked(image: state.imageFile!));
+    }
+  }
+
+  /// to validate on multi images selected
+  void validateOnMultiImages() {
+    if (state.multiImages == null) {
+      _emitIfNotClosed(const NoImageSelected());
+    } else {
+      _emitIfNotClosed(MultiImagesPicked(selectedImagesPaths: state.multiImages!));
     }
   }
 

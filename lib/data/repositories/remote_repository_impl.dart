@@ -4,10 +4,12 @@ import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
@@ -156,7 +158,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// Help
   @override
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(
@@ -181,7 +182,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// createSos
   @override
-  Future<Either<AppError, SuccessModel>> createSos(CreateSosParams createSosParams) async{
+  Future<Either<AppError, SuccessModel>> createSos(
+      CreateSosParams createSosParams) async {
     try {
       // send get help request
       final result = await remoteDataSource.createSos(createSosParams);
@@ -202,7 +204,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// getMySosList
   @override
-  Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken) async{
+  Future<Either<AppError, List<SosEntity>>> getMySosList(
+      String userToken) async {
     try {
       // send get my sos list request
       final result = await remoteDataSource.getMySos(userToken);
@@ -223,7 +226,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// getAllSosList
   @override
-  Future<Either<AppError, List<SosEntity>>> getAllSosList(String userToken) async {
+  Future<Either<AppError, List<SosEntity>>> getAllSosList(
+      String userToken) async {
     try {
       // send get all sos list request
       final result = await remoteDataSource.getAllSos(userToken);
@@ -234,6 +238,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get all sos
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// createArticle
+  @override
+  Future<Either<AppError, SuccessModel>> createArticle(
+      CreateArticleParams params) async {
+    try {
+      // send create article request
+      final result = await remoteDataSource.createArticle(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to create article
       else {
         return Left(result);
       }

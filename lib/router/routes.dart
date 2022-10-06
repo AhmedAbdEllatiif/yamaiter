@@ -16,6 +16,8 @@ import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
+import '../presentation/journeys/create_article/create_article_screen.dart';
+import '../presentation/journeys/drawer/screens/my_articles/my_article_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
 import 'route_list.dart';
@@ -60,6 +62,12 @@ class Routes {
 
         /// add sos
         RouteList.addSos: (context) => const AddSosScreen(),
+
+        /// CreateArticleScreen
+        RouteList.createArticle: (context) => const CreateArticleScreen(),
+
+        /// MyArticlesScreen
+        RouteList.myArticles: (context) => const MyArticlesScreen(),
 
         /// deleteSos
         RouteList.deleteSos: (context) => DeleteSosScreen(

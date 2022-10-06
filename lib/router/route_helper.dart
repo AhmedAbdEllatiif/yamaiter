@@ -103,22 +103,28 @@ class RouteHelper {
   }
 
   /// To my sos screen \\\
-  void mySosScreen(
-    BuildContext context,
-  {bool isReplacement = false}
-  ) {
-    if(isReplacement){
+  void mySosScreen(BuildContext context, {bool isReplacement = false}) {
+    if (isReplacement) {
       Navigator.of(context).pushReplacementNamed(RouteList.mySos);
-    }else{
+    } else {
       Navigator.of(context).pushNamed(RouteList.mySos);
     }
-
   }
 
   /// To single sos screen \\\
   void singleSosScreen(BuildContext context,
       {required SingleScreenArguments arguments}) {
     Navigator.of(context).pushNamed(RouteList.singleSos, arguments: arguments);
+  }
+
+  /// To create article screen \\\
+  void createArticleScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.createArticle);
+  }
+
+  /// To create my articles screen \\\
+  void myArticlesScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.myArticles);
   }
 
   /// To contact us screen \\\

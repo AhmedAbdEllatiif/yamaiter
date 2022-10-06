@@ -1,5 +1,3 @@
-
-
 class ApiConstants {
   static const String _baseUrl = 'http://ya-maitre.herokuapp.com/api';
 
@@ -13,6 +11,7 @@ class ApiConstants {
   static final String _distresses = _baseUrl + EndPoints.distresses;
   static final String _mySosList = _baseUrl + EndPoints.mySosList;
   static final String _allSosList = _baseUrl + EndPoints.allSosList;
+  static final String _createArticle = _baseUrl + EndPoints.createArticle;
 
   static String buildUrl(RequestType requestType) {
     switch (requestType) {
@@ -36,10 +35,15 @@ class ApiConstants {
       // distresses
       case RequestType.distresses:
         return _distresses;
+      // mySosList
       case RequestType.mySosList:
         return _mySosList;
+      // allSosList
       case RequestType.allSosList:
         return _allSosList;
+      // createArticle
+      case RequestType.createArticle:
+        return _createArticle;
     }
   }
 }
@@ -71,6 +75,9 @@ class EndPoints {
 
   /// all sos
   static String allSosList = "/distresses";
+
+  /// createArticle
+  static String createArticle = "/articles";
 }
 
 /// The api request type
@@ -84,4 +91,5 @@ enum RequestType {
   distresses,
   mySosList,
   allSosList,
+  createArticle,
 }
