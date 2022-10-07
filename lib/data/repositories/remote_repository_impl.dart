@@ -4,6 +4,7 @@ import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/article/article_model.dart';
 import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
@@ -11,9 +12,11 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
+import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
@@ -260,6 +263,48 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to create article
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, ArticleEntity>> getSingleArticle(
+      GetSingleArticleParams params) async {
+    try {
+      // send create article request
+      final result = await remoteDataSource.fetchSingleArticleArticle(params);
+
+      // received success
+      if (result is ArticleModel) {
+        return Right(result);
+      }
+
+      // failed to create article
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<ArticleEntity>>> getMyArticles(
+      String params) async {
+    try {
+      // send fetch my articles request
+      final result = await remoteDataSource.fetchMyArticles(params);
+
+      // received success
+      if (result is List<ArticleModel>) {
+        return Right(result);
+      }
+
+      // failed to fetch my  articles
       else {
         return Left(result);
       }

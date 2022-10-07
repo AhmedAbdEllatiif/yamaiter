@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/presentation/journeys/article/single_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
@@ -17,7 +19,7 @@ import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../presentation/journeys/create_article/create_article_screen.dart';
-import '../presentation/journeys/drawer/screens/my_articles/my_article_screen.dart';
+import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
 import 'route_list.dart';
@@ -68,6 +70,11 @@ class Routes {
 
         /// MyArticlesScreen
         RouteList.myArticles: (context) => const MyArticlesScreen(),
+
+        /// MyArticlesScreen
+        RouteList.singleArticle: (context) => SingleArticleScreen(
+            singleArticleArguments:
+                settings.arguments as SingleArticleArguments),
 
         /// deleteSos
         RouteList.deleteSos: (context) => DeleteSosScreen(

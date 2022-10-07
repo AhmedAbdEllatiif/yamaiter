@@ -6,9 +6,9 @@ import '../../constants.dart';
 
 class GetTermsAndConditionsRequest extends GetRequest<String> {
   @override
-  Future<http.Response> call(String userToken) async {
+  Future<http.Response> call(String params) async {
     var response = await initGetRequest(
-        requestType: RequestType.termsAndConditions, token: userToken);
+        requestType: RequestType.termsAndConditions, token: params);
     return response;
   }
 }

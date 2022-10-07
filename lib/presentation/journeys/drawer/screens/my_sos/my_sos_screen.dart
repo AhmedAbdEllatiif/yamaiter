@@ -17,6 +17,7 @@ import '../../../../../common/constants/sizes.dart';
 import '../../../../../domain/entities/data/ad_entity.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../widgets/ads_list/ads_list_view.dart';
+import '../../../../widgets/title_with_add_new_item.dart';
 
 class MySosScreen extends StatefulWidget {
   const MySosScreen({Key? key}) : super(key: key);
@@ -66,132 +67,110 @@ class _MySosScreenState extends State<MySosScreen> {
                 ],
               ),
 
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: Sizes.dimen_16.h),
-                child: Column(
-                  children: [
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.only(top: Sizes.dimen_16.h),
+                  child: Column(
+                    children: [
 
-                    /// title with add new sos
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const AppContentTitleWidget(
-                          title: "نداءات الاستغاثة",
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(1.5),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppColor.primaryDarkColor)
-                              ),
-                              child: Icon(
-                                Icons.add,
-                                color: AppColor.primaryDarkColor,
-                                size: Sizes.dimen_12.w,
-                              ),
-                            ),
+                      /// title with add new sos
+                      TitleWithAddNewItem(
+                        title: "نداءات الاستغاثة",
+                        addText: "اضف نداء استغاثة",
+                        onAddPressed: ()=>_navigateAddSos(),
+                      ),
 
-                            GestureDetector(
-                              onTap: ()=>_navigateAddSos(),
-                              child: Padding(
-                                padding:  EdgeInsets.symmetric(horizontal: Sizes.dimen_5.w),
-                                child: Text("اضف نداء استغاثة",
-                                style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                  color: AppColor.primaryDarkColor
-                                ),),
-                              ),
-                            )
-                          ],
-                        )
-                      ],
-                    ),
-
-                    /// list of my sos
-                    Padding(
-                      padding:  EdgeInsets.only(top: Sizes.dimen_10.h),
-                      child: BlocBuilder<GetMySosCubit, GetMySosState>(
-                          builder: (_, state) {
-                        //==> loading
-                        if (state is LoadingGetMySosList) {
-                          return const Center(
-                            child: LoadingWidget(),
-                          );
-                        }
-
-                        //==> unAuthorized
-                        if (state is UnAuthorizedGetMySosList) {
-                          return Center(
-                            child: AppErrorWidget(
-                              appTypeError: AppErrorType.unauthorizedUser,
-                              buttonText: "تسجيل الدخول",
-                              onPressedRetry: () => _navigateToLogin(),
-                            ),
-                          );
-                        }
-
-                        //==> notActivatedUser
-                        if (state is NotActivatedUserToGetMySosList) {
-                          return Center(
-                            child: AppErrorWidget(
-                              appTypeError: AppErrorType.notActivatedUser,
-                              buttonText: "تواصل معنا",
-                              onPressedRetry: () => _navigateToContactUs(),
-                            ),
-                          );
-                        }
-
-                        //==> notActivatedUser
-                        if (state is ErrorWhileGettingMySosList) {
-                          return Center(
-                            child: AppErrorWidget(
-                              appTypeError: state.appError.appErrorType,
-                              onPressedRetry: () => _fetchMySosList(),
-                            ),
-                          );
-                        }
-
-                        //==> fetched
-                        if (state is MySosListFetchedSuccessfully) {
-                          final fetchedList = state.sosEntityList;
-                          return ListView.separated(
-                            physics: const BouncingScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: fetchedList.length,
-                            separatorBuilder: (context, index) => SizedBox(
-                              height: Sizes.dimen_2.h,
-                            ),
-                            itemBuilder: (context, index) {
-                              return SosItem(sosEntity: fetchedList[index],withCallLawyer: false,);
-                            },
-                          );
-                        }
-
-                        /* return ListView.separated(
+                      /// list of my sos
+                      Expanded(
+                        child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
-                          shrinkWrap: true,
-                          itemCount: 2,
-                          separatorBuilder: (context, index) => SizedBox(
-                            height: Sizes.dimen_2.h,
+                          child: Padding(
+                            padding:  EdgeInsets.only(top: Sizes.dimen_10.h),
+                            child: BlocBuilder<GetMySosCubit, GetMySosState>(
+                                builder: (_, state) {
+                              //==> loading
+                              if (state is LoadingGetMySosList) {
+                                return const Center(
+                                  child: LoadingWidget(),
+                                );
+                              }
+
+                              //==> unAuthorized
+                              if (state is UnAuthorizedGetMySosList) {
+                                return Center(
+                                  child: AppErrorWidget(
+                                    appTypeError: AppErrorType.unauthorizedUser,
+                                    buttonText: "تسجيل الدخول",
+                                    onPressedRetry: () => _navigateToLogin(),
+                                  ),
+                                );
+                              }
+
+                              //==> notActivatedUser
+                              if (state is NotActivatedUserToGetMySosList) {
+                                return Center(
+                                  child: AppErrorWidget(
+                                    appTypeError: AppErrorType.notActivatedUser,
+                                    buttonText: "تواصل معنا",
+                                    onPressedRetry: () => _navigateToContactUs(),
+                                  ),
+                                );
+                              }
+
+                              //==> notActivatedUser
+                              if (state is ErrorWhileGettingMySosList) {
+                                return Center(
+                                  child: AppErrorWidget(
+                                    appTypeError: state.appError.appErrorType,
+                                    onPressedRetry: () => _fetchMySosList(),
+                                  ),
+                                );
+                              }
+
+                              //==> fetched
+                              if (state is MySosListFetchedSuccessfully) {
+                                final fetchedList = state.sosEntityList;
+                                return ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: fetchedList.length,
+                                  separatorBuilder: (context, index) => SizedBox(
+                                    height: Sizes.dimen_2.h,
+                                  ),
+                                  itemBuilder: (context, index) {
+                                    return SosItem(sosEntity: fetchedList[index],withCallLawyer: false,);
+                                  },
+                                );
+                              }
+
+                              /* return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: 2,
+                                separatorBuilder: (context, index) => SizedBox(
+                                  height: Sizes.dimen_2.h,
+                                ),
+                                itemBuilder: (context, index) {
+                                  return const SosItem(sosEntity: SosEntity(
+                                    id: 0,
+                                    title: "This is title",
+                                    description: "This is Description",
+                                    creatorName: "Ahmed Mohammed",
+                                    creatorPhoneNum: "01124466700",
+                                    creatorRating: 4,
+                                    governorate: "Cairo",
+                                    createdAt: "29-08-2022"
+                                  ));
+                                },
+                              );*/
+                              //==> other
+                              return const SizedBox.shrink();
+                            }),
                           ),
-                          itemBuilder: (context, index) {
-                            return const SosItem(sosEntity: SosEntity(
-                              id: 0,
-                              title: "This is title",
-                              description: "This is Description",
-                              creatorName: "Ahmed Mohammed",
-                              creatorPhoneNum: "01124466700",
-                              creatorRating: 4,
-                              governorate: "Cairo",
-                              createdAt: "29-08-2022"
-                            ));
-                          },
-                        );*/
-                        //==> other
-                        return const SizedBox.shrink();
-                      }),
-                    ),
-                  ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

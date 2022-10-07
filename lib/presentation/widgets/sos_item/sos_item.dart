@@ -5,7 +5,7 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
-import 'package:yamaiter/presentation/widgets/sos_item/sos_menu_item.dart';
+import 'package:yamaiter/presentation/widgets/card_menu_item.dart';
 
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
@@ -228,11 +228,11 @@ class _SosItemState extends State<SosItem> {
                         border: Border.all(color: AppColor.primaryDarkColor)),
                     child: Column(
                       children: [
-                        SosMenuItem(
+                        CardMenuItem(
                           text: "Option1",
                           onPressed: () {},
                         ),
-                        SosMenuItem(
+                        CardMenuItem(
                           text: "حذف الاستغاثة",
                           onPressed: () => _navigateToDeleteSosScreen(),
                         ),

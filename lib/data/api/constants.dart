@@ -1,6 +1,8 @@
 class ApiConstants {
   static const String _baseUrl = 'http://ya-maitre.herokuapp.com/api';
 
+  static const String mediaUrl = 'https://ya-maitre.herokuapp.com/uploads/';
+
   static final String _loginUrl = _baseUrl + EndPoints.login;
   static final String _registerUrl = _baseUrl + EndPoints.registerLawyer;
   static final String _about = _baseUrl + EndPoints.about;
@@ -11,9 +13,11 @@ class ApiConstants {
   static final String _distresses = _baseUrl + EndPoints.distresses;
   static final String _mySosList = _baseUrl + EndPoints.mySosList;
   static final String _allSosList = _baseUrl + EndPoints.allSosList;
-  static final String _createArticle = _baseUrl + EndPoints.createArticle;
+  static final String _createArticle = _baseUrl + EndPoints.articles;
+  static final String _singleArticle = _baseUrl + EndPoints.articles;
+  static final String _myArticles = _baseUrl + EndPoints.myArticles;
 
-  static String buildUrl(RequestType requestType) {
+  static String buildUrl(RequestType requestType, {String id = ""}) {
     switch (requestType) {
       // login
       case RequestType.login:
@@ -44,6 +48,12 @@ class ApiConstants {
       // createArticle
       case RequestType.createArticle:
         return _createArticle;
+      // single article
+      case RequestType.singleArticle:
+        return "$_singleArticle/$id";
+      // myArticles
+      case RequestType.myArticles:
+        return _myArticles;
     }
   }
 }
@@ -77,7 +87,10 @@ class EndPoints {
   static String allSosList = "/distresses";
 
   /// createArticle
-  static String createArticle = "/articles";
+  static String articles = "/articles";
+
+  /// myArticles
+  static String myArticles = "/my-articles";
 }
 
 /// The api request type
@@ -92,4 +105,6 @@ enum RequestType {
   mySosList,
   allSosList,
   createArticle,
+  singleArticle,
+  myArticles,
 }

@@ -15,6 +15,8 @@ import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
@@ -29,8 +31,11 @@ import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../domain/use_cases/article/create_article.dart';
+import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/create_sos.dart';
+import '../domain/use_cases/get_single_article.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
+import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import '../presentation/logic/cubit/login/login_cubit.dart';
 import '../presentation/logic/cubit/pick_images/pick_image_cubit.dart';
@@ -119,6 +124,17 @@ Future init() async {
   getItInstance.registerFactory<CreateArticleCubit>(
     () => CreateArticleCubit(),
   );
+
+  //==> MyArticlesCubit
+  getItInstance.registerFactory<MyArticlesCubit>(
+    () => MyArticlesCubit(),
+  );
+
+  //==> GetSingleArticleCubit
+  getItInstance.registerFactory<GetSingleArticleCubit>(
+    () => GetSingleArticleCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -177,6 +193,16 @@ Future init() async {
   //==> CreateArticleCase
   getItInstance.registerFactory<CreateArticleCase>(
     () => CreateArticleCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetSingleArticleCase
+  getItInstance.registerFactory<GetSingleArticleCase>(
+    () => GetSingleArticleCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetMyArticlesCase
+  getItInstance.registerFactory<GetMyArticlesCase>(
+    () => GetMyArticlesCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-import '../../themes/theme_color.dart';
+import '../themes/theme_color.dart';
 
-class SosMenuItem extends StatelessWidget {
+class CardMenuItem extends StatelessWidget {
   final String text;
   final Function() onPressed;
-  const SosMenuItem({Key? key, required this.text, required this.onPressed}) : super(key: key);
+  const CardMenuItem({Key? key, required this.text, required this.onPressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

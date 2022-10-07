@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
@@ -128,6 +130,18 @@ class RouteHelper {
       Navigator.of(context).pushReplacementNamed(RouteList.myArticles);
     } else {
       Navigator.of(context).pushNamed(RouteList.myArticles);
+    }
+  }
+
+  /// To single article screen \\\
+  void singleArticleScreen(BuildContext context,
+      {required int articleId,  bool isReplacement= false}) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.singleArticle,
+          arguments: SingleArticleArguments(articleId: articleId));
+    } else {
+      Navigator.of(context).pushNamed(RouteList.singleArticle,
+          arguments: SingleArticleArguments(articleId: articleId));
     }
   }
 

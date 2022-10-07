@@ -1,9 +1,13 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
+import '../../common/constants/assets_constants.dart';
 import '../../common/constants/sizes.dart';
 import '../themes/theme_color.dart';
+import 'cached_image_widget.dart';
 
 class ImageNameRatingWidget extends StatelessWidget {
   final String imgUrl;
@@ -49,10 +53,14 @@ class ImageNameRatingWidget extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: onPressed,
-            child: CircleAvatar(
-              minRadius: minImageSize.w,
-              maxRadius: maxImageSize.w,
-              backgroundImage: AssetImage(imgUrl),
+            child: CachedImageWidget(
+              imageUrl: imgUrl == AppUtils.undefined
+                  ? AssetsImages.personAvatar
+                  : imgUrl,
+              isCircle: true,
+              height: maxImageSize.w,
+              width: maxImageSize.w,
+              progressBarScale: 0.5,
             ),
           ),
           Text(

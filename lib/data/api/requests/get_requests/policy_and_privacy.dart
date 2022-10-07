@@ -6,9 +6,9 @@ import '../../constants.dart';
 
 class GetPrivacyRequest extends GetRequest<String> {
   @override
-  Future<http.Response> call(String userToken) async {
+  Future<http.Response> call(String params) async {
     var response = await initGetRequest(
-        requestType: RequestType.privacyAndPolicy, token: userToken);
+        requestType: RequestType.privacyAndPolicy, token: params);
     return response;
   }
 }

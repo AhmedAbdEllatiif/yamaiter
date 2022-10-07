@@ -48,9 +48,9 @@ Future<http.Response> initRawPostRequest(
 
 /// return a get response
 Future<http.Response> initGetRequest(
-    {required RequestType requestType, required String token}) async {
+    {required RequestType requestType, required String token,String id = ""}) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(requestType);
+  final url = ApiConstants.buildUrl(requestType,id: id);
 
   // build post request
   final response = await http.get(Uri.parse(url), headers: {

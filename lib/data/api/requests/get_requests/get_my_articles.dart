@@ -4,11 +4,11 @@ import 'package:yamaiter/data/api/requests/get_request.dart';
 
 import '../../constants.dart';
 
-class GetAboutRequest extends GetRequest<String> {
+class GetMyArticlesRequest extends GetRequest<String> {
   @override
   Future<http.Response> call(String params) async {
-    var response =
-        await initGetRequest(requestType: RequestType.about, token: params);
+    var response = await initGetRequest(
+        requestType: RequestType.myArticles, token: params);
     return response;
   }
 }

@@ -6,9 +6,9 @@ import '../../constants.dart';
 
 class GetMySosRequest extends GetRequest<String> {
   @override
-  Future<http.Response> call(String userToken) async {
+  Future<http.Response> call(String params) async {
     var response = await initGetRequest(
-        requestType: RequestType.mySosList, token: userToken);
+        requestType: RequestType.mySosList, token: params);
     return response;
   }
 }

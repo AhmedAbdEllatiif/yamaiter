@@ -3,6 +3,7 @@ import 'package:yamaiter/data/models/app_settings_models/help_response_model.dar
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
@@ -12,6 +13,7 @@ import '../../data/models/success_model.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../entities/app_error.dart';
+import '../entities/data/article_entity.dart';
 
 abstract class RemoteRepository {
   /// login
@@ -50,4 +52,12 @@ abstract class RemoteRepository {
   /// create article
   Future<Either<AppError, SuccessModel>> createArticle(
       CreateArticleParams params);
+
+  /// get single article
+  Future<Either<AppError, ArticleEntity>> getSingleArticle(
+      GetSingleArticleParams params);
+
+  /// get my articles
+  Future<Either<AppError, List<ArticleEntity>>> getMyArticles(
+      String params);
 }

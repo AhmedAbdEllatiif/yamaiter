@@ -31,6 +31,8 @@ class UserLawyerModel {
   final String profileImage;
   final bool status;
 
+
+
   factory UserLawyerModel.empty() =>
       UserLawyerModel(id: -1,
           rating: -1,

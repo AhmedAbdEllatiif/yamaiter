@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
@@ -19,9 +20,12 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/get_single_article_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
+import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/sos/sos_model.dart';
@@ -54,8 +58,14 @@ abstract class RemoteDataSource {
   /// get all sos
   Future<dynamic> getAllSos(String userToken);
 
-  /// registerLawyer
+  /// createArticle
   Future<dynamic> createArticle(CreateArticleParams params);
+
+  /// fetchSingleArticleArticle
+  Future<dynamic> fetchSingleArticleArticle(GetSingleArticleParams params);
+
+  /// fetchSingleArticleArticle
+  Future<dynamic> fetchMyArticles(String userToken);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -306,7 +316,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // response
     final response = await allSosRequest(userToken);
 
-    log("getAllSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+    log("getAllSos >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
       // success
@@ -341,6 +351,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // retrieve a response from stream response
     final response = await http.Response.fromStream(streamResponse);
     log("createArticle >> ResponseCode: ${response.statusCode}");
+    log("createArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
     switch (response.statusCode) {
       // success
       case 200:
@@ -355,8 +366,76 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             message: "createArticle Status Code >> ${response.statusCode}");
       // default
       default:
+        log("createArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "createArticle Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  @override
+  Future fetchSingleArticleArticle(GetSingleArticleParams params) async {
+    log("fetchSingleArticleArticle >> Start request");
+    // init request
+    final getRequest = GetSingleArticleRequest();
+
+    // response
+    final response = await getRequest(params);
+
+    log("fetchSingleArticleArticle >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return articleModelFromJson(response.body);
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message:
+                "fetchSingleArticleArticle Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message:
+                "fetchSingleArticleArticle Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message:
+                "fetchSingleArticleArticle Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  @override
+  Future fetchMyArticles(String userToken) async {
+    log("fetchMyArticles >> Start request");
+    // init request
+    final getRequest = GetMyArticlesRequest();
+
+    // response
+    final response = await getRequest(userToken);
+
+    log("fetchMyArticles >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return myArticlesFromJson(response.body);
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "fetchMyArticles Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "fetchMyArticles Status Code >> ${response.statusCode}");
+      // default
+      default:
+        log("fetchMyArticles >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message:
+                "fetchSingleArticleArticle Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

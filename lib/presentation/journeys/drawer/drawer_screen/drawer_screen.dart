@@ -111,6 +111,9 @@ class DrawerScreen extends StatelessWidget {
     );
   }
 
+  void _navigateMyArticlesScreen(BuildContext context) =>
+      RouteHelper().myArticlesScreen(context,isReplacement: false);
+  
   void _navigateToHelpScreen(BuildContext context) =>
       RouteHelper().helpScreen(context);
 
@@ -151,7 +154,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.list_alt_outlined,
           title: "منشوراتى",
-          onPressed: () {},
+          onPressed: () => _navigateMyArticlesScreen(context),
         ),
         DrawerItem(
           iconData: Icons.surround_sound_outlined,

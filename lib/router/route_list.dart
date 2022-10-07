@@ -18,5 +18,6 @@ class RouteList{
   static const String addSos = "/addSos";
   static const String createArticle = "/createArticle";
   static const String myArticles = "/myArticles";
+  static const String singleArticle = "/singleArticle";
 
 }
