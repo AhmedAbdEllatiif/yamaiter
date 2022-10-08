@@ -132,7 +132,9 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                       final articleEntity = state.articleEntity;
                       return ScrollableAppCard(
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
@@ -167,8 +169,8 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                                                 .textTheme
                                                 .caption!
                                                 .copyWith(
-                                                    color:
-                                                        AppColor.accentColor),
+                                                  color: AppColor.accentColor,
+                                                ),
                                           ),
                                         ],
                                       )
@@ -180,7 +182,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                                 ImageNameRatingWidget(
                                   name: articleEntity.authorName,
                                   imgUrl: AssetsImages.personAvatar,
-                                  rating: 3,
+                                  rating: 4,
                                   unRatedColor:
                                       AppColor.primaryColor.withOpacity(0.6),
                                   withRow: false,
@@ -199,8 +201,21 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                             /// Space
                             SizedBox(height: Sizes.dimen_12.h),
 
+                            /// image slider
                             ArticleImageSliderWidget(
                               images: state.articleEntity.images,
+                            ),
+
+                            /// Space
+                            SizedBox(height: Sizes.dimen_10.h),
+
+                            /// description
+                            Text(
+                              articleEntity.description,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(color: Colors.black, height: 1.4),
                             ),
                           ],
                         ),

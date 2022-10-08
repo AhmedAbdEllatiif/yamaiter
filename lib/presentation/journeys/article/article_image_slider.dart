@@ -21,7 +21,7 @@ class ArticleImageSliderWidget extends StatelessWidget {
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,
         initialPage: 0,
-        enableInfiniteScroll: true,
+        enableInfiniteScroll: false,
         reverse: false,
         // autoPlay: true,
         // autoPlayInterval: Duration(seconds: 5),

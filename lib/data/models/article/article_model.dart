@@ -13,7 +13,7 @@ List<ArticleModel> myArticlesFromJson(String str) {
     });
   }
 
-  return articleModels;
+  return articleModels.reversed.toList();
 }
 
 ArticleModel articleModelFromJson(String str) =>

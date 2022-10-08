@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
-import 'package:yamaiter/presentation/journeys/article/single_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
@@ -17,8 +17,12 @@ import 'package:yamaiter/presentation/journeys/reigster_lawyer/register_lawyer_s
 import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
+import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
-import '../presentation/journeys/create_article/create_article_screen.dart';
+import '../presentation/journeys/article/create_article/add_article.dart';
+import '../presentation/journeys/article/create_article/create_article_screen.dart';
+import '../presentation/journeys/article/delete_article.dart';
+import '../presentation/journeys/article/single_article_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
@@ -76,9 +80,19 @@ class Routes {
             singleArticleArguments:
                 settings.arguments as SingleArticleArguments),
 
+        /// AddArticleScreen
+        RouteList.addArticle: (context) => AddArticleScreen(
+              addArticleArguments: settings.arguments as AddArticleArguments,
+            ),
+
         /// deleteSos
         RouteList.deleteSos: (context) => DeleteSosScreen(
             deleteSosArguments: settings.arguments as DeleteSosArguments),
+
+        /// deleteSos
+        RouteList.deleteArticle: (context) => DeleteArticleScreen(
+            deleteArticleArguments:
+                settings.arguments as DeleteArticleArguments),
 
         /// single sos
         RouteList.singleSos: (context) => SingleSosScreen(

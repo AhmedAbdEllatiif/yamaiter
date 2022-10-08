@@ -59,5 +59,23 @@ Future<http.Response> initGetRequest(
   });
 
 
+
+  return response;
+}
+
+
+/// return a delete response
+Future<http.Response> initDeleteRequest(
+    {required RequestType requestType, required String token,String id = ""}) async {
+  // build url according to request type
+  final url = ApiConstants.buildUrl(requestType,id: id);
+
+  // build post request
+  final response = await http.delete(Uri.parse(url), headers: {
+    "Accept": "application/json",
+    "Authorization": "Bearer $token",
+  });
+
+
   return response;
 }

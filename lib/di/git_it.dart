@@ -33,7 +33,9 @@ import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/create_sos.dart';
+import '../domain/use_cases/delete_article.dart';
 import '../domain/use_cases/get_single_article.dart';
+import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
@@ -135,6 +137,11 @@ Future init() async {
     () => GetSingleArticleCubit(),
   );
 
+  //==> DeleteArticleCubit
+  getItInstance.registerFactory<DeleteArticleCubit>(
+    () => DeleteArticleCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -203,6 +210,11 @@ Future init() async {
   //==> GetMyArticlesCase
   getItInstance.registerFactory<GetMyArticlesCase>(
     () => GetMyArticlesCase(remoteRepository: getItInstance()),
+  );
+
+  //==> DeleteArticleCase
+  getItInstance.registerFactory<DeleteArticleCase>(
+    () => DeleteArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

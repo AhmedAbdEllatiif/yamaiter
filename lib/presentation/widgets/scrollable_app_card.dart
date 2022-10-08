@@ -7,8 +7,7 @@ import '../../common/screen_utils/screen_util.dart';
 class ScrollableAppCard extends StatelessWidget {
   final Widget child;
 
-  const ScrollableAppCard({Key? key, required this.child})
-      : super(key: key);
+  const ScrollableAppCard({Key? key, required this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,8 @@ class ScrollableAppCard extends StatelessWidget {
                     Sizes.dimen_120.h),
           ),
           child: Scrollbar(
-            child: SingleChildScrollView(child: child),
+            child: SingleChildScrollView(
+                physics: const BouncingScrollPhysics(), child: child),
           ),
         ),
       ),

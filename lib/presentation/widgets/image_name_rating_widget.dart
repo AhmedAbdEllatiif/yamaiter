@@ -12,7 +12,7 @@ import 'cached_image_widget.dart';
 class ImageNameRatingWidget extends StatelessWidget {
   final String imgUrl;
   final String name;
-  final int rating;
+  final double rating;
   final double? nameSize;
   final Function() onPressed;
   final double minImageSize;
@@ -71,8 +71,8 @@ class ImageNameRatingWidget extends StatelessWidget {
                 .copyWith(color: nameColor, fontSize: nameSize),
           ),
           RatingBar.builder(
-            initialRating: 3,
-            minRating: 1,
+            initialRating: rating,
+            minRating:0,
             itemSize: iconRateSize.w,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -119,8 +119,8 @@ class ImageNameRatingWidget extends StatelessWidget {
                     .copyWith(color: nameColor),
               ),
               RatingBar.builder(
-                initialRating: 3,
-                minRating: 1,
+                initialRating: rating,
+                minRating: 0,
                 itemSize: Sizes.dimen_16.w,
                 direction: Axis.horizontal,
                 allowHalfRating: true,

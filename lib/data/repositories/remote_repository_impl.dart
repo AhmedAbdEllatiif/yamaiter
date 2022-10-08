@@ -12,6 +12,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
@@ -305,6 +306,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to fetch my  articles
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// deleteArticle
+  @override
+  Future<Either<AppError, SuccessModel>> deleteArticle(
+      DeleteArticleParams deleteArticleParams) async {
+    try {
+      // send delete article request
+      final result = await remoteDataSource.deleteArticle(deleteArticleParams);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to delete article
       else {
         return Left(result);
       }

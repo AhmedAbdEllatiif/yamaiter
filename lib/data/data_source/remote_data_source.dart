@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
@@ -20,6 +21,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 
 import '../../domain/entities/app_error.dart';
@@ -66,6 +68,9 @@ abstract class RemoteDataSource {
 
   /// fetchSingleArticleArticle
   Future<dynamic> fetchMyArticles(String userToken);
+
+  /// delete article
+  Future<dynamic> deleteArticle(DeleteArticleParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -416,7 +421,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     // response
     final response = await getRequest(userToken);
 
-    log("fetchMyArticles >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+    log("fetchMyArticles >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
       // success
@@ -434,8 +439,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       default:
         log("fetchMyArticles >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
-            message:
-                "fetchSingleArticleArticle Status Code >> ${response.statusCode}"
+            message: "fetchMyArticles Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// DeleteArticleParams
+  @override
+  Future deleteArticle(DeleteArticleParams params) async {
+    log("deleteArticle >> Start request");
+    // init request
+    final deleteRequest = DeleteArticleRequest();
+
+    // response
+    final response = await deleteRequest(params);
+
+    log("deleteArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return SuccessModel();
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "deleteArticle Status Code >> ${response.statusCode}");
+      // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "deleteArticle Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "deleteArticle Status Code >> ${response.statusCode}");
+      // default
+      default:
+        log("deleteArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "deleteArticle Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

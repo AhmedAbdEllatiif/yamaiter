@@ -6,25 +6,32 @@ import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/sizes.dart';
-import '../../../common/enum/app_error_type.dart';
-import '../../../common/functions/common_functions.dart';
-import '../../logic/cubit/pick_images/pick_image_cubit.dart';
-import '../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../themes/theme_color.dart';
-import '../../widgets/app_button.dart';
-import '../../widgets/app_content_title_widget.dart';
-import '../../widgets/app_error_widget.dart';
-import '../../widgets/loading_widget.dart';
-import '../../widgets/scrollable_app_card.dart';
-import '../../widgets/text_field_large_container.dart';
-import '../reigster_lawyer/upload_id_image.dart';
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/sizes.dart';
+import '../../../../common/enum/app_error_type.dart';
+import '../../../../common/functions/common_functions.dart';
+import '../../../logic/cubit/pick_images/pick_image_cubit.dart';
+import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../themes/theme_color.dart';
+import '../../../widgets/app_button.dart';
+import '../../../widgets/app_content_title_widget.dart';
+import '../../../widgets/app_error_widget.dart';
+import '../../../widgets/loading_widget.dart';
+import '../../../widgets/scrollable_app_card.dart';
+import '../../../widgets/text_field_large_container.dart';
+import '../../reigster_lawyer/upload_id_image.dart';
 
 class ArticleForm extends StatefulWidget {
   final bool withWithCard;
+  final Function() onSuccess;
+  final CreateArticleCubit? createArticleCubit;
 
-  const ArticleForm({Key? key, this.withWithCard = true}) : super(key: key);
+  const ArticleForm({
+    Key? key,
+    this.withWithCard = true,
+    required this.onSuccess,
+    this.createArticleCubit,
+  }) : super(key: key);
 
   @override
   State<ArticleForm> createState() => _ArticleFormState();
@@ -47,13 +54,19 @@ class _ArticleFormState extends State<ArticleForm> {
   void initState() {
     super.initState();
     _pickImageCubit = getItInstance<PickImageCubit>();
-    _createArticleCubit = getItInstance<CreateArticleCubit>();
+    _createArticleCubit =
+        widget.createArticleCubit ?? getItInstance<CreateArticleCubit>();
   }
 
   @override
   void dispose() {
     _pickImageCubit.close();
-    _createArticleCubit.close();
+
+    /// to close if the cubit init by the form state
+    if(widget.createArticleCubit ==null){
+      _createArticleCubit.close();
+    }
+
     super.dispose();
   }
 
@@ -147,64 +160,68 @@ class _ArticleFormState extends State<ArticleForm> {
   }
 
   Widget _form(CreateArticleState state) {
-    return Column(
-      crossAxisAlignment: widget.withWithCard
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
-      children: [
-        /// title
-        AppContentTitleWidget(
-          title: "اضف منشور",
-          textColor:
-              widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
-        ),
-
-        //==> space
-        SizedBox(height: Sizes.dimen_8.h),
-
-        /// form
-        Form(
-          key: _formKey,
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            //spacing: 20, // to apply margin in the main axis of the wrap
-            runSpacing: Sizes.dimen_4.h,
-            children: [
-              /// article title
-              AppTextField(
-                controller: titleController,
-                label: "ضع عنوان المنشور هنا",
-              ),
-
-              /// upload images
-              UploadIdImageWidget(
-                text: "ارفق صور المنشور",
-                onPressed: () => _pickImageCubit.pickMultiImage(),
-              ),
-
-              TextFieldLargeContainer(
-                appTextField: AppTextField(
-                  controller: descriptionController,
-                  label: "اكتب ما تفكر به هنا",
-                  maxLines: 20,
-                  validateOnSubmit: true,
-                  withFocusedBorder: false,
-                  textInputType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                ),
-              ),
-            ],
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: widget.withWithCard
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: [
+          /// title
+          AppContentTitleWidget(
+            title: "اضافة منشور",
+            textColor: widget.withWithCard
+                ? AppColor.primaryDarkColor
+                : AppColor.accentColor,
           ),
-        ),
 
-        //==> space
-        SizedBox(height: Sizes.dimen_5.h),
+          //==> space
+          SizedBox(height: Sizes.dimen_8.h),
 
-        _switchLoadingAndButton(state),
+          /// form
+          Form(
+            key: _formKey,
+            child: Wrap(
+              alignment: WrapAlignment.center,
+              //spacing: 20, // to apply margin in the main axis of the wrap
+              runSpacing: Sizes.dimen_4.h,
+              children: [
+                /// article title
+                AppTextField(
+                  controller: titleController,
+                  label: "ضع عنوان المنشور هنا",
+                ),
 
-        //==> space
-        SizedBox(height: Sizes.dimen_20.h),
-      ],
+                /// upload images
+                UploadIdImageWidget(
+                  text: "ارفق صور المنشور",
+                  onPressed: () => _pickImageCubit.pickMultiImage(),
+                ),
+
+                TextFieldLargeContainer(
+                  appTextField: AppTextField(
+                    controller: descriptionController,
+                    label: "اكتب ما تفكر به هنا",
+                    maxLines: 20,
+                    validateOnSubmit: true,
+                    withFocusedBorder: false,
+                    textInputType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_5.h),
+
+          _switchLoadingAndButton(state),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_20.h),
+        ],
+      ),
     );
   }
 
@@ -273,8 +290,9 @@ class _ArticleFormState extends State<ArticleForm> {
   }
 
   /// to navigate to my articles screen
-  void _navigateToMyArticlesScreen() =>
-      RouteHelper().myArticlesScreen(context, isReplacement: true);
+  void _navigateToMyArticlesScreen() {
+    widget.onSuccess();
+  }
 
   /// navigate to login
   void _navigateToLogin() =>

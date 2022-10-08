@@ -16,6 +16,7 @@ class ApiConstants {
   static final String _createArticle = _baseUrl + EndPoints.articles;
   static final String _singleArticle = _baseUrl + EndPoints.articles;
   static final String _myArticles = _baseUrl + EndPoints.myArticles;
+  static final String _deleteArticle = _baseUrl + EndPoints.deleteArticle;
 
   static String buildUrl(RequestType requestType, {String id = ""}) {
     switch (requestType) {
@@ -54,6 +55,9 @@ class ApiConstants {
       // myArticles
       case RequestType.myArticles:
         return _myArticles;
+      // delete article
+      case RequestType.deleteArticle:
+        return "$_deleteArticle/$id";
     }
   }
 }
@@ -91,6 +95,9 @@ class EndPoints {
 
   /// myArticles
   static String myArticles = "/my-articles";
+
+  /// deleteArticle
+  static String deleteArticle = "/articles";
 }
 
 /// The api request type
@@ -107,4 +114,5 @@ enum RequestType {
   createArticle,
   singleArticle,
   myArticles,
+  deleteArticle,
 }

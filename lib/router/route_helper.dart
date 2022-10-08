@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
+import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
 
 class RouteHelper {
@@ -124,6 +126,12 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.createArticle);
   }
 
+  /// To add article screen \\\
+  void addArticle(BuildContext context,
+      {required AddArticleArguments arguments}) {
+    Navigator.of(context).pushNamed(RouteList.addArticle, arguments: arguments);
+  }
+
   /// To create my articles screen \\\
   void myArticlesScreen(BuildContext context, {required bool isReplacement}) {
     if (isReplacement) {
@@ -135,7 +143,7 @@ class RouteHelper {
 
   /// To single article screen \\\
   void singleArticleScreen(BuildContext context,
-      {required int articleId,  bool isReplacement= false}) {
+      {required int articleId, bool isReplacement = false}) {
     if (isReplacement) {
       Navigator.of(context).pushReplacementNamed(RouteList.singleArticle,
           arguments: SingleArticleArguments(articleId: articleId));
@@ -143,6 +151,13 @@ class RouteHelper {
       Navigator.of(context).pushNamed(RouteList.singleArticle,
           arguments: SingleArticleArguments(articleId: articleId));
     }
+  }
+
+  /// To delete article screen \\\
+  void deleteArticleScreen(BuildContext context,
+      {required DeleteArticleArguments arguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.deleteArticle, arguments: arguments);
   }
 
   /// To contact us screen \\\

@@ -2,10 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
-import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/assets_constants.dart';
-import '../../../domain/entities/data/ad_entity.dart';
-import '../../widgets/ads_list/ads_list_view.dart';
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/assets_constants.dart';
+import '../../../../domain/entities/data/ad_entity.dart';
+import '../../../../router/route_helper.dart';
+import '../../../widgets/ads_list/ads_list_view.dart';
 import 'article_form.dart';
 
 class CreateArticleScreen extends StatelessWidget {
@@ -22,8 +23,8 @@ class CreateArticleScreen extends StatelessWidget {
             horizontal: AppUtils.mainPagesHorizontalPadding.w,
             vertical: AppUtils.mainPagesVerticalPadding.h),
         child: Column(
-          children: const [
-            AdsListViewWidget(
+          children:  [
+            const AdsListViewWidget(
               adsList: [
                 AdEntity(id: 0, url: AssetsImages.adSample),
                 AdEntity(id: 1, url: AssetsImages.adSample),
@@ -32,7 +33,11 @@ class CreateArticleScreen extends StatelessWidget {
             ),
 
             //==> article form
-            Expanded(child: ArticleForm()),
+            Expanded(child: ArticleForm(
+              onSuccess: (){
+                RouteHelper().myArticlesScreen(context, isReplacement: true);
+              },
+            )),
           ],
         ),
       ),
