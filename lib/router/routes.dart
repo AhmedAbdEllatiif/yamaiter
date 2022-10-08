@@ -3,6 +3,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
@@ -19,6 +20,7 @@ import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
+import '../domain/entities/screen_arguments/update_article_args.dart';
 import '../presentation/journeys/article/create_article/add_article.dart';
 import '../presentation/journeys/article/create_article/create_article_screen.dart';
 import '../presentation/journeys/article/delete_article.dart';
@@ -83,6 +85,12 @@ class Routes {
         /// AddArticleScreen
         RouteList.addArticle: (context) => AddArticleScreen(
               addArticleArguments: settings.arguments as AddArticleArguments,
+            ),
+
+        /// UpdateArticleScreen
+        RouteList.updateArticle: (context) => UpdateArticleScreen(
+              updateArticleArguments:
+                  settings.arguments as UpdateArticleArguments,
             ),
 
         /// deleteSos

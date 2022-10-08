@@ -6,6 +6,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/add_article_args.dart'
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
@@ -32,6 +33,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
   late final MyArticlesCubit _myArticlesCubit;
   late final DeleteArticleCubit _deleteArticleCubit;
   late final CreateArticleCubit _createArticleCubit;
+  late final UpdateArticleCubit _updateArticleCubit;
 
   @override
   void initState() {
@@ -39,6 +41,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
     _myArticlesCubit = getItInstance<MyArticlesCubit>();
     _deleteArticleCubit = getItInstance<DeleteArticleCubit>();
     _createArticleCubit = getItInstance<CreateArticleCubit>();
+    _updateArticleCubit = getItInstance<UpdateArticleCubit>();
     _fetchMyArticles();
   }
 
@@ -47,6 +50,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
     _myArticlesCubit.close();
     _deleteArticleCubit.close();
     _createArticleCubit.close();
+    _updateArticleCubit.close();
     super.dispose();
   }
 
@@ -57,6 +61,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
         BlocProvider(create: (context) => _myArticlesCubit),
         BlocProvider(create: (context) => _deleteArticleCubit),
         BlocProvider(create: (context) => _createArticleCubit),
+        BlocProvider(create: (context) => _updateArticleCubit),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -175,6 +180,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
                                         articleEntity:
                                             state.articleEntityList[index],
                                         deleteArticleCubit: _deleteArticleCubit,
+                                        updateArticleCubit: _updateArticleCubit,
                                       );
                                     },
                                   );

@@ -4,6 +4,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
@@ -139,6 +140,13 @@ class RouteHelper {
     } else {
       Navigator.of(context).pushNamed(RouteList.myArticles);
     }
+  }
+
+  /// To update article screen \\\
+  void updateArticle(BuildContext context,
+      {required UpdateArticleArguments arguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.updateArticle, arguments: arguments);
   }
 
   /// To single article screen \\\

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/constants/app_utils.dart';
 
 import '../themes/theme_color.dart';
 
@@ -9,14 +10,21 @@ class CardMenuItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onPressed,
-      child: Text(
-        text,
-        style: Theme.of(context)
-            .textTheme
-            .bodyText2!
-            .copyWith(color: AppColor.primaryDarkColor),
+    return Material(
+      child: InkWell(
+        onTap: onPressed,
+        splashColor: AppColor.accentColor,
+        borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
+        child: Padding(
+          padding: const EdgeInsets.only(right: 8.0,left: 8.0,bottom: 2),
+          child: Text(
+            text,
+            style: Theme.of(context)
+                .textTheme
+                .bodyText2!
+                .copyWith(color: AppColor.primaryDarkColor),
+          ),
+        ),
       ),
     );
   }

@@ -18,6 +18,7 @@ import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
@@ -141,6 +142,12 @@ Future init() async {
   getItInstance.registerFactory<DeleteArticleCubit>(
     () => DeleteArticleCubit(),
   );
+
+  //==> UpdateArticleCubit
+  getItInstance.registerFactory<UpdateArticleCubit>(
+        () => UpdateArticleCubit(),
+  );
+
 
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(

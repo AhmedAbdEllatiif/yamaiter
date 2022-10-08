@@ -3,7 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_article/delete_article_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 
 import '../../common/constants/app_utils.dart';
 import '../../common/constants/sizes.dart';
@@ -17,10 +19,14 @@ import 'image_name_rating_widget.dart';
 class ArticleItem extends StatefulWidget {
   final ArticleEntity articleEntity;
   final DeleteArticleCubit? deleteArticleCubit;
+  final UpdateArticleCubit? updateArticleCubit;
 
-  const ArticleItem(
-      {Key? key, required this.articleEntity, required this.deleteArticleCubit})
-      : super(key: key);
+  const ArticleItem({
+    Key? key,
+    required this.articleEntity,
+    this.deleteArticleCubit,
+    this.updateArticleCubit,
+  }) : super(key: key);
 
   @override
   State<ArticleItem> createState() => _ArticleItemState();
@@ -33,7 +39,16 @@ class _ArticleItemState extends State<ArticleItem> {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => _navigateToArticleDetailsScreen(),
+        onTap: () {
+          //==> close menu if opened
+          if (_isMenuOpened) {
+            setState(() {
+              _isMenuOpened = !_isMenuOpened;
+            });
+          } else {
+            _navigateToArticleDetailsScreen();
+          }
+        },
         borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
         child: Padding(
           padding: EdgeInsets.only(
@@ -188,8 +203,8 @@ class _ArticleItemState extends State<ArticleItem> {
                     child: Column(
                       children: [
                         CardMenuItem(
-                          text: "Option1",
-                          onPressed: () {},
+                          text: "تعديل النشور",
+                          onPressed: () => _navigateToUpdateArticlesScreen(),
                         ),
                         CardMenuItem(
                           text: "حذف االمنشور",
@@ -206,18 +221,26 @@ class _ArticleItemState extends State<ArticleItem> {
     );
   }
 
-  /// to send delete article request
-  void _deleteArticle() {
+  /// To navigate to update article screen sos
+  void _navigateToUpdateArticlesScreen() {
+    // init articleId
+    final articleId = widget.articleEntity.id;
+
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    context
-        .read<DeleteArticleCubit>()
-        .deleteArticle(articleId: widget.articleEntity.id, token: userToken);
-  }
+    // init updateArticleCubit
+    final updateArticleCubit = widget.updateArticleCubit!;
 
-  /// to cancel delete
-  void _cancelDelete() => context.read<DeleteArticleCubit>().cancelDelete();
+    RouteHelper().updateArticle(
+      context,
+      arguments: UpdateArticleArguments(
+        articleId: articleId,
+        userToken: userToken,
+        updateArticleCubit: updateArticleCubit,
+      ),
+    );
+  }
 
   /// to navigate to delete sos
   void _navigateToDeleteArticle() {
