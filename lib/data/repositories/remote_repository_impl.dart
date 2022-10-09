@@ -5,11 +5,11 @@ import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/article/article_model.dart';
-import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
@@ -336,7 +336,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// updateArticle
   @override
   Future<Either<AppError, SuccessModel>> updateArticle(
@@ -344,6 +343,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // send update article request
       final result = await remoteDataSource.updateArticle(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to update article
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// createAd
+  @override
+  Future<Either<AppError, SuccessModel>> createAd(
+      CreateAdParams createAdParams) async{
+    try {
+      // send update article request
+      final result = await remoteDataSource.createAd(createAdParams);
 
       // received success
       if (result is SuccessModel) {

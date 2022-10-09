@@ -76,10 +76,22 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.settings);
   }
 
+  /// To add new ad screen \\\
+  void addNewAdScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.addNewAd);
+  }
+
+  /// To my ads screen \\\
+  void myAdsScreen(BuildContext context, {bool isReplacement = false}) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.myAds);
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myAds);
+    }
+  }
+
   /// To editPassword screen \\\
-  void editPasswordScreen(
-    BuildContext context,
-  ) {
+  void editPasswordScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.editPassword);
   }
 
@@ -88,6 +100,11 @@ class RouteHelper {
     BuildContext context,
   ) {
     Navigator.of(context).pushNamed(RouteList.help);
+  }
+
+  /// To create ad screen \\\
+  void createAdScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.createAd);
   }
 
   /// To create sos screen \\\

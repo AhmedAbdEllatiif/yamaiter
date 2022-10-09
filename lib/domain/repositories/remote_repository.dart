@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
@@ -68,4 +69,8 @@ abstract class RemoteRepository {
   /// delete article
   Future<Either<AppError, SuccessModel>> deleteArticle(
       DeleteArticleParams deleteArticleParams);
+
+  /// create sos
+  Future<Either<AppError, SuccessModel>> createAd(
+      CreateAdParams createAdParams);
 }

@@ -10,15 +10,17 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
+import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
-import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
+import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
@@ -75,6 +77,9 @@ abstract class RemoteDataSource {
 
   /// delete article
   Future<dynamic> deleteArticle(DeleteArticleParams params);
+
+  /// create new ad
+  Future<dynamic> createAd(CreateAdParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -487,7 +492,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// updateArticle
   @override
-  Future updateArticle(CreateOrUpdateArticleParams params) async{
+  Future updateArticle(CreateOrUpdateArticleParams params) async {
     // init request
     final updateArticleRequest = UpdateArticleRequest();
     final request = await updateArticleRequest(params);
@@ -500,22 +505,57 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("updateArticle >> ResponseCode: ${response.statusCode}");
     log("updateArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return SuccessModel();
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "updateArticle Status Code >> ${response.statusCode}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "updateArticle Status Code >> ${response.statusCode}");
-    // default
+      // default
       default:
         log("createArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "createArticle Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// createAd
+  @override
+  Future createAd(CreateAdParams params) async {
+    log("createAd >> Start request");
+    // init request
+    final createAd = CreateAdRequest();
+
+    // response
+    final response = await createAd(
+      CreateAdRequestModel(place: params.place),
+      params.userToken,
+    );
+
+    log("createAd >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return SuccessModel();
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "createAd Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "createAd Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "createAd Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

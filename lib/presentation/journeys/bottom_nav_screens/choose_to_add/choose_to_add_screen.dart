@@ -11,7 +11,6 @@ class ChooseToAddScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Padding(
       padding: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
       child: Column(
@@ -56,7 +55,7 @@ class ChooseToAddScreen extends StatelessWidget {
               ChooseToAddItem(
                 image: AssetsImages.publishAdSvg,
                 text: "طلب اعلان دعائى",
-                onPressed: () {RouteHelper().singleArticleScreen(context, articleId: 101);},
+                onPressed: () => _navigateCreateAdScreen(context),
               ),
             ],
           ),
@@ -87,4 +86,8 @@ class ChooseToAddScreen extends StatelessWidget {
   /// to navigate to article
   void _navigateToCreateArticle(BuildContext context) =>
       RouteHelper().createArticleScreen(context);
+
+  /// to navigate to create ad
+  void _navigateCreateAdScreen(BuildContext context) =>
+      RouteHelper().createAdScreen(context);
 }

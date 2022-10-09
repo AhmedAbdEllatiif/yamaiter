@@ -47,7 +47,6 @@ class DrawerScreen extends StatelessWidget {
                   },
                 ),
 
-
                 /// text balance
                 RichText(
                   text: TextSpan(children: [
@@ -112,8 +111,8 @@ class DrawerScreen extends StatelessWidget {
   }
 
   void _navigateMyArticlesScreen(BuildContext context) =>
-      RouteHelper().myArticlesScreen(context,isReplacement: false);
-  
+      RouteHelper().myArticlesScreen(context, isReplacement: false);
+
   void _navigateToHelpScreen(BuildContext context) =>
       RouteHelper().helpScreen(context);
 
@@ -122,6 +121,9 @@ class DrawerScreen extends StatelessWidget {
 
   void _navigateMySosListScreen(BuildContext context) =>
       RouteHelper().mySosScreen(context);
+
+  void _navigateMyAdsListScreen(BuildContext context) =>
+      RouteHelper().myAdsScreen(context, isReplacement: false);
 
   void _navigateToAboutScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
@@ -159,7 +161,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.surround_sound_outlined,
           title: "إعلاناتى",
-          onPressed: () {},
+          onPressed: () => _navigateMyAdsListScreen(context),
         ),
         DrawerItem(
           iconData: Icons.shopping_bag_outlined,

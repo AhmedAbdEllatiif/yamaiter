@@ -34,9 +34,11 @@ import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
+import '../domain/use_cases/create_ad.dart';
 import '../domain/use_cases/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/get_single_article.dart';
+import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
@@ -149,6 +151,11 @@ Future init() async {
     () => UpdateArticleCubit(),
   );
 
+  //==> CreateAdCubit
+  getItInstance.registerFactory<CreateAdCubit>(
+    () => CreateAdCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -227,6 +234,11 @@ Future init() async {
   //==> DeleteArticleCase
   getItInstance.registerFactory<DeleteArticleCase>(
     () => DeleteArticleCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateAdCase
+  getItInstance.registerFactory<CreateAdCase>(
+    () => CreateAdCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

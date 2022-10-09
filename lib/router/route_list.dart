@@ -1,4 +1,4 @@
-class RouteList{
+class RouteList {
   static const String mainScreen = "/mainScreen";
   static const String loginScreen = "/login";
   static const String chooseUserType = "/chooseUserType";
@@ -21,6 +21,8 @@ class RouteList{
   static const String singleArticle = "/singleArticle";
   static const String deleteArticle = "/deleteArticle";
   static const String addArticle = "/addArticle";
-  static const String updateArticle = "updateArticle";
-
+  static const String updateArticle = "/updateArticle";
+  static const String createAd = "/createAd";
+  static const String myAds = "/myAds";
+  static const String addNewAd = "/addNewAd";
 }

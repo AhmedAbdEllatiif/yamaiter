@@ -105,3 +105,10 @@ List<String> governoratesListWithSelectAll = [
   "الوادي الجديد",
   "انشر على كل الزملاء فى اى مكان",
 ];
+
+
+List<String> adPages = [
+  "الصفحة الرئيسية",
+  "الصفحات الداخلية",
+  "كل الصفحات",
+];
