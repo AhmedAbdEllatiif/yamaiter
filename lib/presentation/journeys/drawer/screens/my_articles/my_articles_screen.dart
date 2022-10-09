@@ -18,6 +18,7 @@ import '../../../../../domain/entities/app_error.dart';
 import '../../../../../domain/entities/data/ad_entity.dart';
 import '../../../../../router/route_helper.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../../themes/theme_color.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/article_item.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
@@ -169,6 +170,18 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
                                     child: AppErrorWidget(
                                       appTypeError: state.appError.appErrorType,
                                       onPressedRetry: () => _fetchMyArticles(),
+                                    ),
+                                  );
+                                }
+
+                                /// empty
+                                if(state is EmptyMyArticlesList){
+                                  return Center(
+                                    child: Text(
+                                      "ليس لديك منشورات",
+                                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                        color: AppColor.primaryDarkColor,
+                                      ),
                                     ),
                                   );
                                 }

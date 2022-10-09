@@ -12,8 +12,6 @@ part 'get_all_sos_state.dart';
 class GetAllSosCubit extends Cubit<GetAllSosState> {
   GetAllSosCubit() : super(GetAllSosInitial());
 
-
-
   void fetchAllSosList({required String userToken}) async {
     //==> loading
     _emitIfNotClosed(LoadingGetAllSosList());
@@ -26,10 +24,18 @@ class GetAllSosCubit extends Cubit<GetAllSosState> {
 
     //==> receive result
     either.fold(
-            (appError) => _emitError(appError),
-            (sosEntityList) => _emitIfNotClosed(
-          AllSosListFetchedSuccessfully(sosEntityList: sosEntityList),
-        ));
+      (appError) => _emitError(appError),
+      (sosEntityList) => {
+        if (sosEntityList.isNotEmpty)
+          {
+            _emitIfNotClosed(
+                AllSosListFetchedSuccessfully(sosEntityList: sosEntityList))
+          }
+        // empty
+        else
+          {_emitIfNotClosed(EmptyAllSosList())}
+      },
+    );
   }
 
   /// _emit an error according to AppError

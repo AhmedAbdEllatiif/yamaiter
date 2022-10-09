@@ -12,8 +12,6 @@ part 'my_articles_state.dart';
 class MyArticlesCubit extends Cubit<MyArticlesState> {
   MyArticlesCubit() : super(MyArticlesInitial());
 
-
-
   void fetchMyArticlesList({required String userToken}) async {
     //==> loading
     _emitIfNotClosed(LoadingMyArticlesList());
@@ -26,10 +24,20 @@ class MyArticlesCubit extends Cubit<MyArticlesState> {
 
     //==> receive result
     either.fold(
-            (appError) => _emitError(appError),
-            (articleEntityList) => _emitIfNotClosed(
-          MyArticlesListFetchedSuccessfully(articleEntityList: articleEntityList),
-        ));
+      (appError) => _emitError(appError),
+      (articleEntityList) {
+        if (articleEntityList.isNotEmpty) {
+          _emitIfNotClosed(
+            MyArticlesListFetchedSuccessfully(
+                articleEntityList: articleEntityList),
+          );
+        }
+        // empty
+        else{
+          _emitIfNotClosed(EmptyMyArticlesList());
+        }
+      },
+    );
   }
 
   /// _emit an error according to AppError

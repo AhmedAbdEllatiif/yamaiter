@@ -127,6 +127,18 @@ class _MySosScreenState extends State<MySosScreen> {
                                 );
                               }
 
+                              //==> empty
+                              if(state is EmptyMySosList){
+                                return Center(
+                                  child: Text(
+                                    "ليس لديك استغاثات",
+                                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                                      color: AppColor.primaryDarkColor,
+                                    ),
+                                  ),
+                                );
+                              }
+
                               //==> fetched
                               if (state is MySosListFetchedSuccessfully) {
                                 final fetchedList = state.sosEntityList;

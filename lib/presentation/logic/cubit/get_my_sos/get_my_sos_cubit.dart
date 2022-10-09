@@ -24,10 +24,17 @@ class GetMySosCubit extends Cubit<GetMySosState> {
 
     //==> receive result
     either.fold(
-        (appError) => _emitError(appError),
-        (sosEntityList) => _emitIfNotClosed(
-              MySosListFetchedSuccessfully(sosEntityList: sosEntityList),
-            ));
+      (appError) => _emitError(appError),
+      (sosEntityList) => {
+        if (sosEntityList.isNotEmpty)
+          {
+            _emitIfNotClosed(
+                MySosListFetchedSuccessfully(sosEntityList: sosEntityList))
+          }
+        else
+          {_emitIfNotClosed(EmptyMySosList())}
+      },
+    );
   }
 
   /// _emit an error according to AppError

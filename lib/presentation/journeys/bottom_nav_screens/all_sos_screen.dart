@@ -8,6 +8,7 @@ import '../../../di/git_it.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../themes/theme_color.dart';
 import '../../widgets/app_content_title_widget.dart';
 import '../../widgets/app_error_widget.dart';
 import '../../widgets/loading_widget.dart';
@@ -41,7 +42,8 @@ class _AllSosScreenState extends State<AllSosScreen> {
     return BlocProvider(
       create: (context) => _getAllSosCubit,
       child: Padding(
-        padding: EdgeInsets.symmetric(vertical: Sizes.dimen_10.h,horizontal: Sizes.dimen_10.w),
+        padding: EdgeInsets.symmetric(
+            vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_10.w),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -90,6 +92,18 @@ class _AllSosScreenState extends State<AllSosScreen> {
                     child: AppErrorWidget(
                       appTypeError: state.appError.appErrorType,
                       onPressedRetry: () => _fetchMySosList(),
+                    ),
+                  );
+                }
+
+                //==> empty
+                if (state is EmptyAllSosList) {
+                  return Center(
+                    child: Text(
+                      "لا يوجد استغاثات",
+                      style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                            color: AppColor.primaryDarkColor,
+                          ),
                     ),
                   );
                 }

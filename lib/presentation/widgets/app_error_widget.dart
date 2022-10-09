@@ -65,6 +65,7 @@ class AppErrorWidget extends StatelessWidget {
               /// Button
               Container(
                 margin: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
+                width: double.infinity,
                 child: AppButton(
                   text: buttonText ?? "Retry".toUpperCase(),
                   onPressed: onPressedRetry,
