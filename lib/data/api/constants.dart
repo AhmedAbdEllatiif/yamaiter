@@ -1,7 +1,7 @@
 class ApiConstants {
-  static const String _baseUrl = 'http://ya-maitre.herokuapp.com/api';
+  static const String _baseUrl = 'https://yamaitre.com/api';
 
-  static const String mediaUrl = 'https://ya-maitre.herokuapp.com/uploads/';
+  static const String mediaUrl = 'https://yamaitre.com/uploads/';
 
   static final String _loginUrl = _baseUrl + EndPoints.login;
   static final String _registerUrl = _baseUrl + EndPoints.registerLawyer;
