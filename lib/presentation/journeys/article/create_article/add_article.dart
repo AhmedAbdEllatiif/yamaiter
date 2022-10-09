@@ -24,7 +24,9 @@ class AddArticleScreen extends StatelessWidget {
           child: ArticleForm(
             withWithCard: false,
             createArticleCubit: addArticleArguments.createArticleCubit,
-            onSuccess: () => Navigator.pop(context),
+            onSuccess: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),

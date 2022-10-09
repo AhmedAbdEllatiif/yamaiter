@@ -93,6 +93,7 @@ class _ArticleFormState extends State<ArticleForm> {
 
             /// CreateArticleCubit
             BlocListener<CreateArticleCubit, CreateArticleState>(
+              bloc: _createArticleCubit,
               listener: (context, state) {
                 //==> show snack bar with check internet connection
                 if (state is ErrorWhileCreatingArticle) {
@@ -117,6 +118,7 @@ class _ArticleFormState extends State<ArticleForm> {
             child: Padding(
               padding: EdgeInsets.only(top: Sizes.dimen_10.h),
               child: BlocBuilder<CreateArticleCubit, CreateArticleState>(
+                bloc: _createArticleCubit,
                   builder: (context, state) {
                 /// UnAuthorizedCreateSos
                 if (state is UnAuthorizedCreateArticle) {
@@ -272,19 +274,18 @@ class _ArticleFormState extends State<ArticleForm> {
     //==> validateOnMultiImages
     _pickImageCubit.validateOnMultiImages();
 
+    if (_imagesPicked.isEmpty) {
+      showSnackBar(context,
+          isFloating: false,
+          backgroundColor: AppColor.accentColor,
+          textColor: AppColor.primaryDarkColor,
+          message: "ارفاق صورة على الاقل مطلوب");
+      return false;
+    }
+
     //==> validate on form and received images list
     if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        if (_imagesPicked.isEmpty) {
-          showSnackBar(context,
-              isFloating: false,
-              backgroundColor: AppColor.accentColor,
-              textColor: AppColor.primaryDarkColor,
-              message: "ارفاق صورة على الاقل مطلوب");
-          return false;
-        }
-      }
-      return false;
+      return _formKey.currentState!.validate();
     }
     return false;
   }
