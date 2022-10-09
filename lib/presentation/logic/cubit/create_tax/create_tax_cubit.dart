@@ -6,7 +6,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/create_tax_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/create_tax.dart';
+import '../../../../domain/use_cases/taxes/create_tax.dart';
 
 part 'create_tax_state.dart';
 

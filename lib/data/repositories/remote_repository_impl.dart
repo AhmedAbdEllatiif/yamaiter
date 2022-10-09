@@ -9,6 +9,7 @@ import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -22,6 +23,7 @@ import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
+import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
 import '../data_source/remote_data_source.dart';
@@ -402,4 +404,50 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
+
+  /// getInProgressTaxes
+  @override
+  Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(
+      String params) async {
+    try {
+      // send create tax request
+      final result = await remoteDataSource.fetchInProgressTaxes(params);
+
+      // received success
+      if (result is List<TaxModel>) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// getCompletedTaxes
+  @override
+  Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(
+      String params) async {
+    try {
+      // send create tax request
+      final result = await remoteDataSource.fetchCompletedTaxes(params);
+
+      // received success
+      if (result is List<TaxModel>) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
 }

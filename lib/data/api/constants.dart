@@ -20,6 +20,7 @@ class ApiConstants {
   static final String _updateArticle = _baseUrl + EndPoints.updateArticle;
   static final String _createAd = _baseUrl + EndPoints.createAd;
   static final String _createTax = _baseUrl + EndPoints.createTax;
+  static final String _inProgressTaxes = _baseUrl + EndPoints.inProgressTaxes;
 
   static String buildUrl(RequestType requestType, {String id = ""}) {
     switch (requestType) {
@@ -70,6 +71,9 @@ class ApiConstants {
       // createAd
       case RequestType.createTax:
         return _createTax;
+      // inProgressTaxes
+      case RequestType.inProgressTaxes:
+        return _inProgressTaxes;
     }
   }
 }
@@ -119,6 +123,9 @@ class EndPoints {
 
   /// createAd
   static String createTax = "/taxes";
+
+  /// inProgressTaxes
+  static String inProgressTaxes = "/show-taxes";
 }
 
 /// The api request type
@@ -139,4 +146,5 @@ enum RequestType {
   deleteArticle,
   createAd,
   createTax,
+  inProgressTaxes,
 }

@@ -9,11 +9,13 @@ import 'package:yamaiter/domain/use_cases/help.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
+import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
@@ -37,12 +39,14 @@ import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/create_ad.dart';
 import '../domain/use_cases/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
-import '../domain/use_cases/create_tax.dart';
+import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
+import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
+import '../presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import '../presentation/logic/cubit/login/login_cubit.dart';
@@ -158,10 +162,19 @@ Future init() async {
     () => CreateAdCubit(),
   );
 
-
   //==> CreateTaxCubit
   getItInstance.registerFactory<CreateTaxCubit>(
     () => CreateTaxCubit(),
+  );
+
+  //==> GetInProgressTaxesCubit
+  getItInstance.registerFactory<GetInProgressTaxesCubit>(
+    () => GetInProgressTaxesCubit(),
+  );
+
+  //==> GetCompletedTaxesCubit
+  getItInstance.registerFactory<GetCompletedTaxesCubit>(
+    () => GetCompletedTaxesCubit(),
   );
 
   //==> AutoLoginCubit
@@ -252,6 +265,16 @@ Future init() async {
   //==> CreateTaxCase
   getItInstance.registerFactory<CreateTaxCase>(
     () => CreateTaxCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetCompletedTaxesCase
+  getItInstance.registerFactory<GetCompletedTaxesCase>(
+    () => GetCompletedTaxesCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetInProgressTaxesCase
+  getItInstance.registerFactory<GetInProgressTaxesCase>(
+    () => GetInProgressTaxesCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin
