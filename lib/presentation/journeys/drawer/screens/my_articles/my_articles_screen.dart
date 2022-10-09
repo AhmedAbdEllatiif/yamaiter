@@ -82,6 +82,15 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
               }
             },
           ),
+
+          /// refresh list of update item
+          BlocListener<UpdateArticleCubit, UpdateArticleState>(
+            listener: (context, state) {
+              if (state is ArticleUpdatedSuccessfully) {
+                _fetchMyArticles();
+              }
+            },
+          ),
         ],
         child: Scaffold(
           appBar: AppBar(

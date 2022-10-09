@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
-import 'package:yamaiter/domain/use_cases/delete_article.dart';
+import 'package:yamaiter/domain/use_cases/article/delete_article.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';

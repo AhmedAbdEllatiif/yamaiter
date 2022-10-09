@@ -6,13 +6,14 @@ import 'package:yamaiter/domain/use_cases/use_case.dart';
 
 import '../../../data/models/success_model.dart';
 
-class CreateArticleCase extends UseCase<SuccessModel, CreateOrUpdateArticleParams> {
+class UpdateArticleCase
+    extends UseCase<SuccessModel, CreateOrUpdateArticleParams> {
   final RemoteRepository remoteRepository;
 
-  CreateArticleCase({required this.remoteRepository});
+  UpdateArticleCase({required this.remoteRepository});
 
   @override
   Future<Either<AppError, SuccessModel>> call(
           CreateOrUpdateArticleParams params) async =>
-      await remoteRepository.createArticle(params);
+      await remoteRepository.updateArticle(params);
 }

@@ -6,11 +6,11 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 
-class CreateArticleRequest extends MultiPartPostRequest<CreateOrUpdateArticleParams> {
+class UpdateArticleRequest extends MultiPartPostRequest<CreateOrUpdateArticleParams> {
   @override
   Future<http.MultipartRequest> call(CreateOrUpdateArticleParams params) async {
     var request = initMultiPartPostRequest(
-        requestType: RequestType.createArticle, token: params.token);
+        requestType: RequestType.updateArticle, token: params.token,id: params.articleId);
 
     request.fields["title"] = params.requestModel.title;
     request.fields["description"] = params.requestModel.description;

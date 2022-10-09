@@ -26,8 +26,8 @@ class CreateArticleCubit extends Cubit<CreateArticleState> {
     final createArticleCase = getItInstance<CreateArticleCase>();
 
     //==> init params
-    final params = CreateArticleParams(
-      requestModel: CreateArticleRequestModel(
+    final params = CreateOrUpdateArticleParams(
+      requestModel: CreateOrUpdateArticleRequestModel(
         title: title,
         description: description,
         imageList: imagePaths,

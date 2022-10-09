@@ -27,6 +27,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
+import '../api/requests/post_requests/update_article.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
@@ -61,7 +62,10 @@ abstract class RemoteDataSource {
   Future<dynamic> getAllSos(String userToken);
 
   /// createArticle
-  Future<dynamic> createArticle(CreateArticleParams params);
+  Future<dynamic> createArticle(CreateOrUpdateArticleParams params);
+
+  /// updateArticle
+  Future<dynamic> updateArticle(CreateOrUpdateArticleParams params);
 
   /// fetchSingleArticleArticle
   Future<dynamic> fetchSingleArticleArticle(GetSingleArticleParams params);
@@ -345,7 +349,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// createArticle
   @override
-  Future createArticle(CreateArticleParams params) async {
+  Future createArticle(CreateOrUpdateArticleParams params) async {
     // init request
     final createArticleRequest = CreateArticleRequest();
     final request = await createArticleRequest(params);
@@ -477,6 +481,41 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         log("deleteArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "deleteArticle Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// updateArticle
+  @override
+  Future updateArticle(CreateOrUpdateArticleParams params) async{
+    // init request
+    final updateArticleRequest = UpdateArticleRequest();
+    final request = await updateArticleRequest(params);
+
+    // send a request
+    final streamResponse = await request.send();
+
+    // retrieve a response from stream response
+    final response = await http.Response.fromStream(streamResponse);
+    log("updateArticle >> ResponseCode: ${response.statusCode}");
+    log("updateArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return SuccessModel();
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "updateArticle Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "updateArticle Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("createArticle >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "createArticle Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

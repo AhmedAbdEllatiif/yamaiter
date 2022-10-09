@@ -52,7 +52,11 @@ abstract class RemoteRepository {
 
   /// create article
   Future<Either<AppError, SuccessModel>> createArticle(
-      CreateArticleParams params);
+      CreateOrUpdateArticleParams params);
+
+  /// update article
+  Future<Either<AppError, SuccessModel>> updateArticle(
+      CreateOrUpdateArticleParams params);
 
   /// get single article
   Future<Either<AppError, ArticleEntity>> getSingleArticle(

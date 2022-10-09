@@ -253,7 +253,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// createArticle
   @override
   Future<Either<AppError, SuccessModel>> createArticle(
-      CreateArticleParams params) async {
+      CreateOrUpdateArticleParams params) async {
     try {
       // send create article request
       final result = await remoteDataSource.createArticle(params);
@@ -328,6 +328,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to delete article
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// updateArticle
+  @override
+  Future<Either<AppError, SuccessModel>> updateArticle(
+      CreateOrUpdateArticleParams params) async {
+    try {
+      // send update article request
+      final result = await remoteDataSource.updateArticle(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to update article
       else {
         return Left(result);
       }

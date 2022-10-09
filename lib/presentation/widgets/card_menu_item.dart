@@ -6,7 +6,9 @@ import '../themes/theme_color.dart';
 class CardMenuItem extends StatelessWidget {
   final String text;
   final Function() onPressed;
-  const CardMenuItem({Key? key, required this.text, required this.onPressed}) : super(key: key);
+
+  const CardMenuItem({Key? key, required this.text, required this.onPressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -16,13 +18,12 @@ class CardMenuItem extends StatelessWidget {
         splashColor: AppColor.accentColor,
         borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
         child: Padding(
-          padding: const EdgeInsets.only(right: 8.0,left: 8.0,bottom: 2),
+          padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 2),
           child: Text(
             text,
-            style: Theme.of(context)
-                .textTheme
-                .bodyText2!
-                .copyWith(color: AppColor.primaryDarkColor),
+            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+                  color: AppColor.primaryDarkColor,
+                ),
           ),
         ),
       ),

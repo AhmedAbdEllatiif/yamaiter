@@ -224,7 +224,7 @@ class _ArticleItemState extends State<ArticleItem> {
   /// To navigate to update article screen sos
   void _navigateToUpdateArticlesScreen() {
     // init articleId
-    final articleId = widget.articleEntity.id;
+    final articleEntity = widget.articleEntity;
 
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
@@ -235,7 +235,7 @@ class _ArticleItemState extends State<ArticleItem> {
     RouteHelper().updateArticle(
       context,
       arguments: UpdateArticleArguments(
-        articleId: articleId,
+        articleEntity: articleEntity,
         userToken: userToken,
         updateArticleCubit: updateArticleCubit,
       ),

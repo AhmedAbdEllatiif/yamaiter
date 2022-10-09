@@ -1,11 +1,13 @@
 import 'package:yamaiter/data/models/article/create_article_request_model.dart';
 
-class CreateArticleParams {
-  final CreateArticleRequestModel requestModel;
+class CreateOrUpdateArticleParams {
+  final CreateOrUpdateArticleRequestModel requestModel;
   final String token;
+  final String articleId;
 
-  CreateArticleParams({
+  CreateOrUpdateArticleParams( {
     required this.requestModel,
     required this.token,
+    this.articleId = "",
   });
 }
