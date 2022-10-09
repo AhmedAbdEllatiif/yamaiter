@@ -110,6 +110,9 @@ class DrawerScreen extends StatelessWidget {
     );
   }
 
+  void _navigateMyTaxesScreen(BuildContext context) =>
+      RouteHelper().myTaxesScreen(context, isReplacement: false);
+
   void _navigateMyArticlesScreen(BuildContext context) =>
       RouteHelper().myArticlesScreen(context, isReplacement: false);
 
@@ -166,7 +169,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.shopping_bag_outlined,
           title: "اقراراتى الضريبية",
-          onPressed: () {},
+          onPressed: () => _navigateMyTaxesScreen(context),
         ),
         DrawerItem(
           iconData: Icons.sos_outlined,

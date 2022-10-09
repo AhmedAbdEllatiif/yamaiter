@@ -284,7 +284,7 @@ class _ArticleFormState extends State<ArticleForm> {
           return false;
         }
       }
-      return true;
+      return false;
     }
     return false;
   }

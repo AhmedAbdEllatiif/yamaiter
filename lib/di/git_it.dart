@@ -37,8 +37,10 @@ import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/create_ad.dart';
 import '../domain/use_cases/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
+import '../domain/use_cases/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
+import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
@@ -156,6 +158,12 @@ Future init() async {
     () => CreateAdCubit(),
   );
 
+
+  //==> CreateTaxCubit
+  getItInstance.registerFactory<CreateTaxCubit>(
+    () => CreateTaxCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -239,6 +247,11 @@ Future init() async {
   //==> CreateAdCase
   getItInstance.registerFactory<CreateAdCase>(
     () => CreateAdCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateTaxCase
+  getItInstance.registerFactory<CreateTaxCase>(
+    () => CreateTaxCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAutoLogin

@@ -70,7 +70,7 @@ class ChooseToAddScreen extends StatelessWidget {
               ChooseToAddItem(
                 image: AssetsImages.documentsSvg,
                 text: "قدم إقرارك الضريبى السنوى من هنا",
-                onPressed: () {},
+                onPressed: () => _navigateToCreateTax(context),
               ),
             ],
           ),
@@ -90,4 +90,8 @@ class ChooseToAddScreen extends StatelessWidget {
   /// to navigate to create ad
   void _navigateCreateAdScreen(BuildContext context) =>
       RouteHelper().createAdScreen(context);
+
+  /// to navigate to create tax
+  void _navigateToCreateTax(BuildContext context) =>
+      RouteHelper().createTaxScreen(context);
 }

@@ -23,12 +23,14 @@ import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 
 import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
+import '../api/requests/post_requests/create_tax.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
@@ -62,6 +64,9 @@ abstract class RemoteDataSource {
 
   /// get all sos
   Future<dynamic> getAllSos(String userToken);
+
+  /// createTax
+  Future<dynamic> createTax(CreateTaxParams params);
 
   /// createArticle
   Future<dynamic> createArticle(CreateOrUpdateArticleParams params);
@@ -556,6 +561,40 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       default:
         return AppError(AppErrorType.api,
             message: "createAd Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  @override
+  Future createTax(CreateTaxParams params) async{
+    // init request
+    final createTaxRequest = CreateTaxRequest();
+    final request = await createTaxRequest(params);
+
+    // send a request
+    final streamResponse = await request.send();
+
+    // retrieve a response from stream response
+    final response = await http.Response.fromStream(streamResponse);
+    log("createTax >> ResponseCode: ${response.statusCode}");
+    log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return SuccessModel();
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "createTax Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "createTax Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "createTax Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

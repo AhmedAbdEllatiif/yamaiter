@@ -4,6 +4,7 @@ import 'package:yamaiter/data/models/app_settings_models/side_menu_response_mode
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -73,4 +74,8 @@ abstract class RemoteRepository {
   /// create sos
   Future<Either<AppError, SuccessModel>> createAd(
       CreateAdParams createAdParams);
+
+  /// create tax
+  Future<Either<AppError, SuccessModel>> createTax(
+      CreateTaxParams params);
 }

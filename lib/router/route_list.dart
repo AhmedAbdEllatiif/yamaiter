@@ -25,4 +25,7 @@ class RouteList {
   static const String createAd = "/createAd";
   static const String myAds = "/myAds";
   static const String addNewAd = "/addNewAd";
+  static const String createTax = "/createTax";
+  static const String myTaxes = "/myTaxes";
+  static const String addNewTax = "/addNewTaxes";
 }

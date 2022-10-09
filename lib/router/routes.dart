@@ -10,6 +10,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_scre
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
 import 'package:yamaiter/presentation/journeys/forget_password/forget_password_screen.dart';
@@ -31,6 +32,8 @@ import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
+import '../presentation/journeys/taxes/add_new_tax_screen.dart';
+import '../presentation/journeys/taxes/create_tax_screen.dart';
 import 'route_list.dart';
 
 class Routes {
@@ -113,6 +116,15 @@ class Routes {
 
         /// AddNewAdScreen
         RouteList.addNewAd: (context) => const AddNewAdScreen(),
+
+        /// CreateTaxScreen
+        RouteList.createTax: (context) => const CreateTaxScreen(),
+
+        /// MyTaxesScreen
+        RouteList.myTaxes: (context) => const MyTaxesScreen(),
+
+        /// AddNewTaxScreen
+        RouteList.addNewTax: (context) => const AddNewTaxScreen(),
 
         /// single sos
         RouteList.singleSos: (context) => SingleSosScreen(

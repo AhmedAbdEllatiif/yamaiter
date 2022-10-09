@@ -113,7 +113,7 @@ class _AppTextFieldState extends State<AppTextField> {
           filled: true,
 
           // to decrease the height size
-          //isDense: true,
+          isDense: true,
           contentPadding: widget.icon == null ||
                   widget.textInputType == TextInputType.visiblePassword
               ? const EdgeInsets.fromLTRB(10, 10, 10, 0)

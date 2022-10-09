@@ -12,6 +12,7 @@ import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -361,7 +362,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// createAd
   @override
   Future<Either<AppError, SuccessModel>> createAd(
-      CreateAdParams createAdParams) async{
+      CreateAdParams createAdParams) async {
     try {
       // send update article request
       final result = await remoteDataSource.createAd(createAdParams);
@@ -372,6 +373,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to update article
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// createTax
+  @override
+  Future<Either<AppError, SuccessModel>> createTax(
+      CreateTaxParams params) async {
+    try {
+      // send create tax request
+      final result = await remoteDataSource.createTax(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to create tax
       else {
         return Left(result);
       }

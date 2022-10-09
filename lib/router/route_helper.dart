@@ -76,6 +76,8 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.settings);
   }
 
+
+
   /// To add new ad screen \\\
   void addNewAdScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.addNewAd);
@@ -100,6 +102,24 @@ class RouteHelper {
     BuildContext context,
   ) {
     Navigator.of(context).pushNamed(RouteList.help);
+  }
+
+  /// To create tax screen \\\
+  void createTaxScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.createTax);
+  }
+  /// To add new  screen \\\
+  void addNewTaxcreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.addNewTax);
+  }
+
+  /// To my ads screen \\\
+  void myTaxesScreen(BuildContext context, {bool isReplacement = false}) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.myTaxes);
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myTaxes);
+    }
   }
 
   /// To create ad screen \\\
