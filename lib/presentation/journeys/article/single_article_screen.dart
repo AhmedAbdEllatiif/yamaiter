@@ -15,6 +15,7 @@ import '../../logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/ads_list/ads_list_view.dart';
+import '../../widgets/ads_widget.dart';
 import '../../widgets/app_error_widget.dart';
 import '../../widgets/image_name_rating_widget.dart';
 import '../../widgets/scrollable_app_card.dart';
@@ -60,174 +61,163 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
         appBar: AppBar(
           title: const Text("تفاصيل المنشور"),
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: AppUtils.mainPagesHorizontalPadding.w,
-              vertical: AppUtils.mainPagesVerticalPadding.h),
-          child: Column(
-            children: [
-              /// Ads ListView
-              const AdsListViewWidget(
-                adsList: [
-                  AdEntity(id: 0, url: AssetsImages.adSample),
-                  AdEntity(id: 1, url: AssetsImages.adSample),
-                  AdEntity(id: 1, url: AssetsImages.adSample),
-                ],
+        body: Column(
+          children: [
+            /// Ads ListView
+            const AdsWidget(),
+
+            Padding(
+              padding: EdgeInsets.only(
+                  right: AppUtils.mainPagesHorizontalPadding.w,
+                  left: AppUtils.mainPagesHorizontalPadding.w,
+                  bottom: AppUtils.mainPagesVerticalPadding.h,
+                  top: Sizes.dimen_10.h),
+              child: BlocBuilder<GetSingleArticleCubit, GetSingleArticleState>(
+                builder: (context, state) {
+                  /// Loading
+                  if (state is LoadingSingleArticle) {
+                    return const Center(
+                      child: LoadingWidget(),
+                    );
+                  }
+
+                  /// UnAuthorizedCreateSos
+                  if (state is UnAuthorizedGetSingleArticle) {
+                    return Center(
+                      child: AppErrorWidget(
+                        appTypeError: AppErrorType.unauthorizedUser,
+                        buttonText: "تسجيل الدخول",
+                        onPressedRetry: () {
+                          _navigateToLogin();
+                        },
+                      ),
+                    );
+                  }
+
+                  /// NotActivatedUserToCreateSos
+                  if (state is NotActivatedUserToGetSingleArticle) {
+                    return Center(
+                      child: AppErrorWidget(
+                        appTypeError: AppErrorType.notActivatedUser,
+                        buttonText: "تواصل معنا",
+                        message:
+                            "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                        onPressedRetry: () {
+                          _navigateToContactUs();
+                        },
+                      ),
+                    );
+                  }
+
+                  /// NotActivatedUserToCreateSos
+                  if (state is ErrorWhileGettingSingleArticle) {
+                    return Center(
+                      child: AppErrorWidget(
+                        appTypeError: state.appError.appErrorType,
+                        onPressedRetry: () {
+                          _fetchSingleAd();
+                        },
+                      ),
+                    );
+                  }
+
+                  /// fetched
+                  if (state is SingleArticleFetchedSuccessfully) {
+                    final articleEntity = state.articleEntity;
+                    return ScrollableAppCard(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      articleEntity.title,
+                                      maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(
+                                              color: AppColor.primaryDarkColor,
+                                              fontWeight: FontWeight.bold,
+                                              height: 1.2),
+                                    ),
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.date_range_outlined,
+                                          color: AppColor.accentColor,
+                                          size: Sizes.dimen_12.w,
+                                        ),
+                                        Text(
+                                          articleEntity.createdAt,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .caption!
+                                              .copyWith(
+                                                color: AppColor.accentColor,
+                                              ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                              ),
+
+                              /// ImageNameRatingWidget
+                              ImageNameRatingWidget(
+                                name: articleEntity.authorName,
+                                imgUrl: AssetsImages.personAvatar,
+                                rating: 4,
+                                unRatedColor:
+                                    AppColor.primaryColor.withOpacity(0.6),
+                                withRow: false,
+                                nameSize: Sizes.dimen_12.sp,
+                                iconRateSize: Sizes.dimen_12,
+                                minImageSize: Sizes.dimen_24,
+                                maxImageSize: Sizes.dimen_24,
+                                nameColor: AppColor.primaryDarkColor,
+                                onPressed: () {
+                                  // RouteHelper().editProfile(context);
+                                },
+                              ),
+                            ],
+                          ),
+
+                          /// Space
+                          SizedBox(height: Sizes.dimen_12.h),
+
+                          /// image slider
+                          ArticleImageSliderWidget(
+                            images: state.articleEntity.images,
+                          ),
+
+                          /// Space
+                          SizedBox(height: Sizes.dimen_10.h),
+
+                          /// description
+                          Text(
+                            articleEntity.description,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2!
+                                .copyWith(color: Colors.black, height: 1.4),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+
+                  return const SizedBox.shrink();
+                },
               ),
-
-              Padding(
-                padding: EdgeInsets.only(top: Sizes.dimen_10.h),
-                child:
-                    BlocBuilder<GetSingleArticleCubit, GetSingleArticleState>(
-                  builder: (context, state) {
-                    /// Loading
-                    if (state is LoadingSingleArticle) {
-                      return const Center(
-                        child: LoadingWidget(),
-                      );
-                    }
-
-                    /// UnAuthorizedCreateSos
-                    if (state is UnAuthorizedGetSingleArticle) {
-                      return Center(
-                        child: AppErrorWidget(
-                          appTypeError: AppErrorType.unauthorizedUser,
-                          buttonText: "تسجيل الدخول",
-                          onPressedRetry: () {
-                            _navigateToLogin();
-                          },
-                        ),
-                      );
-                    }
-
-                    /// NotActivatedUserToCreateSos
-                    if (state is NotActivatedUserToGetSingleArticle) {
-                      return Center(
-                        child: AppErrorWidget(
-                          appTypeError: AppErrorType.notActivatedUser,
-                          buttonText: "تواصل معنا",
-                          message:
-                              "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
-                          onPressedRetry: () {
-                            _navigateToContactUs();
-                          },
-                        ),
-                      );
-                    }
-
-                    /// NotActivatedUserToCreateSos
-                    if (state is ErrorWhileGettingSingleArticle) {
-                      return Center(
-                        child: AppErrorWidget(
-                          appTypeError: state.appError.appErrorType,
-                          onPressedRetry: () {
-                            _fetchSingleAd();
-                          },
-                        ),
-                      );
-                    }
-
-                    /// fetched
-                    if (state is SingleArticleFetchedSuccessfully) {
-                      final articleEntity = state.articleEntity;
-                      return ScrollableAppCard(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        articleEntity.title,
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(
-                                                color:
-                                                    AppColor.primaryDarkColor,
-                                                fontWeight: FontWeight.bold,
-                                                height: 1.2),
-                                      ),
-                                      Row(
-                                        children: [
-                                          Icon(
-                                            Icons.date_range_outlined,
-                                            color: AppColor.accentColor,
-                                            size: Sizes.dimen_12.w,
-                                          ),
-                                          Text(
-                                            articleEntity.createdAt,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .caption!
-                                                .copyWith(
-                                                  color: AppColor.accentColor,
-                                                ),
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
-                                ),
-
-                                /// ImageNameRatingWidget
-                                ImageNameRatingWidget(
-                                  name: articleEntity.authorName,
-                                  imgUrl: AssetsImages.personAvatar,
-                                  rating: 4,
-                                  unRatedColor:
-                                      AppColor.primaryColor.withOpacity(0.6),
-                                  withRow: false,
-                                  nameSize: Sizes.dimen_12.sp,
-                                  iconRateSize: Sizes.dimen_12,
-                                  minImageSize: Sizes.dimen_24,
-                                  maxImageSize: Sizes.dimen_24,
-                                  nameColor: AppColor.primaryDarkColor,
-                                  onPressed: () {
-                                    // RouteHelper().editProfile(context);
-                                  },
-                                ),
-                              ],
-                            ),
-
-                            /// Space
-                            SizedBox(height: Sizes.dimen_12.h),
-
-                            /// image slider
-                            ArticleImageSliderWidget(
-                              images: state.articleEntity.images,
-                            ),
-
-                            /// Space
-                            SizedBox(height: Sizes.dimen_10.h),
-
-                            /// description
-                            Text(
-                              articleEntity.description,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(color: Colors.black, height: 1.4),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-
-                    return const SizedBox.shrink();
-                  },
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

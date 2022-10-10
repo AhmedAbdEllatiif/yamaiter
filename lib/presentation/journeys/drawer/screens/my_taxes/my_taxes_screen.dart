@@ -8,6 +8,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/completed
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/in_progress_taxes.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/tax_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../common/constants/app_utils.dart';
@@ -71,23 +72,15 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
             child: Column(
               children: [
                 /// Ads ListView
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppUtils.mainPagesHorizontalPadding.w,
-                  ),
-                  child: const AdsListViewWidget(
-                    adsList: [
-                      AdEntity(id: 0, url: AssetsImages.adSample),
-                      AdEntity(id: 1, url: AssetsImages.adSample),
-                      AdEntity(id: 1, url: AssetsImages.adSample),
-                    ],
-                  ),
-                ),
+                const AdsWidget(),
 
                 /// title with add new
                 Expanded(
                   child: Padding(
-                    padding: EdgeInsets.only(top: Sizes.dimen_16.h),
+                    padding: EdgeInsets.only(
+                        top: Sizes.dimen_16.h,
+                        bottom: AppUtils.mainPagesVerticalPadding.h,
+                        ),
                     child: Column(
                       children: [
                         /// title with add new sos

@@ -7,6 +7,7 @@ import '../../../../common/constants/assets_constants.dart';
 import '../../../../domain/entities/data/ad_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../widgets/ads_list/ads_list_view.dart';
+import '../../../widgets/ads_widget.dart';
 import 'article_form.dart';
 
 class CreateArticleScreen extends StatelessWidget {
@@ -18,28 +19,23 @@ class CreateArticleScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text("إضافة منشور"),
       ),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: AppUtils.mainPagesHorizontalPadding.w,
-            vertical: AppUtils.mainPagesVerticalPadding.h),
-        child: Column(
-          children:  [
-            const AdsListViewWidget(
-              adsList: [
-                AdEntity(id: 0, url: AssetsImages.adSample),
-                AdEntity(id: 1, url: AssetsImages.adSample),
-                AdEntity(id: 1, url: AssetsImages.adSample),
-              ],
-            ),
+      body: Column(
+        children: [
+          const AdsWidget(),
 
-            //==> article form
-            Expanded(child: ArticleForm(
-              onSuccess: (){
+          //==> article form
+          Expanded(
+              child: Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: AppUtils.mainPagesHorizontalPadding.w,
+                vertical: AppUtils.mainPagesVerticalPadding.h),
+            child: ArticleForm(
+              onSuccess: () {
                 RouteHelper().myArticlesScreen(context, isReplacement: true);
               },
-            )),
-          ],
-        ),
+            ),
+          )),
+        ],
       ),
     );
   }

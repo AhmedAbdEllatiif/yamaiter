@@ -8,8 +8,32 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 import '../../../domain/entities/data/ad_entity.dart';
 
 class AdsListViewWidget extends StatelessWidget {
-  final List<AdEntity> adsList;
-  const AdsListViewWidget({Key? key, required this.adsList}) : super(key: key);
+  final List<AdEntity> adsList = [AdEntity(
+      id: 0,
+      image: AssetsImages.adSample,
+      createdDateAt: DateTime.now(),
+      updatedDateAt: DateTime.now(),
+      pages: "",
+      period: 0,
+      price: 0.0),
+    AdEntity(
+        id: 1,
+        image: AssetsImages.adSample,
+        createdDateAt: DateTime.now(),
+        updatedDateAt: DateTime.now(),
+        pages: "",
+        period: 0,
+        price: 0.0),
+    AdEntity(
+        id: 1,
+        image: AssetsImages.adSample,
+        createdDateAt: DateTime.now(),
+        updatedDateAt: DateTime.now(),
+        pages: "",
+        period: 0,
+        price: 0.0),
+  ];
+   AdsListViewWidget({Key? key, }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +61,7 @@ class AdsListViewWidget extends StatelessWidget {
               margin: const EdgeInsets.symmetric(horizontal: 3.0),
               color: AppColor.deepOrange,
               child: Image.asset(
-                singleAd.url,
+                singleAd.image,
                 fit: BoxFit.cover,
               ),
             );

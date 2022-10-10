@@ -19,6 +19,7 @@ import '../../../../../domain/entities/data/ad_entity.dart';
 import '../../../../../router/route_helper.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
+import '../../../../widgets/ads_list/ads_list_view.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/article_item.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
@@ -99,13 +100,7 @@ class _MyArticlesScreenState extends State<MyArticlesScreen> {
           ),
           body: Column(
             children: [
-              const AdsWidget(
-                adsList: [
-                  AdEntity(id: 0, url: AssetsImages.adSample),
-                  AdEntity(id: 1, url: AssetsImages.adSample),
-                  AdEntity(id: 1, url: AssetsImages.adSample),
-                ],
-              ),
+              const AdsWidget(),
               Expanded(
                 child: Padding(
                   padding: EdgeInsets.only(

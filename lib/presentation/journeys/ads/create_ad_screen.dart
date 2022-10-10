@@ -22,13 +22,7 @@ class CreateAdScreen extends StatelessWidget {
       body: Column(
         children: [
           /// Ads
-          const AdsWidget(
-            adsList: [
-              AdEntity(id: 0, url: AssetsImages.adSample),
-              AdEntity(id: 1, url: AssetsImages.adSample),
-              AdEntity(id: 1, url: AssetsImages.adSample),
-            ],
-          ),
+           const AdsWidget(),
 
           /// Card
           Expanded(
