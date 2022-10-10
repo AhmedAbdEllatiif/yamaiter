@@ -26,8 +26,15 @@ import '../../widgets/app_error_widget.dart';
 
 class SosForm extends StatefulWidget {
   final bool withWithCard;
+  final Function() onSuccess;
+  final CreateSosCubit? createSosCubit;
 
-  const SosForm({Key? key, this.withWithCard = true}) : super(key: key);
+  const SosForm(
+      {Key? key,
+      this.withWithCard = true,
+      this.createSosCubit,
+      required this.onSuccess})
+      : super(key: key);
 
   @override
   State<SosForm> createState() => _SosFormState();
@@ -45,12 +52,15 @@ class _SosFormState extends State<SosForm> {
   @override
   void initState() {
     super.initState();
-    _createSosCubit = getItInstance<CreateSosCubit>();
+    _createSosCubit = widget.createSosCubit ?? getItInstance<CreateSosCubit>();
   }
 
   @override
   void dispose() {
-    _createSosCubit.close();
+    if (widget.createSosCubit == null) {
+      _createSosCubit.close();
+    }
+
     super.dispose();
   }
 
@@ -59,6 +69,7 @@ class _SosFormState extends State<SosForm> {
     return BlocProvider(
       create: (context) => _createSosCubit,
       child: BlocListener<CreateSosCubit, CreateSosState>(
+        bloc: _createSosCubit,
         listener: (context, state) {
           //==> show snack bar with check internet connection
           if (state is ErrorWhileCreatingSos) {
@@ -84,6 +95,7 @@ class _SosFormState extends State<SosForm> {
                 top: Sizes.dimen_10.h,
               ),
               child: BlocBuilder<CreateSosCubit, CreateSosState>(
+                bloc: _createSosCubit,
                 builder: (context, state) {
                   /// UnAuthorizedCreateSos
                   if (state is UnAuthorizedCreateSos) {
@@ -255,6 +267,8 @@ class _SosFormState extends State<SosForm> {
   void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
 
   /// navigate to my sos
-  void _navigateToMySosScreen() =>
-      RouteHelper().mySosScreen(context, isReplacement: true);
+  void _navigateToMySosScreen() {
+    widget.onSuccess();
+  }
+
 }

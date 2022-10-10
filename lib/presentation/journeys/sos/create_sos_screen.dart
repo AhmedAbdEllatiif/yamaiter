@@ -4,6 +4,8 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/sos/sos_form.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
+import '../../../router/route_helper.dart';
+
 class CreateSosScreen extends StatelessWidget {
   const CreateSosScreen({Key? key}) : super(key: key);
 
@@ -23,7 +25,11 @@ class CreateSosScreen extends StatelessWidget {
             padding: EdgeInsets.symmetric(
                 horizontal: AppUtils.mainPagesHorizontalPadding.w,
                 vertical: AppUtils.mainPagesVerticalPadding.h),
-            child: const SosForm(),
+            child: SosForm(
+              onSuccess: () {
+                RouteHelper().mySosScreen(context, isReplacement: true);
+              },
+            ),
           )),
         ],
       ),

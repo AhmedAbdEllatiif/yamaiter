@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
@@ -78,7 +79,9 @@ class Routes {
         RouteList.createSos: (context) => const CreateSosScreen(),
 
         /// add sos
-        RouteList.addSos: (context) => const AddSosScreen(),
+        RouteList.addSos: (context) => AddSosScreen(
+              addSosArguments: settings.arguments as AddSosArguments,
+            ),
 
         /// CreateArticleScreen
         RouteList.createArticle: (context) => const CreateArticleScreen(),
