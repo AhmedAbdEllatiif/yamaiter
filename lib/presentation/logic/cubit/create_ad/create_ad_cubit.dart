@@ -5,7 +5,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/create_ad_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/create_ad.dart';
+import '../../../../domain/use_cases/ads/create_ad.dart';
 
 part 'create_ad_state.dart';
 

@@ -8,6 +8,7 @@ import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
+import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
@@ -86,4 +87,8 @@ abstract class RemoteRepository {
 
   /// get my completed taxes
   Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(String params);
+
+
+  /// return a list my  ads
+  Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken);
 }

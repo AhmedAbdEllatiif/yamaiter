@@ -23,6 +23,7 @@ import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
+import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../domain/entities/screen_arguments/update_article_args.dart';
 import '../presentation/journeys/ads/add_new_ad.dart';
@@ -117,7 +118,9 @@ class Routes {
         RouteList.myAds: (context) => const MyAdsScreen(),
 
         /// AddNewAdScreen
-        RouteList.addNewAd: (context) => const AddNewAdScreen(),
+        RouteList.addNewAd: (context) => AddNewAdScreen(
+              addNewAdArguments: settings.arguments as AddNewAdArguments,
+            ),
 
         /// CreateTaxScreen
         RouteList.createTax: (context) => const CreateTaxScreen(),

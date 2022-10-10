@@ -21,8 +21,14 @@ import '../../widgets/scrollable_app_card.dart';
 class CreateAdForm extends StatefulWidget {
   final bool withWhiteCard;
   final Function() onSuccess;
+  final CreateAdCubit? createAdCubit;
 
-  const CreateAdForm({Key? key, required this.withWhiteCard, required this.onSuccess}) : super(key: key);
+  const CreateAdForm(
+      {Key? key,
+      required this.withWhiteCard,
+      required this.onSuccess,
+      this.createAdCubit})
+      : super(key: key);
 
   @override
   State<CreateAdForm> createState() => _CreateAdFormState();
@@ -36,12 +42,14 @@ class _CreateAdFormState extends State<CreateAdForm> {
   @override
   void initState() {
     super.initState();
-    _createAdCubit = getItInstance<CreateAdCubit>();
+    _createAdCubit = widget.createAdCubit ?? getItInstance<CreateAdCubit>();
   }
 
   @override
   void dispose() {
-    _createAdCubit.close();
+    if (widget.createAdCubit == null) {
+      _createAdCubit.close();
+    }
     super.dispose();
   }
 
@@ -50,6 +58,7 @@ class _CreateAdFormState extends State<CreateAdForm> {
     return BlocProvider(
       create: (_) => _createAdCubit,
       child: BlocListener<CreateAdCubit, CreateAdState>(
+        bloc: _createAdCubit,
         listener: (_, state) {
           /// show snackBar on badInternetConnection
           if (state is ErrorWhileCreatingAd) {
@@ -144,6 +153,7 @@ class _CreateAdFormState extends State<CreateAdForm> {
         SizedBox(
           width: double.infinity,
           child: BlocBuilder<CreateAdCubit, CreateAdState>(
+            bloc: _createAdCubit,
             builder: (context, state) {
               if (state is LoadingCreateAd) {
                 return const Center(
@@ -216,7 +226,6 @@ class _CreateAdFormState extends State<CreateAdForm> {
   void _navigateToMyAds() {
     widget.onSuccess();
   }
-
 
   /// navigate to contact us
   void _navigateToContactUs() => RouteHelper().contactUsScreen(context);

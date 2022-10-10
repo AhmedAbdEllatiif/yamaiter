@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/article/article_model.dart';
@@ -19,6 +20,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
+import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
@@ -437,6 +439,26 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is List<TaxModel>) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken) async{
+    try {
+      // send create tax request
+      final result = await remoteDataSource.getMyAds(userToken);
+
+      // received success
+      if (result is List<AdModel>) {
         return Right(result);
       }
 

@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.da
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
+import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
 
 class RouteHelper {
@@ -78,8 +79,10 @@ class RouteHelper {
   }
 
   /// To add new ad screen \\\
-  void addNewAdScreen(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.addNewAd);
+  void addNewAdScreen(BuildContext context,
+      {required AddNewAdArguments addNewAdArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.addNewAd, arguments: addNewAdArguments);
   }
 
   /// To my ads screen \\\

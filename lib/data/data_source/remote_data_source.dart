@@ -15,6 +15,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
@@ -30,6 +31,7 @@ import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/create_tax.dart';
@@ -93,6 +95,10 @@ abstract class RemoteDataSource {
 
   /// fetchCompletedTaxes
   Future<dynamic> fetchCompletedTaxes(String userToken);
+
+  /// get my ads
+  Future<dynamic> getMyAds(String userToken);
+
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -671,5 +677,37 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             message: "fetchInProgressTaxes Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }*/
+  }
+
+  @override
+  Future getMyAds(String userToken) async{
+    log("getMyAds >> Start request");
+    // init request
+    final getRequest = GetMyAdsRequest();
+
+    // response
+    final response = await getRequest(userToken);
+
+    log("getMyAds >> ResponseCode: ${response.statusCode}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return listOfAdsFromJson(response.body);
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "getMyAds Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getMyAds Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("getMyAds >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "getMyAds Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
   }
 }

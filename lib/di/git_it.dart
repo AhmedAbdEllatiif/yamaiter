@@ -16,6 +16,8 @@ import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
@@ -30,13 +32,14 @@ import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
 import '../data/repositories/remote_repository_impl.dart';
 import '../domain/use_cases/about.dart';
+import '../domain/use_cases/ads/get_my_ads.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
-import '../domain/use_cases/create_ad.dart';
+import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
@@ -177,6 +180,12 @@ Future init() async {
     () => GetCompletedTaxesCubit(),
   );
 
+
+  //==> GetMyAdsCubit
+  getItInstance.registerFactory<GetMyAdsCubit>(
+    () => GetMyAdsCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -270,6 +279,11 @@ Future init() async {
   //==> GetCompletedTaxesCase
   getItInstance.registerFactory<GetCompletedTaxesCase>(
     () => GetCompletedTaxesCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetMyAdsCase
+  getItInstance.registerFactory<GetMyAdsCase>(
+    () => GetMyAdsCase(remoteRepository: getItInstance()),
   );
 
   //==> GetInProgressTaxesCase
