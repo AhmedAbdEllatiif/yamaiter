@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
@@ -76,8 +77,6 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.settings);
   }
 
-
-
   /// To add new ad screen \\\
   void addNewAdScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.addNewAd);
@@ -108,9 +107,12 @@ class RouteHelper {
   void createTaxScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.createTax);
   }
+
   /// To add new  screen \\\
-  void addNewTaxcreen(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.addNewTax);
+  void addNewTaxScreen(BuildContext context,
+      {required AddTaxArguments addTaxArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.addNewTax, arguments: addTaxArguments);
   }
 
   /// To my ads screen \\\

@@ -16,13 +16,19 @@ import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/loading_widget.dart';
 
 class InProgressTaxesList extends StatefulWidget {
-  const InProgressTaxesList({Key? key}) : super(key: key);
+  final CreateTaxCubit createTaxCubit;
+
+  const InProgressTaxesList(
+      {Key? key,
+      required this.createTaxCubit})
+      : super(key: key);
 
   @override
   State<InProgressTaxesList> createState() => _InProgressTaxesListState();
 }
 
-class _InProgressTaxesListState extends State<InProgressTaxesList> with AutomaticKeepAliveClientMixin{
+class _InProgressTaxesListState extends State<InProgressTaxesList>
+    with AutomaticKeepAliveClientMixin {
   late final GetInProgressTaxesCubit _inProgressTaxesCubit;
 
   @override
@@ -42,84 +48,92 @@ class _InProgressTaxesListState extends State<InProgressTaxesList> with Automati
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _inProgressTaxesCubit,
-      child: Builder(builder: (context) {
-        return BlocBuilder<GetInProgressTaxesCubit, GetInProgressTaxesState>(
-          builder: (context, state) {
-            //==> loading
-            if (state is LoadingGetInProgressTaxesList) {
-              return const Center(
-                child: LoadingWidget(),
-              );
-            }
+      child: BlocListener<CreateTaxCubit, CreateTaxState>(
+        listener: (context, state) {
+          if (state is TaxCreatedSuccessfully) {
+            _fetchInProgressTaxes();
+          }
+        },
+        child: Builder(builder: (context) {
+          return BlocBuilder<GetInProgressTaxesCubit, GetInProgressTaxesState>(
+            builder: (context, state) {
+              //==> loading
+              if (state is LoadingGetInProgressTaxesList) {
+                return const Center(
+                  child: LoadingWidget(),
+                );
+              }
 
-            //==> unAuthorized
-            if (state is UnAuthorizedGetInProgressTaxesList) {
-              return Center(
-                child: AppErrorWidget(
-                  appTypeError: AppErrorType.unauthorizedUser,
-                  buttonText: "تسجيل الدخول",
-                  onPressedRetry: () => _navigateToLogin(),
-                ),
-              );
-            }
-
-            //==> notActivatedUser
-            if (state is NotActivatedUserToGetInProgressTaxesList) {
-              return Center(
-                child: AppErrorWidget(
-                  appTypeError: AppErrorType.notActivatedUser,
-                  buttonText: "تواصل معنا",
-                  onPressedRetry: () => _navigateToContactUs(),
-                ),
-              );
-            }
-
-            //==> notActivatedUser
-            if (state is ErrorWhileGettingInProgressTaxesList) {
-              return Center(
-                child: AppErrorWidget(
-                  appTypeError: state.appError.appErrorType,
-                  onPressedRetry: () => _fetchInProgressTaxes(),
-                ),
-              );
-            }
-
-            //==> empty
-            if (state is EmptyInProgressTaxesList) {
-              return Center(
-                child: Text(
-                  "ليس لديك اقرارات تحت التنفيذ",
-                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                        color: AppColor.primaryDarkColor,
-                      ),
-                ),
-              );
-            }
-
-            /// fetched
-            if (state is InProgressTaxesListFetchedSuccessfully) {
-              final fetchedList = state.taxList;
-              return Padding(
-                padding:  EdgeInsets.symmetric(vertical: Sizes.dimen_5.h,horizontal: Sizes.dimen_10.w),
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: fetchedList.length,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: Sizes.dimen_2.h,
+              //==> unAuthorized
+              if (state is UnAuthorizedGetInProgressTaxesList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.unauthorizedUser,
+                    buttonText: "تسجيل الدخول",
+                    onPressedRetry: () => _navigateToLogin(),
                   ),
-                  itemBuilder: (context, index) {
-                    return TaxItem(taxEntity: fetchedList[index]);
-                  },
-                ),
-              );
-            }
+                );
+              }
 
-            /// other
-            return const SizedBox.shrink();
-          },
-        );
-      }),
+              //==> notActivatedUser
+              if (state is NotActivatedUserToGetInProgressTaxesList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.notActivatedUser,
+                    buttonText: "تواصل معنا",
+                    onPressedRetry: () => _navigateToContactUs(),
+                  ),
+                );
+              }
+
+              //==> notActivatedUser
+              if (state is ErrorWhileGettingInProgressTaxesList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: state.appError.appErrorType,
+                    onPressedRetry: () => _fetchInProgressTaxes(),
+                  ),
+                );
+              }
+
+              //==> empty
+              if (state is EmptyInProgressTaxesList) {
+                return Center(
+                  child: Text(
+                    "ليس لديك اقرارات تحت التنفيذ",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColor.primaryDarkColor,
+                        ),
+                  ),
+                );
+              }
+
+              /// fetched
+              if (state is InProgressTaxesListFetchedSuccessfully) {
+                final fetchedList = state.taxList;
+                return Padding(
+                  padding: EdgeInsets.symmetric(
+                      vertical: Sizes.dimen_5.h, horizontal: Sizes.dimen_10.w),
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: fetchedList.length,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: Sizes.dimen_2.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      return TaxItem(taxEntity: fetchedList[index]);
+                    },
+                  ),
+                );
+              }
+
+              /// other
+              return const SizedBox.shrink();
+            },
+          );
+        }),
+      ),
     );
   }
 
@@ -139,5 +153,5 @@ class _InProgressTaxesListState extends State<InProgressTaxesList> with Automati
 
   @override
   // TODO: implement wantKeepAlive
-  bool get wantKeepAlive =>true;
+  bool get wantKeepAlive => true;
 }

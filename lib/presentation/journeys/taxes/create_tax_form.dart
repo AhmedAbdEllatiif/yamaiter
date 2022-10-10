@@ -23,11 +23,13 @@ import '../../widgets/text_field_large_container.dart';
 class CreateTaxForm extends StatefulWidget {
   final Function() onSuccess;
   final bool withWhiteCard;
+  final CreateTaxCubit? createTaxCubit;
 
   const CreateTaxForm({
     Key? key,
     required this.onSuccess,
     required this.withWhiteCard,
+    this.createTaxCubit,
   }) : super(key: key);
 
   @override
@@ -49,13 +51,15 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   @override
   void initState() {
     super.initState();
-    _createTaxCubit = getItInstance<CreateTaxCubit>();
+    _createTaxCubit = widget.createTaxCubit ?? getItInstance<CreateTaxCubit>();
     _pickImageCubit = getItInstance<PickImageCubit>();
   }
 
   @override
   void dispose() {
-    _createTaxCubit.close();
+    if (widget.createTaxCubit == null) {
+      _createTaxCubit.close();
+    }
     _pickImageCubit.close();
     super.dispose();
   }
@@ -78,7 +82,9 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
               },
             ),
 
-            BlocListener<CreateTaxCubit, CreateTaxState>(listener: (_, state) {
+            BlocListener<CreateTaxCubit, CreateTaxState>(
+              bloc: _createTaxCubit,
+                listener: (_, state) {
               /// show snackBar on bTaxInternetConnection
               if (state is ErrorWhileCreatingTax) {
                 showSnackBar(context,
@@ -214,6 +220,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
         SizedBox(
           width: double.infinity,
           child: BlocBuilder<CreateTaxCubit, CreateTaxState>(
+            bloc: _createTaxCubit,
             builder: (context, state) {
               if (state is LoadingCreateTax) {
                 return const Center(
