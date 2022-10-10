@@ -17,7 +17,7 @@ List<ArticleModel> myArticlesFromJson(String str) {
 }
 
 ArticleModel articleModelFromJson(String str) =>
-    ArticleModel.fromJson(json.decode(str)["Article"]);
+    ArticleModel.fromJson(json.decode(str)["article"]);
 
 class ArticleModel extends ArticleEntity {
   ArticleModel({

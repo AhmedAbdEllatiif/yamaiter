@@ -273,22 +273,8 @@ class _UpdateArticleFormState extends State<UpdateArticleForm> {
 
   /// to validate the current form
   bool _isFormValid() {
-    //==> validateOnMultiImages
-    _pickImageCubit.validateOnMultiImages();
-
-    //==> validate on form and received images list
     if (_formKey.currentState != null) {
-      if (_formKey.currentState!.validate()) {
-        if (_imagesPicked.isEmpty) {
-          showSnackBar(context,
-              isFloating: false,
-              backgroundColor: AppColor.accentColor,
-              textColor: AppColor.primaryDarkColor,
-              message: "ارفاق صورة على الاقل مطلوب");
-          return false;
-        }
-      }
-      return true;
+      return _formKey.currentState!.validate();
     }
     return false;
   }
