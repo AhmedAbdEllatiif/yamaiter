@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/data/params/all_sos_params.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
@@ -12,15 +13,18 @@ part 'get_all_sos_state.dart';
 class GetAllSosCubit extends Cubit<GetAllSosState> {
   GetAllSosCubit() : super(GetAllSosInitial());
 
-  void fetchAllSosList({required String userToken}) async {
+  void fetchAllSosList({required String userToken,int offset = 0}) async {
     //==> loading
     _emitIfNotClosed(LoadingGetAllSosList());
+
+    //==> init params
+    final params = GetAllSosParams(userToken: userToken, offset: offset);
 
     //==> init case
     final useCase = getItInstance<GetAllSosListCase>();
 
     //==> send request
-    final either = await useCase(userToken);
+    final either = await useCase(params);
 
     //==> receive result
     either.fold(

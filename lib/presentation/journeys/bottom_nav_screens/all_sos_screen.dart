@@ -5,6 +5,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../di/git_it.dart';
+import '../../../domain/entities/data/sos_entity.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
@@ -23,6 +24,8 @@ class AllSosScreen extends StatefulWidget {
 
 class _AllSosScreenState extends State<AllSosScreen> {
   late final GetAllSosCubit _getAllSosCubit;
+
+  final List<SosEntity> allSosList = [];
 
   @override
   void initState() {
@@ -160,7 +163,7 @@ class _AllSosScreenState extends State<AllSosScreen> {
   void _fetchMySosList() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    _getAllSosCubit.fetchAllSosList(userToken: userToken);
+    _getAllSosCubit.fetchAllSosList(userToken: userToken,offset: allSosList.length);
   }
 
   void _navigateToLogin() =>

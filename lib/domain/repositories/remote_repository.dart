@@ -15,6 +15,7 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 
 import '../../data/models/success_model.dart';
+import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../entities/app_error.dart';
@@ -52,7 +53,7 @@ abstract class RemoteRepository {
   Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken);
 
   /// return a list of all  sos
-  Future<Either<AppError, List<SosEntity>>> getAllSosList(String userToken);
+  Future<Either<AppError, List<SosEntity>>> getAllSosList(GetAllSosParams params);
 
   /// create article
   Future<Either<AppError, SuccessModel>> createArticle(

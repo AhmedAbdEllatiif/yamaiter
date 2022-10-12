@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -11,6 +12,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -236,10 +238,10 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// getAllSosList
   @override
   Future<Either<AppError, List<SosEntity>>> getAllSosList(
-      String userToken) async {
+      GetAllSosParams params) async {
     try {
       // send get all sos list request
-      final result = await remoteDataSource.getAllSos(userToken);
+      final result = await remoteDataSource.getAllSos(params);
 
       // received all sos list
       if (result is SosResponseModel) {
@@ -251,6 +253,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Left(result);
       }
     } on Exception catch (e) {
+      log("Error: $e");
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }

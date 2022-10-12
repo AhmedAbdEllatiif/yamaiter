@@ -1,138 +1,171 @@
 class ApiConstants {
-  static const String _baseUrl = 'https://yamaitre.com/api';
+  static const String _baseUrl = 'yamaitre.com';
 
   static const String mediaUrl = 'https://yamaitre.com/uploads/';
 
-  static final String _loginUrl = _baseUrl + EndPoints.login;
-  static final String _registerUrl = _baseUrl + EndPoints.registerLawyer;
-  static final String _about = _baseUrl + EndPoints.about;
-  static final String _privacyAndPolicy = _baseUrl + EndPoints.privacyAndPolicy;
-  static final String _help = _baseUrl + EndPoints.help;
-  static final String _termsAndConditions =
-      _baseUrl + EndPoints.termsAndConditions;
-  static final String _distresses = _baseUrl + EndPoints.distresses;
-  static final String _mySosList = _baseUrl + EndPoints.mySosList;
-  static final String _allSosList = _baseUrl + EndPoints.allSosList;
-  static final String _createArticle = _baseUrl + EndPoints.articles;
-  static final String _singleArticle = _baseUrl + EndPoints.articles;
-  static final String _myArticles = _baseUrl + EndPoints.myArticles;
-  static final String _deleteArticle = _baseUrl + EndPoints.deleteArticle;
-  static final String _updateArticle = _baseUrl + EndPoints.updateArticle;
-  static final String _createAd = _baseUrl + EndPoints.createAd;
-  static final String _createTax = _baseUrl + EndPoints.createTax;
-  static final String _inProgressTaxes = _baseUrl + EndPoints.inProgressTaxes;
-  static final String _myAds = _baseUrl + EndPoints.myAds;
+  /* final uri = Uri.https(url, [
+    {"offset": 1}
+  ]);*/
 
-  static String buildUrl(RequestType requestType, {String id = ""}) {
+  static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
+
+  static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
+
+  static Uri _about() => Uri.https(_baseUrl, EndPoints.about);
+
+  static Uri _privacyAndPolicy() =>
+      Uri.https(_baseUrl, EndPoints.privacyAndPolicy);
+
+  static Uri _help() => Uri.https(_baseUrl, EndPoints.help);
+
+  static Uri _termsAndConditions() =>
+      Uri.https(_baseUrl, EndPoints.termsAndConditions);
+
+  static Uri _distresses() => Uri.https(_baseUrl, EndPoints.distresses);
+
+  static Uri _mySosList() => Uri.https(_baseUrl, EndPoints.mySosList);
+
+  static Uri _allSosList({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.allSosList, queryParams);
+
+  static Uri _createArticle() => Uri.https(_baseUrl, EndPoints.articles);
+
+  static Uri _singleArticle(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.articles}/$id");
+
+  static Uri _myArticles() => Uri.https(_baseUrl, EndPoints.myArticles);
+
+  static Uri _deleteArticle(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.deleteArticle}/$id");
+
+  static Uri _updateArticle(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.updateArticle}/$id");
+
+  static Uri _createAd() => Uri.https(_baseUrl, EndPoints.createAd);
+
+  static Uri _createTax() => Uri.https(_baseUrl, EndPoints.createTax);
+
+  static Uri _inProgressTaxes() =>
+      Uri.https(_baseUrl, EndPoints.inProgressTaxes);
+
+  static Uri _myAds() => Uri.https(_baseUrl, EndPoints.myAds);
+
+  static Uri buildUrl(
+    RequestType requestType, {
+    String id = "",
+    Map<String, String> queryParams = const {"": ""},
+  }) {
     switch (requestType) {
       // login
       case RequestType.login:
-        return _loginUrl;
+        return _loginUrl();
       // registerLawyer
       case RequestType.registerLawyer:
-        return _registerUrl;
+        return _registerUrl();
       // about
       case RequestType.about:
-        return _about;
+        return _about();
       case RequestType.termsAndConditions:
-        return _termsAndConditions;
+        return _termsAndConditions();
       // privacyAndPolicy
       case RequestType.privacyAndPolicy:
-        return _privacyAndPolicy;
+        return _privacyAndPolicy();
       // help
       case RequestType.help:
-        return _help;
+        return _help();
       // distresses
       case RequestType.distresses:
-        return _distresses;
+        return _distresses();
       // mySosList
       case RequestType.mySosList:
-        return _mySosList;
+        return _mySosList();
       // allSosList
       case RequestType.allSosList:
-        return _allSosList;
+        return _allSosList(queryParams: queryParams);
       // createArticle
       case RequestType.createArticle:
-        return _createArticle;
+        return _createArticle();
       // single article
       case RequestType.singleArticle:
-        return "$_singleArticle/$id";
+        return _singleArticle(id);
       // myArticles
       case RequestType.myArticles:
-        return _myArticles;
+        return _myArticles();
       // delete article
       case RequestType.deleteArticle:
-        return "$_deleteArticle/$id";
+        return _deleteArticle(id);
       // delete article
       case RequestType.updateArticle:
-        return "$_updateArticle/$id";
+        return _updateArticle(id);
       // createAd
       case RequestType.createAd:
-        return _createAd;
+        return _createAd();
       // createAd
       case RequestType.createTax:
-        return _createTax;
+        return _createTax();
       // inProgressTaxes
       case RequestType.inProgressTaxes:
-        return _inProgressTaxes;
+        return _inProgressTaxes();
       // myAds
       case RequestType.myAds:
-        return _myAds;
+        return _myAds();
     }
   }
 }
 
 class EndPoints {
+  static const String _apiVersion = "/api/";
+
   /// login
-  static String login = "/login";
+  static String login = "${_apiVersion}login";
 
   /// registerLawyer
-  static String registerLawyer = "/lawyer-register";
+  static String registerLawyer = "${_apiVersion}lawyer-register";
 
   /// about
-  static String about = "/about";
+  static String about = "${_apiVersion}about";
 
   /// terms-and-conditions
-  static String termsAndConditions = "/terms-and-conditions";
+  static String termsAndConditions = "${_apiVersion}terms-and-conditions";
 
   /// privacy-policy
-  static String privacyAndPolicy = "/privacy-policy";
+  static String privacyAndPolicy = "${_apiVersion}privacy-policy";
 
   /// help
-  static String help = "/help";
+  static String help = "${_apiVersion}help";
 
   /// distresses
-  static String distresses = "/distresses";
+  static String distresses = "${_apiVersion}distresses";
 
   /// my sos
-  static String mySosList = "/show-distresses";
+  static String mySosList = "${_apiVersion}show-distresses";
 
   /// all sos
-  static String allSosList = "/distresses";
+  static String allSosList = "${_apiVersion}distresses";
 
   /// createArticle
-  static String articles = "/articles";
+  static String articles = "${_apiVersion}articles";
 
   /// myArticles
-  static String myArticles = "/my-articles";
+  static String myArticles = "${_apiVersion}my-articles";
 
   /// deleteArticle
-  static String deleteArticle = "/articles";
+  static String deleteArticle = "${_apiVersion}articles";
 
   /// updateArticle
-  static String updateArticle = "/update-article";
+  static String updateArticle = "${_apiVersion}update-article";
 
   /// createAd
-  static String createAd = "/announcements";
+  static String createAd = "${_apiVersion}announcements";
 
   /// createAd
-  static String createTax = "/taxes";
+  static String createTax = "${_apiVersion}taxes";
 
   /// inProgressTaxes
-  static String inProgressTaxes = "/show-taxes";
+  static String inProgressTaxes = "${_apiVersion}show-taxes";
 
   /// myAds
-  static String myAds = "/show-announcements";
+  static String myAds = "${_apiVersion}show-announcements";
 }
 
 /// The api request type
@@ -155,4 +188,9 @@ enum RequestType {
   createTax,
   inProgressTaxes,
   myAds,
+}
+
+
+class ApiParamsConstant{
+  static String offset = "offset";
 }

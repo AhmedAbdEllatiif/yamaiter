@@ -16,7 +16,7 @@ http.MultipartRequest initMultiPartPostRequest(
   final url = ApiConstants.buildUrl(requestType, id: id);
 
   // build post request
-  final request = http.MultipartRequest("POST", Uri.parse(url));
+  final request = http.MultipartRequest("POST", url);
   request.headers.addAll(
     {
       "Accept": "application/json",
@@ -36,7 +36,7 @@ Future<http.Response> initRawPostRequest(
   final url = ApiConstants.buildUrl(requestType);
 
   // build post request
-  final request = await http.post(Uri.parse(url),
+  final request = await http.post(url,
       headers: {
         "Accept": "application/json",
         "Authorization": "Bearer $token",
@@ -47,15 +47,21 @@ Future<http.Response> initRawPostRequest(
 }
 
 /// return a get response
-Future<http.Response> initGetRequest(
-    {required RequestType requestType,
-    required String token,
-    String id = ""}) async {
+Future<http.Response> initGetRequest({
+  required RequestType requestType,
+  required String token,
+  String id = "",
+  Map<String, String> queryParams = const {"": ""},
+}) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(requestType, id: id);
+  final url = ApiConstants.buildUrl(
+    requestType,
+    id: id,
+    queryParams: queryParams,
+  );
 
   // build post request
-  final response = await http.get(Uri.parse(url), headers: {
+  final response = await http.get(url, headers: {
     "Accept": "application/json",
     "Authorization": "Bearer $token",
   });
@@ -72,7 +78,7 @@ Future<http.Response> initDeleteRequest(
   final url = ApiConstants.buildUrl(requestType, id: id);
 
   // build post request
-  final response = await http.delete(Uri.parse(url), headers: {
+  final response = await http.delete(url, headers: {
     "Accept": "application/json",
     "Authorization": "Bearer $token",
   });

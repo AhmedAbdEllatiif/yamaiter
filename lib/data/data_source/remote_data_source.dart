@@ -23,6 +23,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -67,7 +68,7 @@ abstract class RemoteDataSource {
   Future<dynamic> getMySos(String userToken);
 
   /// get all sos
-  Future<dynamic> getAllSos(String userToken);
+  Future<dynamic> getAllSos(GetAllSosParams params);
 
   /// createTax
   Future<dynamic> createTax(CreateTaxParams params);
@@ -98,7 +99,6 @@ abstract class RemoteDataSource {
 
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
-
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -341,13 +341,13 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future getAllSos(String userToken) async {
+  Future getAllSos(GetAllSosParams params) async {
     log("getAllSos >> Start request");
     // init request
     final allSosRequest = GetAllSosRequest();
 
     // response
-    final response = await allSosRequest(userToken);
+    final response = await allSosRequest(params);
 
     log("getAllSos >> ResponseCode: ${response.statusCode}");
 
@@ -365,6 +365,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             message: "getAllSos Status Code >> ${response.statusCode}");
       // default
       default:
+        log("getAllSos >> ResponseCode: ${response.statusCode} \n Body: ${response.body}");
         return AppError(AppErrorType.api,
             message: "getAllSos Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
@@ -452,18 +453,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("fetchMyArticles >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return myArticlesFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "fetchMyArticles Status Code >> ${response.statusCode}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "fetchMyArticles Status Code >> ${response.statusCode}");
-    // default
+      // default
       default:
         log("fetchMyArticles >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
@@ -580,7 +581,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future createTax(CreateTaxParams params) async{
+  Future createTax(CreateTaxParams params) async {
     // init request
     final createTaxRequest = CreateTaxRequest();
     final request = await createTaxRequest(params);
@@ -593,18 +594,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("createTax >> ResponseCode: ${response.statusCode}");
     log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return SuccessModel();
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "createTax Status Code >> ${response.statusCode}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "createTax Status Code >> ${response.statusCode}");
-    // default
+      // default
       default:
         log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
@@ -615,7 +616,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// fetchInProgressTaxes
   @override
-  Future fetchInProgressTaxes(String userToken) async{
+  Future fetchInProgressTaxes(String userToken) async {
     log("fetchInProgressTaxes >> Start request");
     // init request
     final getRequest = GetInProgressTaxesRequest();
@@ -626,28 +627,31 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("fetchInProgressTaxes >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return listOfTaxesFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}");
-    // unAuthorized
+            message:
+                "fetchInProgressTaxes Status Code >> ${response.statusCode}");
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}");
-    // default
+            message:
+                "fetchInProgressTaxes Status Code >> ${response.statusCode}");
+      // default
       default:
         log("fetchInProgressTaxes >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}"
+            message:
+                "fetchInProgressTaxes Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }
 
   @override
-  Future fetchCompletedTaxes(String userToken) async{
+  Future fetchCompletedTaxes(String userToken) async {
     throw UnimplementedError();
     /*log("fetchInProgressTaxes >> Start request");
     // init request
@@ -680,7 +684,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future getMyAds(String userToken) async{
+  Future getMyAds(String userToken) async {
     log("getMyAds >> Start request");
     // init request
     final getRequest = GetMyAdsRequest();
@@ -691,18 +695,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("getMyAds >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return listOfAdsFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "getMyAds Status Code >> ${response.statusCode}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "getMyAds Status Code >> ${response.statusCode}");
-    // default
+      // default
       default:
         log("getMyAds >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
