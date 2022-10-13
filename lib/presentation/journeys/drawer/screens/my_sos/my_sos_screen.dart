@@ -5,6 +5,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
@@ -15,6 +16,7 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../common/constants/app_utils.dart';
 import '../../../../../common/constants/sizes.dart';
+import '../../../../../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
 
@@ -28,12 +30,14 @@ class MySosScreen extends StatefulWidget {
 class _MySosScreenState extends State<MySosScreen> {
   late final GetMySosCubit _getMySosCubit;
   late final CreateSosCubit _createSosCubit;
+  late final DeleteSosCubit _deleteSosCubit;
 
   @override
   void initState() {
     super.initState();
     _getMySosCubit = getItInstance<GetMySosCubit>();
     _createSosCubit = getItInstance<CreateSosCubit>();
+    _deleteSosCubit = getItInstance<DeleteSosCubit>();
     _fetchMySosList();
   }
 
@@ -41,6 +45,7 @@ class _MySosScreenState extends State<MySosScreen> {
   void dispose() {
     _getMySosCubit.close();
     _createSosCubit.close();
+    _deleteSosCubit.close();
     super.dispose();
   }
 
@@ -50,13 +55,26 @@ class _MySosScreenState extends State<MySosScreen> {
       providers: [
         BlocProvider(create: (context) => _getMySosCubit),
         BlocProvider(create: (context) => _createSosCubit),
+        BlocProvider(create: (context) => _deleteSosCubit),
       ],
-      child: BlocListener<CreateSosCubit, CreateSosState>(
-        listener: (context, state) {
-          if (state is SosCreatedSuccessfully) {
-            _fetchMySosList();
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          /// CreateSosCubit
+          BlocListener<CreateSosCubit, CreateSosState>(
+              listener: (context, state) {
+            if (state is SosCreatedSuccessfully) {
+              _fetchMySosList();
+            }
+          }),
+
+          /// DeleteSosCubit
+          BlocListener<DeleteSosCubit, DeleteSosState>(
+              listener: (context, state) {
+            if (state is SosDeletedSuccessfully) {
+              _fetchMySosList();
+            }
+          }),
+        ],
         child: Scaffold(
           /// appBar
           appBar: AppBar(
@@ -162,6 +180,10 @@ class _MySosScreenState extends State<MySosScreen> {
                                     return SosItem(
                                       sosEntity: fetchedList[index],
                                       withCallLawyer: false,
+                                      onDeletePressed: () =>
+                                          _navigateToDeleteSosScreen(
+                                        fetchedList[index].id,
+                                      ),
                                     );
                                   },
                                 );
@@ -212,6 +234,18 @@ class _MySosScreenState extends State<MySosScreen> {
 
   void _navigateAddSos() => RouteHelper().addSos(context,
       addSosArguments: AddSosArguments(createSosCubit: _createSosCubit));
+
+  /// To navigate to delete sos
+  void _navigateToDeleteSosScreen(int sosId) {
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    RouteHelper().deleteSos(context,
+        deleteSosArguments: DeleteSosArguments(
+          sosId: sosId,
+          userToken: userToken,
+          deleteSosCubit: _deleteSosCubit,
+        ));
+  }
 
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);

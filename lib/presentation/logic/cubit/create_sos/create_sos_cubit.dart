@@ -4,7 +4,7 @@ import 'package:yamaiter/data/models/sos/create_sos/sos_request_model.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
-import 'package:yamaiter/domain/use_cases/create_sos.dart';
+import 'package:yamaiter/domain/use_cases/sos/create_sos.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/models/success_model.dart';

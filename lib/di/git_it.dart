@@ -1,9 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
-import 'package:yamaiter/domain/use_cases/get_all_sos.dart';
-import 'package:yamaiter/domain/use_cases/get_my_sos_list.dart';
-import 'package:yamaiter/domain/use_cases/get_my_sos_list.dart';
+import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
+import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
+import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/help.dart';
 import 'package:yamaiter/domain/use_cases/help.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
@@ -14,6 +14,7 @@ import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
@@ -40,8 +41,9 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
-import '../domain/use_cases/create_sos.dart';
+import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
+import '../domain/use_cases/sos/delete_sos.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
@@ -130,6 +132,11 @@ Future init() async {
     () => GetMySosCubit(),
   );
 
+  //==> DeleteSosCubit
+  getItInstance.registerFactory<DeleteSosCubit>(
+    () => DeleteSosCubit(),
+  );
+
   //==> GetAllSosCubit
   getItInstance.registerFactory<GetAllSosCubit>(
     () => GetAllSosCubit(),
@@ -179,7 +186,6 @@ Future init() async {
   getItInstance.registerFactory<GetCompletedTaxesCubit>(
     () => GetCompletedTaxesCubit(),
   );
-
 
   //==> GetMyAdsCubit
   getItInstance.registerFactory<GetMyAdsCubit>(
@@ -239,6 +245,11 @@ Future init() async {
   //==> GetMySosListCase
   getItInstance.registerFactory<GetMySosListCase>(
     () => GetMySosListCase(remoteRepository: getItInstance()),
+  );
+
+  //==> DeleteSosCase
+  getItInstance.registerFactory<DeleteSosCase>(
+    () => DeleteSosCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateArticleCase

@@ -6,7 +6,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/sos_entity.dart';
-import '../../../../domain/use_cases/get_all_sos.dart';
+import '../../../../domain/use_cases/sos/get_all_sos.dart';
 
 part 'get_all_sos_state.dart';
 

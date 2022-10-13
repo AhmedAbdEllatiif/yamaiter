@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
-import 'package:yamaiter/domain/use_cases/get_my_sos_list.dart';
+import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';

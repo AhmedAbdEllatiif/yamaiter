@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
+import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
@@ -41,6 +42,7 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/sos/sos_model.dart';
+import '../params/delete_sos_params.dart';
 
 abstract class RemoteDataSource {
   /// login
@@ -66,6 +68,9 @@ abstract class RemoteDataSource {
 
   /// get my sos
   Future<dynamic> getMySos(String userToken);
+
+  /// delete sos
+  Future<dynamic> deleteSos(DeleteSosParams params);
 
   /// get all sos
   Future<dynamic> getAllSos(GetAllSosParams params);
@@ -711,6 +716,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         log("getMyAds >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "getMyAds Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+
+  /// deleteSos
+  @override
+  Future deleteSos(DeleteSosParams params) async{
+    log("deleteSos >> Start request");
+    // init request
+    final deleteRequest = DeleteSosRequest();
+
+    // response
+    final response = await deleteRequest(params);
+
+    log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return SuccessModel();
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "deleteSos Status Code >> ${response.statusCode}");
+    // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "deleteSos Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "deleteSos Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "deleteSos Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

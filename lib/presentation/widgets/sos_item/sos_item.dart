@@ -10,16 +10,19 @@ import 'package:yamaiter/presentation/widgets/card_menu_item.dart';
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/animation_type.dart';
-import '../../../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../../../router/route_helper.dart';
 import '../image_name_rating_widget.dart';
 
 class SosItem extends StatefulWidget {
   final SosEntity sosEntity;
   final bool withCallLawyer;
+  final Function()? onDeletePressed;
 
   const SosItem(
-      {Key? key, required this.sosEntity, required this.withCallLawyer})
+      {Key? key,
+      required this.sosEntity,
+      required this.withCallLawyer,
+      this.onDeletePressed})
       : super(key: key);
 
   @override
@@ -33,7 +36,15 @@ class _SosItemState extends State<SosItem> {
   Widget build(BuildContext context) {
     return Card(
       child: InkWell(
-        onTap: () => _navigateToSingleSosScreen(),
+        onTap: () {
+          if (_isMenuOpened) {
+            setState(() {
+              _isMenuOpened = !_isMenuOpened;
+            });
+          } else {
+            _navigateToSingleSosScreen();
+          }
+        },
         borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
         child: Padding(
           padding: EdgeInsets.only(
@@ -252,7 +263,7 @@ class _SosItemState extends State<SosItem> {
                         ),
                         CardMenuItem(
                           text: "حذف الاستغاثة",
-                          onPressed: () => _navigateToDeleteSosScreen(),
+                          onPressed: widget.onDeletePressed ?? () {},
                         ),
                       ],
                     ),
@@ -275,10 +286,6 @@ class _SosItemState extends State<SosItem> {
           },
         });
   }
-
-  /// To navigate to delete sos
-  void _navigateToDeleteSosScreen() => RouteHelper().deleteSos(context,
-      deleteSosArguments: DeleteSosArguments(sosId: widget.sosEntity.id));
 
   /// To navigate to single screen sos
   void _navigateToSingleSosScreen() => RouteHelper().singleSosScreen(context,

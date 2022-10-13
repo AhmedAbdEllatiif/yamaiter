@@ -6,6 +6,7 @@ import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
+import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
@@ -51,6 +52,10 @@ abstract class RemoteRepository {
 
   /// return a list of current user sos
   Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken);
+
+  /// delete sos
+  Future<Either<AppError, SuccessModel>> deleteSos(
+      DeleteSosParams deleteSosParams);
 
   /// return a list of all  sos
   Future<Either<AppError, List<SosEntity>>> getAllSosList(GetAllSosParams params);

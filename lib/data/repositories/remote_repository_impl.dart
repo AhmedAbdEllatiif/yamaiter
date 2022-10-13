@@ -18,6 +18,7 @@ import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
+import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
@@ -227,6 +228,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get my sos
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// deleteSos
+  @override
+  Future<Either<AppError, SuccessModel>> deleteSos(
+      DeleteSosParams deleteSosParams) async {
+    try {
+      // send delete sos request
+      final result = await remoteDataSource.deleteSos(deleteSosParams);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to delete sos
       else {
         return Left(result);
       }
@@ -455,7 +478,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
   }
 
   @override
-  Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken) async{
+  Future<Either<AppError, List<AdEntity>>> getMyAdsList(
+      String userToken) async {
     try {
       // send create tax request
       final result = await remoteDataSource.getMyAds(userToken);
@@ -473,6 +497,4 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
-
-
 }

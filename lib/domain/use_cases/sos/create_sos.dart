@@ -4,7 +4,7 @@ import 'package:yamaiter/domain/entities/app_error.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
-import '../../data/models/success_model.dart';
+import '../../../data/models/success_model.dart';
 
 class CreateSosCase extends UseCase<SuccessModel, CreateSosParams> {
   final RemoteRepository remoteRepository;

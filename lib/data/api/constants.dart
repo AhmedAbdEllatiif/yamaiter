@@ -25,6 +25,9 @@ class ApiConstants {
 
   static Uri _mySosList() => Uri.https(_baseUrl, EndPoints.mySosList);
 
+  static Uri _deleteSos(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.deleteSos}/$id");
+
   static Uri _allSosList({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.allSosList, queryParams);
 
@@ -79,6 +82,9 @@ class ApiConstants {
       // mySosList
       case RequestType.mySosList:
         return _mySosList();
+      // delete sos
+      case RequestType.deleteSos:
+        return _deleteSos(id);
       // allSosList
       case RequestType.allSosList:
         return _allSosList(queryParams: queryParams);
@@ -94,7 +100,7 @@ class ApiConstants {
       // delete article
       case RequestType.deleteArticle:
         return _deleteArticle(id);
-      // delete article
+      // update article
       case RequestType.updateArticle:
         return _updateArticle(id);
       // createAd
@@ -140,6 +146,9 @@ class EndPoints {
   /// my sos
   static String mySosList = "${_apiVersion}show-distresses";
 
+  /// delete sos
+  static String deleteSos = "${_apiVersion}distresses";
+
   /// all sos
   static String allSosList = "${_apiVersion}distresses";
 
@@ -179,6 +188,7 @@ enum RequestType {
   distresses,
   mySosList,
   allSosList,
+  deleteSos,
   createArticle,
   updateArticle,
   singleArticle,
@@ -190,7 +200,6 @@ enum RequestType {
   myAds,
 }
 
-
-class ApiParamsConstant{
+class ApiParamsConstant {
   static String offset = "offset";
 }
