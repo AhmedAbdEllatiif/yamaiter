@@ -27,7 +27,7 @@ class GetAllSosCubit extends Cubit<GetAllSosState> {
     }
 
     //==> init params
-    final params = GetAllSosParams(userToken: userToken, offset: offset);
+    final params = GetSosParams(userToken: userToken, offset: offset);
 
     //==> init case
     final useCase = getItInstance<GetAllSosListCase>();
@@ -60,6 +60,11 @@ class GetAllSosCubit extends Cubit<GetAllSosState> {
     else if (sosList.isEmpty) {
       return EmptyAllSosList();
     }
+    //==>  less than the limit
+    else if (sosList.length < 10) {
+      return LastPageAllSosReached(sosEntityList: sosList);
+    }
+
     //==> projects fetched
     else {
       return AllSosListFetchedSuccessfully(sosEntityList: sosList);

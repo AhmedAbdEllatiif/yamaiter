@@ -51,14 +51,14 @@ abstract class RemoteRepository {
       CreateSosParams createSosParams);
 
   /// return a list of current user sos
-  Future<Either<AppError, List<SosEntity>>> getMySosList(String userToken);
+  Future<Either<AppError, List<SosEntity>>> getMySosList(GetSosParams params);
 
   /// delete sos
   Future<Either<AppError, SuccessModel>> deleteSos(
       DeleteSosParams deleteSosParams);
 
   /// return a list of all  sos
-  Future<Either<AppError, List<SosEntity>>> getAllSosList(GetAllSosParams params);
+  Future<Either<AppError, List<SosEntity>>> getAllSosList(GetSosParams params);
 
   /// create article
   Future<Either<AppError, SuccessModel>> createArticle(

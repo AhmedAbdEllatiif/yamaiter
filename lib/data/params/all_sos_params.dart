@@ -1,6 +1,6 @@
-class GetAllSosParams{
+class GetSosParams{
   final String userToken;
   final int offset;
 
-  GetAllSosParams({required this.userToken, required this.offset});
+  GetSosParams({required this.userToken, required this.offset});
 }

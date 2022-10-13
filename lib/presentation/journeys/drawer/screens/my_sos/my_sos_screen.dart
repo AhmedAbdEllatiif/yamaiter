@@ -16,9 +16,11 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../common/constants/app_utils.dart';
 import '../../../../../common/constants/sizes.dart';
+import '../../../../../domain/entities/data/sos_entity.dart';
 import '../../../../../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
+import 'loading_more_my_sos.dart';
 
 class MySosScreen extends StatefulWidget {
   const MySosScreen({Key? key}) : super(key: key);
@@ -32,6 +34,9 @@ class _MySosScreenState extends State<MySosScreen> {
   late final CreateSosCubit _createSosCubit;
   late final DeleteSosCubit _deleteSosCubit;
 
+  final List<SosEntity> sosList = [];
+  final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +44,7 @@ class _MySosScreenState extends State<MySosScreen> {
     _createSosCubit = getItInstance<CreateSosCubit>();
     _deleteSosCubit = getItInstance<DeleteSosCubit>();
     _fetchMySosList();
+    _listenerOnScrollController();
   }
 
   @override
@@ -59,6 +65,19 @@ class _MySosScreenState extends State<MySosScreen> {
       ],
       child: MultiBlocListener(
         listeners: [
+          /// GetMySosCubit
+          BlocListener<GetMySosCubit, GetMySosState>(
+              listener: (context, state) {
+            //==> MySosListFetchedSuccessfully
+            if (state is MySosListFetchedSuccessfully) {
+              sosList.addAll(state.sosEntityList);
+            }
+            //==> lastPageFetched
+            if (state is LastPageMySosListFetched) {
+              sosList.addAll(state.sosEntityList);
+            }
+          }),
+
           /// CreateSosCubit
           BlocListener<CreateSosCubit, CreateSosState>(
               listener: (context, state) {
@@ -71,6 +90,7 @@ class _MySosScreenState extends State<MySosScreen> {
           BlocListener<DeleteSosCubit, DeleteSosState>(
               listener: (context, state) {
             if (state is SosDeletedSuccessfully) {
+              sosList.clear();
               _fetchMySosList();
             }
           }),
@@ -106,6 +126,7 @@ class _MySosScreenState extends State<MySosScreen> {
                       Expanded(
                         child: SingleChildScrollView(
                           physics: const BouncingScrollPhysics(),
+                          controller: _controller,
                           child: Padding(
                             padding: EdgeInsets.only(top: Sizes.dimen_10.h),
                             child: BlocBuilder<GetMySosCubit, GetMySosState>(
@@ -165,52 +186,31 @@ class _MySosScreenState extends State<MySosScreen> {
                                 );
                               }
 
-                              //==> fetched
-                              if (state is MySosListFetchedSuccessfully) {
-                                final fetchedList = state.sosEntityList;
-                                return ListView.separated(
-                                  physics: const BouncingScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: fetchedList.length,
-                                  separatorBuilder: (context, index) =>
-                                      SizedBox(
-                                    height: Sizes.dimen_2.h,
-                                  ),
-                                  itemBuilder: (context, index) {
+                              return ListView.separated(
+                                physics: const BouncingScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: sosList.length + 1,
+                                separatorBuilder: (context, index) => SizedBox(
+                                  height: Sizes.dimen_2.h,
+                                ),
+                                itemBuilder: (context, index) {
+                                  if (index < sosList.length) {
                                     return SosItem(
-                                      sosEntity: fetchedList[index],
+                                      sosEntity: sosList[index],
                                       withCallLawyer: false,
                                       onDeletePressed: () =>
                                           _navigateToDeleteSosScreen(
-                                        fetchedList[index].id,
+                                        sosList[index].id,
                                       ),
                                     );
-                                  },
-                                );
-                              }
+                                  }
 
-                              /* return ListView.separated(
-                              physics: const BouncingScrollPhysics(),
-                              shrinkWrap: true,
-                              itemCount: 2,
-                              separatorBuilder: (context, index) => SizedBox(
-                                height: Sizes.dimen_2.h,
-                              ),
-                              itemBuilder: (context, index) {
-                                return const SosItem(sosEntity: SosEntity(
-                                  id: 0,
-                                  title: "This is title",
-                                  description: "This is Description",
-                                  creatorName: "Ahmed Mohammed",
-                                  creatorPhoneNum: "01124466700",
-                                  creatorRating: 4,
-                                  governorate: "Cairo",
-                                  createdAt: "29-08-2022"
-                                ));
-                              },
-                            );*/
-                              //==> other
-                              return const SizedBox.shrink();
+                                  /// loading or end of list
+                                  return LoadingMoreMySosWidget(
+                                    allSosCubit: _getMySosCubit,
+                                  );
+                                },
+                              );
                             }),
                           ),
                         ),
@@ -229,7 +229,11 @@ class _MySosScreenState extends State<MySosScreen> {
   void _fetchMySosList() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    _getMySosCubit.fetchMySosList(userToken: userToken);
+    _getMySosCubit.fetchMySosList(
+      userToken: userToken,
+      currentListLength: sosList.length,
+      offset: sosList.length,
+    );
   }
 
   void _navigateAddSos() => RouteHelper().addSos(context,
@@ -251,4 +255,17 @@ class _MySosScreenState extends State<MySosScreen> {
       RouteHelper().loginScreen(context, isClearStack: true);
 
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
+
+  /// listener on controller
+  /// when last item reached fetch next page
+  /// when last item reached no action needed
+  void _listenerOnScrollController() {
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        if (_getMySosCubit.state is! LastPageMySosListFetched) {
+          _fetchMySosList();
+        }
+      }
+    });
+  }
 }

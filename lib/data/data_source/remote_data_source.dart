@@ -67,13 +67,13 @@ abstract class RemoteDataSource {
   Future<dynamic> createSos(CreateSosParams params);
 
   /// get my sos
-  Future<dynamic> getMySos(String userToken);
+  Future<dynamic> getMySos(GetSosParams params);
 
   /// delete sos
   Future<dynamic> deleteSos(DeleteSosParams params);
 
   /// get all sos
-  Future<dynamic> getAllSos(GetAllSosParams params);
+  Future<dynamic> getAllSos(GetSosParams params);
 
   /// createTax
   Future<dynamic> createTax(CreateTaxParams params);
@@ -311,16 +311,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future getMySos(String userToken) async {
+  Future getMySos(GetSosParams params) async {
     try {
       log("getMySos >> Start request");
       // init request
       final getMySos = GetMySosRequest();
 
       // response
-      final response = await getMySos(userToken);
+      final response = await getMySos(params);
 
-      log("getMySos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+      log("getMySos >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
         // success
@@ -346,7 +346,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future getAllSos(GetAllSosParams params) async {
+  Future getAllSos(GetSosParams params) async {
     log("getAllSos >> Start request");
     // init request
     final allSosRequest = GetAllSosRequest();
@@ -720,10 +720,9 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// deleteSos
   @override
-  Future deleteSos(DeleteSosParams params) async{
+  Future deleteSos(DeleteSosParams params) async {
     log("deleteSos >> Start request");
     // init request
     final deleteRequest = DeleteSosRequest();
@@ -734,22 +733,22 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return SuccessModel();
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "deleteSos Status Code >> ${response.statusCode}");
-    // not found
+      // not found
       case 404:
         return AppError(AppErrorType.notFound,
             message: "deleteSos Status Code >> ${response.statusCode}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "deleteSos Status Code >> ${response.statusCode}");
-    // default
+      // default
       default:
         log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,

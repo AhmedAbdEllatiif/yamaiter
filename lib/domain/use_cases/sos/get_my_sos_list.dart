@@ -4,12 +4,14 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
-class GetMySosListCase extends UseCase<List<SosEntity>, String> {
+import '../../../data/params/all_sos_params.dart';
+
+class GetMySosListCase extends UseCase<List<SosEntity>, GetSosParams> {
   final RemoteRepository remoteRepository;
 
   GetMySosListCase({required this.remoteRepository});
 
   @override
-  Future<Either<AppError, List<SosEntity>>> call(String params) async =>
+  Future<Either<AppError, List<SosEntity>>> call(GetSosParams params) async =>
       await remoteRepository.getMySosList(params);
 }

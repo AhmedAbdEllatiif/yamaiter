@@ -217,10 +217,10 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// getMySosList
   @override
   Future<Either<AppError, List<SosEntity>>> getMySosList(
-      String userToken) async {
+      GetSosParams params) async {
     try {
       // send get my sos list request
-      final result = await remoteDataSource.getMySos(userToken);
+      final result = await remoteDataSource.getMySos(params);
 
       // received my sos list
       if (result is SosResponseModel) {
@@ -261,7 +261,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// getAllSosList
   @override
   Future<Either<AppError, List<SosEntity>>> getAllSosList(
-      GetAllSosParams params) async {
+      GetSosParams params) async {
     try {
       // send get all sos list request
       final result = await remoteDataSource.getAllSos(params);

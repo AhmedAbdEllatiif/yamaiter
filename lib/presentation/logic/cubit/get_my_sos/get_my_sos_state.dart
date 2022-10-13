@@ -13,6 +13,9 @@ class GetMySosInitial extends GetMySosState {}
 /// loading
 class LoadingGetMySosList extends GetMySosState {}
 
+/// loading more
+class LoadingMoreMySosList extends GetMySosState {}
+
 /// empty
 class EmptyMySosList extends GetMySosState {}
 
@@ -21,6 +24,16 @@ class UnAuthorizedGetMySosList extends GetMySosState {}
 
 /// not a lawyer to get my sos list
 class NotActivatedUserToGetMySosList extends GetMySosState {}
+
+/// lastPage fetched
+class LastPageMySosListFetched extends GetMySosState {
+  final List<SosEntity> sosEntityList;
+
+  const LastPageMySosListFetched({required this.sosEntityList});
+
+  @override
+  List<Object> get props => [sosEntityList];
+}
 
 /// success
 class MySosListFetchedSuccessfully extends GetMySosState {
@@ -37,6 +50,16 @@ class ErrorWhileGettingMySosList extends GetMySosState {
   final AppError appError;
 
   const ErrorWhileGettingMySosList({required this.appError});
+
+  @override
+  List<Object> get props => [appError];
+}
+
+/// error loading more
+class ErrorWhileGettingMoreMySosList extends GetMySosState {
+  final AppError appError;
+
+  const ErrorWhileGettingMoreMySosList({required this.appError});
 
   @override
   List<Object> get props => [appError];

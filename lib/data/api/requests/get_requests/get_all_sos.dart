@@ -6,9 +6,9 @@ import 'package:yamaiter/data/params/all_sos_params.dart';
 
 import '../../constants.dart';
 
-class GetAllSosRequest extends GetRequest<GetAllSosParams> {
+class GetAllSosRequest extends GetRequest<GetSosParams> {
   @override
-  Future<http.Response> call(GetAllSosParams params) async {
+  Future<http.Response> call(GetSosParams params) async {
     var response = await initGetRequest(
         requestType: RequestType.allSosList,
         token: params.userToken,

@@ -23,7 +23,8 @@ class ApiConstants {
 
   static Uri _distresses() => Uri.https(_baseUrl, EndPoints.distresses);
 
-  static Uri _mySosList() => Uri.https(_baseUrl, EndPoints.mySosList);
+  static Uri _mySosList({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.mySosList, queryParams);
 
   static Uri _deleteSos(String id) =>
       Uri.https(_baseUrl, "${EndPoints.deleteSos}/$id");
@@ -81,7 +82,7 @@ class ApiConstants {
         return _distresses();
       // mySosList
       case RequestType.mySosList:
-        return _mySosList();
+        return _mySosList(queryParams: queryParams);
       // delete sos
       case RequestType.deleteSos:
         return _deleteSos(id);
