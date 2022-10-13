@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/screen_utils/screen_util.dart';
-import '../../../domain/entities/data/ad_entity.dart';
 import '../../themes/theme_color.dart';
-import '../../widgets/ads_list/ads_list_view.dart';
 import '../../widgets/ads_widget.dart';
 import '../../widgets/icon_with_badge.dart';
-import '../sos/create_sos_screen.dart';
 import '../drawer/drawer_screen/drawer_screen.dart';
 
 class MainScreen extends StatefulWidget {
@@ -27,6 +23,8 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   int _selectedIndex = 2;
+
+  final ScrollController allSosController = ScrollController();
 
   @override
   void initState() {
@@ -57,20 +55,34 @@ class _MainScreenState extends State<MainScreen> {
           const AdsWidget(),
 
           Expanded(
-              child: Padding(
-                padding:EdgeInsets.only(
+            child: Padding(
+              padding: EdgeInsets.only(
                   bottom: AppUtils.mainPagesVerticalPadding.h,
-                    right: AppUtils.mainPagesHorizontalPadding.w,
-                    left: AppUtils.mainPagesVerticalPadding.h),
-                child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: IndexedStack(index: _selectedIndex, children: const [
-                HomeScreen(),
-                AllSosScreen(),
-                ChooseToAddScreen(),
-            ]),
+                  right: AppUtils.mainPagesHorizontalPadding.w,
+                  left: AppUtils.mainPagesVerticalPadding.h),
+              child: IndexedStack(
+                index: _selectedIndex,
+                children: [
+                  const HomeScreen(),
+
+                  /// AllSosScreen
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: allSosController,
+                    child: AllSosScreen(
+                      controller: allSosController,
+                    ),
+                  ),
+
+                  /// ChooseToAddScreen
+                  const SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: ChooseToAddScreen(),
+                  ),
+                ],
+              ),
+            ),
           ),
-              )),
         ],
       ),
 
@@ -203,17 +215,5 @@ class _MainScreenState extends State<MainScreen> {
         label: 'المهمات',
       ),
     ];
-  }
-
-  Widget _currentSelectedPage(int index) {
-    if (index == 0) {
-      return HomeScreen();
-    }
-
-    if (index == 1) {
-      return AllSosScreen();
-    }
-
-    return HomeScreen();
   }
 }

@@ -13,9 +13,18 @@ part 'get_all_sos_state.dart';
 class GetAllSosCubit extends Cubit<GetAllSosState> {
   GetAllSosCubit() : super(GetAllSosInitial());
 
-  void fetchAllSosList({required String userToken,int offset = 0}) async {
+  /// to fetch all sos list
+  void fetchAllSosList({
+    required String userToken,
+    required int currentListLength,
+    int offset = 0,
+  }) async {
     //==> loading
-    _emitIfNotClosed(LoadingGetAllSosList());
+    if (currentListLength == 0) {
+      _emitIfNotClosed(LoadingGetAllSosList());
+    } else {
+      _emitIfNotClosed(LoadingMoreAllSosList());
+    }
 
     //==> init params
     final params = GetAllSosParams(userToken: userToken, offset: offset);
@@ -30,16 +39,31 @@ class GetAllSosCubit extends Cubit<GetAllSosState> {
     either.fold(
       (appError) => _emitError(appError),
       (sosEntityList) => {
-        if (sosEntityList.isNotEmpty)
-          {
-            _emitIfNotClosed(
-                AllSosListFetchedSuccessfully(sosEntityList: sosEntityList))
-          }
-        // empty
-        else
-          {_emitIfNotClosed(EmptyAllSosList())}
+        _emitIfNotClosed(
+          _statusToEmit(sosList: sosEntityList, offset: offset),
+        )
       },
     );
+  }
+
+  /// to emit the result of success fetching the required sos
+  /// * param [offset] is the current offset to fetch
+  /// * if the offset > 0 and the length is zero,
+  /// this means last page reached
+  GetAllSosState _statusToEmit(
+      {required List<SosEntity> sosList, required int offset}) {
+    //==> last page reached
+    if (offset > 0 && sosList.isEmpty) {
+      return LastPageAllSosReached(sosEntityList: sosList);
+    }
+    //==> empty list
+    else if (sosList.isEmpty) {
+      return EmptyAllSosList();
+    }
+    //==> projects fetched
+    else {
+      return AllSosListFetchedSuccessfully(sosEntityList: sosList);
+    }
   }
 
   /// _emit an error according to AppError
