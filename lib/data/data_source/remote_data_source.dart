@@ -31,6 +31,7 @@ import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
@@ -38,6 +39,7 @@ import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/create_tax.dart';
 import '../api/requests/post_requests/update_article.dart';
+import '../api/requests/post_requests/update_sos.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
@@ -71,6 +73,9 @@ abstract class RemoteDataSource {
 
   /// delete sos
   Future<dynamic> deleteSos(DeleteSosParams params);
+
+  /// update sos
+  Future<dynamic> updateSos(UpdateSosParams params);
 
   /// get all sos
   Future<dynamic> getAllSos(GetSosParams params);
@@ -306,6 +311,39 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       default:
         return AppError(AppErrorType.api,
             message: "createSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+
+  /// updateSos
+  @override
+  Future updateSos(UpdateSosParams params) async {
+    log("updateSos >> Start request");
+    // init request
+    final updateRequest = UpdateSosRequest();
+
+    // response
+    final response = await updateRequest(params, params.token);
+
+    log("updateSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return SuccessModel();
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "updateSos Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "updateSos Status Code >> ${response.statusCode}");
+      // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "updateSos Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

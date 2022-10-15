@@ -22,6 +22,7 @@ import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
+import 'package:yamaiter/data/params/update_sos_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
@@ -197,15 +198,37 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, SuccessModel>> createSos(
       CreateSosParams createSosParams) async {
     try {
-      // send get help request
+      // send create sos request
       final result = await remoteDataSource.createSos(createSosParams);
 
-      // received help
+      // received success
       if (result is SuccessModel) {
         return Right(result);
       }
 
-      // failed to get help
+      // failed to create sos
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// updateSos
+  @override
+  Future<Either<AppError, SuccessModel>> updateSos(
+      UpdateSosParams updateSosParams) async {
+    try {
+      // send update sos request
+      final result = await remoteDataSource.updateSos(updateSosParams);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to update sos
       else {
         return Left(result);
       }

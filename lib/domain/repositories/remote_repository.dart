@@ -19,6 +19,7 @@ import '../../data/models/success_model.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
+import '../../data/params/update_sos_params.dart';
 import '../entities/app_error.dart';
 import '../entities/data/article_entity.dart';
 
@@ -49,6 +50,10 @@ abstract class RemoteRepository {
   /// create sos
   Future<Either<AppError, SuccessModel>> createSos(
       CreateSosParams createSosParams);
+
+  /// update sos
+  Future<Either<AppError, SuccessModel>> updateSos(
+      UpdateSosParams updateSosParams);
 
   /// return a list of current user sos
   Future<Either<AppError, List<SosEntity>>> getMySosList(GetSosParams params);

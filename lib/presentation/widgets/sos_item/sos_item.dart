@@ -17,13 +17,15 @@ class SosItem extends StatefulWidget {
   final SosEntity sosEntity;
   final bool withCallLawyer;
   final Function()? onDeletePressed;
+  final Function()? onUpdatePressed;
 
-  const SosItem(
-      {Key? key,
-      required this.sosEntity,
-      required this.withCallLawyer,
-      this.onDeletePressed})
-      : super(key: key);
+  const SosItem({
+    Key? key,
+    required this.sosEntity,
+    required this.withCallLawyer,
+    this.onDeletePressed,
+    this.onUpdatePressed,
+  }) : super(key: key);
 
   @override
   State<SosItem> createState() => _SosItemState();
@@ -258,8 +260,8 @@ class _SosItemState extends State<SosItem> {
                     child: Column(
                       children: [
                         CardMenuItem(
-                          text: "Option1",
-                          onPressed: () {},
+                          text: "تعديل الاستغاثة",
+                          onPressed: widget.onUpdatePressed ?? () {},
                         ),
                         CardMenuItem(
                           text: "حذف الاستغاثة",

@@ -7,6 +7,7 @@ import '../themes/theme_color.dart';
 class AppDropDownField extends StatefulWidget {
   final String? hintText;
   final String? errorText;
+  final String? initialValue;
   final List<String> itemsList;
   final Function(String?) onChanged;
   final double? height;
@@ -17,9 +18,10 @@ class AppDropDownField extends StatefulWidget {
   const AppDropDownField({
     Key? key,
     required this.itemsList,
+    required this.onChanged,
     this.hintText,
     this.errorText,
-    required this.onChanged,
+    this.initialValue,
     this.height,
     this.width,
     this.margin,
@@ -40,7 +42,7 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
       child: DropdownButtonFormField<String>(
         isExpanded: true,
         //value: "A",
-
+        value: widget.initialValue,
         // decoration
         decoration: InputDecoration(
           filled: true,

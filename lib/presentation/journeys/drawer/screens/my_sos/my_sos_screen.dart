@@ -4,9 +4,11 @@ import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/update_sos_cubit/update_sos_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
@@ -33,6 +35,7 @@ class _MySosScreenState extends State<MySosScreen> {
   late final GetMySosCubit _getMySosCubit;
   late final CreateSosCubit _createSosCubit;
   late final DeleteSosCubit _deleteSosCubit;
+  late final UpdateSosCubit _updateSosCubit;
 
   final List<SosEntity> sosList = [];
   final ScrollController _controller = ScrollController();
@@ -43,6 +46,7 @@ class _MySosScreenState extends State<MySosScreen> {
     _getMySosCubit = getItInstance<GetMySosCubit>();
     _createSosCubit = getItInstance<CreateSosCubit>();
     _deleteSosCubit = getItInstance<DeleteSosCubit>();
+    _updateSosCubit = getItInstance<UpdateSosCubit>();
     _fetchMySosList();
     _listenerOnScrollController();
   }
@@ -52,6 +56,7 @@ class _MySosScreenState extends State<MySosScreen> {
     _getMySosCubit.close();
     _createSosCubit.close();
     _deleteSosCubit.close();
+    _updateSosCubit.close();
     super.dispose();
   }
 
@@ -62,6 +67,7 @@ class _MySosScreenState extends State<MySosScreen> {
         BlocProvider(create: (context) => _getMySosCubit),
         BlocProvider(create: (context) => _createSosCubit),
         BlocProvider(create: (context) => _deleteSosCubit),
+        BlocProvider(create: (context) => _updateSosCubit),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -82,6 +88,7 @@ class _MySosScreenState extends State<MySosScreen> {
           BlocListener<CreateSosCubit, CreateSosState>(
               listener: (context, state) {
             if (state is SosCreatedSuccessfully) {
+              sosList.clear();
               _fetchMySosList();
             }
           }),
@@ -90,6 +97,15 @@ class _MySosScreenState extends State<MySosScreen> {
           BlocListener<DeleteSosCubit, DeleteSosState>(
               listener: (context, state) {
             if (state is SosDeletedSuccessfully) {
+              sosList.clear();
+              _fetchMySosList();
+            }
+          }),
+
+          /// UpdateSosCubit
+          BlocListener<UpdateSosCubit, UpdateSosState>(
+              listener: (context, state) {
+            if (state is SosUpdatedSuccessfully) {
               sosList.clear();
               _fetchMySosList();
             }
@@ -194,10 +210,16 @@ class _MySosScreenState extends State<MySosScreen> {
                                   height: Sizes.dimen_2.h,
                                 ),
                                 itemBuilder: (context, index) {
+
+                                  /// sos item
                                   if (index < sosList.length) {
                                     return SosItem(
                                       sosEntity: sosList[index],
                                       withCallLawyer: false,
+                                      onUpdatePressed: () {
+                                        _navigateToUpdateSosScreen(
+                                            sosList[index]);
+                                      },
                                       onDeletePressed: () =>
                                           _navigateToDeleteSosScreen(
                                         sosList[index].id,
@@ -251,9 +273,23 @@ class _MySosScreenState extends State<MySosScreen> {
         ));
   }
 
+  /// To navigate to update sos
+  void _navigateToUpdateSosScreen(SosEntity sosEntity) {
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    RouteHelper().updateSos(context,
+        updateSosArguments: UpdateSosArguments(
+          sosEntity: sosEntity,
+          userToken: userToken,
+          updateSosCubit: _updateSosCubit,
+        ));
+  }
+
+  /// To navigate to login
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);
 
+  /// To navigate to contactUs
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
 
   /// listener on controller

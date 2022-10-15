@@ -24,6 +24,7 @@ import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/update_sos_cubit/update_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
@@ -44,6 +45,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/sos/delete_sos.dart';
+import '../domain/use_cases/sos/update_sos.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
@@ -135,6 +137,11 @@ Future init() async {
   //==> DeleteSosCubit
   getItInstance.registerFactory<DeleteSosCubit>(
     () => DeleteSosCubit(),
+  );
+
+  //==> UpdateSosCubit
+  getItInstance.registerFactory<UpdateSosCubit>(
+    () => UpdateSosCubit(),
   );
 
   //==> GetAllSosCubit
@@ -250,6 +257,11 @@ Future init() async {
   //==> DeleteSosCase
   getItInstance.registerFactory<DeleteSosCase>(
     () => DeleteSosCase(remoteRepository: getItInstance()),
+  );
+
+  //==> UpdateSosCase
+  getItInstance.registerFactory<UpdateSosCase>(
+    () => UpdateSosCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateArticleCase

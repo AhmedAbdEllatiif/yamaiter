@@ -7,6 +7,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
@@ -150,6 +151,13 @@ class RouteHelper {
       {required DeleteSosArguments deleteSosArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.deleteSos, arguments: deleteSosArguments);
+  }
+
+  /// To update sos screen \\\
+  void updateSos(BuildContext context,
+      {required UpdateSosArguments updateSosArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.updateSos, arguments: updateSosArguments);
   }
 
   /// To my sos screen \\\
