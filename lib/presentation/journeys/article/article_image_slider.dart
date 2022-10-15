@@ -17,7 +17,7 @@ class ArticleImageSliderWidget extends StatelessWidget {
     print("Images >> $images");
     return CarouselSlider(
       options: CarouselOptions(
-        height: ScreenUtil.screenHeight * 0.15,
+        height: ScreenUtil.screenHeight * 0.18,
         aspectRatio: 16 / 9,
         viewportFraction: 0.8,
         initialPage: 0,
@@ -27,7 +27,7 @@ class ArticleImageSliderWidget extends StatelessWidget {
         // autoPlayInterval: Duration(seconds: 5),
         // autoPlayAnimationDuration: Duration(milliseconds: 2000),
         // autoPlayCurve: Curves.fastOutSlowIn,
-        // enlargeCenterPage: true,
+         enlargeCenterPage: true,
         //onPageChanged: callbackFunction,
         scrollDirection: Axis.horizontal,
       ),
@@ -35,11 +35,12 @@ class ArticleImageSliderWidget extends StatelessWidget {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              //width: MediaQuery.of(context).size.width,
-              margin: const EdgeInsets.symmetric(horizontal: 3.0),
-              color: AppColor.deepOrange,
+                width: double.infinity,
+              //margin: const EdgeInsets.symmetric(horizontal: 3.0),
+              color: AppColor.primaryDarkColor,
               child: CachedNetworkImage(
                 imageUrl: singleImg,
+                fit: BoxFit.cover,
               )
             );
           },
