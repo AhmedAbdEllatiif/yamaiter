@@ -20,12 +20,14 @@ class ArticleItem extends StatefulWidget {
   final ArticleEntity articleEntity;
   final DeleteArticleCubit? deleteArticleCubit;
   final UpdateArticleCubit? updateArticleCubit;
+  final bool withMenu;
 
   const ArticleItem({
     Key? key,
     required this.articleEntity,
     this.deleteArticleCubit,
     this.updateArticleCubit,
+    this.withMenu = true,
   }) : super(key: key);
 
   @override
@@ -171,6 +173,7 @@ class _ArticleItemState extends State<ArticleItem> {
               ),
 
               /// menu dots
+              if(widget.withMenu)
               Positioned(
                 top: 0.0,
                 left: Sizes.dimen_10.w,
@@ -191,7 +194,7 @@ class _ArticleItemState extends State<ArticleItem> {
               ),
 
               /// menu
-              if (_isMenuOpened)
+              if (_isMenuOpened && widget.withMenu)
                 Positioned(
                   top: Sizes.dimen_30,
                   left: Sizes.dimen_10.w,

@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
+import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
+import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
@@ -15,6 +17,7 @@ import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
@@ -154,6 +157,11 @@ Future init() async {
     () => CreateArticleCubit(),
   );
 
+  //==> GetAllArticlesCubit
+  getItInstance.registerFactory<GetAllArticlesCubit>(
+    () => GetAllArticlesCubit(),
+  );
+
   //==> MyArticlesCubit
   getItInstance.registerFactory<MyArticlesCubit>(
     () => MyArticlesCubit(),
@@ -267,6 +275,11 @@ Future init() async {
   //==> CreateArticleCase
   getItInstance.registerFactory<CreateArticleCase>(
     () => CreateArticleCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetAllArticlesCase
+  getItInstance.registerFactory<GetAllArticlesCase>(
+    () => GetAllArticlesCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateArticleCase

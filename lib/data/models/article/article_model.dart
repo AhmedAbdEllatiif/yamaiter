@@ -4,6 +4,20 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 
+/// return list of Articles form all articles request
+List<ArticleModel> allArticlesFromJson(String str) {
+  final List<ArticleModel> articleModels = [];
+
+  if (json.decode(str)["articles"] != null) {
+    json.decode(str)["articles"].forEach((v) {
+      articleModels.add(ArticleModel.fromJson(v));
+    });
+  }
+
+  return articleModels.reversed.toList();
+}
+
+/// return list of Articles form my articles request
 List<ArticleModel> myArticlesFromJson(String str) {
   final List<ArticleModel> articleModels = [];
 

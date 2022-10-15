@@ -5,6 +5,7 @@ import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
@@ -24,6 +25,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
@@ -82,6 +84,9 @@ abstract class RemoteDataSource {
 
   /// createTax
   Future<dynamic> createTax(CreateTaxParams params);
+
+  /// createArticle
+  Future<dynamic> getAllArticles(GetArticlesParams params);
 
   /// createArticle
   Future<dynamic> createArticle(CreateOrUpdateArticleParams params);
@@ -315,7 +320,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// updateSos
   @override
   Future updateSos(UpdateSosParams params) async {
@@ -411,6 +415,38 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         log("getAllSos >> ResponseCode: ${response.statusCode} \n Body: ${response.body}");
         return AppError(AppErrorType.api,
             message: "getAllSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  @override
+  Future getAllArticles(GetArticlesParams params) async {
+    log("getAllArticles >> Start request");
+    // init request
+    final getRequest = GetAllArticlesRequest();
+
+    // response
+    final response = await getRequest(params);
+
+    log("getAllArticles >> ResponseCode: ${response.statusCode}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return allArticlesFromJson(response.body);
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "getAllArticles Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getAllArticles Status Code >> ${response.statusCode}");
+      // default
+      default:
+        log("getAllArticles >> ResponseCode: ${response.statusCode} \n Body: ${response.body}");
+        return AppError(AppErrorType.api,
+            message: "getAllArticles Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }

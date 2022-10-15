@@ -12,6 +12,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
@@ -347,6 +348,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+  /// getAllArticlesList
+  @override
+  Future<Either<AppError, List<ArticleEntity>>> getAllArticlesList(
+      GetArticlesParams params) async {
+    try {
+      // send fetch my articles request
+      final result = await remoteDataSource.getAllArticles(params);
+
+      // received success
+      if (result is List<ArticleModel>) {
+        return Right(result);
+      }
+
+      // failed to fetch my  articles
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// getMyArticles
   @override
   Future<Either<AppError, List<ArticleEntity>>> getMyArticles(
       String params) async {

@@ -1,3 +1,5 @@
+import 'package:dartz/dartz.dart';
+
 class ApiConstants {
   static const String _baseUrl = 'yamaitre.com';
 
@@ -32,8 +34,11 @@ class ApiConstants {
   static Uri _deleteSos(String id) =>
       Uri.https(_baseUrl, "${EndPoints.deleteSos}/$id");
 
-  static Uri _updateSosArticle(String id) =>
+  static Uri _updateSos(String id) =>
       Uri.https(_baseUrl, "${EndPoints.updateSos}/$id");
+
+  static Uri _allArticles({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.allArticles, queryParams);
 
   static Uri _createArticle() => Uri.https(_baseUrl, EndPoints.articles);
 
@@ -91,10 +96,13 @@ class ApiConstants {
         return _deleteSos(id);
       // update sos
       case RequestType.updateSos:
-        return _updateSosArticle(id);
+        return _updateSos(id);
       // allSosList
       case RequestType.allSosList:
         return _allSosList(queryParams: queryParams);
+      // allArticles
+      case RequestType.allArticles:
+        return _allArticles(queryParams: queryParams);
       // createArticle
       case RequestType.createArticle:
         return _createArticle();
@@ -162,6 +170,9 @@ class EndPoints {
   /// all sos
   static String allSosList = "${_apiVersion}distresses";
 
+  /// allArticles
+  static String allArticles = "${_apiVersion}articles";
+
   /// createArticle
   static String articles = "${_apiVersion}articles";
 
@@ -200,6 +211,7 @@ enum RequestType {
   allSosList,
   deleteSos,
   updateSos,
+  allArticles,
   createArticle,
   updateArticle,
   singleArticle,

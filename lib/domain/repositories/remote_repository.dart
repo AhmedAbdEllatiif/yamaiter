@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -65,6 +66,10 @@ abstract class RemoteRepository {
   /// return a list of all  sos
   Future<Either<AppError, List<SosEntity>>> getAllSosList(GetSosParams params);
 
+  /// return a list of current user sos
+  Future<Either<AppError, List<ArticleEntity>>> getAllArticlesList(
+      GetArticlesParams params);
+
   /// create article
   Future<Either<AppError, SuccessModel>> createArticle(
       CreateOrUpdateArticleParams params);
@@ -89,16 +94,13 @@ abstract class RemoteRepository {
       CreateAdParams createAdParams);
 
   /// create tax
-  Future<Either<AppError, SuccessModel>> createTax(
-      CreateTaxParams params);
-
+  Future<Either<AppError, SuccessModel>> createTax(CreateTaxParams params);
 
   /// get my in progress taxes
   Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(String params);
 
   /// get my completed taxes
   Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(String params);
-
 
   /// return a list my  ads
   Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken);

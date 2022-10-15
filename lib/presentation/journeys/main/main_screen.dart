@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen.dart';
-import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 
 import '../../../common/constants/app_utils.dart';
@@ -25,6 +25,7 @@ class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 2;
 
   final ScrollController allSosController = ScrollController();
+  final ScrollController allArticlesController = ScrollController();
 
   @override
   void initState() {
@@ -63,7 +64,15 @@ class _MainScreenState extends State<MainScreen> {
               child: IndexedStack(
                 index: _selectedIndex,
                 children: [
-                  const HomeScreen(),
+
+                  /// Home >> allArticles
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: allArticlesController,
+                    child: HomeScreen(
+                      scrollController: allArticlesController,
+                    ),
+                  ),
 
                   /// AllSosScreen
                   SingleChildScrollView(
