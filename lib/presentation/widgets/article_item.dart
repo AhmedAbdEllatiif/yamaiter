@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
@@ -9,6 +10,7 @@ import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_
 
 import '../../common/constants/app_utils.dart';
 import '../../common/constants/sizes.dart';
+import '../../common/enum/animation_type.dart';
 import '../../router/route_helper.dart';
 import '../logic/cubit/user_token/user_token_cubit.dart';
 import '../themes/theme_color.dart';
@@ -222,7 +224,19 @@ class _ArticleItemState extends State<ArticleItem> {
           ),
         ),
       ),
-    );
+    ).animate(
+        slideDuration: const Duration(milliseconds: 300),
+        fadeDuration: const Duration(milliseconds: 300),
+        map: {
+          AnimationType.slide: {
+            SlideOffset.begin: const Offset(0.0, 0.5),
+            SlideOffset.end: const Offset(0.0, 0.0),
+          },
+          AnimationType.fade: {
+            FadeOpacity.begin: 0.5,
+            FadeOpacity.end: 1.0,
+          },
+        });
   }
 
   /// To navigate to update article screen sos
