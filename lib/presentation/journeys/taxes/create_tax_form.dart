@@ -126,9 +126,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                     children: [
                       /// title
                       AppContentTitleWidget(
-                        title: widget.withWhiteCard
-                            ? "طلب اعلان دعائى"
-                            : "طلب اعلان",
+                        title: "طلب اقرار ضريبى",
                         textStyle: widget.withWhiteCard
                             ? null
                             : Theme.of(context).textTheme.titleLarge!.copyWith(
