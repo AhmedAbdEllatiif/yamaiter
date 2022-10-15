@@ -22,6 +22,7 @@ class ImageNameRatingWidget extends StatelessWidget {
   final Color ratedColor;
   final bool withRow;
   final double iconRateSize;
+  final bool isAdmin;
 
   const ImageNameRatingWidget({
     Key? key,
@@ -37,6 +38,7 @@ class ImageNameRatingWidget extends StatelessWidget {
     this.nameColor = AppColor.white,
     this.unRatedColor = AppColor.white,
     this.ratedColor = AppColor.accentColor,
+    this.isAdmin = false,
   }) : super(key: key);
 
   @override
@@ -51,6 +53,18 @@ class ImageNameRatingWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+
+          /// admin image
+          if(isAdmin)
+          CircleAvatar(
+            minRadius: minImageSize.w / 1.7,
+            maxRadius: maxImageSize.w / 1.7,
+            backgroundColor: AppColor.primaryDarkColor,
+            child:  Image.asset(AssetsImages.logo),
+          ),
+
+          /// not admin image
+          if(!isAdmin)
           GestureDetector(
             onTap: onPressed,
             child: CachedImageWidget(
@@ -72,7 +86,7 @@ class ImageNameRatingWidget extends StatelessWidget {
           ),
           RatingBar.builder(
             initialRating: rating,
-            minRating:0,
+            minRating: 0,
             itemSize: iconRateSize.w,
             direction: Axis.horizontal,
             allowHalfRating: true,

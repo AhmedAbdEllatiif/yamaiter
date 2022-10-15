@@ -157,12 +157,13 @@ class _ArticleItemState extends State<ArticleItem> {
                       name: widget.articleEntity.authorName,
                       imgUrl: widget.articleEntity.creatorImage,
                       rating: 3,
+                      isAdmin: widget.articleEntity.authorName == "admin",
                       unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                       withRow: false,
                       nameSize: Sizes.dimen_12.sp,
                       iconRateSize: Sizes.dimen_12,
-                      minImageSize: Sizes.dimen_24,
-                      maxImageSize: Sizes.dimen_24,
+                      minImageSize: Sizes.dimen_40.w,
+                      maxImageSize: Sizes.dimen_40.w,
                       nameColor: AppColor.primaryDarkColor,
                       onPressed: () {
                         // RouteHelper().editProfile(context);

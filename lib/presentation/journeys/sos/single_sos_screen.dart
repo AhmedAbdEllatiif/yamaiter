@@ -45,10 +45,12 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
           const AdsWidget(),
 
           Padding(
-            padding: EdgeInsets.only(top: Sizes.dimen_10.h,
-            bottom: AppUtils.mainPagesVerticalPadding.h,
-            right: AppUtils.mainPagesHorizontalPadding.w,
-            left: AppUtils.mainPagesHorizontalPadding.w,),
+            padding: EdgeInsets.only(
+              top: Sizes.dimen_10.h,
+              bottom: AppUtils.mainPagesVerticalPadding.h,
+              right: AppUtils.mainPagesHorizontalPadding.w,
+              left: AppUtils.mainPagesHorizontalPadding.w,
+            ),
             child: ScrollableAppCard(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,14 +98,14 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                     /// ImageNameRatingWidget
                     ImageNameRatingWidget(
                       name: sosEntity.creatorName,
-                      imgUrl: AssetsImages.personAvatar,
+                      imgUrl: sosEntity.creatorImage,
                       rating: 3,
                       unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                       withRow: false,
                       nameSize: Sizes.dimen_12.sp,
                       iconRateSize: Sizes.dimen_12,
-                      minImageSize: Sizes.dimen_24,
-                      maxImageSize: Sizes.dimen_24,
+                      minImageSize: Sizes.dimen_40.w,
+                      maxImageSize: Sizes.dimen_40.w,
                       nameColor: AppColor.primaryDarkColor,
                       onPressed: () {
                         // RouteHelper().editProfile(context);
@@ -127,19 +129,18 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                 /// Space
                 SizedBox(height: Sizes.dimen_12.h),
 
-
-                if(widget.singleScreenArguments.withCallButton )
-                AppButton(
-                    text: "اتصل بالمحامى",
-                    textColor: AppColor.accentColor,
-                    color: AppColor.primaryDarkColor,
-                    fontSize: Sizes.dimen_12.sp,
-                    icon: Icon(
-                      Icons.call_outlined,
-                      color: AppColor.accentColor,
-                      size: Sizes.dimen_16.w,
-                    ),
-                    onPressed: () {})
+                if (widget.singleScreenArguments.withCallButton)
+                  AppButton(
+                      text: "اتصل بالمحامى",
+                      textColor: AppColor.accentColor,
+                      color: AppColor.primaryDarkColor,
+                      fontSize: Sizes.dimen_12.sp,
+                      icon: Icon(
+                        Icons.call_outlined,
+                        color: AppColor.accentColor,
+                        size: Sizes.dimen_16.w,
+                      ),
+                      onPressed: () {})
               ],
             )),
           )

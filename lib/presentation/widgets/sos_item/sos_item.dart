@@ -64,14 +64,14 @@ class _SosItemState extends State<SosItem> {
                       /// ImageNameRatingWidget
                       ImageNameRatingWidget(
                         name: widget.sosEntity.creatorName,
-                        imgUrl: AssetsImages.personAvatar,
+                        imgUrl: widget.sosEntity.creatorImage,
                         rating: 3,
                         unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                         withRow: false,
                         nameSize: Sizes.dimen_12.sp,
                         iconRateSize: Sizes.dimen_12,
-                        minImageSize: Sizes.dimen_24,
-                        maxImageSize: Sizes.dimen_24,
+                        minImageSize: Sizes.dimen_40.w,
+                        maxImageSize: Sizes.dimen_40.w,
                         nameColor: AppColor.primaryDarkColor,
                         onPressed: () {
                           // RouteHelper().editProfile(context);

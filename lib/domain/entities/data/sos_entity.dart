@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 
 class SosEntity extends Equatable {
@@ -25,7 +26,7 @@ class SosEntity extends Equatable {
     creatorName = lawyerModel.name;
     creatorPhoneNum = lawyerModel.phoneNum;
     creatorRating = lawyerModel.rating;
-    creatorImage = lawyerModel.profileImage;
+    creatorImage = ApiConstants.mediaUrl + lawyerModel.profileImage;
 
     if (createdAt != null) {
       createdAtString =
