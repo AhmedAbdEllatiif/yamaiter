@@ -22,7 +22,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _selectedIndex = 2;
+  int _selectedIndex = 0;
 
   final ScrollController allSosController = ScrollController();
   final ScrollController allArticlesController = ScrollController();
