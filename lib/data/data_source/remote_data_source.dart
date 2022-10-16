@@ -36,6 +36,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/get_completed_taxes.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/create_sos.dart';
@@ -111,7 +112,7 @@ abstract class RemoteDataSource {
   Future<dynamic> fetchInProgressTaxes(GetTaxesParams params);
 
   /// fetchCompletedTaxes
-  Future<dynamic> fetchCompletedTaxes(String userToken);
+  Future<dynamic> fetchCompletedTaxes(GetTaxesParams params);
 
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
@@ -709,7 +710,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     switch (response.statusCode) {
       // success
       case 200:
-        return listOfTaxesFromJson(response.body);
+        return listOfInProgressTaxesFromJson(response.body);
       // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
@@ -731,36 +732,36 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future fetchCompletedTaxes(String userToken) async {
-    throw UnimplementedError();
-    /*log("fetchInProgressTaxes >> Start request");
+  Future fetchCompletedTaxes(GetTaxesParams params) async {
+
+    log("fetchCompletedTaxes >> Start request");
     // init request
-    final getRequest = GetInProgressTaxesRequest();
+    final getRequest = GetCompletedTaxesRequest();
 
     // response
-    final response = await getRequest(userToken);
+    final response = await getRequest(params);
 
-    log("fetchInProgressTaxes >> ResponseCode: ${response.statusCode}");
+    log("fetchCompletedTaxes >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
     // success
       case 200:
-        return listOfTaxesFromJson(response.body);
+        return listOfCompletedTaxesFromJson(response.body);
     // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}");
+            message: "fetchCompletedTaxes Status Code >> ${response.statusCode}");
     // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}");
+            message: "fetchCompletedTaxes Status Code >> ${response.statusCode}");
     // default
       default:
-        log("fetchInProgressTaxes >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        log("fetchCompletedTaxes >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
-            message: "fetchInProgressTaxes Status Code >> ${response.statusCode}"
+            message: "fetchCompletedTaxes Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
-    }*/
+    }
   }
 
   @override

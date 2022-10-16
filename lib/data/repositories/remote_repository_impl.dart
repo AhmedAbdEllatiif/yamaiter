@@ -506,7 +506,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// getCompletedTaxes
   @override
   Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(
-      String params) async {
+      GetTaxesParams params) async {
     try {
       // send create tax request
       final result = await remoteDataSource.fetchCompletedTaxes(params);

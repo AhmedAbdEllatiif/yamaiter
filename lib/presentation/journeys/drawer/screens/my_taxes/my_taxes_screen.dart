@@ -4,7 +4,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/completed_taxes.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/completed_taxes/completed_taxes.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/in_progress_taxes/in_progress_taxes.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/tax_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';

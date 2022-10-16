@@ -8,7 +8,19 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 
 import '../../../domain/entities/tax_entity.dart';
 
-List<TaxModel> listOfTaxesFromJson(String str) {
+List<TaxModel> listOfCompletedTaxesFromJson(String str) {
+  final List<TaxModel> articleModels = [];
+
+  if (json.decode(str)["taxes"] != null) {
+    json.decode(str)["taxes"].forEach((v) {
+      articleModels.add(TaxModel.fromJson(v));
+    });
+  }
+
+  return articleModels.reversed.toList();
+}
+
+List<TaxModel> listOfInProgressTaxesFromJson(String str) {
   final List<TaxModel> articleModels = [];
 
   if (json.decode(str)["tax"] != null) {

@@ -102,7 +102,7 @@ abstract class RemoteRepository {
       GetTaxesParams params);
 
   /// get my completed taxes
-  Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(String params);
+  Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(GetTaxesParams params);
 
   /// return a list my  ads
   Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken);

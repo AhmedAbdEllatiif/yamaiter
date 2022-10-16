@@ -44,7 +44,6 @@ class GetInProgressTaxesCubit extends Cubit<GetInProgressTaxesState> {
   /// this means last page reached
   GetInProgressTaxesState _statusToEmit(
       {required List<TaxEntity> taxList, required int offset}) {
-    print("Here to emit, Length: ${taxList.length}");
     //==> last page reached
     if (offset > 0 && taxList.isEmpty) {
       return LastPageInProgressTaxesListFetched(taxList: taxList);
