@@ -143,7 +143,10 @@ class _CompletedTaxesListState extends State<CompletedTaxesList>
                   itemBuilder: (context, index) {
                     /// tax item
                     if (index < taxesList.length) {
-                      return TaxItem(taxEntity: taxesList[index]);
+                      return TaxItem(
+                        taxEntity: taxesList[index],
+                        isCompleted: true,
+                      );
                     }
 
                     /// loading or end of list

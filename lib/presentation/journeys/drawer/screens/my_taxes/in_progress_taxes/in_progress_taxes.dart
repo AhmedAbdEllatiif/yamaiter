@@ -148,11 +148,12 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
                     height: Sizes.dimen_2.h,
                   ),
                   itemBuilder: (context, index) {
-
-
                     /// tax item
                     if (index < taxesList.length) {
-                      return TaxItem(taxEntity: taxesList[index]);
+                      return TaxItem(
+                        taxEntity: taxesList[index],
+                        isCompleted: false,
+                      );
                     }
 
                     /// loading or end of list

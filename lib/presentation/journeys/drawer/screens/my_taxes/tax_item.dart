@@ -11,8 +11,9 @@ import '../../../../themes/theme_color.dart';
 
 class TaxItem extends StatelessWidget {
   final TaxEntity taxEntity;
+  final bool isCompleted;
 
-  const TaxItem({Key? key, required this.taxEntity}) : super(key: key);
+  const TaxItem({Key? key, required this.taxEntity, required this.isCompleted}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +65,7 @@ class TaxItem extends StatelessWidget {
             ),
 
             /// button
+            if(isCompleted)
             GestureDetector(
               onTap: () {},
               child: Container(
@@ -79,6 +81,16 @@ class TaxItem extends StatelessWidget {
                       .caption!
                       .copyWith(color: AppColor.primaryDarkColor),
                 ),
+              ),
+            ),
+
+
+            if(!isCompleted)const Padding(
+              padding: EdgeInsets.only(right: 5.5),
+              child: Icon(
+                Icons.keyboard_double_arrow_left_outlined,
+                color: AppColor.primaryDarkColor,
+                size: 22,
               ),
             ),
           ],
