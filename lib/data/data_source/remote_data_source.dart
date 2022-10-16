@@ -47,6 +47,7 @@ import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/sos/sos_model.dart';
 import '../params/delete_sos_params.dart';
+import '../params/get_taxes_params.dart';
 
 abstract class RemoteDataSource {
   /// login
@@ -107,7 +108,7 @@ abstract class RemoteDataSource {
   Future<dynamic> createAd(CreateAdParams params);
 
   /// fetchInProgressTaxes
-  Future<dynamic> fetchInProgressTaxes(String userToken);
+  Future<dynamic> fetchInProgressTaxes(GetTaxesParams params);
 
   /// fetchCompletedTaxes
   Future<dynamic> fetchCompletedTaxes(String userToken);
@@ -695,13 +696,13 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// fetchInProgressTaxes
   @override
-  Future fetchInProgressTaxes(String userToken) async {
+  Future fetchInProgressTaxes(GetTaxesParams params) async {
     log("fetchInProgressTaxes >> Start request");
     // init request
     final getRequest = GetInProgressTaxesRequest();
 
     // response
-    final response = await getRequest(userToken);
+    final response = await getRequest(params);
 
     log("fetchInProgressTaxes >> ResponseCode: ${response.statusCode}");
 

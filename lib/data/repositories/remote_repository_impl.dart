@@ -36,6 +36,7 @@ import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../params/get_taxes_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
   final RemoteDataSource remoteDataSource;
@@ -483,7 +484,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   /// getInProgressTaxes
   @override
   Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(
-      String params) async {
+      GetTaxesParams params) async {
     try {
       // send create tax request
       final result = await remoteDataSource.fetchInProgressTaxes(params);

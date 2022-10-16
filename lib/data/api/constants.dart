@@ -57,8 +57,8 @@ class ApiConstants {
 
   static Uri _createTax() => Uri.https(_baseUrl, EndPoints.createTax);
 
-  static Uri _inProgressTaxes() =>
-      Uri.https(_baseUrl, EndPoints.inProgressTaxes);
+  static Uri _inProgressTaxes({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.inProgressTaxes,queryParams);
 
   static Uri _myAds() => Uri.https(_baseUrl, EndPoints.myAds);
 
@@ -126,7 +126,7 @@ class ApiConstants {
         return _createTax();
       // inProgressTaxes
       case RequestType.inProgressTaxes:
-        return _inProgressTaxes();
+        return _inProgressTaxes(queryParams: queryParams);
       // myAds
       case RequestType.myAds:
         return _myAds();

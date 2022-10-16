@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/data/params/get_taxes_params.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 
@@ -12,31 +13,56 @@ part 'get_in_progress_taxes_state.dart';
 class GetInProgressTaxesCubit extends Cubit<GetInProgressTaxesState> {
   GetInProgressTaxesCubit() : super(GetInProgressTaxesInitial());
 
-  void fetchInProgressTaxesList({required String userToken}) async {
+  void fetchInProgressTaxesList(
+      {required String userToken, required int offset}) async {
     //==> loading
     _emitIfNotClosed(LoadingGetInProgressTaxesList());
 
     //==> init case
     final useCase = getItInstance<GetInProgressTaxesCase>();
 
+    //==> init params
+    final params = GetTaxesParams(userToken: userToken, offset: offset);
+
     //==> send request
-    final either = await useCase(userToken);
+    final either = await useCase(params);
 
     //==> receive result
     either.fold(
       (appError) => _emitError(appError),
       (taxList) {
-        if (taxList.isNotEmpty) {
-          _emitIfNotClosed(
-            InProgressTaxesListFetchedSuccessfully(taxList: taxList),
-          );
-        }
-        // empty
-        else {
-          emit(EmptyInProgressTaxesList());
-        }
+        _emitIfNotClosed(
+          _statusToEmit(taxList: taxList, offset: offset),
+        );
       },
     );
+  }
+
+  /// to emit the result of success fetching the required sos
+  /// * param [offset] is the current offset to fetch
+  /// * if the offset > 0 and the length is zero,
+  /// this means last page reached
+  GetInProgressTaxesState _statusToEmit(
+      {required List<TaxEntity> taxList, required int offset}) {
+    print("Here to emit, Length: ${taxList.length}");
+    //==> last page reached
+    if (offset > 0 && taxList.isEmpty) {
+      return LastPageInProgressTaxesListFetched(taxList: taxList);
+    }
+    //==> empty list
+    else if (taxList.isEmpty) {
+      return EmptyInProgressTaxesList();
+    }
+
+    //==>  less than the limit
+    else if (taxList.length < 10) {
+      return LastPageInProgressTaxesListFetched(taxList: taxList);
+    }
+
+    //==> projects fetched
+    else {
+      return InProgressTaxesListFetchedSuccessfully(taxList: taxList);
+    }
   }
 
   /// _emit an error according to AppError

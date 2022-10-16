@@ -19,6 +19,7 @@ import 'package:yamaiter/domain/entities/tax_entity.dart';
 import '../../data/models/success_model.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
+import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../../data/params/update_sos_params.dart';
 import '../entities/app_error.dart';
@@ -97,7 +98,8 @@ abstract class RemoteRepository {
   Future<Either<AppError, SuccessModel>> createTax(CreateTaxParams params);
 
   /// get my in progress taxes
-  Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(String params);
+  Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(
+      GetTaxesParams params);
 
   /// get my completed taxes
   Future<Either<AppError, List<TaxEntity>>> getCompletedTaxes(String params);

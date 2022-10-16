@@ -13,6 +13,9 @@ class GetInProgressTaxesInitial extends GetInProgressTaxesState {}
 /// loading
 class LoadingGetInProgressTaxesList extends GetInProgressTaxesState {}
 
+/// loading more
+class LoadingMoreInProgressTaxesList extends GetInProgressTaxesState {}
+
 /// empty
 class EmptyInProgressTaxesList extends GetInProgressTaxesState {}
 
@@ -33,11 +36,31 @@ class InProgressTaxesListFetchedSuccessfully extends GetInProgressTaxesState {
   List<Object> get props => [taxList];
 }
 
+/// lastPage fetched
+class LastPageInProgressTaxesListFetched extends GetInProgressTaxesState {
+  final List<TaxEntity> taxList;
+
+  const LastPageInProgressTaxesListFetched({required this.taxList});
+
+  @override
+  List<Object> get props => [taxList];
+}
+
 /// error
 class ErrorWhileGettingInProgressTaxesList extends GetInProgressTaxesState {
   final AppError appError;
 
   const ErrorWhileGettingInProgressTaxesList({required this.appError});
+
+  @override
+  List<Object> get props => [appError];
+}
+
+/// error loading more
+class ErrorWhileGettingMoreInProgressTaxesList extends GetInProgressTaxesState {
+  final AppError appError;
+
+  const ErrorWhileGettingMoreInProgressTaxesList({required this.appError});
 
   @override
   List<Object> get props => [appError];

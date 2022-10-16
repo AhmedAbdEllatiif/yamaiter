@@ -1,26 +1,25 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/tax_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
-import '../../../../../common/constants/sizes.dart';
-import '../../../../../common/enum/app_error_type.dart';
-import '../../../../../router/route_helper.dart';
-import '../../../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../../../widgets/app_error_widget.dart';
-import '../../../../widgets/loading_widget.dart';
+import '../../../../../../common/constants/sizes.dart';
+import '../../../../../../common/enum/app_error_type.dart';
+import '../../../../../../router/route_helper.dart';
+import '../../../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../../../widgets/app_error_widget.dart';
+import '../../../../../widgets/loading_widget.dart';
+import 'loading_more_in_progress_taxes.dart';
 
 class InProgressTaxesList extends StatefulWidget {
   final CreateTaxCubit createTaxCubit;
 
-  const InProgressTaxesList(
-      {Key? key,
-      required this.createTaxCubit})
+  const InProgressTaxesList({Key? key, required this.createTaxCubit})
       : super(key: key);
 
   @override
@@ -31,16 +30,27 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
     with AutomaticKeepAliveClientMixin {
   late final GetInProgressTaxesCubit _inProgressTaxesCubit;
 
+  final List<TaxEntity> taxesList = [];
+  late final ScrollController _controller;
+
   @override
   void initState() {
     super.initState();
+    // init GetInProgressTaxesCubit
     _inProgressTaxesCubit = getItInstance<GetInProgressTaxesCubit>();
+
+    // init controller
+    _controller = ScrollController();
+    _listenerOnScrollController();
+
+    // fetch taxes list
     _fetchInProgressTaxes();
   }
 
   @override
   void dispose() {
     _inProgressTaxesCubit.close();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -48,12 +58,29 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _inProgressTaxesCubit,
-      child: BlocListener<CreateTaxCubit, CreateTaxState>(
-        listener: (context, state) {
-          if (state is TaxCreatedSuccessfully) {
-            _fetchInProgressTaxes();
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          /// CreateTaxCubit
+          BlocListener<CreateTaxCubit, CreateTaxState>(
+              listener: (context, state) {
+            if (state is TaxCreatedSuccessfully) {
+              _fetchInProgressTaxes();
+            }
+          }),
+
+          /// GetMySosCubit
+          BlocListener<GetInProgressTaxesCubit, GetInProgressTaxesState>(
+              listener: (context, state) {
+            //==> MySosListFetchedSuccessfully
+            if (state is InProgressTaxesListFetchedSuccessfully) {
+              taxesList.addAll(state.taxList);
+            }
+            //==> lastPageFetched
+            if (state is LastPageInProgressTaxesListFetched) {
+              taxesList.addAll(state.taxList);
+            }
+          }),
+        ],
         child: Builder(builder: (context) {
           return BlocBuilder<GetInProgressTaxesCubit, GetInProgressTaxesState>(
             builder: (context, state) {
@@ -109,27 +136,31 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
               }
 
               /// fetched
-              if (state is InProgressTaxesListFetchedSuccessfully) {
-                final fetchedList = state.taxList;
-                return Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: Sizes.dimen_5.h, horizontal: Sizes.dimen_10.w),
-                  child: ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: fetchedList.length,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: Sizes.dimen_2.h,
-                    ),
-                    itemBuilder: (context, index) {
-                      return TaxItem(taxEntity: fetchedList[index]);
-                    },
+              return Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: Sizes.dimen_5.h, horizontal: Sizes.dimen_10.w),
+                child: ListView.separated(
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: taxesList.length + 1,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: Sizes.dimen_2.h,
                   ),
-                );
-              }
+                  itemBuilder: (context, index) {
 
-              /// other
-              return const SizedBox.shrink();
+
+                    /// tax item
+                    if (index < taxesList.length) {
+                      return TaxItem(taxEntity: taxesList[index]);
+                    }
+
+                    /// loading or end of list
+                    return LoadingMoreInProgressTaxesWidget(
+                      inProgressTaxesCubit: _inProgressTaxesCubit,
+                    );
+                  },
+                ),
+              );
             },
           );
         }),
@@ -141,7 +172,10 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
   void _fetchInProgressTaxes() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    _inProgressTaxesCubit.fetchInProgressTaxesList(userToken: userToken);
+    _inProgressTaxesCubit.fetchInProgressTaxesList(
+      userToken: userToken,
+      offset: taxesList.length,
+    );
   }
 
   /// to navigate to login
@@ -150,6 +184,20 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
 
   /// to navigate to contact us
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
+
+  /// listener on controller
+  /// when last item reached fetch next page
+  /// when last item reached no action needed
+  void _listenerOnScrollController() {
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        if (_inProgressTaxesCubit.state
+            is! LastPageInProgressTaxesListFetched) {
+          _fetchInProgressTaxes();
+        }
+      }
+    });
+  }
 
   @override
   // TODO: implement wantKeepAlive
