@@ -16,6 +16,7 @@ import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
@@ -205,6 +206,11 @@ Future init() async {
   //==> GetMyAdsCubit
   getItInstance.registerFactory<GetMyAdsCubit>(
     () => GetMyAdsCubit(),
+  );
+
+  //==> CreateTaskCubit
+  getItInstance.registerFactory<CreateTaskCubit>(
+    () => CreateTaskCubit(),
   );
 
   //==> AutoLoginCubit

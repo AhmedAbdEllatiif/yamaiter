@@ -23,7 +23,7 @@ class ChooseToAddScreen extends StatelessWidget {
               ChooseToAddItem(
                 image: AssetsImages.documentsSvg,
                 text: "نشر مهمة عمل",
-                onPressed: () {},
+                onPressed: () => _navigateToCreateTask(context),
               ),
               SizedBox(width: Sizes.dimen_5.w),
 
@@ -78,6 +78,10 @@ class ChooseToAddScreen extends StatelessWidget {
       ),
     );
   }
+
+  /// to navigate to create task
+  void _navigateToCreateTask(BuildContext context) =>
+      RouteHelper().createTask(context);
 
   /// to navigate to create sos
   void _navigateToCreateSos(BuildContext context) =>

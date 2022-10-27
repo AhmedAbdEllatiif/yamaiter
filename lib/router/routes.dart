@@ -24,6 +24,7 @@ import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/task/create_task_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
@@ -79,6 +80,9 @@ class Routes {
 
         /// createSos
         RouteList.createSos: (context) => const CreateSosScreen(),
+
+        /// createTask
+        RouteList.createTask: (context) => const CreateTaskScreen(),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

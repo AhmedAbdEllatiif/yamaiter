@@ -29,4 +29,5 @@ class RouteList {
   static const String createTax = "/createTax";
   static const String myTaxes = "/myTaxes";
   static const String addNewTax = "/addNewTaxes";
+  static const String createTask = "/createTask";
 }
