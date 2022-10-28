@@ -17,6 +17,7 @@ import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
@@ -534,6 +535,27 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is List<AdModel>) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// createTask
+  @override
+  Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params) async{
+    try {
+      // send create tax request
+      final result = await remoteDataSource.createTask(params);
+
+      // received success
+      if (result is SuccessModel) {
         return Right(result);
       }
 

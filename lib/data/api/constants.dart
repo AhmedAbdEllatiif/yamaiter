@@ -65,6 +65,8 @@ class ApiConstants {
 
   static Uri _myAds() => Uri.https(_baseUrl, EndPoints.myAds);
 
+  static Uri _createTask() => Uri.https(_baseUrl, EndPoints.createTask);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -136,6 +138,9 @@ class ApiConstants {
       // myAds
       case RequestType.myAds:
         return _myAds();
+      // createTask
+      case RequestType.createTask:
+       return _createTask();
     }
   }
 }
@@ -205,6 +210,9 @@ class EndPoints {
 
   /// myAds
   static String myAds = "${_apiVersion}show-announcements";
+
+  /// myAds
+  static String createTask = "${_apiVersion}tasks";
 }
 
 /// The api request type
@@ -231,6 +239,7 @@ enum RequestType {
   inProgressTaxes,
   completedTaxes,
   myAds,
+  createTask,
 }
 
 class ApiParamsConstant {

@@ -50,6 +50,7 @@ import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/sos/delete_sos.dart';
 import '../domain/use_cases/sos/update_sos.dart';
+import '../domain/use_cases/tasks/create_task.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
@@ -353,5 +354,10 @@ Future init() async {
   //==> GetAboutCase
   getItInstance.registerFactory<GetAboutCase>(
     () => GetAboutCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateTaskCase
+  getItInstance.registerFactory<CreateTaskCase>(
+    () => CreateTaskCase(remoteRepository: getItInstance()),
   );
 }

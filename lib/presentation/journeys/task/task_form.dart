@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
-import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/constants/drop_down_list.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
@@ -14,6 +13,7 @@ import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
+import 'package:yamaiter/presentation/widgets/select_date.dart';
 import 'package:yamaiter/presentation/widgets/text_field_large_container.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -99,6 +99,21 @@ class _TaskFormState extends State<TaskForm> {
               child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
                 bloc: _createTaskCubit,
                 builder: (context, state) {
+
+                  /// UnAuthorizedCreateTask
+                  if (state is NotAcceptTermsToCreateTask) {
+                    return Center(
+                      child: AppErrorWidget(
+                        appTypeError: AppErrorType.notAcceptedYet,
+                        buttonText: "الشروط",
+                        message: "مازلت لم توافق على شروط الخصوصية بعد",
+                        onPressedRetry: () {
+                         // _navigateToLogin();
+                        },
+                      ),
+                    );
+                  }
+
                   /// UnAuthorizedCreateTask
                   if (state is UnAuthorizedCreateTask) {
                     return Center(
@@ -201,22 +216,11 @@ class _TaskFormState extends State<TaskForm> {
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
 
-              InkWell(
-                onTap: () => _selectDate(context),
-                child: Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.symmetric(
-                      horizontal: Sizes.dimen_10.w, vertical: Sizes.dimen_4.h),
-                  decoration: BoxDecoration(
-                      color: AppColor.primaryColor,
-                      borderRadius:
-                          BorderRadius.circular(AppUtils.cornerRadius.w)),
-                  child: Text(
-                    selectedDate,
-                    style: const TextStyle(color: AppColor.white),
-                  ),
-                ),
-              ),
+              SelectDateWidget(
+                  hasError: _selectDateError,
+                  onDateSelected: (selectedDate) {
+                    _selectedDate = selectedDate;
+                  }),
 
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
@@ -281,9 +285,19 @@ class _TaskFormState extends State<TaskForm> {
   /// to validate the current form
   bool _isFormValid() {
     if (_formKey.currentState != null) {
-      return _formKey.currentState!.validate();
+      return _formKey.currentState!.validate() && _isDateValid();
     }
     return false;
+  }
+
+  bool _isDateValid() {
+    if (_selectedDate == null) {
+      setState(() {
+        _selectDateError = true;
+      });
+      return false;
+    }
+    return true;
   }
 
   /// send Task
@@ -294,12 +308,18 @@ class _TaskFormState extends State<TaskForm> {
     // init description
     final description = descriptionController.value.text;
 
+    // init price
+    final price = priceController.value.text;
+
     // send create Task request
     _createTaskCubit.sendTask(
-      type: taskType,
-      governorate: governorate,
-      description: description.isNotEmpty ? description : "لا يوجد",
       token: userToken,
+      title: taskType,
+      governorates: governorate,
+      description: description.isNotEmpty ? description : "لا يوجد",
+      price: price,
+      court: subGovernorate,
+      startingDate: _selectedDate ?? "",
     );
   }
 
@@ -316,41 +336,7 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   /// to select required date
-  String selectedDate = "حدد اقصي تازيخ للتنفيذ";
+  String? _selectedDate;
 
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-        context: context,
-        initialDate: DateTime.now(),
-        firstDate: DateTime.now(),
-        lastDate: DateTime.now().add(const Duration(days: 365)),
-        initialEntryMode: DatePickerEntryMode.calendarOnly,
-        helpText: "حدد اقصي تازيخ للتنفيذ",
-        cancelText: "الغاء",
-        confirmText: "تأكيد",
-        builder: (context, child) {
-          return Theme(
-            data: Theme.of(context).copyWith(
-              colorScheme: const ColorScheme.light(
-                primary: AppColor.primaryDarkColor, // header background color
-                onPrimary: Colors.white, // header text color
-                onSurface: AppColor.primaryDarkColor, // body text color
-              ),
-              shadowColor: AppColor.primaryDarkColor,
-              textButtonTheme: TextButtonThemeData(
-                style: TextButton.styleFrom(
-                  primary: AppColor.primaryDarkColor, // button text color
-                ),
-              ),
-            ),
-            child: child!,
-          );
-        });
-    if (picked != null) {
-      setState(() {
-        // selectedDate = picked;
-        selectedDate = "${picked.toLocal()}".split(' ')[0];
-      });
-    }
-  }
+  bool _selectDateError = false;
 }

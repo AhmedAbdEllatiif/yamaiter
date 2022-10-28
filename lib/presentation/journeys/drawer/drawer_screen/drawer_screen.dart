@@ -112,6 +112,9 @@ class DrawerScreen extends StatelessWidget {
 
   void _navigateMyTaxesScreen(BuildContext context) =>
       RouteHelper().myTaxesScreen(context, isReplacement: false);
+  
+  void _navigateMyTasksScreen(BuildContext context) =>
+      RouteHelper().myTasks(context, isReplacement: false);
 
   void _navigateMyArticlesScreen(BuildContext context) =>
       RouteHelper().myArticlesScreen(context, isReplacement: false);
@@ -154,7 +157,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.shopping_bag_outlined,
           title: "مهامى",
-          onPressed: () {},
+          onPressed: () => _navigateMyTasksScreen(context),
         ),
         DrawerItem(
           iconData: Icons.list_alt_outlined,

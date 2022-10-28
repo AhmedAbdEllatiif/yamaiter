@@ -4,6 +4,8 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/task/task_form.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
+import '../../../router/route_helper.dart';
+
 class CreateTaskScreen extends StatelessWidget {
   const CreateTaskScreen({Key? key}) : super(key: key);
 
@@ -25,13 +27,13 @@ class CreateTaskScreen extends StatelessWidget {
               //vertical: AppUtils.mainPagesVerticalPadding.h,
             ),
             child: TaskForm(
-              onSuccess: () {
-                //RouteHelper().myTaskScreen(context, isReplacement: true);
-              },
+              onSuccess: () => _navigateMyTasksScreen(context),
             ),
           )),
         ],
       ),
     );
   }
+  void _navigateMyTasksScreen(BuildContext context) =>
+      RouteHelper().myTasks(context, isReplacement: false);
 }

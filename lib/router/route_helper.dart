@@ -144,6 +144,15 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.createTask);
   }
 
+  /// To my tasks screen \\\
+  void myTasks(BuildContext context, {bool isReplacement = false}) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.myTasks);
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myTasks);
+    }
+  }
+
   /// To create sos screen \\\
   void addSos(BuildContext context,
       {required AddSosArguments addSosArguments}) {

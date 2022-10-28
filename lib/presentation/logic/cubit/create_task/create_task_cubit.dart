@@ -2,7 +2,10 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
+import '../../../../data/params/create_task_params.dart';
+import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
+import '../../../../domain/use_cases/tasks/create_task.dart';
 
 part 'create_task_state.dart';
 
@@ -11,37 +14,46 @@ class CreateTaskCubit extends Cubit<CreateTaskState> {
 
   /// to create Task
   void sendTask(
-      {required String type,
-        required String governorate,
-        required String description,
-        required String token}) async {
+      {required String title,
+      required String price,
+      required String court,
+      required String description,
+      required String governorates,
+      required String startingDate,
+      required String token}) async {
     //==> loading
     _emitIfNotClosed(LoadingCreateTask());
 
-    /* //==> init case
+    //==> init case
     final createTaskCase = getItInstance<CreateTaskCase>();
 
     //==> init params
     final params = CreateTaskParams(
-        TaskRequestModel: TaskRequestModel(
-            type: type, governorate: governorate, description: description),
-        token: token);
+        title: title,
+        price: price,
+        court: court,
+        description: description,
+        governorates: governorates,
+        startingDate: startingDate,
+        userToken: token);
 
     //==> send request
     final either = await createTaskCase(params);
 
     //==> receive result
     either.fold(
-            (appError) => _emitError(appError),
-            (success) => _emitIfNotClosed(
-          TaskCreatedSuccessfully(),
-        ));*/
+        (appError) => _emitError(appError),
+        (success) => _emitIfNotClosed(
+              TaskCreatedSuccessfully(),
+            ));
   }
 
   /// _emit an error according to AppError
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedCreateTask());
+    } else if (appError.appErrorType == AppErrorType.notAcceptedYet) {
+      _emitIfNotClosed(NotAcceptTermsToCreateTask());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToCreateTask());
     } else {

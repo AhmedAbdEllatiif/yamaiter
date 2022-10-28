@@ -8,6 +8,7 @@ enum AppErrorType {
   api,
   unauthorizedUser,
   notActivatedUser,
+  notAcceptedYet,
   notFound,
   userAlreadyExists,
   wrongPassword,

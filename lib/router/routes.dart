@@ -13,6 +13,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_scre
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
@@ -83,6 +84,9 @@ class Routes {
 
         /// createTask
         RouteList.createTask: (context) => const CreateTaskScreen(),
+
+        /// createSos
+        RouteList.myTasks: (context) => const MyTasksScreen(),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

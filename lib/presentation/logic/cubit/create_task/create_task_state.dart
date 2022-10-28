@@ -2,6 +2,7 @@ part of 'create_task_cubit.dart';
 
 abstract class CreateTaskState extends Equatable {
   const CreateTaskState();
+
   @override
   List<Object> get props => [];
 }
@@ -11,6 +12,9 @@ class CreateTaskInitial extends CreateTaskState {}
 
 /// loading
 class LoadingCreateTask extends CreateTaskState {}
+
+/// not accept terms before create Task
+class NotAcceptTermsToCreateTask extends CreateTaskState {}
 
 /// not a lawyer to create Task
 class NotActivatedUserToCreateTask extends CreateTaskState {}

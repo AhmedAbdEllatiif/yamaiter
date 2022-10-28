@@ -15,6 +15,7 @@ import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart'
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
+import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
@@ -24,12 +25,14 @@ import 'package:yamaiter/data/models/app_settings_models/side_menu_response_mode
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
+import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
+import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
@@ -116,6 +119,9 @@ abstract class RemoteDataSource {
 
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
+
+  /// create task
+  Future<dynamic> createTask(CreateTaskParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -733,7 +739,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   @override
   Future fetchCompletedTaxes(GetTaxesParams params) async {
-
     log("fetchCompletedTaxes >> Start request");
     // init request
     final getRequest = GetCompletedTaxesRequest();
@@ -744,18 +749,20 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("fetchCompletedTaxes >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return listOfCompletedTaxesFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
-            message: "fetchCompletedTaxes Status Code >> ${response.statusCode}");
-    // unAuthorized
+            message:
+                "fetchCompletedTaxes Status Code >> ${response.statusCode}");
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message: "fetchCompletedTaxes Status Code >> ${response.statusCode}");
-    // default
+            message:
+                "fetchCompletedTaxes Status Code >> ${response.statusCode}");
+      // default
       default:
         log("fetchCompletedTaxes >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
@@ -824,6 +831,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "deleteSos Status Code >> ${response.statusCode}");
+      // default
+      default:
+        log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "deleteSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// createTask
+  @override
+  Future createTask(CreateTaskParams params) async {
+    log("createTask >> Start request");
+    // init request
+    final request = CreateTaskRequest();
+
+    // response
+    final response = await request(
+        CreateTaskRequestModel.fromParams(params: params), params.userToken);
+
+    log("createTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        {
+          return response.body.contains("notAcceptedYet")
+              ? AppError(AppErrorType.notAcceptedYet,
+                  message: "createTask Status Code >> ${response.statusCode}")
+              : SuccessModel();
+        }
+
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "createTask Status Code >> ${response.statusCode}");
+      // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "createTask Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "createTask Status Code >> ${response.statusCode}");
       // default
       default:
         log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
