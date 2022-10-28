@@ -18,6 +18,7 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 
 import '../../data/models/success_model.dart';
+import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/get_taxes_params.dart';
@@ -109,6 +110,9 @@ abstract class RemoteRepository {
   /// return a list my  ads
   Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken);
 
-  /// create tassk
+  /// create task
   Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params);
+
+  /// accept terms
+  Future<Either<AppError, SuccessModel>> acceptTerms(AcceptTermsParams params);
 }

@@ -38,6 +38,7 @@ import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
 import '../data/repositories/remote_repository_impl.dart';
 import '../domain/use_cases/about.dart';
+import '../domain/use_cases/accept_terms.dart';
 import '../domain/use_cases/ads/get_my_ads.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
@@ -54,6 +55,7 @@ import '../domain/use_cases/tasks/create_task.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
+import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
@@ -209,6 +211,11 @@ Future init() async {
     () => GetMyAdsCubit(),
   );
 
+  //==> AcceptTermsCubit
+  getItInstance.registerFactory<AcceptTermsCubit>(
+    () => AcceptTermsCubit(),
+  );
+
   //==> CreateTaskCubit
   getItInstance.registerFactory<CreateTaskCubit>(
     () => CreateTaskCubit(),
@@ -354,6 +361,11 @@ Future init() async {
   //==> GetAboutCase
   getItInstance.registerFactory<GetAboutCase>(
     () => GetAboutCase(remoteRepository: getItInstance()),
+  );
+
+  //==> AcceptTermsCase
+  getItInstance.registerFactory<AcceptTermsCase>(
+    () => AcceptTermsCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateTaskCase

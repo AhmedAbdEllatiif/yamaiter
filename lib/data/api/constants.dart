@@ -58,14 +58,16 @@ class ApiConstants {
   static Uri _createTax() => Uri.https(_baseUrl, EndPoints.createTax);
 
   static Uri _inProgressTaxes({required Map<String, dynamic> queryParams}) =>
-      Uri.https(_baseUrl, EndPoints.inProgressTaxes,queryParams);
+      Uri.https(_baseUrl, EndPoints.inProgressTaxes, queryParams);
 
   static Uri _completedTaxes({required Map<String, dynamic> queryParams}) =>
-      Uri.https(_baseUrl, EndPoints.completedTaxes,queryParams);
+      Uri.https(_baseUrl, EndPoints.completedTaxes, queryParams);
 
   static Uri _myAds() => Uri.https(_baseUrl, EndPoints.myAds);
 
   static Uri _createTask() => Uri.https(_baseUrl, EndPoints.createTask);
+
+  static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
   static Uri buildUrl(
     RequestType requestType, {
@@ -132,7 +134,7 @@ class ApiConstants {
       // inProgressTaxes
       case RequestType.inProgressTaxes:
         return _inProgressTaxes(queryParams: queryParams);
-        // completedTaxes
+      // completedTaxes
       case RequestType.completedTaxes:
         return _completedTaxes(queryParams: queryParams);
       // myAds
@@ -140,7 +142,10 @@ class ApiConstants {
         return _myAds();
       // createTask
       case RequestType.createTask:
-       return _createTask();
+        return _createTask();
+      // acceptTerms
+      case RequestType.acceptTerms:
+        return _acceptTerms();
     }
   }
 }
@@ -211,8 +216,11 @@ class EndPoints {
   /// myAds
   static String myAds = "${_apiVersion}show-announcements";
 
-  /// myAds
+  /// createTask
   static String createTask = "${_apiVersion}tasks";
+
+  /// acceptTerms
+  static String acceptTerms = "${_apiVersion}set-accept-terms";
 }
 
 /// The api request type
@@ -240,6 +248,7 @@ enum RequestType {
   completedTaxes,
   myAds,
   createTask,
+  acceptTerms,
 }
 
 class ApiParamsConstant {

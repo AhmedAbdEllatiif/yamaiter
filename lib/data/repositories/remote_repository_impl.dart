@@ -12,6 +12,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
@@ -547,9 +548,32 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+  /// acceptTerms
+  @override
+  Future<Either<AppError, SuccessModel>> acceptTerms(
+      AcceptTermsParams params) async {
+    try {
+      // send create tax request
+      final result = await remoteDataSource.acceptTerms(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
   /// createTask
   @override
-  Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params) async{
+  Future<Either<AppError, SuccessModel>> createTask(
+      CreateTaskParams params) async {
     try {
       // send create tax request
       final result = await remoteDataSource.createTask(params);

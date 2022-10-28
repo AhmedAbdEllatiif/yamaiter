@@ -13,11 +13,13 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
+import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/models/accept_terms_model.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
@@ -27,6 +29,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
+import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
@@ -119,6 +122,9 @@ abstract class RemoteDataSource {
 
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
+
+  /// accept terms
+  Future<dynamic> acceptTerms(AcceptTermsParams params);
 
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
@@ -836,6 +842,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "deleteSos Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// acceptTerms
+  @override
+  Future acceptTerms(AcceptTermsParams params) async {
+    log("acceptTerms >> Start request");
+    // init request
+    final request = AcceptTermsRequest();
+
+    // response
+    final response =
+        await request(AcceptTermsModel.fromParams(params), params.userToken);
+
+    log("acceptTerms >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+    switch (response.statusCode) {
+      // success
+      case 200:
+        return SuccessModel();
+      // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "acceptTerms Status Code >> ${response.statusCode}");
+      // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "acceptTerms Status Code >> ${response.statusCode}");
+      // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "acceptTerms Status Code >> ${response.statusCode}");
+      // default
+      default:
+        log("acceptTerms >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "acceptTerms Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }
