@@ -88,19 +88,18 @@ class _TaskFormState extends State<TaskForm> {
           child: Padding(
             padding: EdgeInsets.symmetric(
               horizontal: AppUtils.mainPagesHorizontalPadding.w,
-              vertical: AppUtils.mainPagesVerticalPadding.h,
+              // vertical: AppUtils.mainPagesVerticalPadding.h,
             ),
 
             ///  card
             child: Padding(
-              padding: EdgeInsets.only(
-                top: Sizes.dimen_10.h,
-              ),
+              padding: const EdgeInsets.only(
+                  // top: Sizes.dimen_10.h,
+                  ),
               child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
                 bloc: _createTaskCubit,
                 builder: (context, state) {
-
-                  /// UnAuthorizedCreateTask
+                  /// NotAcceptTermsToCreateTask
                   if (state is NotAcceptTermsToCreateTask) {
                     return Center(
                       child: AppErrorWidget(
@@ -108,7 +107,7 @@ class _TaskFormState extends State<TaskForm> {
                         buttonText: "الشروط",
                         message: "مازلت لم توافق على شروط الخصوصية بعد",
                         onPressedRetry: () {
-                         // _navigateToLogin();
+                          // _navigateToLogin();
                         },
                       ),
                     );
