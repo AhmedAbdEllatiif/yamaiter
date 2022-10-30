@@ -44,105 +44,105 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
           /// Ads ListView
           const AdsWidget(),
 
-          Padding(
-            padding: EdgeInsets.only(
-              top: Sizes.dimen_10.h,
-              bottom: AppUtils.mainPagesVerticalPadding.h,
-              right: AppUtils.mainPagesHorizontalPadding.w,
-              left: AppUtils.mainPagesHorizontalPadding.w,
-            ),
-            child: ScrollableAppCard(
-                child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                /// title and avater
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            sosEntity.title,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall!
-                                .copyWith(
-                                    color: AppColor.primaryDarkColor,
-                                    fontWeight: FontWeight.bold,
-                                    height: 1.2),
+          Flexible(
+            child: Padding(
+              padding: EdgeInsets.only(
+                top: Sizes.dimen_10.h,
+                bottom: AppUtils.mainPagesVerticalPadding.h,
+                right: AppUtils.mainPagesHorizontalPadding.w,
+                left: AppUtils.mainPagesHorizontalPadding.w,
+              ),
+              child: ScrollableAppCard(
+                  /// title and avatar
+                  title: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              sosEntity.title,
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall!
+                                  .copyWith(
+                                      color: AppColor.primaryDarkColor,
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.2),
+                            ),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.date_range_outlined,
+                                  color: AppColor.accentColor,
+                                  size: Sizes.dimen_12.w,
+                                ),
+                                Text(
+                                  sosEntity.createdAtString,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .caption!
+                                      .copyWith(color: AppColor.accentColor),
+                                ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+
+                      // ImageNameRatingWidget
+                      ImageNameRatingWidget(
+                        name: sosEntity.creatorName,
+                        imgUrl: sosEntity.creatorImage,
+                        rating: 3,
+                        unRatedColor: AppColor.primaryColor.withOpacity(0.6),
+                        withRow: false,
+                        nameSize: Sizes.dimen_12.sp,
+                        iconRateSize: Sizes.dimen_12,
+                        minImageSize: Sizes.dimen_40.w,
+                        maxImageSize: Sizes.dimen_40.w,
+                        nameColor: AppColor.primaryDarkColor,
+                        onPressed: () {
+                          // RouteHelper().editProfile(context);
+                        },
+                      ),
+                    ],
+                  ),
+
+                  /// bottom
+                  bottomChild: widget.singleScreenArguments.withCallButton
+                      ? AppButton(
+                          text: "اتصل بالمحامى",
+                          textColor: AppColor.accentColor,
+                          color: AppColor.primaryDarkColor,
+                          fontSize: Sizes.dimen_12.sp,
+                          icon: Icon(
+                            Icons.call_outlined,
+                            color: AppColor.accentColor,
+                            size: Sizes.dimen_16.w,
                           ),
-                          Row(
-                            children: [
-                              Icon(
-                                Icons.date_range_outlined,
-                                color: AppColor.accentColor,
-                                size: Sizes.dimen_12.w,
-                              ),
-                              Text(
-                                sosEntity.createdAtString,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .caption!
-                                    .copyWith(color: AppColor.accentColor),
-                              ),
-                            ],
-                          )
-                        ],
+                          onPressed: () {})
+                      : null,
+
+
+                  /// child
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// description
+                      Text(
+                        sosEntity.description,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(color: Colors.black, height: 1.4),
                       ),
-                    ),
-
-                    /// ImageNameRatingWidget
-                    ImageNameRatingWidget(
-                      name: sosEntity.creatorName,
-                      imgUrl: sosEntity.creatorImage,
-                      rating: 3,
-                      unRatedColor: AppColor.primaryColor.withOpacity(0.6),
-                      withRow: false,
-                      nameSize: Sizes.dimen_12.sp,
-                      iconRateSize: Sizes.dimen_12,
-                      minImageSize: Sizes.dimen_40.w,
-                      maxImageSize: Sizes.dimen_40.w,
-                      nameColor: AppColor.primaryDarkColor,
-                      onPressed: () {
-                        // RouteHelper().editProfile(context);
-                      },
-                    ),
-                  ],
-                ),
-
-                /// Space
-                SizedBox(height: Sizes.dimen_12.h),
-
-                /// description
-                Text(
-                  sosEntity.description,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(color: Colors.black, height: 1.4),
-                ),
-
-                /// Space
-                SizedBox(height: Sizes.dimen_12.h),
-
-                if (widget.singleScreenArguments.withCallButton)
-                  AppButton(
-                      text: "اتصل بالمحامى",
-                      textColor: AppColor.accentColor,
-                      color: AppColor.primaryDarkColor,
-                      fontSize: Sizes.dimen_12.sp,
-                      icon: Icon(
-                        Icons.call_outlined,
-                        color: AppColor.accentColor,
-                        size: Sizes.dimen_16.w,
-                      ),
-                      onPressed: () {})
-              ],
-            )),
+                    ],
+                  )),
+            ),
           )
         ],
       ),

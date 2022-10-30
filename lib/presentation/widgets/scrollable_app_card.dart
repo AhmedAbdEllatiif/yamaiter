@@ -42,11 +42,11 @@ class ScrollableAppCard extends StatelessWidget {
                 /// title
                 title ?? const SizedBox.shrink(),
 
-                // space
+
                 if (title != null) SizedBox(height: Sizes.dimen_8.h),
 
                 /// child
-                Expanded(
+                Flexible(
                   child: SingleChildScrollView(
                       controller: scrollController,
                       physics: const BouncingScrollPhysics(),

@@ -72,89 +72,87 @@ class _ArticleFormState extends State<ArticleForm> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(create: (context) => _pickImageCubit),
-          BlocProvider(create: (context) => _createArticleCubit),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _pickImageCubit),
+        BlocProvider(create: (context) => _createArticleCubit),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          /// PickImageCubit
+          BlocListener<PickImageCubit, PickImageState>(
+            listener: (context, state) {
+              if (state is MultiImagesPicked) {
+                if (state.multiImages != null) {
+                  _imagesPicked.addAll(state.multiImages!);
+                }
+              }
+            },
+          ),
+
+          /// CreateArticleCubit
+          BlocListener<CreateArticleCubit, CreateArticleState>(
+            bloc: _createArticleCubit,
+            listener: (context, state) {
+              //==> show snack bar with check internet connection
+              if (state is ErrorWhileCreatingArticle) {
+                showSnackBar(context,
+                    backgroundColor: AppColor.accentColor,
+                    textColor: AppColor.primaryDarkColor,
+                    isFloating: false,
+                    message: "تحقق من اتصال الإنترنت");
+              }
+
+              //==> on success navigate to my sos screen
+              if (state is ArticleCreatedSuccessfully) {
+                _navigateToMyArticlesScreen();
+              }
+            },
+          )
         ],
-        child: MultiBlocListener(
-          listeners: [
-            /// PickImageCubit
-            BlocListener<PickImageCubit, PickImageState>(
-              listener: (context, state) {
-                if (state is MultiImagesPicked) {
-                  if (state.multiImages != null) {
-                    _imagesPicked.addAll(state.multiImages!);
-                  }
-                }
-              },
-            ),
-
-            /// CreateArticleCubit
-            BlocListener<CreateArticleCubit, CreateArticleState>(
-              bloc: _createArticleCubit,
-              listener: (context, state) {
-                //==> show snack bar with check internet connection
-                if (state is ErrorWhileCreatingArticle) {
-                  showSnackBar(context,
-                      backgroundColor: AppColor.accentColor,
-                      textColor: AppColor.primaryDarkColor,
-                      isFloating: false,
-                      message: "تحقق من اتصال الإنترنت");
-                }
-
-                //==> on success navigate to my sos screen
-                if (state is ArticleCreatedSuccessfully) {
-                  _navigateToMyArticlesScreen();
-                }
-              },
-            )
-          ],
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: AppUtils.mainPagesHorizontalPadding.w,
+              vertical: AppUtils.mainPagesVerticalPadding.h),
           child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: AppUtils.mainPagesHorizontalPadding.w,
-                vertical: AppUtils.mainPagesVerticalPadding.h),
-            child: Padding(
-              padding: EdgeInsets.only(top: Sizes.dimen_10.h),
-              child: BlocBuilder<CreateArticleCubit, CreateArticleState>(
-                bloc: _createArticleCubit,
-                  builder: (context, state) {
-                /// UnAuthorizedCreateSos
-                if (state is UnAuthorizedCreateArticle) {
-                  return Center(
-                    child: AppErrorWidget(
-                      appTypeError: AppErrorType.unauthorizedUser,
-                      buttonText: "تسجيل الدخول",
-                      onPressedRetry: () {
-                        _navigateToLogin();
-                      },
-                    ),
-                  );
-                }
+            padding: EdgeInsets.only(top: Sizes.dimen_10.h),
+            child: BlocBuilder<CreateArticleCubit, CreateArticleState>(
+              bloc: _createArticleCubit,
+                builder: (context, state) {
+              /// UnAuthorizedCreateSos
+              if (state is UnAuthorizedCreateArticle) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.unauthorizedUser,
+                    buttonText: "تسجيل الدخول",
+                    onPressedRetry: () {
+                      _navigateToLogin();
+                    },
+                  ),
+                );
+              }
 
-                /// NotActivatedUserToCreateSos
-                if (state is NotActivatedUserToCreateArticle) {
-                  return Center(
-                    child: AppErrorWidget(
-                      appTypeError: AppErrorType.notActivatedUser,
-                      buttonText: "تواصل معنا",
-                      message:
-                          "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
-                      onPressedRetry: () {
-                        _navigateToContactUs();
-                      },
-                    ),
-                  );
-                }
+              /// NotActivatedUserToCreateSos
+              if (state is NotActivatedUserToCreateArticle) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.notActivatedUser,
+                    buttonText: "تواصل معنا",
+                    message:
+                        "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                    onPressedRetry: () {
+                      _navigateToContactUs();
+                    },
+                  ),
+                );
+              }
 
-                return widget.withWithCard
-                    ? ScrollableAppCard(
-                        child: _form(state),
-                      )
-                    : _form(state);
-              }),
-            ),
+              return widget.withWithCard
+                  ? ScrollableAppCard(
+                      child: _form(state),
+                    )
+                  : _form(state);
+            }),
           ),
         ),
       ),

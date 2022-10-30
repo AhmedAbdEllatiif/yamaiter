@@ -12,8 +12,8 @@ part 'accept_terms_state.dart';
 class AcceptTermsCubit extends Cubit<AcceptTermsState> {
   AcceptTermsCubit() : super(AcceptTermsInitial());
 
-  /// to create sos
-  void sendSos({required bool isAccepted, required String token}) async {
+  /// to send accept terms
+  void sendAcceptTerms({required String token}) async {
     //==> loading
     _emitIfNotClosed(LoadingAcceptTerms());
 
@@ -21,7 +21,7 @@ class AcceptTermsCubit extends Cubit<AcceptTermsState> {
     final createSosCase = getItInstance<AcceptTermsCase>();
 
     //==> init params
-    final params = AcceptTermsParams(isAccepted: isAccepted, userToken: token);
+    final params = AcceptTermsParams(isAccepted: true, userToken: token);
 
     //==> send request
     final either = await createSosCase(params);

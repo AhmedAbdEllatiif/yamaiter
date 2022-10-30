@@ -100,54 +100,51 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
               }
             })
           ],
-          child: SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: widget.withWhiteCard
-                ? ScrollableAppCard(
-                    child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /// title
-                        const AppContentTitleWidget(
-                            title: "طلب خدمة الاقرار الضريبى"),
-
-                        /// form
-                        Padding(
-                          padding: EdgeInsets.only(top: Sizes.dimen_5.h),
-                          child: _form(),
-                        ),
-                      ],
-                    ),
-                  ))
-                : Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+          child: widget.withWhiteCard
+              ? ScrollableAppCard(
+                  child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       /// title
-                      AppContentTitleWidget(
-                        title: "طلب اقرار ضريبى",
-                        textStyle: widget.withWhiteCard
-                            ? null
-                            : Theme.of(context).textTheme.titleLarge!.copyWith(
-                                color: AppColor.white,
-                                fontWeight: FontWeight.bold),
-                        textColor: widget.withWhiteCard
-                            ? AppColor.primaryDarkColor
-                            : AppColor.white,
-                      ),
+                      const AppContentTitleWidget(
+                          title: "طلب خدمة الاقرار الضريبى"),
 
                       /// form
                       Padding(
-                        padding: EdgeInsets.only(
-                            top: widget.withWhiteCard
-                                ? Sizes.dimen_5.h
-                                : Sizes.dimen_14.h),
+                        padding: EdgeInsets.only(top: Sizes.dimen_5.h),
                         child: _form(),
                       ),
                     ],
                   ),
-          )),
+                ))
+              : Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    /// title
+                    AppContentTitleWidget(
+                      title: "طلب اقرار ضريبى",
+                      textStyle: widget.withWhiteCard
+                          ? null
+                          : Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: AppColor.white,
+                              fontWeight: FontWeight.bold),
+                      textColor: widget.withWhiteCard
+                          ? AppColor.primaryDarkColor
+                          : AppColor.white,
+                    ),
+
+                    /// form
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: widget.withWhiteCard
+                              ? Sizes.dimen_5.h
+                              : Sizes.dimen_14.h),
+                      child: _form(),
+                    ),
+                  ],
+                )),
     );
   }
 

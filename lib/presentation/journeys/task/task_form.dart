@@ -238,7 +238,6 @@ class _TaskFormState extends State<TaskForm> {
                   controller: descriptionController,
                   label: "اشرح تفاصيل المهمة هنا",
                   maxLines: 20,
-                  validateOnSubmit: false,
                   withFocusedBorder: false,
                   textInputType: TextInputType.multiline,
                   textInputAction: TextInputAction.newline,
