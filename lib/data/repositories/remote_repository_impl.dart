@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/models/accept_terms/accept_terms_response_model.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
@@ -35,6 +36,7 @@ import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
+import '../../domain/entities/data/accept_terms_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
@@ -548,6 +550,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+  /// GetAcceptTerms
+  @override
+  Future<Either<AppError, AcceptTermsEntity>> getAcceptTerms(
+      String userToken) async {
+    try {
+      // send get accept request
+      final result = await remoteDataSource.getAcceptTerms(userToken);
+
+      // received success
+      if (result is AcceptTermsResponseModel) {
+        return Right(result);
+      }
+
+      // failed to create tax
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
   /// acceptTerms
   @override
   Future<Either<AppError, SuccessModel>> acceptTerms(
@@ -565,8 +589,9 @@ class RemoteRepositoryImpl extends RemoteRepository {
       else {
         return Left(result);
       }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    } catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }
   }
 

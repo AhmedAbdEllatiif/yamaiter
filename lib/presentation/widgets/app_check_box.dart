@@ -2,37 +2,67 @@ import 'package:flutter/material.dart';
 
 import '../themes/theme_color.dart';
 
-class AppCheckBoxTiel extends StatefulWidget {
+class AppCheckBoxTile extends StatefulWidget {
   final Function(bool?) onChanged;
+  final String text;
+  final Color textColor;
+  final Color checkBoxColor;
+  final bool hasError;
 
-  const AppCheckBoxTiel({Key? key, required this.onChanged}) : super(key: key);
+  const AppCheckBoxTile({
+    Key? key,
+    required this.onChanged,
+    required this.text,
+    this.textColor = AppColor.primaryDarkColor,
+    this.checkBoxColor = AppColor.primaryDarkColor,
+    this.hasError = false,
+  }) : super(key: key);
 
   @override
-  State<AppCheckBoxTiel> createState() => _AppCheckBoxTileState();
+  State<AppCheckBoxTile> createState() => _AppCheckBoxTileState();
 }
 
-class _AppCheckBoxTileState extends State<AppCheckBoxTiel> {
+class _AppCheckBoxTileState extends State<AppCheckBoxTile> {
   bool _isChecked = false;
 
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
       title: Text(
-        "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+        widget.text,
+        maxLines: 2,
         style: Theme.of(context)
             .textTheme
             .caption!
-            .copyWith(color: AppColor.white),
+            .copyWith(color: widget.textColor, height: 1.5,fontWeight: FontWeight.bold),
       ),
-      value: _isChecked,
 
-      side: const BorderSide(color: AppColor.accentColor),
+
+      // subtitle as error
+      subtitle: widget.hasError
+          ? Text(
+              "* يجب الموافقة على شروط الاتفاقية",
+              style: Theme.of(context)
+                  .textTheme
+                  .caption!
+                  .copyWith(color: AppColor.red),
+            )
+          : null,
+
+
+      value: _isChecked,
+      dense: false,
+
+      // checked color
       checkColor: AppColor.white,
+      activeColor: AppColor.primaryDarkColor,
+
+      // border side color
+      side: BorderSide(color: widget.hasError?AppColor.red: widget.checkBoxColor),
 
       // checkboxShape
-      checkboxShape:  RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(2)),
-
+      checkboxShape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(2)),
       // onChanged
       onChanged: (value) {
         setState(() {

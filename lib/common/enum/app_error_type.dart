@@ -4,6 +4,7 @@ enum AppErrorType {
   badRequest,
   pickImage,
 
+  unHandledError,
   // apiErrors
   api,
   unauthorizedUser,

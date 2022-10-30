@@ -232,8 +232,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
 
         Padding(
           padding: EdgeInsets.only(top: Sizes.dimen_4.h),
-          child: AppCheckBoxTiel(
+          child: AppCheckBoxTile(
             onChanged: (value) {},
+            text:"من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+            textColor: AppColor.white,
+            checkBoxColor: AppColor.accentColor,
           ),
         ),
 

@@ -38,7 +38,8 @@ import '../data/repositories/app_settings_repository_impl.dart';
 import '../domain/repositories/remote_repository.dart';
 import '../data/repositories/remote_repository_impl.dart';
 import '../domain/use_cases/about.dart';
-import '../domain/use_cases/accept_terms.dart';
+import '../domain/use_cases/accept_terms/accept_terms.dart';
+import '../domain/use_cases/accept_terms/get_accept_terms.dart';
 import '../domain/use_cases/ads/get_my_ads.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
@@ -60,6 +61,7 @@ import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
+import '../presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
 import '../presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
@@ -214,6 +216,11 @@ Future init() async {
   //==> AcceptTermsCubit
   getItInstance.registerFactory<AcceptTermsCubit>(
     () => AcceptTermsCubit(),
+  );
+
+  //==> GetAcceptTermsCubit
+  getItInstance.registerFactory<GetAcceptTermsCubit>(
+    () => GetAcceptTermsCubit(),
   );
 
   //==> CreateTaskCubit
@@ -371,5 +378,10 @@ Future init() async {
   //==> CreateTaskCase
   getItInstance.registerFactory<CreateTaskCase>(
     () => CreateTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetAcceptTermsCase
+  getItInstance.registerFactory<GetAcceptTermsCase>(
+    () => GetAcceptTermsCase(remoteRepository: getItInstance()),
   );
 }

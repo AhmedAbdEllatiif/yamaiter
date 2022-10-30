@@ -126,8 +126,11 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
                 ),
               ),
 
-              AppCheckBoxTiel(
+              AppCheckBoxTile(
                 onChanged: (value) {},
+                text:"من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+                textColor: AppColor.white,
+                checkBoxColor: AppColor.accentColor,
               ),
 
               // already a user go to login

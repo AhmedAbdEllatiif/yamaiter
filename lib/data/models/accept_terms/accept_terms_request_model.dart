@@ -1,4 +1,4 @@
-import '../params/accept_terms_params.dart';
+import '../../params/accept_terms_params.dart';
 
 class AcceptTermsModel {
   final String acceptTerms;

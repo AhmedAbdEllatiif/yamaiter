@@ -50,10 +50,10 @@ class AppErrorWidget extends StatelessWidget {
               Text(
                 message.isEmpty
                     ? appTypeError == AppErrorType.api
-                        ? "Check network connection"
+                        ? "تحقق من اتصال الانترنت"
                         : appTypeError == AppErrorType.unauthorizedUser
                             ? 'تحتاج الى تسجيل الدخول '
-                            : 'Something is gone wrong'
+                            : 'حدث خطأ'
                     : message,
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
@@ -63,13 +63,11 @@ class AppErrorWidget extends StatelessWidget {
               ),
 
               /// Button
-              Container(
-                margin: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
-                width: double.infinity,
-                child: AppButton(
-                  text: buttonText ?? "Retry".toUpperCase(),
-                  onPressed: onPressedRetry,
-                ),
+              AppButton(
+              width: double.infinity,
+               //margin: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
+                text: buttonText ?? "حاول مرة اخرى",
+                onPressed: onPressedRetry,
               ),
             ],
           ),

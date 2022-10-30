@@ -220,7 +220,7 @@ class EndPoints {
   static String createTask = "${_apiVersion}tasks";
 
   /// acceptTerms
-  static String acceptTerms = "${_apiVersion}set-accept-terms";
+  static String acceptTerms = "${_apiVersion}accept-terms";
 }
 
 /// The api request type

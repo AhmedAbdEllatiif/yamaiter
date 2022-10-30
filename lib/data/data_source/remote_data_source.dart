@@ -5,6 +5,7 @@ import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
@@ -19,7 +20,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
-import 'package:yamaiter/data/models/accept_terms_model.dart';
+import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
@@ -49,6 +50,7 @@ import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/create_tax.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../api/requests/post_requests/update_sos.dart';
+import '../models/accept_terms/accept_terms_response_model.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
@@ -123,11 +125,14 @@ abstract class RemoteDataSource {
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
 
-  /// accept terms
-  Future<dynamic> acceptTerms(AcceptTermsParams params);
-
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
+
+  /// get accept terms
+  Future<dynamic> getAcceptTerms(String token);
+
+  /// accept terms
+  Future<dynamic> acceptTerms(AcceptTermsParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -846,6 +851,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// getAcceptTerms
+  @override
+  Future getAcceptTerms(String token) async {
+    try {
+      log("getAcceptTerms >> Start request");
+      // init request
+      final request = GetAcceptTermsRequest();
+
+      // response
+      final response = await request(token);
+
+      log("getAcceptTerms >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return acceptTermsResponseModel(jsonDecode(response.body));
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getAcceptTerms Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getAcceptTerms Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getAcceptTerms Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getAcceptTerms >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "acceptTerms Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      print("getAcceptTerms >> UnHandledError: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "acceptTerms UnHandledError >> $e");
+    }
+  }
+
   /// acceptTerms
   @override
   Future acceptTerms(AcceptTermsParams params) async {
@@ -921,9 +969,9 @@ class RemoteDataSourceImpl extends RemoteDataSource {
             message: "createTask Status Code >> ${response.statusCode}");
       // default
       default:
-        log("deleteSos >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        log("createTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
-            message: "deleteSos Status Code >> ${response.statusCode}"
+            message: "createTask Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }
