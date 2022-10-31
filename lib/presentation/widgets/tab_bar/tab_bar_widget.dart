@@ -10,13 +10,15 @@ class TabBarWidget extends StatelessWidget {
   final int currentSelectedIndex;
   final TabController tabController;
   final double? tabItemHeight;
+  final List<Widget> tabs;
 
   const TabBarWidget({
     Key? key,
+    required this.tabs,
+    this.tabItemHeight,
     required this.onTabPressed,
     required this.currentSelectedIndex,
     required this.tabController,
-    this.tabItemHeight,
   }) : super(key: key);
 
   @override
@@ -56,14 +58,7 @@ class TabBarWidget extends StatelessWidget {
         onTap: onTabPressed,
 
         /// list of tabs
-        tabs: const [
-          TabItem(
-            text: "اقرارات تحت التنفيذ",
-          ),
-          TabItem(
-            text: "اقرارات مكتملة",
-          ),
-        ],
+        tabs: tabs
       ),
     );
   }

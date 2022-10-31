@@ -139,6 +139,11 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.createSos);
   }
 
+  /// To choose tasks screen \\\
+  void chooseTasks(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.chooseTasks);
+  }
+
   /// To create task screen \\\
   void createTask(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.createTask);

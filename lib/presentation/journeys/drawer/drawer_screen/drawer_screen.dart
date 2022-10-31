@@ -112,9 +112,9 @@ class DrawerScreen extends StatelessWidget {
 
   void _navigateMyTaxesScreen(BuildContext context) =>
       RouteHelper().myTaxesScreen(context, isReplacement: false);
-  
+
   void _navigateMyTasksScreen(BuildContext context) =>
-      RouteHelper().myTasks(context, isReplacement: false);
+      RouteHelper().chooseTasks(context);
 
   void _navigateMyArticlesScreen(BuildContext context) =>
       RouteHelper().myArticlesScreen(context, isReplacement: false);

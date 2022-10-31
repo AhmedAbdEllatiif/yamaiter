@@ -18,6 +18,7 @@ import '../../../../../domain/entities/data/ad_entity.dart';
 import '../../../../logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import '../../../../widgets/ads_list/ads_list_view.dart';
 import '../../../../widgets/tab_bar/tab_bar_widget.dart';
+import '../../../../widgets/tab_bar/tab_item.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
 
 class MyTaxesScreen extends StatefulWidget {
@@ -60,6 +61,7 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
           // TODO: implement listener
         },
         child: Scaffold(
+
           /// appBar
           appBar: AppBar(
             title: const Text("اقرارتى الضريبية"),
@@ -67,10 +69,11 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
 
           body: Padding(
             padding: EdgeInsets.only(
-                //horizontal: AppUtils.mainPagesHorizontalPadding.w,
+              //horizontal: AppUtils.mainPagesHorizontalPadding.w,
                 top: AppUtils.mainPagesVerticalPadding.h),
             child: Column(
               children: [
+
                 /// Ads ListView
                 const AdsWidget(),
 
@@ -78,11 +81,12 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
                 Expanded(
                   child: Padding(
                     padding: EdgeInsets.only(
-                        top: Sizes.dimen_16.h,
-                        bottom: AppUtils.mainPagesVerticalPadding.h,
-                        ),
+                      top: Sizes.dimen_16.h,
+                      bottom: AppUtils.mainPagesVerticalPadding.h,
+                    ),
                     child: Column(
                       children: [
+
                         /// title with add new sos
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -102,13 +106,21 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
 
                         ///TabBar widget
                         TabBarWidget(
-                          currentSelectedIndex: currentIndex,
-                          tabController: _tabController,
-                          onTabPressed: (index) {
-                            setState(() {
-                              currentIndex = index;
-                            });
-                          },
+                            currentSelectedIndex: currentIndex,
+                            tabController: _tabController,
+                            onTabPressed: (index) {
+                              setState(() {
+                                currentIndex = index;
+                              });
+                            },
+                            tabs: const [
+                              TabItem(
+                                text: "اقرارات تحت التنفيذ",
+                              ),
+                              TabItem(
+                                text: "اقرارات مكتملة",
+                              ),
+                            ],
                         ),
 
                         /// list of my sos
@@ -121,6 +133,7 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
                                 //physics: NeverScrollableScrollPhysics(),
                                 controller: _tabController,
                                 children: [
+
                                   /// InProgressTaxesList
                                   InProgressTaxesList(
                                     createTaxCubit: _createTaxCubit,

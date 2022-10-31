@@ -8,11 +8,13 @@ class TabItem extends StatelessWidget {
   //final IconData iconData;
   final String text;
   final double? height;
+  final TextStyle? textStyle;
 
   const TabItem({
     Key? key,
     //required this.iconData,
     required this.text,
+    this.textStyle,
     this.height,
   }) : super(key: key);
 
@@ -37,7 +39,7 @@ class TabItem extends StatelessWidget {
       /// child as text
       child: Text(
         text,
-        style: TextStyle(
+        style: textStyle ?? TextStyle(
             fontSize: ResponsiveValue(context,
                 defaultValue: Sizes.dimen_16.sp,
                 valueWhen: [
