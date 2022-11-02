@@ -15,6 +15,7 @@ class AppDropDownField extends StatefulWidget {
   final EdgeInsets? margin;
   final bool isLastItemHighlighted;
 
+
   const AppDropDownField({
     Key? key,
     required this.itemsList,

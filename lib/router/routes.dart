@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -14,6 +15,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_tasks/choose_my_tasks_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
@@ -91,6 +93,11 @@ class Routes {
 
         /// ChooseTasksScreen
         RouteList.chooseTasks: (context) => const ChooseTasksScreen(),
+
+        /// edit task
+        RouteList.editTask: (context) => EditTaskScreen(
+              editTaskArguments: settings.arguments as EditTaskArguments,
+            ),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

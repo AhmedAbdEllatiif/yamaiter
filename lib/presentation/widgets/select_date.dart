@@ -8,10 +8,14 @@ import '../themes/theme_color.dart';
 class SelectDateWidget extends StatefulWidget {
   final Function(String? selectedDate) onDateSelected;
   final bool hasError;
+  final String? initialValue;
 
-  const SelectDateWidget(
-      {Key? key, required this.onDateSelected, required this.hasError})
-      : super(key: key);
+  const SelectDateWidget({
+    Key? key,
+    required this.onDateSelected,
+    required this.hasError,
+     this.initialValue,
+  }) : super(key: key);
 
   @override
   State<SelectDateWidget> createState() => _SelectDateWidgetState();
@@ -35,7 +39,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
             color: AppColor.primaryColor,
             borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w)),
         child: Text(
-          selectedDate ?? "حدد اقصي تازيخ للتنفيذ",
+          selectedDate ?? widget.initialValue ?? "حدد اقصي تازيخ للتنفيذ",
           style: const TextStyle(color: AppColor.white),
         ),
       ),

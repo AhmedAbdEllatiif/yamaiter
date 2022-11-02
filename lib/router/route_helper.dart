@@ -3,6 +3,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -147,6 +148,13 @@ class RouteHelper {
   /// To create task screen \\\
   void createTask(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.createTask);
+  }
+
+  /// To edit task screen \\\
+  void editTask(BuildContext context,
+      {required EditTaskArguments editTaskArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.editTask, arguments: editTaskArguments);
   }
 
   /// To my tasks screen \\\

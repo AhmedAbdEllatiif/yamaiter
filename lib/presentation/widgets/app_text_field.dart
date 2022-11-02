@@ -26,6 +26,7 @@ class AppTextField extends StatefulWidget {
   final int? maxLines;
   final EdgeInsets? margin;
   final TextStyle? labelStyle;
+  final TextStyle? textStyle;
   final bool withFocusedBorder;
   final bool validateOnSubmit;
 
@@ -45,6 +46,7 @@ class AppTextField extends StatefulWidget {
     this.width,
     this.margin,
     this.labelStyle,
+    this.textStyle,
     this.withFocusedBorder = true,
     this.validateOnSubmit = true,
     this.minLines = 1,
@@ -102,7 +104,7 @@ class _AppTextFieldState extends State<AppTextField> {
         cursorColor: AppColor.white,
 
         // text style
-        style: const TextStyle(color: AppColor.white),
+        style: widget.textStyle ?? const TextStyle(color: AppColor.white),
 
         textInputAction: widget.textInputAction,
 
@@ -175,7 +177,8 @@ class _AppTextFieldState extends State<AppTextField> {
         obscureText: _isObscure,
 
         // validator
-        validator: widget.validateOnSubmit ? widget.validator ?? validate : null,
+        validator:
+            widget.validateOnSubmit ? widget.validator ?? validate : null,
       ).animate(
           slideDuration: const Duration(milliseconds: 300),
           fadeDuration: const Duration(milliseconds: 300),

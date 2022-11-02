@@ -3,6 +3,8 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../common/constants/app_utils.dart';
 import '../../../../../../common/constants/sizes.dart';
@@ -27,9 +29,7 @@ class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        minHeight: ScreenUtil.screenHeight * 0.15
-      ),
+      constraints: BoxConstraints(minHeight: ScreenUtil.screenHeight * 0.15),
       child: Card(
         child: InkWell(
           onTap: () {
@@ -76,7 +76,9 @@ class _TaskItemState extends State<TaskItem> {
                                     ),
                               ),
 
-                              SizedBox(height: Sizes.dimen_2.h,),
+                              SizedBox(
+                                height: Sizes.dimen_2.h,
+                              ),
 
                               /// description
                               Text(
@@ -95,10 +97,9 @@ class _TaskItemState extends State<TaskItem> {
 
                               Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.only(top: 20,right: 5),
+                                padding: EdgeInsets.only(top: 20, right: 5),
                                 child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     /// court
                                     Flexible(
@@ -199,7 +200,7 @@ class _TaskItemState extends State<TaskItem> {
                         children: [
                           CardMenuItem(
                             text: "تعديل النشور",
-                            onPressed: () => {},
+                            onPressed: () => _navigateToEditTaskScreen(),
                           ),
                           CardMenuItem(
                             text: "حذف االمنشور",
@@ -228,4 +229,12 @@ class _TaskItemState extends State<TaskItem> {
           }),
     );
   }
+
+  /// to navigate to edit task screen
+  void _navigateToEditTaskScreen() => RouteHelper().editTask(
+        context,
+        editTaskArguments: EditTaskArguments(
+          taskEntity: widget.taskEntity,
+        ),
+      );
 }
