@@ -122,7 +122,7 @@ class _TaskItemState extends State<TaskItem> {
                                     Flexible(
                                       child: TextWithIconWidget(
                                         iconData: Icons.date_range_outlined,
-                                        text: widget.taskEntity.createdAt,
+                                        text: widget.taskEntity.startingDate,
                                       ),
                                     ),
 
