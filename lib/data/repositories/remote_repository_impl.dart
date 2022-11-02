@@ -44,6 +44,7 @@ import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
 import '../params/get_taxes_params.dart';
+import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
   final RemoteDataSource remoteDataSource;
@@ -603,7 +604,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, SuccessModel>> createTask(
       CreateTaskParams params) async {
     try {
-      // send create tax request
+      // send create task request
       final result = await remoteDataSource.createTask(params);
 
       // received success
@@ -611,7 +612,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to create tax
+      // failed to create task
       else {
         return Left(result);
       }
@@ -640,6 +641,27 @@ class RemoteRepositoryImpl extends RemoteRepository {
     } on Exception catch (e) {
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, SuccessModel>> updateTask(
+      UpdateTaskParams params) async {
+    try {
+      // send update task request
+      final result = await remoteDataSource.updateTask(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to update task
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
 }

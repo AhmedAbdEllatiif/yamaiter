@@ -70,6 +70,9 @@ class ApiConstants {
   static Uri _myTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.myTasks, queryParams);
 
+  static Uri _updateTask(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.updateTask}/$id");
+
   static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
   static Uri buildUrl(
@@ -149,6 +152,9 @@ class ApiConstants {
       // myTasks
       case RequestType.myTasks:
         return _myTasks(queryParams: queryParams);
+      // updateTask
+      case RequestType.updateTask:
+        return _updateTask(id);
       // acceptTerms
       case RequestType.acceptTerms:
         return _acceptTerms();
@@ -228,6 +234,9 @@ class EndPoints {
   /// myTasks
   static String myTasks = "${_apiVersion}my-tasks";
 
+  /// myTasks
+  static String updateTask = "${_apiVersion}update-task";
+
   /// acceptTerms
   static String acceptTerms = "${_apiVersion}accept-terms";
 }
@@ -258,6 +267,7 @@ enum RequestType {
   myAds,
   createTask,
   myTasks,
+  updateTask,
   acceptTerms,
 }
 

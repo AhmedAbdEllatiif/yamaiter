@@ -16,8 +16,9 @@ import '../../../../../widgets/text_with_icon.dart';
 
 class TaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
+  final Function() onUpdatePressed;
 
-  const TaskItem({Key? key, required this.taskEntity}) : super(key: key);
+  const TaskItem({Key? key, required this.taskEntity, required this.onUpdatePressed}) : super(key: key);
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -200,7 +201,7 @@ class _TaskItemState extends State<TaskItem> {
                         children: [
                           CardMenuItem(
                             text: "تعديل النشور",
-                            onPressed: () => _navigateToEditTaskScreen(),
+                            onPressed: widget.onUpdatePressed,
                           ),
                           CardMenuItem(
                             text: "حذف االمنشور",
@@ -230,11 +231,5 @@ class _TaskItemState extends State<TaskItem> {
     );
   }
 
-  /// to navigate to edit task screen
-  void _navigateToEditTaskScreen() => RouteHelper().editTask(
-        context,
-        editTaskArguments: EditTaskArguments(
-          taskEntity: widget.taskEntity,
-        ),
-      );
+
 }

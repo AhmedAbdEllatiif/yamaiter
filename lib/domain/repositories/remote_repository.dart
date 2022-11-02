@@ -28,6 +28,7 @@ import '../../data/params/create_article_params.dart';
 import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../../data/params/update_sos_params.dart';
+import '../../data/params/update_task_params.dart';
 import '../entities/app_error.dart';
 import '../entities/data/article_entity.dart';
 
@@ -118,7 +119,11 @@ abstract class RemoteRepository {
   Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params);
 
   /// get my tasks
-  Future<Either<AppError, List<TaskEntity>>> getMyTasks(GetMyTasksParams params);
+  Future<Either<AppError, List<TaskEntity>>> getMyTasks(
+      GetMyTasksParams params);
+
+  /// update task
+  Future<Either<AppError, SuccessModel>> updateTask(UpdateTaskParams params);
 
   /// get accept terms
   Future<Either<AppError, AcceptTermsEntity>> getAcceptTerms(String userToken);

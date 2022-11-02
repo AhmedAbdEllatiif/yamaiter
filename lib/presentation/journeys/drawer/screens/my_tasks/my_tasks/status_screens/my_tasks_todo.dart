@@ -10,7 +10,9 @@ import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubi
 
 import '../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../domain/entities/data/task_entity.dart';
+import '../../../../../../../domain/entities/screen_arguments/edit_task_args.dart';
 import '../../../../../../../router/route_helper.dart';
+import '../../../../../../logic/cubit/update_task/update_task_cubit.dart';
 import '../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../themes/theme_color.dart';
 import '../../../../../../widgets/app_error_widget.dart';
@@ -34,11 +36,15 @@ class _MyTasksTodoState extends State<MyTasksTodo>
   /// GetMyTasksCubit
   late final GetMyTasksCubit _getMyTasksCubit;
 
+  /// UpdateTaskCubit
+  late final UpdateTaskCubit _updateTaskCubit;
+
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
     _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
+    _updateTaskCubit = getItInstance<UpdateTaskCubit>();
     _fetchMyTasksList();
     _listenerOnScrollController();
   }
@@ -47,6 +53,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
   void dispose() {
     _controller.dispose();
     _getMyTasksCubit.close();
+    _updateTaskCubit.close();
     super.dispose();
   }
 
@@ -56,18 +63,24 @@ class _MyTasksTodoState extends State<MyTasksTodo>
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => _getMyTasksCubit),
+          BlocProvider(create: (context) => _updateTaskCubit),
         ],
         child: MultiBlocListener(
           listeners: [
             /// edit task listener
-            BlocListener<GetMyTasksCubit, GetMyTasksState>(listener: (context, state) {
+            BlocListener<GetMyTasksCubit, GetMyTasksState>(
+                listener: (context, state) {
               // TODO: implement listener
             }),
 
-            /// delete task listener
-            /*BlocListener(listener: (context, state) {
-              // TODO: implement listener
-            }),*/
+            /// update task listener
+            BlocListener<UpdateTaskCubit, UpdateTaskState>(
+                listener: (context, state) {
+              if (state is TaskUpdatedSuccessfully) {
+                taskList.clear();
+                _fetchMyTasksList();
+              }
+            }),
           ],
           child: BlocConsumer<GetMyTasksCubit, GetMyTasksState>(
             listener: (_, state) {
@@ -153,9 +166,10 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                     return TaskItem(
                       taskEntity: taskList[index],
                       //withCallLawyer: false,
-                      /* onUpdatePressed: () {
-                      _navigateToUpdateSosScreen(sosList[index]);
-                    },
+                      onUpdatePressed: () {
+                        _navigateToEditTaskScreen(taskList[index]);
+                      },
+                      /*
                     onDeletePressed: () => _navigateToDeleteSosScreen(
                       taskList[index].id,
                     ),*/
@@ -191,6 +205,16 @@ class _MyTasksTodoState extends State<MyTasksTodo>
 
   /// To navigate to contactUs
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
+
+  /// to navigate to edit task screen
+  void _navigateToEditTaskScreen(TaskEntity taskEntity) =>
+      RouteHelper().editTask(
+        context,
+        editTaskArguments: EditTaskArguments(
+          updateTaskCubit: _updateTaskCubit,
+          taskEntity: taskEntity,
+        ),
+      );
 
   /// listener on controller
   /// when last item reached fetch next page

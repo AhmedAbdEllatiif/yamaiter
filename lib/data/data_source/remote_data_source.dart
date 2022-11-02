@@ -21,6 +21,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
@@ -31,6 +32,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_respon
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/my_tasks/my_tasks_model.dart';
+import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
@@ -60,6 +62,7 @@ import '../models/auth/login/login_response.dart';
 import '../models/sos/sos_model.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_taxes_params.dart';
+import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
   /// login
@@ -133,6 +136,9 @@ abstract class RemoteDataSource {
 
   /// get my tasks
   Future<dynamic> getMyTasks(GetMyTasksParams params);
+
+  /// update task
+  Future<dynamic> updateTask(UpdateTaskParams params);
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
@@ -1020,6 +1026,48 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (e) {
       return AppError(AppErrorType.unHandledError,
           message: "getMyTasks UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future updateTask(UpdateTaskParams params) async {
+    try {
+      log("updateTask >> Start request");
+      // init request
+      final request = UpdateTaskRequest();
+
+      // response
+      final response = await request(
+          UpdateTaskRequestModel.fromParams(params: params), params.userToken);
+
+      log("updateTask >> ResponseCode: ${response.statusCode},\nBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "updateTask Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "updateTask Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "updateTask Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("updateTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "updateTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      return AppError(AppErrorType.unHandledError,
+          message: "updateTask UnHandledError >> $e");
     }
   }
 }
