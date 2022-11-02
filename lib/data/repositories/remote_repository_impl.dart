@@ -23,6 +23,7 @@ import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
+import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
@@ -33,6 +34,8 @@ import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
+import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
@@ -614,6 +617,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// getMyTasks
+  @override
+  Future<Either<AppError, List<TaskEntity>>> getMyTasks(
+      GetMyTasksParams params) async {
+    try {
+      // send get tasks request
+      final result = await remoteDataSource.getMyTasks(params);
+
+      // received success
+      if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to get my tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_completed.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_in_progress.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_in_review.dart';
@@ -7,7 +8,6 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../../../../common/constants/sizes.dart';
-import '../../../../../../common/screen_utils/screen_util.dart';
 import '../../../../../widgets/app_content_title_widget.dart';
 import '../../../../../widgets/tab_bar/tab_bar_widget.dart';
 import '../../../../../widgets/tab_bar/tab_item.dart';
@@ -26,6 +26,9 @@ class _MyTasksScreenState extends State<MyTasksScreen>
 
   /// current tab selected index
   int currentIndex = 0;
+
+
+
 
   @override
   void initState() {

@@ -10,6 +10,7 @@ import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
+import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms_entity.dart';
@@ -17,6 +18,7 @@ import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
+import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 
 import '../../data/models/success_model.dart';
@@ -114,6 +116,9 @@ abstract class RemoteRepository {
 
   /// create task
   Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params);
+
+  /// get my tasks
+  Future<Either<AppError, List<TaskEntity>>> getMyTasks(GetMyTasksParams params);
 
   /// get accept terms
   Future<Either<AppError, AcceptTermsEntity>> getAcceptTerms(String userToken);

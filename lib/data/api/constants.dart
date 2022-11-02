@@ -67,6 +67,9 @@ class ApiConstants {
 
   static Uri _createTask() => Uri.https(_baseUrl, EndPoints.createTask);
 
+  static Uri _myTasks({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.myTasks, queryParams);
+
   static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
   static Uri buildUrl(
@@ -143,6 +146,9 @@ class ApiConstants {
       // createTask
       case RequestType.createTask:
         return _createTask();
+      // myTasks
+      case RequestType.myTasks:
+        return _myTasks(queryParams: queryParams);
       // acceptTerms
       case RequestType.acceptTerms:
         return _acceptTerms();
@@ -219,6 +225,9 @@ class EndPoints {
   /// createTask
   static String createTask = "${_apiVersion}tasks";
 
+  /// myTasks
+  static String myTasks = "${_apiVersion}my-tasks";
+
   /// acceptTerms
   static String acceptTerms = "${_apiVersion}accept-terms";
 }
@@ -248,9 +257,11 @@ enum RequestType {
   completedTaxes,
   myAds,
   createTask,
+  myTasks,
   acceptTerms,
 }
 
 class ApiParamsConstant {
   static String offset = "offset";
+  static String status = "status";
 }

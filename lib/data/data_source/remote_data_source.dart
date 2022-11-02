@@ -11,6 +11,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
@@ -29,6 +30,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
+import 'package:yamaiter/data/models/tasks/my_tasks/my_tasks_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
@@ -39,6 +41,7 @@ import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
+import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
@@ -127,6 +130,9 @@ abstract class RemoteDataSource {
 
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
+
+  /// get my tasks
+  Future<dynamic> getMyTasks(GetMyTasksParams params);
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
@@ -888,7 +894,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
                   " \n Body: ${response.body}");
       }
     } catch (e) {
-      print("getAcceptTerms >> UnHandledError: $e");
       return AppError(AppErrorType.unHandledError,
           message: "acceptTerms UnHandledError >> $e");
     }
@@ -973,6 +978,48 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         return AppError(AppErrorType.api,
             message: "createTask Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
+    }
+  }
+
+  /// getMyTasks
+  @override
+  Future getMyTasks(GetMyTasksParams params) async {
+    try {
+      log("getMyTasks >> Start request");
+      // init request
+      final request = GetMyTasksRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getMyTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return listOfTasksFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getMyTasks Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getMyTasks Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getMyTasks Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getMyTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "getMyTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      return AppError(AppErrorType.unHandledError,
+          message: "getMyTasks UnHandledError >> $e");
     }
   }
 }
