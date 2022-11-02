@@ -163,6 +163,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
               }
 
               return ListView.separated(
+                controller: _controller,
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
 
