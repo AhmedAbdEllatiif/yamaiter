@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
+import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
@@ -43,6 +44,7 @@ import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
+import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
@@ -139,6 +141,9 @@ abstract class RemoteDataSource {
 
   /// update task
   Future<dynamic> updateTask(UpdateTaskParams params);
+
+  /// update task
+  Future<dynamic> deleteTask(DeleteTaskParams params);
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
@@ -1068,6 +1073,47 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (e) {
       return AppError(AppErrorType.unHandledError,
           message: "updateTask UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future deleteTask(DeleteTaskParams params) async{
+    try {
+      log("deleteTask >> Start request");
+      // init request
+      final request = DeleteTaskRequest();
+
+      // response
+      final response = await request(params);
+
+      log("deleteTask >> ResponseCode: ${response.statusCode},\nBody: ${response.body}");
+
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return SuccessModel();
+      // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "deleteTask Status Code >> ${response.statusCode}");
+      // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "deleteTask Status Code >> ${response.statusCode}");
+      // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "updateTask Status Code >> ${response.statusCode}");
+      // default
+        default:
+          log("deleteTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "deleteTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      return AppError(AppErrorType.unHandledError,
+          message: "deleteTask UnHandledError >> $e");
     }
   }
 }

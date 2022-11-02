@@ -4,8 +4,10 @@ import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/loading_more_my_tasks.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/task_item.dart';
+import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 
 import '../../../../../../../common/enum/app_error_type.dart';
@@ -39,12 +41,16 @@ class _MyTasksTodoState extends State<MyTasksTodo>
   /// UpdateTaskCubit
   late final UpdateTaskCubit _updateTaskCubit;
 
+  /// DeleteTaskCubit
+  late final DeleteTaskCubit _deleteTaskCubit;
+
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
     _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
     _updateTaskCubit = getItInstance<UpdateTaskCubit>();
+    _deleteTaskCubit = getItInstance<DeleteTaskCubit>();
     _fetchMyTasksList();
     _listenerOnScrollController();
   }
@@ -54,6 +60,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
     _controller.dispose();
     _getMyTasksCubit.close();
     _updateTaskCubit.close();
+    _deleteTaskCubit.close();
     super.dispose();
   }
 
@@ -64,6 +71,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
         providers: [
           BlocProvider(create: (context) => _getMyTasksCubit),
           BlocProvider(create: (context) => _updateTaskCubit),
+          BlocProvider(create: (context) => _deleteTaskCubit),
         ],
         child: MultiBlocListener(
           listeners: [
@@ -77,6 +85,15 @@ class _MyTasksTodoState extends State<MyTasksTodo>
             BlocListener<UpdateTaskCubit, UpdateTaskState>(
                 listener: (context, state) {
               if (state is TaskUpdatedSuccessfully) {
+                taskList.clear();
+                _fetchMyTasksList();
+              }
+            }),
+
+            /// delete task listener
+            BlocListener<DeleteTaskCubit, DeleteTaskState>(
+                listener: (context, state) {
+              if (state is TaskDeletedSuccessfully) {
                 taskList.clear();
                 _fetchMyTasksList();
               }
@@ -169,10 +186,9 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                       onUpdatePressed: () {
                         _navigateToEditTaskScreen(taskList[index]);
                       },
-                      /*
-                    onDeletePressed: () => _navigateToDeleteSosScreen(
-                      taskList[index].id,
-                    ),*/
+                      onDeletePressed: () => _navigateToDeleteTaskScreen(
+                        taskList[index].id,
+                      ),
                     );
                   }
 
@@ -213,6 +229,15 @@ class _MyTasksTodoState extends State<MyTasksTodo>
         editTaskArguments: EditTaskArguments(
           updateTaskCubit: _updateTaskCubit,
           taskEntity: taskEntity,
+        ),
+      );
+
+  /// to navigate to delete task screen
+  void _navigateToDeleteTaskScreen(int id) => RouteHelper().deleteTask(
+        context,
+        deleteTaskArguments: DeleteTaskArguments(
+          deleteTaskCubit: _deleteTaskCubit,
+          taskId: id,
         ),
       );
 

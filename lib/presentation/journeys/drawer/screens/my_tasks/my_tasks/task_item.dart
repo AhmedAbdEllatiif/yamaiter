@@ -17,8 +17,14 @@ import '../../../../../widgets/text_with_icon.dart';
 class TaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
   final Function() onUpdatePressed;
+  final Function() onDeletePressed;
 
-  const TaskItem({Key? key, required this.taskEntity, required this.onUpdatePressed}) : super(key: key);
+  const TaskItem({
+    Key? key,
+    required this.taskEntity,
+    required this.onUpdatePressed,
+    required this.onDeletePressed,
+  }) : super(key: key);
 
   @override
   State<TaskItem> createState() => _TaskItemState();
@@ -205,7 +211,7 @@ class _TaskItemState extends State<TaskItem> {
                           ),
                           CardMenuItem(
                             text: "حذف االمنشور",
-                            onPressed: () => {},
+                            onPressed: widget.onDeletePressed,
                           ),
                         ],
                       ),
@@ -230,6 +236,4 @@ class _TaskItemState extends State<TaskItem> {
           }),
     );
   }
-
-
 }
