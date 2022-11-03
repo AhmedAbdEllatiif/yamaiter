@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:yamaiter/common/constants/app_utils.dart';
 
 import '../../../../domain/entities/data/task_entity.dart';
+import '../../user_lawyer_model.dart';
 
 List<TaskModel> listOfTasksFromJson(String str) {
   final List<TaskModel> taskList = [];
@@ -28,6 +29,7 @@ class TaskModel extends TaskEntity {
     required this.taskStartingDate,
     required this.taskCreatedAt,
     required this.taskUpdatedAt,
+    required this.userLawyerModel,
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -37,6 +39,7 @@ class TaskModel extends TaskEntity {
           price: taskPrice,
           status: taskStatus,
           file: taskFile,
+          lawyerModel: userLawyerModel[0],
           applicantsCount: taskApplicantsCount,
           taskStartingDate: taskStartingDate,
           taskCreatedAt: taskCreatedAt,
@@ -55,6 +58,7 @@ class TaskModel extends TaskEntity {
   final DateTime? taskStartingDate;
   final DateTime? taskCreatedAt;
   final DateTime? taskUpdatedAt;
+  final List<UserLawyerModel> userLawyerModel;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         taskId: json["id"] ?? -1,
@@ -81,5 +85,11 @@ class TaskModel extends TaskEntity {
         taskUpdatedAt: json["updated_at"] != null
             ? DateTime.tryParse(json["updated_at"])
             : null,
+
+        userLawyerModel: json["users"] != null
+            ? List<UserLawyerModel>.from(
+                json["users"].map((x) => UserLawyerModel.fromJson(x)),
+              )
+            : [UserLawyerModel.empty()],
       );
 }
