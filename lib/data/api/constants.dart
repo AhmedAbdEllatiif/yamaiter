@@ -78,6 +78,9 @@ class ApiConstants {
 
   static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
+  static Uri _allTasks({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.allTasks, queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -164,6 +167,9 @@ class ApiConstants {
       // acceptTerms
       case RequestType.acceptTerms:
         return _acceptTerms();
+      // allTasks
+      case RequestType.allTasks:
+        return _allTasks(queryParams: queryParams);
     }
   }
 }
@@ -248,6 +254,9 @@ class EndPoints {
 
   /// acceptTerms
   static String acceptTerms = "${_apiVersion}accept-terms";
+
+  /// allTasks
+  static String allTasks = "${_apiVersion}tasks";
 }
 
 /// The api request type
@@ -279,6 +288,7 @@ enum RequestType {
   updateTask,
   deleteTask,
   acceptTerms,
+  allTasks,
 }
 
 class ApiParamsConstant {

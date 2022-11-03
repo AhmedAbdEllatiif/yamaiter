@@ -24,6 +24,7 @@ import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -684,6 +685,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// getAllTasks
+  @override
+  Future<Either<AppError, List<TaskEntity>>> getAllTasks(
+      GetAllTasksParams params) async {
+    try {
+      // send get tasks request
+      final result = await remoteDataSource.getAllTasks(params);
+
+      // received success
+      if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to get all tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }
   }
 }

@@ -11,6 +11,7 @@ import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -134,4 +135,8 @@ abstract class RemoteRepository {
 
   /// accept terms
   Future<Either<AppError, SuccessModel>> acceptTerms(AcceptTermsParams params);
+
+  /// get my tasks
+  Future<Either<AppError, List<TaskEntity>>> getAllTasks(
+      GetAllTasksParams params);
 }

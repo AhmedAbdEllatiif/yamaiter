@@ -55,6 +55,7 @@ import '../domain/use_cases/sos/delete_sos.dart';
 import '../domain/use_cases/sos/update_sos.dart';
 import '../domain/use_cases/tasks/create_task.dart';
 import '../domain/use_cases/tasks/delete_task.dart';
+import '../domain/use_cases/tasks/get_all_tasks.dart';
 import '../domain/use_cases/tasks/get_my_tasks.dart';
 import '../domain/use_cases/tasks/update_task.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
@@ -66,6 +67,7 @@ import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
+import '../presentation/logic/cubit/get_all_tasks/get_all_task_cubit.dart';
 import '../presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import '../presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
@@ -249,6 +251,11 @@ Future init() async {
     () => DeleteTaskCubit(),
   );
 
+  //==> GetAllTaskCubit
+  getItInstance.registerFactory<GetAllTaskCubit>(
+    () => GetAllTaskCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -419,5 +426,10 @@ Future init() async {
   //==> GetAcceptTermsCase
   getItInstance.registerFactory<GetAcceptTermsCase>(
     () => GetAcceptTermsCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetAllTasksCase
+  getItInstance.registerFactory<GetAllTasksCase>(
+    () => GetAllTasksCase(remoteRepository: getItInstance()),
   );
 }

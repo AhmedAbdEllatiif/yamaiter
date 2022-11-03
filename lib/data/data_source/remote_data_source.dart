@@ -45,11 +45,13 @@ import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/get_all_tasks.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
@@ -150,6 +152,9 @@ abstract class RemoteDataSource {
 
   /// accept terms
   Future<dynamic> acceptTerms(AcceptTermsParams params);
+
+  /// get all tasks
+  Future<dynamic> getAllTasks(GetAllTasksParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1114,6 +1119,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (e) {
       return AppError(AppErrorType.unHandledError,
           message: "deleteTask UnHandledError >> $e");
+    }
+  }
+
+
+  /// getAllTasks
+  @override
+  Future getAllTasks(GetAllTasksParams params) async {
+    try {
+      log("getAllTasks >> Start request");
+      // init request
+      final request = GetAllTasksRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getAllTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return listOfTasksFromJson(response.body);
+      // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getAllTasks Status Code >> ${response.statusCode}");
+      // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getAllTasks Status Code >> ${response.statusCode}");
+      // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getAllTasks Status Code >> ${response.statusCode}");
+      // default
+        default:
+          log("getAllTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "getAllTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      return AppError(AppErrorType.unHandledError,
+          message: "getAllTasks UnHandledError >> $e");
     }
   }
 }
