@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/all_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
@@ -26,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
 
   final ScrollController allSosController = ScrollController();
   final ScrollController allArticlesController = ScrollController();
+  final ScrollController allTasksController = ScrollController();
 
   @override
   void initState() {
@@ -87,6 +89,24 @@ class _MainScreenState extends State<MainScreen> {
                   const SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
                     child: ChooseToAddScreen(),
+                  ),
+
+                  /// unKnown
+                  const SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Center(
+                      child: Text("Unknown"),
+                    ),
+                  ),
+
+
+                  /// AllTasksScreen
+                  SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    controller: allTasksController,
+                    child: AllTasksScreen(
+                      controller: allTasksController,
+                    ),
                   ),
                 ],
               ),
@@ -211,7 +231,7 @@ class _MainScreenState extends State<MainScreen> {
         label: 'المنشورات',
       ),
 
-      ///
+      /// tasks
       const NavigationDestination(
         icon: Icon(
           Icons.shopping_bag_outlined,

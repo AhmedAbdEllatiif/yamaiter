@@ -252,8 +252,8 @@ Future init() async {
   );
 
   //==> GetAllTaskCubit
-  getItInstance.registerFactory<GetAllTaskCubit>(
-    () => GetAllTaskCubit(),
+  getItInstance.registerFactory<GetAllTasksCubit>(
+    () => GetAllTasksCubit(),
   );
 
   //==> AutoLoginCubit

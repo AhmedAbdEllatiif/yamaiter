@@ -10,8 +10,8 @@ import '../../../../domain/use_cases/tasks/get_all_tasks.dart';
 
 part 'get_all_task_state.dart';
 
-class GetAllTaskCubit extends Cubit<GetAllTasksState> {
-  GetAllTaskCubit() : super(GetAllTasksInitial());
+class GetAllTasksCubit extends Cubit<GetAllTasksState> {
+  GetAllTasksCubit() : super(GetAllTasksInitial());
 
   void fetchAllTasksList({
     required String userToken,
@@ -40,7 +40,7 @@ class GetAllTaskCubit extends Cubit<GetAllTasksState> {
     //==> receive result
     either.fold(
       //==> error
-      (appError) => _emitError(appError),
+      (appError) => _emitError(appError,currentListLength),
 
       //==> list fetched
       (sosEntityList) => _emitIfNotClosed(
@@ -75,11 +75,14 @@ class GetAllTaskCubit extends Cubit<GetAllTasksState> {
   }
 
   /// _emit an error according to AppError
-  void _emitError(AppError appError) {
+  void _emitError(AppError appError, int currentListSize) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedGetAllTasksList());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToGetAllTasksList());
+    } else if (currentListSize > 0) {
+      print("Hereeeeeeeeeeeeeeee");
+      _emitIfNotClosed(ErrorWhileGettingMoreAllTasksList(appError: appError));
     } else {
       _emitIfNotClosed(ErrorWhileGettingAllTasksList(appError: appError));
     }

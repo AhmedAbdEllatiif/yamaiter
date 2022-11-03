@@ -1117,6 +1117,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
                   " \n Body: ${response.body}");
       }
     } catch (e) {
+      log("deleteTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "deleteTask UnHandledError >> $e");
     }
@@ -1160,6 +1161,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
                   " \n Body: ${response.body}");
       }
     } catch (e) {
+      log("getAllTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getAllTasks UnHandledError >> $e");
     }

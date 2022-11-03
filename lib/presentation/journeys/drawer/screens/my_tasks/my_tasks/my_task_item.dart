@@ -14,12 +14,12 @@ import '../../../../../widgets/cached_image_widget.dart';
 import '../../../../../widgets/card_menu_item.dart';
 import '../../../../../widgets/text_with_icon.dart';
 
-class TaskItem extends StatefulWidget {
+class MyTaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
   final Function() onUpdatePressed;
   final Function() onDeletePressed;
 
-  const TaskItem({
+  const MyTaskItem({
     Key? key,
     required this.taskEntity,
     required this.onUpdatePressed,
@@ -27,10 +27,10 @@ class TaskItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<TaskItem> createState() => _TaskItemState();
+  State<MyTaskItem> createState() => _MyTaskItemState();
 }
 
-class _TaskItemState extends State<TaskItem> {
+class _MyTaskItemState extends State<MyTaskItem> {
   bool _isMenuOpened = false;
 
   @override

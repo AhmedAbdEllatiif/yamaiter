@@ -6,7 +6,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/loading_more_my_tasks.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/task_item.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_task_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 
@@ -181,7 +181,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                 itemBuilder: (BuildContext context, int index) {
                   /// TaskItem
                   if (index < taskList.length) {
-                    return TaskItem(
+                    return MyTaskItem(
                       taskEntity: taskList[index],
                       //withCallLawyer: false,
                       onUpdatePressed: () {

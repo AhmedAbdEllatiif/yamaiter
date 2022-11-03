@@ -86,9 +86,9 @@ class TaskModel extends TaskEntity {
             ? DateTime.tryParse(json["updated_at"])
             : null,
 
-        userLawyerModel: json["users"] != null
+        userLawyerModel: json["user"] != null
             ? List<UserLawyerModel>.from(
-                json["users"].map((x) => UserLawyerModel.fromJson(x)),
+                json["user"].map((x) => UserLawyerModel.fromJson(x)),
               )
             : [UserLawyerModel.empty()],
       );

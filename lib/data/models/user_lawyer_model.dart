@@ -53,11 +53,12 @@ class UserLawyerModel {
         email: json["email"] ?? AppUtils.undefined,
         phoneNum: json['phone'] ?? AppUtils.undefined,
         rating: json['rating'] ?? -1,
+
         governorates: json["userable"]["governorates"] ?? AppUtils.undefined,
         courtName: json["userable"]["court_name"] ?? AppUtils.undefined,
         idPhoto: json["userable"]["id_photo"] ?? AppUtils.undefined,
         description: json["userable"]["description"] ?? AppUtils.undefined,
         profileImage: json["userable"]["profile_image"] ?? AppUtils.undefined,
-        status: json["userable"]["status"] ?? AppUtils.undefined,
+        status: json["userable"]["status"] ?? false,
       );
 }

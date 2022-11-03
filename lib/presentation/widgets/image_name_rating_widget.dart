@@ -86,7 +86,7 @@ class ImageNameRatingWidget extends StatelessWidget {
           ),
           RatingBar.builder(
             initialRating: rating,
-            minRating: 0,
+            minRating: 0.5,
             itemSize: iconRateSize.w,
             direction: Axis.horizontal,
             allowHalfRating: true,
@@ -98,6 +98,7 @@ class ImageNameRatingWidget extends StatelessWidget {
               Icons.star,
               color: ratedColor,
             ),
+
             onRatingUpdate: (rating) {
               print(rating);
             },

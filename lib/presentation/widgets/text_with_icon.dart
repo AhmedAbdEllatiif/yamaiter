@@ -9,6 +9,7 @@ class TextWithIconWidget extends StatelessWidget {
   final TextStyle? textStyle;
   final String text;
   final IconData iconData;
+  final double? iconSize;
 
   const TextWithIconWidget({
     Key? key,
@@ -16,6 +17,7 @@ class TextWithIconWidget extends StatelessWidget {
     required this.iconData,
     this.iconColor,
     this.textStyle,
+    this.iconSize,
   }) : super(key: key);
 
   @override
@@ -27,9 +29,8 @@ class TextWithIconWidget extends StatelessWidget {
         Icon(
           iconData,
           color: iconColor ?? AppColor.accentColor,
-          size: Sizes.dimen_12.w,
+          size: iconSize ?? Sizes.dimen_12.w,
         ),
-        
         Flexible(
           child: Padding(
             padding: const EdgeInsets.only(right: 0),
@@ -37,12 +38,12 @@ class TextWithIconWidget extends StatelessWidget {
               text,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
-              maxLines: 1,
+              maxLines: 2,
               style: textStyle ??
                   Theme.of(context).textTheme.caption!.copyWith(
-                        color: AppColor.accentColor,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      color: AppColor.accentColor,
+                      fontWeight: FontWeight.bold,
+                      height: 1.3),
             ),
           ),
         ),
