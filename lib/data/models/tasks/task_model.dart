@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:yamaiter/common/constants/app_utils.dart';
 
-import '../../../../domain/entities/data/task_entity.dart';
-import '../../user_lawyer_model.dart';
+import '../../../domain/entities/data/task_entity.dart';
+import '../user_lawyer_model.dart';
 
 List<TaskModel> listOfTasksFromJson(String str) {
   final List<TaskModel> taskList = [];

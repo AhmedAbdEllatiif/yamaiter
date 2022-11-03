@@ -32,7 +32,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
-import 'package:yamaiter/data/models/tasks/my_tasks/my_tasks_model.dart';
+import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
