@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_completed.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_in_progress.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_in_review.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/my_tasks_todo.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/completed/my_tasks_completed.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_progress/my_tasks_in_progress.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_review/my_tasks_in_review.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/todo/my_tasks_todo.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../../../../common/constants/sizes.dart';

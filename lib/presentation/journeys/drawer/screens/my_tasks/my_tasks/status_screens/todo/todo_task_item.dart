@@ -6,20 +6,21 @@ import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../../../../common/constants/app_utils.dart';
-import '../../../../../../common/constants/sizes.dart';
-import '../../../../../../common/enum/animation_type.dart';
-import '../../../../../themes/theme_color.dart';
-import '../../../../../widgets/cached_image_widget.dart';
-import '../../../../../widgets/card_menu_item.dart';
-import '../../../../../widgets/text_with_icon.dart';
+import '../../../../../../../../common/constants/app_utils.dart';
+import '../../../../../../../../common/constants/sizes.dart';
+import '../../../../../../../../common/enum/animation_type.dart';
+import '../../../../../../../themes/theme_color.dart';
+import '../../../../../../../widgets/cached_image_widget.dart';
+import '../../../../../../../widgets/card_menu_item.dart';
+import '../../../../../../../widgets/rounded_text.dart';
+import '../../../../../../../widgets/text_with_icon.dart';
 
-class MyTaskItem extends StatefulWidget {
+class TodoTaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
   final Function() onUpdatePressed;
   final Function() onDeletePressed;
 
-  const MyTaskItem({
+  const TodoTaskItem({
     Key? key,
     required this.taskEntity,
     required this.onUpdatePressed,
@@ -27,10 +28,10 @@ class MyTaskItem extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<MyTaskItem> createState() => _MyTaskItemState();
+  State<TodoTaskItem> createState() => _TodoTaskItemState();
 }
 
-class _MyTaskItemState extends State<MyTaskItem> {
+class _TodoTaskItemState extends State<TodoTaskItem> {
   bool _isMenuOpened = false;
 
   @override
@@ -143,30 +144,9 @@ class _MyTaskItemState extends State<MyTaskItem> {
                       ),
 
                       /// price
-                      Container(
-                        margin: EdgeInsets.only(
-                          left: Sizes.dimen_10.w,
-                          top: Sizes.dimen_10,
-                        ),
-                        padding: const EdgeInsets.symmetric(
-                          vertical: Sizes.dimen_3,
-                          horizontal: Sizes.dimen_15,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColor.accentColor,
-                          borderRadius: BorderRadius.circular(
-                            AppUtils.cornerRadius.w,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            "${widget.taskEntity.price}  جنيه مصرى",
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                        ),
+                      RoundedText(
+                        text:  "${widget.taskEntity.price} جنيه مصرى",
+                        background: AppColor.accentColor,
                       ),
                     ],
                   ),

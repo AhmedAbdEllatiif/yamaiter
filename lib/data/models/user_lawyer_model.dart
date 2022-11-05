@@ -1,9 +1,5 @@
 import 'package:yamaiter/common/constants/app_utils.dart';
 
-import 'package:yamaiter/common/constants/app_utils.dart';
-
-import 'package:yamaiter/common/constants/app_utils.dart';
-
 class UserLawyerModel {
   UserLawyerModel({
     required this.id,
@@ -31,20 +27,18 @@ class UserLawyerModel {
   final String profileImage;
   final bool status;
 
-
-
-  factory UserLawyerModel.empty() =>
-      UserLawyerModel(id: -1,
-          rating: -1,
-          name: AppUtils.undefined,
-          email: AppUtils.undefined,
-          phoneNum: AppUtils.undefined,
-          governorates: AppUtils.undefined,
-          courtName: AppUtils.undefined,
-          idPhoto: AppUtils.undefined,
-          description: AppUtils.undefined,
-          profileImage: AppUtils.undefined,
-          status: false);
+  factory UserLawyerModel.empty() => UserLawyerModel(
+      id: -1,
+      rating: -1,
+      name: AppUtils.undefined,
+      email: AppUtils.undefined,
+      phoneNum: AppUtils.undefined,
+      governorates: AppUtils.undefined,
+      courtName: AppUtils.undefined,
+      idPhoto: AppUtils.undefined,
+      description: AppUtils.undefined,
+      profileImage: AppUtils.undefined,
+      status: false);
 
   factory UserLawyerModel.fromJson(Map<String, dynamic> json) =>
       UserLawyerModel(
@@ -54,11 +48,35 @@ class UserLawyerModel {
         phoneNum: json['phone'] ?? AppUtils.undefined,
         rating: json['rating'] ?? -1,
 
-        governorates: json["userable"]["governorates"] ?? AppUtils.undefined,
-        courtName: json["userable"]["court_name"] ?? AppUtils.undefined,
-        idPhoto: json["userable"]["id_photo"] ?? AppUtils.undefined,
-        description: json["userable"]["description"] ?? AppUtils.undefined,
-        profileImage: json["userable"]["profile_image"] ?? AppUtils.undefined,
-        status: json["userable"]["status"] ?? false,
+        /// userable
+        // governorates
+        governorates: json["userable"] != null
+            ? json["userable"]["governorates"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // courtName
+        courtName: json["userable"] != null
+            ? json["userable"]["court_name"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        //idPhoto
+        idPhoto: json["userable"] != null
+            ? json["userable"]["id_photo"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // description
+        description: json["userable"] != null
+            ? json["userable"]["description"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // profileImage
+        profileImage: json["userable"] != null
+            ? json["userable"]["profile_image"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // status
+        status: json["userable"] != null
+            ? json["userable"]["status"] ?? false
+            : false,
       );
 }

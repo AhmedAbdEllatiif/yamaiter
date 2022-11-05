@@ -14,7 +14,7 @@ import '../../../themes/theme_color.dart';
 import '../../../widgets/app_content_title_widget.dart';
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/loading_widget.dart';
-import '../../drawer/screens/my_tasks/my_tasks/my_task_item.dart';
+import '../../drawer/screens/my_tasks/my_tasks/status_screens/todo/todo_task_item.dart';
 import 'all_tasks_item.dart';
 
 class AllTasksScreen extends StatefulWidget {

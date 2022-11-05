@@ -1000,7 +1000,39 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   /// getMyTasks
   @override
   Future getMyTasks(GetMyTasksParams params) async {
-    try {
+    log("getMyTasks >> Start request");
+    // init request
+    final request = GetMyTasksRequest();
+
+    // response
+    final response = await request(params);
+
+    log("getMyTasks >> ResponseCode: ${response.statusCode}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return listOfTasksFromJson(response.body);
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "getMyTasks Status Code >> ${response.statusCode}");
+    // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "getMyTasks Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "getMyTasks Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("getMyTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "getMyTasks Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+    /*try {
       log("getMyTasks >> Start request");
       // init request
       final request = GetMyTasksRequest();
@@ -1034,9 +1066,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
                   " \n Body: ${response.body}");
       }
     } catch (e) {
+      log("getMyTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getMyTasks UnHandledError >> $e");
-    }
+    }*/
   }
 
   @override

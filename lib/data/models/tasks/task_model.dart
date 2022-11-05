@@ -30,6 +30,7 @@ class TaskModel extends TaskEntity {
     required this.taskCreatedAt,
     required this.taskUpdatedAt,
     required this.userLawyerModel,
+    required this.assignedlawyers,
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -59,6 +60,7 @@ class TaskModel extends TaskEntity {
   final DateTime? taskCreatedAt;
   final DateTime? taskUpdatedAt;
   final List<UserLawyerModel> userLawyerModel;
+  final List<UserLawyerModel> assignedlawyers;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         taskId: json["id"] ?? -1,
@@ -86,9 +88,17 @@ class TaskModel extends TaskEntity {
             ? DateTime.tryParse(json["updated_at"])
             : null,
 
+        // lawyer owner
         userLawyerModel: json["user"] != null
             ? List<UserLawyerModel>.from(
                 json["user"].map((x) => UserLawyerModel.fromJson(x)),
+              )
+            : [UserLawyerModel.empty()],
+
+        // assigned lawyers
+        assignedlawyers: json["assignedlawyers"] != null
+            ? List<UserLawyerModel>.from(
+                json["assignedlawyers"].map((x) => UserLawyerModel.fromJson(x)),
               )
             : [UserLawyerModel.empty()],
       );
