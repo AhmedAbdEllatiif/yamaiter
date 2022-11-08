@@ -14,6 +14,8 @@ class TaskEntity extends Equatable {
   final String status;
   final String file;
   final int applicantsCount;
+  final List<UserLawyerModel> assignedLawyers;
+  final List<UserLawyerModel> applicantLawyers;
 
   /// dates in strings
   late final String startingDate;
@@ -36,6 +38,8 @@ class TaskEntity extends Equatable {
     required this.status,
     required this.file,
     required this.applicantsCount,
+    required this.assignedLawyers,
+    required this.applicantLawyers,
     required UserLawyerModel lawyerModel,
     required final DateTime? taskStartingDate,
     required final DateTime? taskCreatedAt,
@@ -75,10 +79,10 @@ class TaskEntity extends Equatable {
     }
 
     /// init creator data
-    creatorName = lawyerModel.name;
-    creatorPhoneNum = lawyerModel.phoneNum;
-    creatorRating = lawyerModel.rating;
-    creatorImage = ApiConstants.mediaUrl + lawyerModel.profileImage;
+    creatorName = lawyerModel.lawyerName;
+    creatorPhoneNum = lawyerModel.lawyerPhoneNum;
+    creatorRating = lawyerModel.lawyerRating;
+    creatorImage = ApiConstants.mediaUrl + lawyerModel.lawyerProfileImage;
   }
 
   @override

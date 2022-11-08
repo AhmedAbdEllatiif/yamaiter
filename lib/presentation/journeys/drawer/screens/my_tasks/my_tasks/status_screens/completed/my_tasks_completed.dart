@@ -26,7 +26,7 @@ class MyTasksCompleted extends StatefulWidget {
 
 class _MyTasksCompletedState extends State<MyTasksCompleted>
     with AutomaticKeepAliveClientMixin {
-  /// tasks list
+  /// my_tasks list
   final List<TaskEntity> taskList = [];
 
   /// ScrollController
@@ -156,7 +156,7 @@ class _MyTasksCompletedState extends State<MyTasksCompleted>
 
 
 
-  /// to fetch my tasks list
+  /// to fetch my my_tasks list
   void _fetchCompletedTasksList() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 

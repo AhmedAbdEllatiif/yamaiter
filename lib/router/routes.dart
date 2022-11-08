@@ -7,6 +7,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
@@ -19,6 +20,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_ta
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/delete_task/delete_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_tasks_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/single_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
@@ -104,6 +106,11 @@ class Routes {
         /// delete task
         RouteList.deleteTask: (context) => DeleteTaskScreen(
               deleteTaskArguments: settings.arguments as DeleteTaskArguments,
+            ),
+
+        /// single task
+        RouteList.singleTask: (context) => SingleTaskScreen(
+              singleTaskParams: settings.arguments as SingleTaskArguments,
             ),
 
         /// add sos

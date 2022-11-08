@@ -6,6 +6,7 @@ import '../themes/theme_color.dart';
 
 class TextWithIconWidget extends StatelessWidget {
   final Color? iconColor;
+  final Color? textColor;
   final TextStyle? textStyle;
   final String text;
   final IconData iconData;
@@ -18,6 +19,7 @@ class TextWithIconWidget extends StatelessWidget {
     this.iconColor,
     this.textStyle,
     this.iconSize,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -41,7 +43,7 @@ class TextWithIconWidget extends StatelessWidget {
               maxLines: 2,
               style: textStyle ??
                   Theme.of(context).textTheme.caption!.copyWith(
-                      color: AppColor.accentColor,
+                      color: textColor ?? AppColor.accentColor,
                       fontWeight: FontWeight.bold,
                       height: 1.3),
             ),

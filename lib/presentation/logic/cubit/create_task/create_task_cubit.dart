@@ -5,7 +5,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/create_task_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/tasks/create_task.dart';
+import '../../../../domain/use_cases/my_tasks/create_task.dart';
 
 part 'create_task_state.dart';
 

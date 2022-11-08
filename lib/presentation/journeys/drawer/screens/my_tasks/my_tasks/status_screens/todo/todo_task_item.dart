@@ -4,6 +4,7 @@ import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
@@ -47,7 +48,7 @@ class _TodoTaskItemState extends State<TodoTaskItem> {
                 _isMenuOpened = !_isMenuOpened;
               });
             } else {
-              // _navigateToArticleDetailsScreen();
+              _navigateToSingleTaskScreen();
             }
           },
           borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
@@ -145,7 +146,7 @@ class _TodoTaskItemState extends State<TodoTaskItem> {
 
                       /// price
                       RoundedText(
-                        text:  "${widget.taskEntity.price} جنيه مصرى",
+                        text: "${widget.taskEntity.price} جنيه مصرى",
                         background: AppColor.accentColor,
                       ),
                     ],
@@ -214,6 +215,14 @@ class _TodoTaskItemState extends State<TodoTaskItem> {
               FadeOpacity.end: 1.0,
             },
           }),
+    );
+  }
+
+  /// to navigate to single task screen
+  void _navigateToSingleTaskScreen() {
+    RouteHelper().singleTask(
+      context,
+      editTaskArguments: SingleTaskArguments(taskId: widget.taskEntity.id),
     );
   }
 }

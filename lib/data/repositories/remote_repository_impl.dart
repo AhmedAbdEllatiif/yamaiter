@@ -28,6 +28,7 @@ import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
+import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
@@ -628,7 +629,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, List<TaskEntity>>> getMyTasks(
       GetMyTasksParams params) async {
     try {
-      // send get tasks request
+      // send get my_tasks request
       final result = await remoteDataSource.getMyTasks(params);
 
       // received success
@@ -636,7 +637,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get my tasks
+      // failed to get my my_tasks
       else {
         return Left(result);
       }
@@ -688,13 +689,12 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// getAllTasks
   @override
   Future<Either<AppError, List<TaskEntity>>> getAllTasks(
       GetAllTasksParams params) async {
     try {
-      // send get tasks request
+      // send get my_tasks request
       final result = await remoteDataSource.getAllTasks(params);
 
       // received success
@@ -702,7 +702,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get all tasks
+      // failed to get all my_tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// getMySingleTask
+  @override
+  Future<Either<AppError, TaskEntity>> getMySingleTask(
+      GetSingleTaskParams params) async {
+    try {
+      // send get my_tasks request
+      final result = await remoteDataSource.getMySingleTasks(params);
+
+      // received success
+      if (result is TaskEntity) {
+        return Right(result);
+      }
+
+      // failed to get all my_tasks
       else {
         return Left(result);
       }

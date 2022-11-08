@@ -6,7 +6,7 @@ import '../../../../data/params/get_all_task_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/task_entity.dart';
-import '../../../../domain/use_cases/tasks/get_all_tasks.dart';
+import '../../../../domain/use_cases/my_tasks/get_all_tasks.dart';
 
 part 'get_all_task_state.dart';
 
@@ -81,7 +81,6 @@ class GetAllTasksCubit extends Cubit<GetAllTasksState> {
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToGetAllTasksList());
     } else if (currentListSize > 0) {
-      print("Hereeeeeeeeeeeeeeee");
       _emitIfNotClosed(ErrorWhileGettingMoreAllTasksList(appError: appError));
     } else {
       _emitIfNotClosed(ErrorWhileGettingAllTasksList(appError: appError));

@@ -8,6 +8,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/router/route_list.dart';
@@ -141,7 +142,7 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.createSos);
   }
 
-  /// To choose tasks screen \\\
+  /// To choose my_tasks screen \\\
   void chooseTasks(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.chooseTasks);
   }
@@ -158,6 +159,13 @@ class RouteHelper {
         .pushNamed(RouteList.editTask, arguments: editTaskArguments);
   }
 
+  /// To single task screen \\\
+  void singleTask(BuildContext context,
+      {required SingleTaskArguments editTaskArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.singleTask, arguments: editTaskArguments);
+  }
+
   /// To delete task screen \\\
   void deleteTask(BuildContext context,
       {required DeleteTaskArguments deleteTaskArguments}) {
@@ -165,7 +173,7 @@ class RouteHelper {
         .pushNamed(RouteList.deleteTask, arguments: deleteTaskArguments);
   }
 
-  /// To my tasks screen \\\
+  /// To my my_tasks screen \\\
   void myTasks(BuildContext context, {bool isReplacement = false}) {
     if (isReplacement) {
       Navigator.of(context).pushReplacementNamed(RouteList.myTasks);

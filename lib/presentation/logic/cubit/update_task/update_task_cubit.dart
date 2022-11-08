@@ -6,7 +6,7 @@ import '../../../../data/params/create_task_params.dart';
 import '../../../../data/params/update_task_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/tasks/update_task.dart';
+import '../../../../domain/use_cases/my_tasks/update_task.dart';
 
 part 'update_task_state.dart';
 

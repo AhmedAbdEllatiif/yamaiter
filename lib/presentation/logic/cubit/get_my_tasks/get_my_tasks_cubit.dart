@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
-import 'package:yamaiter/domain/use_cases/tasks/get_my_tasks.dart';
+import 'package:yamaiter/domain/use_cases/my_tasks/get_my_tasks.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
@@ -46,8 +46,8 @@ class GetMyTasksCubit extends Cubit<GetMyTasksState> {
       (appError) => _emitError(appError),
 
       //==> list fetched
-      (sosEntityList) => _emitIfNotClosed(
-          _statusToEmit(tasksList: sosEntityList, offset: offset)),
+      (tasksList) => _emitIfNotClosed(
+          _statusToEmit(tasksList: tasksList, offset: offset)),
     );
   }
 

@@ -34,4 +34,5 @@ class RouteList {
   static const String myTasks = "/myTasks";
   static const String editTask = "/editTask";
   static const String deleteTask = "/deleteTask";
+  static const String singleTask = "/singleTask";
 }

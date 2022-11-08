@@ -15,6 +15,11 @@ List<TaskModel> listOfTasksFromJson(String str) {
   return taskList;
 }
 
+/// return a taskModel from json
+TaskModel taskModelFromJson(String body) {
+  return TaskModel.fromJson(json.decode(body)["task"]);
+}
+
 class TaskModel extends TaskEntity {
   TaskModel({
     required this.taskId,
@@ -30,7 +35,8 @@ class TaskModel extends TaskEntity {
     required this.taskCreatedAt,
     required this.taskUpdatedAt,
     required this.userLawyerModel,
-    required this.assignedlawyers,
+    required this.taskAssignedLawyers,
+    required this.taskApplicantLawyers,
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -42,6 +48,8 @@ class TaskModel extends TaskEntity {
           file: taskFile,
           lawyerModel: userLawyerModel[0],
           applicantsCount: taskApplicantsCount,
+          assignedLawyers: taskAssignedLawyers,
+          applicantLawyers: taskApplicantLawyers,
           taskStartingDate: taskStartingDate,
           taskCreatedAt: taskCreatedAt,
           taskUpdatedAt: taskUpdatedAt,
@@ -60,7 +68,8 @@ class TaskModel extends TaskEntity {
   final DateTime? taskCreatedAt;
   final DateTime? taskUpdatedAt;
   final List<UserLawyerModel> userLawyerModel;
-  final List<UserLawyerModel> assignedlawyers;
+  final List<UserLawyerModel> taskAssignedLawyers;
+  final List<UserLawyerModel> taskApplicantLawyers;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         taskId: json["id"] ?? -1,
@@ -96,9 +105,17 @@ class TaskModel extends TaskEntity {
             : [UserLawyerModel.empty()],
 
         // assigned lawyers
-        assignedlawyers: json["assignedlawyers"] != null
+        taskAssignedLawyers: json["assignedlawyers"] != null
             ? List<UserLawyerModel>.from(
                 json["assignedlawyers"].map((x) => UserLawyerModel.fromJson(x)),
+              )
+            : [UserLawyerModel.empty()],
+
+        // applicant lawyers
+        taskApplicantLawyers: json["applicantlawyers"] != null
+            ? List<UserLawyerModel>.from(
+                json["applicantlawyers"]
+                    .map((x) => UserLawyerModel.fromJson(x)),
               )
             : [UserLawyerModel.empty()],
       );

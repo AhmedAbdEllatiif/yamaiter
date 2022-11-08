@@ -13,6 +13,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.da
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_single_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
@@ -48,6 +49,7 @@ import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
@@ -138,8 +140,11 @@ abstract class RemoteDataSource {
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
 
-  /// get my tasks
+  /// get my my_tasks
   Future<dynamic> getMyTasks(GetMyTasksParams params);
+
+  /// get my single my_tasks
+  Future<dynamic> getMySingleTasks(GetSingleTaskParams params);
 
   /// update task
   Future<dynamic> updateTask(UpdateTaskParams params);
@@ -153,7 +158,7 @@ abstract class RemoteDataSource {
   /// accept terms
   Future<dynamic> acceptTerms(AcceptTermsParams params);
 
-  /// get all tasks
+  /// get all my_tasks
   Future<dynamic> getAllTasks(GetAllTasksParams params);
 }
 
@@ -423,7 +428,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
               message: "getMySos Status Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
       }
-    } on Exception catch (e) {
+    } on Exception catch (ze) {
       rethrow;
     }
   }
@@ -1000,39 +1005,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   /// getMyTasks
   @override
   Future getMyTasks(GetMyTasksParams params) async {
-    log("getMyTasks >> Start request");
-    // init request
-    final request = GetMyTasksRequest();
-
-    // response
-    final response = await request(params);
-
-    log("getMyTasks >> ResponseCode: ${response.statusCode}");
-
-    switch (response.statusCode) {
-    // success
-      case 200:
-        return listOfTasksFromJson(response.body);
-    // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "getMyTasks Status Code >> ${response.statusCode}");
-    // not found
-      case 404:
-        return AppError(AppErrorType.notFound,
-            message: "getMyTasks Status Code >> ${response.statusCode}");
-    // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "getMyTasks Status Code >> ${response.statusCode}");
-    // default
-      default:
-        log("getMyTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-        return AppError(AppErrorType.api,
-            message: "getMyTasks Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-    }
-    /*try {
+    try {
       log("getMyTasks >> Start request");
       // init request
       final request = GetMyTasksRequest();
@@ -1040,7 +1013,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       // response
       final response = await request(params);
 
-      log("getMyTasks >> ResponseCode: ${response.statusCode}");
+      log("getMyTasks >> ResponseCode: ${response.statusCode},body: ${jsonDecode(response.body)}");
 
       switch (response.statusCode) {
         // success
@@ -1069,7 +1042,52 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getMyTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getMyTasks UnHandledError >> $e");
-    }*/
+    }
+  }
+
+  @override
+  Future getMySingleTasks(GetSingleTaskParams params) async {
+    try {
+      log("getMySingleTasks >> Start request");
+      // init request
+      final request = GetMySingleTaskRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getMySingleTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return taskModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "getMySingleTasks Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message:
+                  "getMySingleTasks Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "getMySingleTasks Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getMySingleTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "getMyTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getMySingleTasks >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getMySingleTasks UnHandledError >> $e");
+    }
   }
 
   @override
@@ -1115,7 +1133,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future deleteTask(DeleteTaskParams params) async{
+  Future deleteTask(DeleteTaskParams params) async {
     try {
       log("deleteTask >> Start request");
       // init request
@@ -1127,22 +1145,22 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("deleteTask >> ResponseCode: ${response.statusCode},\nBody: ${response.body}");
 
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return SuccessModel();
-      // notActivatedUser
+        // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
               message: "deleteTask Status Code >> ${response.statusCode}");
-      // not found
+        // not found
         case 404:
           return AppError(AppErrorType.notFound,
               message: "deleteTask Status Code >> ${response.statusCode}");
-      // unAuthorized
+        // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
               message: "updateTask Status Code >> ${response.statusCode}");
-      // default
+        // default
         default:
           log("deleteTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
           return AppError(AppErrorType.api,
@@ -1155,7 +1173,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
           message: "deleteTask UnHandledError >> $e");
     }
   }
-
 
   /// getAllTasks
   @override
@@ -1171,22 +1188,22 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getAllTasks >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return listOfTasksFromJson(response.body);
-      // notActivatedUser
+        // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
               message: "getAllTasks Status Code >> ${response.statusCode}");
-      // not found
+        // not found
         case 404:
           return AppError(AppErrorType.notFound,
               message: "getAllTasks Status Code >> ${response.statusCode}");
-      // unAuthorized
+        // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
               message: "getAllTasks Status Code >> ${response.statusCode}");
-      // default
+        // default
         default:
           log("getAllTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
           return AppError(AppErrorType.api,

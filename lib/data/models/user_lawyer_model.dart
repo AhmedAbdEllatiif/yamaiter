@@ -1,81 +1,100 @@
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 
-class UserLawyerModel {
+class UserLawyerModel extends LawyerEntity {
   UserLawyerModel({
-    required this.id,
-    required this.rating,
-    required this.name,
-    required this.email,
-    required this.phoneNum,
-    required this.governorates,
-    required this.courtName,
-    required this.idPhoto,
-    required this.description,
-    required this.profileImage,
-    required this.status,
-  });
+    required this.lawyerId,
+    required this.lawyerRating,
+    required this.lawyerTasksCount,
+    required this.lawyerName,
+    required this.lawyerEmail,
+    required this.lawyerPhoneNum,
+    required this.lawyerGovernorates,
+    required this.lawyerCourtName,
+    required this.lawyerIdPhoto,
+    required this.lawyerDescription,
+    required this.lawyerProfileImage,
+    required this.lawyerStatus,
+  }) : super(
+          id: lawyerId,
+          rating: lawyerRating,
+          tasksCount: lawyerTasksCount,
+          name: lawyerName,
+          email: lawyerEmail,
+          phoneNum: lawyerPhoneNum,
+          governorates: lawyerGovernorates,
+          courtName: lawyerCourtName,
+          description: lawyerDescription,
+          status: lawyerStatus,
+          lawyerIdPhoto: lawyerIdPhoto,
+          lawyerProfileImage: lawyerProfileImage,
+        );
 
-  final int id;
-  final String name;
-  final String email;
-  final String phoneNum;
-  final int rating;
-  final String governorates;
-  final String courtName;
-  final String idPhoto;
-  final String description;
-  final String profileImage;
-  final bool status;
+  final int lawyerId;
+  final int lawyerTasksCount;
+  final String lawyerName;
+  final String lawyerEmail;
+  final String lawyerPhoneNum;
+  final int lawyerRating;
+  final String lawyerGovernorates;
+  final String lawyerCourtName;
+  final String lawyerIdPhoto;
+  final String lawyerDescription;
+  final String lawyerProfileImage;
+  final bool lawyerStatus;
 
   factory UserLawyerModel.empty() => UserLawyerModel(
-      id: -1,
-      rating: -1,
-      name: AppUtils.undefined,
-      email: AppUtils.undefined,
-      phoneNum: AppUtils.undefined,
-      governorates: AppUtils.undefined,
-      courtName: AppUtils.undefined,
-      idPhoto: AppUtils.undefined,
-      description: AppUtils.undefined,
-      profileImage: AppUtils.undefined,
-      status: false);
+        lawyerId: -1,
+        lawyerRating: 0,
+        lawyerTasksCount: 0,
+        lawyerName: AppUtils.undefined,
+        lawyerEmail: AppUtils.undefined,
+        lawyerPhoneNum: AppUtils.undefined,
+        lawyerGovernorates: AppUtils.undefined,
+        lawyerCourtName: AppUtils.undefined,
+        lawyerIdPhoto: AppUtils.undefined,
+        lawyerDescription: AppUtils.undefined,
+        lawyerProfileImage: AppUtils.undefined,
+        lawyerStatus: false,
+      );
 
   factory UserLawyerModel.fromJson(Map<String, dynamic> json) =>
       UserLawyerModel(
-        id: json["id"] ?? -1,
-        name: json["name"] ?? AppUtils.undefined,
-        email: json["email"] ?? AppUtils.undefined,
-        phoneNum: json['phone'] ?? AppUtils.undefined,
-        rating: json['rating'] ?? -1,
+        lawyerId: json["id"] ?? -1,
+        lawyerName: json["name"] ?? AppUtils.undefined,
+        lawyerEmail: json["email"] ?? AppUtils.undefined,
+        lawyerPhoneNum: json['phone'] ?? AppUtils.undefined,
+        lawyerRating: json['rating'] ?? 0,
+        lawyerTasksCount: json['tasks_count'] ?? 0,
 
         /// userable
         // governorates
-        governorates: json["userable"] != null
+        lawyerGovernorates: json["userable"] != null
             ? json["userable"]["governorates"] ?? AppUtils.undefined
             : AppUtils.undefined,
 
         // courtName
-        courtName: json["userable"] != null
+        lawyerCourtName: json["userable"] != null
             ? json["userable"]["court_name"] ?? AppUtils.undefined
             : AppUtils.undefined,
 
         //idPhoto
-        idPhoto: json["userable"] != null
+        lawyerIdPhoto: json["userable"] != null
             ? json["userable"]["id_photo"] ?? AppUtils.undefined
             : AppUtils.undefined,
 
         // description
-        description: json["userable"] != null
+        lawyerDescription: json["userable"] != null
             ? json["userable"]["description"] ?? AppUtils.undefined
             : AppUtils.undefined,
 
         // profileImage
-        profileImage: json["userable"] != null
+        lawyerProfileImage: json["userable"] != null
             ? json["userable"]["profile_image"] ?? AppUtils.undefined
             : AppUtils.undefined,
 
         // status
-        status: json["userable"] != null
+        lawyerStatus: json["userable"] != null
             ? json["userable"]["status"] ?? false
             : false,
       );

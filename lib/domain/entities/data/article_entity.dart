@@ -39,8 +39,8 @@ class ArticleEntity extends Equatable {
       creatorRating = 5;
       creatorImage = AppUtils.undefined;
     } else {
-      creatorRating = lawyerModel[0].rating;
-      creatorImage = ApiConstants.mediaUrl + lawyerModel[0].profileImage;
+      creatorRating = lawyerModel[0].lawyerRating;
+      creatorImage = ApiConstants.mediaUrl + lawyerModel[0].lawyerProfileImage;
     }
 
     /// init imageFeature

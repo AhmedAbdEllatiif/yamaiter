@@ -25,7 +25,7 @@ class MyTasksInReview extends StatefulWidget {
 
 class _MyTasksInReviewState extends State<MyTasksInReview>
     with AutomaticKeepAliveClientMixin {
-  /// tasks list
+  /// my_tasks list
   final List<TaskEntity> taskList = [];
 
   /// ScrollController
@@ -155,7 +155,7 @@ class _MyTasksInReviewState extends State<MyTasksInReview>
 
 
 
-  /// to fetch my tasks list
+  /// to fetch my my_tasks list
   void _fetchInReviewTasksList() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 

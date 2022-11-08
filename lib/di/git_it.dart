@@ -49,15 +49,16 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/my_tasks/get_my_single_task.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/sos/delete_sos.dart';
 import '../domain/use_cases/sos/update_sos.dart';
-import '../domain/use_cases/tasks/create_task.dart';
-import '../domain/use_cases/tasks/delete_task.dart';
-import '../domain/use_cases/tasks/get_all_tasks.dart';
-import '../domain/use_cases/tasks/get_my_tasks.dart';
-import '../domain/use_cases/tasks/update_task.dart';
+import '../domain/use_cases/my_tasks/create_task.dart';
+import '../domain/use_cases/my_tasks/delete_task.dart';
+import '../domain/use_cases/my_tasks/get_all_tasks.dart';
+import '../domain/use_cases/my_tasks/get_my_tasks.dart';
+import '../domain/use_cases/my_tasks/update_task.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
@@ -69,6 +70,7 @@ import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
 import '../presentation/logic/cubit/get_all_tasks/get_all_task_cubit.dart';
 import '../presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
+import '../presentation/logic/cubit/get_my_single_task/get_my_single_task_cubit.dart';
 import '../presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import '../presentation/logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
@@ -241,6 +243,11 @@ Future init() async {
     () => GetMyTasksCubit(),
   );
 
+  //==> GetMySingleTaskCubit
+  getItInstance.registerFactory<GetMySingleTaskCubit>(
+    () => GetMySingleTaskCubit(),
+  );
+
   //==> UpdateTaskCubit
   getItInstance.registerFactory<UpdateTaskCubit>(
     () => UpdateTaskCubit(),
@@ -411,6 +418,11 @@ Future init() async {
   //==> GetMyTasksCase
   getItInstance.registerFactory<GetMyTasksCase>(
     () => GetMyTasksCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetMySingleTaskCase
+  getItInstance.registerFactory<GetMySingleTaskCase>(
+    () => GetMySingleTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateTaskCase

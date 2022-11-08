@@ -1,0 +1,39 @@
+import 'package:equatable/equatable.dart';
+
+import '../../../data/api/constants.dart';
+
+class LawyerEntity extends Equatable {
+  final int id;
+  final String name;
+  final String email;
+  final String phoneNum;
+  final int rating;
+  final int tasksCount;
+  final String governorates;
+  final String courtName;
+  final String description;
+  final bool status;
+  late final String idPhoto;
+  late final String profileImage;
+
+  LawyerEntity({
+    required this.id,
+    required this.rating,
+    required this.tasksCount,
+    required this.name,
+    required this.email,
+    required this.phoneNum,
+    required this.governorates,
+    required this.courtName,
+    required this.description,
+    required this.status,
+    required String lawyerIdPhoto,
+    required String lawyerProfileImage,
+  }) {
+    idPhoto = ApiConstants.mediaUrl + lawyerIdPhoto;
+    profileImage = ApiConstants.mediaUrl + lawyerProfileImage;
+  }
+
+  @override
+  List<Object?> get props => [id];
+}
