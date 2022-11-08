@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
+import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
@@ -13,6 +14,8 @@ import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
@@ -238,6 +241,11 @@ Future init() async {
     () => CreateTaskCubit(),
   );
 
+  //==> AssignTaskCubit
+  getItInstance.registerFactory<AssignTaskCubit>(
+    () => AssignTaskCubit(),
+  );
+
   //==> GetMyTasksCubit
   getItInstance.registerFactory<GetMyTasksCubit>(
     () => GetMyTasksCubit(),
@@ -413,6 +421,11 @@ Future init() async {
   //==> CreateTaskCase
   getItInstance.registerFactory<CreateTaskCase>(
     () => CreateTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> AssignTaskCase
+  getItInstance.registerFactory<AssignTaskCase>(
+    () => AssignTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyTasksCase

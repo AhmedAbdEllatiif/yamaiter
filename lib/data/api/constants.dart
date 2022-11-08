@@ -70,8 +70,7 @@ class ApiConstants {
   static Uri _myTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.myTasks, queryParams);
 
-  static Uri _assignTask({required Map<String, dynamic> queryParams}) =>
-      Uri.https(_baseUrl, EndPoints.assignTask, queryParams);
+  static Uri _assignTask() => Uri.https(_baseUrl, EndPoints.assignTask);
 
   static Uri _mySingleTask(String id) =>
       Uri.https(_baseUrl, "${EndPoints.myTasks}/$id");
@@ -181,7 +180,7 @@ class ApiConstants {
         return _mySingleTask(id);
       // assignTask
       case RequestType.assignTask:
-        return _assignTask(queryParams: queryParams);
+        return _assignTask();
     }
   }
 }

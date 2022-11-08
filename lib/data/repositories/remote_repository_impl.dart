@@ -16,6 +16,7 @@ import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
+import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -722,6 +723,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is TaskEntity) {
+        return Right(result);
+      }
+
+      // failed to get all my_tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// assignTask
+  @override
+  Future<Either<AppError, SuccessModel>> assignTask(
+      AssignTaskParams params) async {
+    try {
+      // send get my_tasks request
+      final result = await remoteDataSource.assignTask(params);
+
+      // received success
+      if (result is SuccessModel) {
         return Right(result);
       }
 
