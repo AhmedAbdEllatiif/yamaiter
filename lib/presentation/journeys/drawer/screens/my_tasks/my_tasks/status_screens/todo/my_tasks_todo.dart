@@ -7,12 +7,14 @@ import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/loading_more_my_tasks.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/todo/todo_task_item.dart';
+import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 
 import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../../domain/entities/screen_arguments/edit_task_args.dart';
+import '../../../../../../../../domain/entities/screen_arguments/single_task_details_params.dart';
 import '../../../../../../../../router/route_helper.dart';
 import '../../../../../../../logic/cubit/update_task/update_task_cubit.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
@@ -21,7 +23,10 @@ import '../../../../../../../widgets/app_error_widget.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 
 class MyTasksTodo extends StatefulWidget {
-  const MyTasksTodo({Key? key}) : super(key: key);
+  final AssignTaskCubit assignTaskCubit;
+
+  const MyTasksTodo({Key? key, required this.assignTaskCubit})
+      : super(key: key);
 
   @override
   State<MyTasksTodo> createState() => _MyTasksTodoState();
@@ -43,6 +48,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
 
   /// DeleteTaskCubit
   late final DeleteTaskCubit _deleteTaskCubit;
+  late final AssignTaskCubit _assignTaskCubit;
 
   @override
   void initState() {
@@ -51,6 +57,8 @@ class _MyTasksTodoState extends State<MyTasksTodo>
     _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
     _updateTaskCubit = getItInstance<UpdateTaskCubit>();
     _deleteTaskCubit = getItInstance<DeleteTaskCubit>();
+    _assignTaskCubit = widget.assignTaskCubit;
+
     _fetchMyTasksList();
     _listenerOnScrollController();
   }
@@ -60,7 +68,6 @@ class _MyTasksTodoState extends State<MyTasksTodo>
     _controller.dispose();
     _getMyTasksCubit.close();
     _updateTaskCubit.close();
-    _deleteTaskCubit.close();
     super.dispose();
   }
 
@@ -80,6 +87,16 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                 listener: (context, state) {
               // TODO: implement listener
             }),
+
+            /// assign task listener
+            BlocListener<AssignTaskCubit, AssignTaskState>(
+                bloc: _assignTaskCubit,
+                listener: (context, state) {
+                  if (state is TaskAssignedSuccessfully) {
+                    taskList.clear();
+                    _fetchMyTasksList();
+                  }
+                }),
 
             /// update task listener
             BlocListener<UpdateTaskCubit, UpdateTaskState>(
@@ -183,7 +200,9 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                   if (index < taskList.length) {
                     return TodoTaskItem(
                       taskEntity: taskList[index],
-                      //withCallLawyer: false,
+                      onPressed: () {
+                        _navigateToSingleTaskScreen(taskId: taskList[index].id);
+                      },
                       onUpdatePressed: () {
                         _navigateToEditTaskScreen(taskList[index]);
                       },
@@ -241,6 +260,17 @@ class _MyTasksTodoState extends State<MyTasksTodo>
           taskId: id,
         ),
       );
+
+  /// to navigate to single task screen
+  void _navigateToSingleTaskScreen({required int taskId}) {
+    RouteHelper().singleTask(
+      context,
+      editTaskArguments: SingleTaskArguments(
+        taskId: taskId,
+        assignTaskCubit: _assignTaskCubit,
+      ),
+    );
+  }
 
   /// listener on controller
   /// when last item reached fetch next page

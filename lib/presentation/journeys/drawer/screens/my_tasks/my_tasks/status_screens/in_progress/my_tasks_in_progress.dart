@@ -121,35 +121,38 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
             );
           }
 
-          return ListView.separated(
-            controller: _controller,
-            shrinkWrap: true,
-            physics: const BouncingScrollPhysics(),
+          return RefreshIndicator(
+            onRefresh: () async => _fetchInProgressTasksList(),
+            child: ListView.separated(
+              controller: _controller,
+              shrinkWrap: true,
+              physics: const BouncingScrollPhysics(),
 
-            // count
-            itemCount: taskList.length + 1,
+              // count
+              itemCount: taskList.length + 1,
 
-            // separatorBuilder
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: Sizes.dimen_10.h,
-              );
-            },
-
-            // itemBuilder
-            itemBuilder: (BuildContext context, int index) {
-              /// TaskItem
-              if (index < taskList.length) {
-                return InProgressTaskItem(
-                  taskEntity: taskList[index],
+              // separatorBuilder
+              separatorBuilder: (BuildContext context, int index) {
+                return SizedBox(
+                  height: Sizes.dimen_10.h,
                 );
-              }
+              },
 
-              /// loading or end of list
-              return LoadingMoreMyTasksWidget(
-                myTasksCubit: _getMyTasksCubit,
-              );
-            },
+              // itemBuilder
+              itemBuilder: (BuildContext context, int index) {
+                /// TaskItem
+                if (index < taskList.length) {
+                  return InProgressTaskItem(
+                    taskEntity: taskList[index],
+                  );
+                }
+
+                /// loading or end of list
+                return LoadingMoreMyTasksWidget(
+                  myTasksCubit: _getMyTasksCubit,
+                );
+              },
+            ),
           );
         },
       ),

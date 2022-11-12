@@ -20,12 +20,14 @@ class TodoTaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
   final Function() onUpdatePressed;
   final Function() onDeletePressed;
+  final Function() onPressed;
 
   const TodoTaskItem({
     Key? key,
     required this.taskEntity,
     required this.onUpdatePressed,
     required this.onDeletePressed,
+    required this.onPressed,
   }) : super(key: key);
 
   @override
@@ -48,7 +50,7 @@ class _TodoTaskItemState extends State<TodoTaskItem> {
                 _isMenuOpened = !_isMenuOpened;
               });
             } else {
-              _navigateToSingleTaskScreen();
+              widget.onPressed();
             }
           },
           borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
@@ -218,11 +220,5 @@ class _TodoTaskItemState extends State<TodoTaskItem> {
     );
   }
 
-  /// to navigate to single task screen
-  void _navigateToSingleTaskScreen() {
-    RouteHelper().singleTask(
-      context,
-      editTaskArguments: SingleTaskArguments(taskId: widget.taskEntity.id),
-    );
-  }
+
 }

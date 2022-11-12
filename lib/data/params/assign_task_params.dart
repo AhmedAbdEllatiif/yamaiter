@@ -11,8 +11,8 @@ class AssignTaskParams {
 
   Map<String, dynamic> toJson() {
     return {
-      "user_id": userId,
-      "task_id": taskId,
+      "user_id": userId.toString(),
+      "task_id": taskId.toString(),
     };
   }
 }
