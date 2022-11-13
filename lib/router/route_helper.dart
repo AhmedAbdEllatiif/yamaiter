@@ -5,6 +5,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -164,6 +165,13 @@ class RouteHelper {
       {required SingleTaskArguments editTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.singleTask, arguments: editTaskArguments);
+  }
+
+  /// To end task screen \\\
+  void endTask(BuildContext context,
+      {required EndTaskArguments endTaskArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.endTask, arguments: endTaskArguments);
   }
 
   /// To delete task screen \\\

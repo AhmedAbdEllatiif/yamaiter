@@ -7,6 +7,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_progress/my_tasks_in_progress.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_review/my_tasks_in_review.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/todo/my_tasks_todo.dart';
+import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../../../../common/constants/sizes.dart';
@@ -30,20 +31,25 @@ class _MyTasksScreenState extends State<MyTasksScreen>
   /// current tab selected index
   int currentIndex = 0;
 
-  ///
+  /// AssignTaskCubit
   late final AssignTaskCubit _assignTaskCubit;
+
+  /// EndTaskCubit
+  late final EndTaskCubit _endTaskCubit;
 
   @override
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
     _assignTaskCubit = getItInstance<AssignTaskCubit>();
+    _endTaskCubit = getItInstance<EndTaskCubit>();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     _assignTaskCubit.close();
+    _endTaskCubit.close();
     super.dispose();
   }
 
@@ -52,14 +58,28 @@ class _MyTasksScreenState extends State<MyTasksScreen>
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _assignTaskCubit),
+        BlocProvider(create: (context) => _endTaskCubit),
       ],
       child: MultiBlocListener(
         listeners: [
+          /// listener on assign task to lawyer
           BlocListener<AssignTaskCubit, AssignTaskState>(
             listener: (context, state) {
               if (state is TaskAssignedSuccessfully) {
                 setState(() {
-                  currentIndex = 2;
+                  currentIndex = 1;
+                  _tabController.index = currentIndex;
+                });
+              }
+            },
+          ),
+
+          /// listener on end task
+          BlocListener<EndTaskCubit, EndTaskState>(
+            listener: (context, state) {
+              if (state is TaskEndedSuccessfully) {
+                setState(() {
+                  currentIndex = 3;
                   _tabController.index = currentIndex;
                 });
               }
@@ -111,11 +131,11 @@ class _MyTasksScreenState extends State<MyTasksScreen>
                         color: AppColor.white, fontWeight: FontWeight.bold),
                   ),
                   TabItem(
-                    text: "مهام مكتملة",
+                    text: "مكتملة",
                     textStyle: Theme.of(context).textTheme.caption!.copyWith(
                           color: AppColor.white,
                           fontWeight: FontWeight.bold,
-                          fontSize: Sizes.dimen_10.sp,
+                          //fontSize: Sizes.dimen_10.sp,
                         ),
                   ),
                 ],
@@ -139,10 +159,14 @@ class _MyTasksScreenState extends State<MyTasksScreen>
                       const MyTasksInProgress(),
 
                       /// InReview
-                      const MyTasksInReview(),
+                      MyTasksInReview(
+                        endTaskCubit: _endTaskCubit,
+                      ),
 
                       /// Completed
-                      const MyTasksCompleted(),
+                      MyTasksCompleted(
+                        endTaskCubit: _endTaskCubit,
+                      ),
                     ],
                   ),
                 ),

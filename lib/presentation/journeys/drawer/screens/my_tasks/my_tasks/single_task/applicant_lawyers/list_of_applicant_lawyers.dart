@@ -25,7 +25,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
     return ListView.separated(
       physics: const BouncingScrollPhysics(),
       shrinkWrap: true,
-      itemCount: 10,
+      itemCount: applicants.length,
 
       /// separator
       separatorBuilder: (context, index) => SizedBox(
@@ -36,9 +36,9 @@ class ListOfApplicantLawyers extends StatelessWidget {
       itemBuilder: (context, index) {
         return ApplicantLawyerItem(
           assignTaskCubit: assignTaskCubit,
-          lawyerEntity: applicants[0],
+          lawyerEntity: applicants[index],
           onAssignPressed: () {
-            _assignTask(context: context, lawyerId: applicants[0].id);
+            _assignTask(context: context, lawyerId: applicants[index].id);
           },
         );
       },

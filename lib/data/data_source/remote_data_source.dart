@@ -22,6 +22,7 @@ import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dar
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
+import 'package:yamaiter/data/api/requests/post_requests/end_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
@@ -48,6 +49,7 @@ import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
@@ -156,6 +158,9 @@ abstract class RemoteDataSource {
 
   /// update task
   Future<dynamic> deleteTask(DeleteTaskParams params);
+
+  /// update task
+  Future<dynamic> endTask(EndTaskParams params);
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
@@ -1262,6 +1267,56 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("assignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "assignTask UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future endTask(EndTaskParams params) async {
+    try {
+      log("endTask >> Start request");
+      // init request
+      final request = EndTaskRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("endTask >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          {
+            if (response.body.contains("notAllowedToCompleted")) {
+              return const AppError(AppErrorType.idNotFound,
+                  message: "The task is not found");
+            } else {
+              return SuccessModel();
+            }
+          }
+
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "endTask Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "endTask Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "endTask Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("endTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "assignTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("endTask >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "endTask UnHandledError >> $e");
     }
   }
 }

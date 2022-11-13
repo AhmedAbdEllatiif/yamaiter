@@ -14,8 +14,13 @@ import '../../../../../../../widgets/text_with_icon.dart';
 
 class InReviewItem extends StatelessWidget {
   final TaskEntity taskEntity;
+  final Function() onEndTaskPressed;
 
-  const InReviewItem({Key? key, required this.taskEntity}) : super(key: key);
+  const InReviewItem({
+    Key? key,
+    required this.taskEntity,
+    required this.onEndTaskPressed,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +85,8 @@ class InReviewItem extends StatelessWidget {
                               /// date, court, applicants
                               Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.only(top: 20, right: 5),
+                                padding:
+                                    const EdgeInsets.only(top: 20, right: 5),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -154,13 +160,13 @@ class InReviewItem extends StatelessWidget {
                         ),
                       ),
 
-                      ///==> file
+                      ///==> end task
                       Flexible(
                         child: RoundedText(
                           text: "انهاء المهمة",
                           iconData: Icons.done_outline,
                           textSize: Sizes.dimen_10,
-                          onPressed: () {},
+                          onPressed: onEndTaskPressed,
                         ),
                       ),
                     ],

@@ -81,6 +81,9 @@ class ApiConstants {
   static Uri _deleteTask(String id) =>
       Uri.https(_baseUrl, "${EndPoints.deleteTask}/$id");
 
+  static Uri _endTask(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.endTask}/$id");
+
   static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
   static Uri _allTasks({required Map<String, dynamic> queryParams}) =>
@@ -181,6 +184,9 @@ class ApiConstants {
       // assignTask
       case RequestType.assignTask:
         return _assignTask();
+      // endTask
+      case RequestType.endTask:
+        return _endTask(id);
     }
   }
 }
@@ -260,11 +266,14 @@ class EndPoints {
   /// myTasks
   static String myTasks = "${_apiVersion}my-tasks";
 
-  /// myTasks
+  /// assignTask
   static String assignTask = "${_apiVersion}assign-task";
 
-  /// myTasks
+  /// updateTask
   static String updateTask = "${_apiVersion}update-task";
+
+  /// endTask
+  static String endTask = "${_apiVersion}complete-task";
 
   /// acceptTerms
   static String acceptTerms = "${_apiVersion}accept-terms";
@@ -303,6 +312,7 @@ enum RequestType {
   assignTask,
   updateTask,
   deleteTask,
+  endTask,
   acceptTerms,
   allTasks,
 }

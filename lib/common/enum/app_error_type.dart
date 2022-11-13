@@ -11,6 +11,7 @@ enum AppErrorType {
   notActivatedUser,
   notAcceptedYet,
   notFound,
+  idNotFound,
   userAlreadyExists,
   wrongPassword,
   wrongEmail,

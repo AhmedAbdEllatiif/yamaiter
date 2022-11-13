@@ -22,6 +22,8 @@ import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
@@ -52,6 +54,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
@@ -266,6 +269,11 @@ Future init() async {
     () => DeleteTaskCubit(),
   );
 
+  //==> EndTaskCubit
+  getItInstance.registerFactory<EndTaskCubit>(
+    () => EndTaskCubit(),
+  );
+
   //==> GetAllTaskCubit
   getItInstance.registerFactory<GetAllTasksCubit>(
     () => GetAllTasksCubit(),
@@ -446,6 +454,11 @@ Future init() async {
   //==> DeleteTaskCase
   getItInstance.registerFactory<DeleteTaskCase>(
     () => DeleteTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> EndTaskCase
+  getItInstance.registerFactory<EndTaskCase>(
+    () => EndTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAcceptTermsCase

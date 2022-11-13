@@ -25,6 +25,7 @@ import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
@@ -736,7 +737,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// assignTask
   @override
   Future<Either<AppError, SuccessModel>> assignTask(
@@ -751,6 +751,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get all my_tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// endTask
+  @override
+  Future<Either<AppError, SuccessModel>> endTask(EndTaskParams params) async {
+    try {
+      // send endTask
+      final result = await remoteDataSource.endTask(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to endTask
       else {
         return Left(result);
       }
