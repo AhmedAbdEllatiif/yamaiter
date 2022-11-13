@@ -31,7 +31,6 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
             padding: EdgeInsets.symmetric(vertical: Sizes.dimen_5.h),
             child: Column(
               children: [
-
                 /// title
                 Container(
                   margin: EdgeInsets.only(bottom: Sizes.dimen_16.h),
@@ -57,7 +56,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                     ChooseMyTasksTypeItem(
                       image: AssetsImages.documentsSvg,
                       text: "مهام لحساب الغير",
-                      onPressed: () => {},
+                      onPressed: () => _navigateTasksForOtherScreen(context),
                     ),
                   ],
                 ),
@@ -85,7 +84,11 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
     );
   }
 
-  /// to navigateToMyTaskFromOther
+  /// to navigate to MyTaskFromOther
   void _navigateMyTaxesScreen(BuildContext context) =>
       RouteHelper().myTasks(context, isReplacement: false);
+
+  /// to navigate to TasksForOtherScreen
+  void _navigateTasksForOtherScreen(BuildContext context) =>
+      RouteHelper().tasksForOther(context);
 }

@@ -23,6 +23,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/end_task/end_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/single_task_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/task_for_other/tasks_for_other_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
@@ -119,6 +120,9 @@ class Routes {
         RouteList.endTask: (context) => EndTaskScreen(
               endTaskArguments: settings.arguments as EndTaskArguments,
             ),
+
+        /// tasks for other
+        RouteList.tasksForOther: (context) => const TasksForOtherScreen(),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

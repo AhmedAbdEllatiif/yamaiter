@@ -174,6 +174,7 @@ class RouteHelper {
         .pushNamed(RouteList.endTask, arguments: endTaskArguments);
   }
 
+
   /// To delete task screen \\\
   void deleteTask(BuildContext context,
       {required DeleteTaskArguments deleteTaskArguments}) {
@@ -188,6 +189,11 @@ class RouteHelper {
     } else {
       Navigator.of(context).pushNamed(RouteList.myTasks);
     }
+  }
+
+  /// To choose tasks for other screen \\\
+  void tasksForOther(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.tasksForOther);
   }
 
   /// To create sos screen \\\
