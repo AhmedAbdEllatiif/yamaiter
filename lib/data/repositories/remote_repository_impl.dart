@@ -27,6 +27,7 @@ import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
+import 'package:yamaiter/data/params/get_applied_tasks_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -773,6 +774,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to endTask
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// getAppliedTasks
+  @override
+  Future<Either<AppError, List<TaskEntity>>> getAppliedTasks(
+      GetAppliedTasksParams params) async {
+    try {
+      // send get applied tasks request
+      final result = await remoteDataSource.getAppliedTasks(params);
+
+      // received success
+      if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to get applied tasks
       else {
         return Left(result);
       }

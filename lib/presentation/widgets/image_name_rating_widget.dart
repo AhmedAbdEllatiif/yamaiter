@@ -112,14 +112,30 @@ class ImageNameRatingWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        GestureDetector(
-          onTap: onPressed,
-          child: CircleAvatar(
-            minRadius: minImageSize.w,
-            maxRadius: maxImageSize.w,
-            backgroundImage: AssetImage(imgUrl),
+
+        /// admin image
+        if(isAdmin)
+          CircleAvatar(
+            minRadius: minImageSize.w / 1.7,
+            maxRadius: maxImageSize.w / 1.7,
+            backgroundColor: AppColor.primaryDarkColor,
+            child:  Image.asset(AssetsImages.logo),
           ),
-        ),
+
+        /// not admin image
+        if(!isAdmin)
+          GestureDetector(
+            onTap: onPressed,
+            child: CachedImageWidget(
+              imageUrl: imgUrl == AppUtils.undefined
+                  ? AssetsImages.personAvatar
+                  : imgUrl,
+              isCircle: true,
+              height: maxImageSize.w,
+              width: maxImageSize.w,
+              progressBarScale: 0.5,
+            ),
+          ),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
           child: Column(

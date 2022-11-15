@@ -50,6 +50,7 @@ import '../domain/use_cases/ads/get_my_ads.dart';
 import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
+import '../domain/use_cases/applied_tasks/get_applied_tasks.dart';
 import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
@@ -75,6 +76,7 @@ import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
 import '../presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
 import '../presentation/logic/cubit/get_all_tasks/get_all_task_cubit.dart';
+import '../presentation/logic/cubit/get_applied_tasks/get_applied_tasks_cubit.dart';
 import '../presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import '../presentation/logic/cubit/get_my_single_task/get_my_single_task_cubit.dart';
 import '../presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
@@ -274,6 +276,11 @@ Future init() async {
     () => EndTaskCubit(),
   );
 
+  //==> GetAppliedTasksCubit
+  getItInstance.registerFactory<GetAppliedTasksCubit>(
+    () => GetAppliedTasksCubit(),
+  );
+
   //==> GetAllTaskCubit
   getItInstance.registerFactory<GetAllTasksCubit>(
     () => GetAllTasksCubit(),
@@ -459,6 +466,11 @@ Future init() async {
   //==> EndTaskCase
   getItInstance.registerFactory<EndTaskCase>(
     () => EndTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetAppliedTasksCase
+  getItInstance.registerFactory<GetAppliedTasksCase>(
+    () => GetAppliedTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAcceptTermsCase

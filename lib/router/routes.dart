@@ -23,7 +23,6 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/end_task/end_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/single_task_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/task_for_other/tasks_for_other_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
@@ -48,6 +47,7 @@ import '../presentation/journeys/article/delete_article.dart';
 import '../presentation/journeys/article/single_article_screen.dart';
 import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
+import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
 import '../presentation/journeys/taxes/add_new_tax_screen.dart';
