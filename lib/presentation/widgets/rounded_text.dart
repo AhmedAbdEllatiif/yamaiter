@@ -93,7 +93,7 @@ class RoundedText extends StatelessWidget {
                           .textTheme
                           .caption!
                           .copyWith(
-                        height: 1.3,
+                        height: 1.1,
                         fontSize: textSize,
                         fontWeight: fontWeight ?? FontWeight.bold,
                         color: textColor ??

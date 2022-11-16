@@ -174,35 +174,41 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
                 );
               }
 
-              return ListView.separated(
-                controller: _controller,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-
-                // count
-                itemCount: taskList.length + 1,
-
-                // separatorBuilder
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: Sizes.dimen_10.h,
-                  );
+              return RefreshIndicator(
+                onRefresh: () async {
+                  taskList.clear();
+                  _fetchAppliedTaskList();
                 },
+                child: ListView.separated(
+                  controller: _controller,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
 
-                // itemBuilder
-                itemBuilder: (BuildContext context, int index) {
-                  /// TaskItem
-                  if (index < taskList.length) {
-                    return AppliedTodoTaskItem(
-                      taskEntity: taskList[index],
+                  // count
+                  itemCount: taskList.length + 1,
+
+                  // separatorBuilder
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      height: Sizes.dimen_10.h,
                     );
-                  }
+                  },
 
-                  /// loading or end of list
-                  return LoadingMoreAppliedTasksWidget(
-                    appliedTasksCubit: _getAppliedTaskCubit,
-                  );
-                },
+                  // itemBuilder
+                  itemBuilder: (BuildContext context, int index) {
+                    /// TaskItem
+                    if (index < taskList.length) {
+                      return AppliedTodoTaskItem(
+                        taskEntity: taskList[index],
+                      );
+                    }
+
+                    /// loading or end of list
+                    return LoadingMoreAppliedTasksWidget(
+                      appliedTasksCubit: _getAppliedTaskCubit,
+                    );
+                  },
+                ),
               );
             },
           ),

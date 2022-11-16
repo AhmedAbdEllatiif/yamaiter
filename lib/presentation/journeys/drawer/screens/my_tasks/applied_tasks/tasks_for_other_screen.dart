@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_progress/applied_in_progress_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_progress/my_tasks_in_progress.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
@@ -144,7 +145,7 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                       ),
 
                       /// InProgress
-                      const MyTasksInProgress(),
+                      const AppliedInProgressScreen(),
 
                       /// InReview
                       Container(),
