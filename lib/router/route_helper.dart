@@ -10,6 +10,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/router/route_list.dart';
@@ -194,6 +195,13 @@ class RouteHelper {
   /// To choose tasks for other screen \\\
   void tasksForOther(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.tasksForOther);
+  }
+
+  /// To task details screen \\\
+  void taskDetails(BuildContext context,
+      {required TaskDetailsArguments taskDetailsArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.taskDetails, arguments: taskDetailsArguments);
   }
 
   /// To create sos screen \\\

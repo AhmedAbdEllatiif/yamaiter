@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
@@ -35,6 +36,7 @@ import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/task/create_task_screen.dart';
+import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
@@ -123,6 +125,11 @@ class Routes {
 
         /// tasks for other
         RouteList.tasksForOther: (context) => const TasksForOtherScreen(),
+
+        /// task details
+        RouteList.taskDetails: (context) => TaskDetailsScreen(
+              taskDetailsArguments: settings.arguments as TaskDetailsArguments,
+            ),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

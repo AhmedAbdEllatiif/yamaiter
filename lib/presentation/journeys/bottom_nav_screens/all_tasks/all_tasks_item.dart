@@ -4,6 +4,7 @@ import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -35,7 +36,7 @@ class _AllTasksItemState extends State<AllTasksItem> {
       child: Card(
         child: InkWell(
           onTap: () {
-            // _navigateToArticleDetailsScreen();
+             _navigateToTaskDetailsScreen();
           },
           borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
           child: Padding(
@@ -56,7 +57,8 @@ class _AllTasksItemState extends State<AllTasksItem> {
                             ImageNameRatingWidget(
                               imgUrl: widget.taskEntity.creatorImage,
                               name: widget.taskEntity.creatorName,
-                              rating: widget.taskEntity.creatorRating.toDouble(),
+                              rating:
+                                  widget.taskEntity.creatorRating.toDouble(),
                               withRow: false,
                               nameColor: AppColor.primaryDarkColor,
                               ratedColor: AppColor.accentColor,
@@ -69,7 +71,8 @@ class _AllTasksItemState extends State<AllTasksItem> {
                             /// data
                             Expanded(
                               child: Padding(
-                                padding: EdgeInsets.only(right: Sizes.dimen_4.w),
+                                padding:
+                                    EdgeInsets.only(right: Sizes.dimen_4.w),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -108,7 +111,8 @@ class _AllTasksItemState extends State<AllTasksItem> {
 
                                     /// price
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
                                         Container(
@@ -131,24 +135,23 @@ class _AllTasksItemState extends State<AllTasksItem> {
                                               "${widget.taskEntity.price}  جنيه مصرى",
                                               overflow: TextOverflow.ellipsis,
                                               maxLines: 1,
-                                              style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                                                fontWeight: FontWeight.bold,
-                                              ),
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall!
+                                                  .copyWith(
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-
                                   ],
                                 ),
                               ),
                             ),
-
-
                           ],
                         ),
-
 
                         Center(
                           child: Container(
@@ -160,27 +163,33 @@ class _AllTasksItemState extends State<AllTasksItem> {
                                 /// court
                                 Flexible(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       TextWithIconWidget(
                                         iconData: Icons.pin_drop_outlined,
                                         iconSize: Sizes.dimen_16.w,
                                         text: widget.taskEntity.governorates,
-                                           textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                                             color: AppColor.accentColor,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                              color: AppColor.accentColor,
                                               height: 1.3,
-                                           ),
+                                            ),
                                       ),
-
                                       SizedBox(height: Sizes.dimen_8.w),
                                       TextWithIconWidget(
                                         iconData: Icons.house_outlined,
                                         iconSize: Sizes.dimen_16.w,
                                         text: widget.taskEntity.court,
-                                           textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                                             color: AppColor.accentColor,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                              color: AppColor.accentColor,
                                               height: 1.3,
-                                           ),
+                                            ),
                                       ),
                                     ],
                                   ),
@@ -191,17 +200,20 @@ class _AllTasksItemState extends State<AllTasksItem> {
                                 /// date
                                 Flexible(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       TextWithIconWidget(
                                         iconData: Icons.date_range_outlined,
                                         iconSize: Sizes.dimen_16.w,
-                                        text:widget.taskEntity.startingDate,
-                                        textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                                          color: AppColor.accentColor,
-                                           height: 1.3,
-                                        ),
+                                        text: widget.taskEntity.startingDate,
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                              color: AppColor.accentColor,
+                                              height: 1.3,
+                                            ),
                                       ),
 
                                       SizedBox(height: Sizes.dimen_8.w),
@@ -210,24 +222,27 @@ class _AllTasksItemState extends State<AllTasksItem> {
                                       TextWithIconWidget(
                                         iconData: Icons.person_outline_outlined,
                                         iconSize: Sizes.dimen_16.w,
-                                        text: "${widget.taskEntity.applicantsCount} متقدمون "
-                                            .toString(),
-                                        textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                                          color: AppColor.accentColor,
-                                           height: 1.3,
-                                        ),
+                                        text:
+                                            "${widget.taskEntity.applicantsCount} متقدمون "
+                                                .toString(),
+                                        textStyle: Theme.of(context)
+                                            .textTheme
+                                            .caption!
+                                            .copyWith(
+                                              color: AppColor.accentColor,
+                                              height: 1.3,
+                                            ),
                                       ),
                                     ],
                                   ),
                                 ),
-
-
                               ],
                             ),
                           ),
                         ),
+
                         /// price
-                       /* Container(
+                        /* Container(
                           margin: EdgeInsets.only(
                             left: Sizes.dimen_10.w,
                             top: Sizes.dimen_10,
@@ -254,7 +269,6 @@ class _AllTasksItemState extends State<AllTasksItem> {
                       ],
                     ),
                   ),
-
                   const RotatedBox(
                       quarterTurns: 2,
                       child: Icon(Icons.double_arrow_outlined)),
@@ -277,5 +291,13 @@ class _AllTasksItemState extends State<AllTasksItem> {
             },
           }),
     );
+  }
+
+
+  /// to navigate to TaskDetailsScreen
+  void _navigateToTaskDetailsScreen() {
+    RouteHelper().taskDetails(context,
+        taskDetailsArguments:
+            TaskDetailsArguments(taskEntity: widget.taskEntity));
   }
 }
