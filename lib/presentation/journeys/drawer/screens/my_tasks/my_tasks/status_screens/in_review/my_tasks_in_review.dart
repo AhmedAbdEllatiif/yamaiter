@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_review/in_review_item.dart';
+import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
@@ -138,37 +139,43 @@ class _MyTasksInReviewState extends State<MyTasksInReview>
               );
             }
 
-            return ListView.separated(
-              controller: _controller,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-
-              // count
-              itemCount: taskList.length + 1,
-
-              // separatorBuilder
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: Sizes.dimen_10.h,
-                );
+            return AppRefreshIndicator(
+              onRefresh: () async {
+                taskList.clear();
+                _fetchInReviewTasksList();
               },
+              child: ListView.separated(
+                controller: _controller,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
 
-              // itemBuilder
-              itemBuilder: (BuildContext context, int index) {
-                /// TaskItem
-                if (index < taskList.length) {
-                  return InReviewItem(
-                    taskEntity: taskList[index],
-                    onEndTaskPressed: () =>
-                        _navigateEndTask(taskId: taskList[index].id),
+                // count
+                itemCount: taskList.length + 1,
+
+                // separatorBuilder
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: Sizes.dimen_10.h,
                   );
-                }
+                },
 
-                /// loading or end of list
-                return LoadingMoreMyTasksWidget(
-                  myTasksCubit: _getMyTasksCubit,
-                );
-              },
+                // itemBuilder
+                itemBuilder: (BuildContext context, int index) {
+                  /// TaskItem
+                  if (index < taskList.length) {
+                    return InReviewItem(
+                      taskEntity: taskList[index],
+                      onEndTaskPressed: () =>
+                          _navigateEndTask(taskId: taskList[index].id),
+                    );
+                  }
+
+                  /// loading or end of list
+                  return LoadingMoreMyTasksWidget(
+                    myTasksCubit: _getMyTasksCubit,
+                  );
+                },
+              ),
             );
           },
         ),

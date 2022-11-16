@@ -12,6 +12,7 @@ import '../../../../../../../logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/app_error_widget.dart';
+import '../../../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 import '../todo/todo_task_item.dart';
 import '../loading_more_my_tasks.dart';
@@ -121,8 +122,11 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
             );
           }
 
-          return RefreshIndicator(
-            onRefresh: () async => _fetchInProgressTasksList(),
+          return AppRefreshIndicator(
+            onRefresh: () async {
+              taskList.clear();
+              _fetchInProgressTasksList();
+            },
             child: ListView.separated(
               controller: _controller,
               shrinkWrap: true,

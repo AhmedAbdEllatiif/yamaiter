@@ -19,6 +19,7 @@ import '../../../../../../../logic/cubit/update_task/update_task_cubit.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/app_error_widget.dart';
+import '../../../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 import '../../loading_more_applied_tasks.dart';
 import 'applied_todo_task_item.dart';
@@ -174,7 +175,7 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
                 );
               }
 
-              return RefreshIndicator(
+              return AppRefreshIndicator(
                 onRefresh: () async {
                   taskList.clear();
                   _fetchAppliedTaskList();

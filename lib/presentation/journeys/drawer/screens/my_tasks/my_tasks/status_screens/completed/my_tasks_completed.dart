@@ -13,6 +13,7 @@ import '../../../../../../../logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/app_error_widget.dart';
+import '../../../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 import '../loading_more_my_tasks.dart';
 
@@ -135,35 +136,41 @@ class _MyTasksCompletedState extends State<MyTasksCompleted>
               );
             }
 
-            return ListView.separated(
-              controller: _controller,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-
-              // count
-              itemCount: taskList.length + 1,
-
-              // separatorBuilder
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: Sizes.dimen_10.h,
-                );
+            return AppRefreshIndicator(
+              onRefresh: ()async {
+                taskList.clear();
+                _fetchCompletedTasksList();
               },
+              child: ListView.separated(
+                controller: _controller,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
 
-              // itemBuilder
-              itemBuilder: (BuildContext context, int index) {
-                /// TaskItem
-                if (index < taskList.length) {
-                  return CompletedTaskItem(
-                    taskEntity: taskList[index],
+                // count
+                itemCount: taskList.length + 1,
+
+                // separatorBuilder
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: Sizes.dimen_10.h,
                   );
-                }
+                },
 
-                /// loading or end of list
-                return LoadingMoreMyTasksWidget(
-                  myTasksCubit: _getMyTasksCubit,
-                );
-              },
+                // itemBuilder
+                itemBuilder: (BuildContext context, int index) {
+                  /// TaskItem
+                  if (index < taskList.length) {
+                    return CompletedTaskItem(
+                      taskEntity: taskList[index],
+                    );
+                  }
+
+                  /// loading or end of list
+                  return LoadingMoreMyTasksWidget(
+                    myTasksCubit: _getMyTasksCubit,
+                  );
+                },
+              ),
             );
           },
         ),

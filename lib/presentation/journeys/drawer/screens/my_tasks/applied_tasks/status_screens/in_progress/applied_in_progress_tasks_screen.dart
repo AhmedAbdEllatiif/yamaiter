@@ -13,6 +13,7 @@ import '../../../../../../../../router/route_helper.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/app_error_widget.dart';
+import '../../../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 import '../../loading_more_applied_tasks.dart';
 
@@ -126,7 +127,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
             );
           }
 
-          return RefreshIndicator(
+          return AppRefreshIndicator(
             onRefresh: () async {
               taskList.clear();
               _fetchInProgressTasksList();

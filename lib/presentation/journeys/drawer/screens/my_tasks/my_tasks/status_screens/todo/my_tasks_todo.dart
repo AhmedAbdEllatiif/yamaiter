@@ -10,6 +10,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
+import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
@@ -179,44 +180,51 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                 );
               }
 
-              return ListView.separated(
-                controller: _controller,
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-
-                // count
-                itemCount: taskList.length + 1,
-
-                // separatorBuilder
-                separatorBuilder: (BuildContext context, int index) {
-                  return SizedBox(
-                    height: Sizes.dimen_10.h,
-                  );
+              return AppRefreshIndicator(
+                onRefresh: () async {
+                  taskList.clear();
+                  _fetchMyTasksList();
                 },
+                child: ListView.separated(
+                  controller: _controller,
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
 
-                // itemBuilder
-                itemBuilder: (BuildContext context, int index) {
-                  /// TaskItem
-                  if (index < taskList.length) {
-                    return TodoTaskItem(
-                      taskEntity: taskList[index],
-                      onPressed: () {
-                        _navigateToSingleTaskScreen(taskId: taskList[index].id);
-                      },
-                      onUpdatePressed: () {
-                        _navigateToEditTaskScreen(taskList[index]);
-                      },
-                      onDeletePressed: () => _navigateToDeleteTaskScreen(
-                        taskList[index].id,
-                      ),
+                  // count
+                  itemCount: taskList.length + 1,
+
+                  // separatorBuilder
+                  separatorBuilder: (BuildContext context, int index) {
+                    return SizedBox(
+                      height: Sizes.dimen_10.h,
                     );
-                  }
+                  },
 
-                  /// loading or end of list
-                  return LoadingMoreMyTasksWidget(
-                    myTasksCubit: _getMyTasksCubit,
-                  );
-                },
+                  // itemBuilder
+                  itemBuilder: (BuildContext context, int index) {
+                    /// TaskItem
+                    if (index < taskList.length) {
+                      return TodoTaskItem(
+                        taskEntity: taskList[index],
+                        onPressed: () {
+                          _navigateToSingleTaskScreen(
+                              taskId: taskList[index].id);
+                        },
+                        onUpdatePressed: () {
+                          _navigateToEditTaskScreen(taskList[index]);
+                        },
+                        onDeletePressed: () => _navigateToDeleteTaskScreen(
+                          taskList[index].id,
+                        ),
+                      );
+                    }
+
+                    /// loading or end of list
+                    return LoadingMoreMyTasksWidget(
+                      myTasksCubit: _getMyTasksCubit,
+                    );
+                  },
+                ),
               );
             },
           ),
