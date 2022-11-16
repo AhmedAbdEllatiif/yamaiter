@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
@@ -175,7 +176,6 @@ class RouteHelper {
         .pushNamed(RouteList.endTask, arguments: endTaskArguments);
   }
 
-
   /// To delete task screen \\\
   void deleteTask(BuildContext context,
       {required DeleteTaskArguments deleteTaskArguments}) {
@@ -193,15 +193,33 @@ class RouteHelper {
   }
 
   /// To choose tasks for other screen \\\
-  void tasksForOther(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.tasksForOther);
+  void appliedTasksScreen(BuildContext context,
+      {bool isPushReplacement = false}) {
+    if (isPushReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.tasksForOther);
+    } else {
+      Navigator.of(context).pushNamed(RouteList.tasksForOther);
+    }
   }
 
   /// To task details screen \\\
   void taskDetails(BuildContext context,
-      {required TaskDetailsArguments taskDetailsArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.taskDetails, arguments: taskDetailsArguments);
+      {required TaskDetailsArguments taskDetailsArguments,
+      bool isPushReplacement = false}) {
+    if (isPushReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.taskDetails,
+          arguments: taskDetailsArguments);
+    } else {
+      Navigator.of(context)
+          .pushNamed(RouteList.taskDetails, arguments: taskDetailsArguments);
+    }
+  }
+
+  /// To apply for task screen \\\
+  void applyForTask(BuildContext context,
+      {required ApplyForTaskArguments applyForTaskArguments}) {
+    Navigator.of(context).pushNamed(RouteList.applyForTask,
+        arguments: applyForTaskArguments);
   }
 
   /// To create sos screen \\\

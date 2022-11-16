@@ -18,6 +18,7 @@ import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
+import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
@@ -41,6 +42,7 @@ import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
+import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
@@ -166,6 +168,9 @@ abstract class RemoteDataSource {
 
   /// get my my_tasks
   Future<dynamic> getAppliedTasks(GetAppliedTasksParams params);
+
+  /// get single task
+  Future<dynamic> applyForTask(ApplyForTaskParams params);
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
@@ -1325,7 +1330,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// getAppliedTasksTasks
   @override
   Future getAppliedTasks(GetAppliedTasksParams params) async {
@@ -1370,6 +1374,56 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getAppliedTasksTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getAppliedTasksTasks UnHandledError >> $e");
+    }
+  }
+
+  /// getSingleTask
+  @override
+  Future applyForTask(ApplyForTaskParams params) async {
+    try {
+      log("applyForTask >> Start request");
+      // init request
+      final request = ApplyForTaskRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("applyForTask >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          log("applyForTask >> body:${jsonDecode(response.body)}");
+          if(response.body.contains("alreadyAppliedBefore")){
+            return AppError(AppErrorType.alreadyAppliedToThisTask,
+                message:
+                "applyForTask Status Code >> ${response.statusCode},Body: ${response.body}");
+          }
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "applyForTask Status Code >> ${response.statusCode},Body: ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "applyForTask Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "applyForTask Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("applyForTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "assignTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("applyForTask >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "assignTask UnHandledError >> $e");
     }
   }
 }

@@ -142,7 +142,7 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
                                   Flexible(
                                     child: RoundedText(
                                       text: "ابدأ المحادثة",
-                                      iconData: Icons.chat_bubble_outline,
+                                      rightIconData: Icons.chat_bubble_outline,
                                       onPressed: () {},
                                     ),
                                   ),

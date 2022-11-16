@@ -154,7 +154,7 @@ class InReviewItem extends StatelessWidget {
                       Flexible(
                         child: RoundedText(
                           text: "ملف المهمة",
-                          iconData: Icons.file_copy_rounded,
+                          rightIconData: Icons.file_copy_rounded,
                           textSize: Sizes.dimen_10,
                           onPressed: () {},
                         ),
@@ -164,7 +164,7 @@ class InReviewItem extends StatelessWidget {
                       Flexible(
                         child: RoundedText(
                           text: "انهاء المهمة",
-                          iconData: Icons.done_outline,
+                          rightIconData: Icons.done_outline,
                           textSize: Sizes.dimen_10,
                           onPressed: onEndTaskPressed,
                         ),

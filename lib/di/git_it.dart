@@ -1,6 +1,8 @@
 import 'package:get_it/get_it.dart';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/domain/repositories/app_settings_repository.dart';
+import 'package:yamaiter/domain/use_cases/applied_tasks/apply_for_task.dart';
+import 'package:yamaiter/domain/use_cases/applied_tasks/apply_for_task.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
@@ -14,6 +16,7 @@ import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
@@ -286,6 +289,11 @@ Future init() async {
     () => GetAllTasksCubit(),
   );
 
+  //==> ApplyForTaskCubit
+  getItInstance.registerFactory<ApplyForTaskCubit>(
+    () => ApplyForTaskCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -441,6 +449,11 @@ Future init() async {
   //==> AssignTaskCase
   getItInstance.registerFactory<AssignTaskCase>(
     () => AssignTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> ApplyForTaskCase
+  getItInstance.registerFactory<ApplyForTaskCase>(
+    () => ApplyForTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyTasksCase

@@ -9,27 +9,39 @@ import '../../common/constants/sizes.dart';
 class RoundedText extends StatelessWidget {
   final Function()? onPressed;
   final String text;
-  final IconData? iconData;
+
+  /// right icon
+  final IconData? rightIconData;
+  final Color rightIconColor;
+  final double? rightIconSize;
+
+  /// left icon
+  final IconData? leftIconData;
+  final Color leftIconColor;
+  final double? leftIconSize;
+
+
   final Color background;
   final Color? textColor;
-  final Color iconColor;
   final TextStyle? textStyle;
-  final double? iconSize;
   final double? textSize;
   final FontWeight? fontWeight;
 
   const RoundedText({
     Key? key,
     required this.text,
-    this.iconData,
     this.onPressed,
     this.textStyle,
-    this.iconSize,
     this.textSize,
     this.fontWeight,
     this.textColor,
     this.background = AppColor.primaryDarkColor,
-    this.iconColor = AppColor.accentColor,
+    this.rightIconData,
+    this.rightIconSize,
+    this.rightIconColor = AppColor.accentColor,
+    this.leftIconData,
+    this.leftIconColor = AppColor.accentColor,
+    this.leftIconSize,
   }) : super(key: key);
 
   @override
@@ -55,15 +67,16 @@ class RoundedText extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
+
               /// icon
-              if (iconData != null)
+              if (rightIconData != null)
                 Icon(
-                  iconData,
-                  color: iconColor,
-                  size: iconSize ?? Sizes.dimen_16.w,
+                  rightIconData,
+                  color: rightIconColor,
+                  size: rightIconSize ?? Sizes.dimen_16.w,
                 ),
 
-              if (iconData != null)
+              if (rightIconData != null)
                 const SizedBox(
                   width: 5,
                 ),
@@ -75,17 +88,37 @@ class RoundedText extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: textStyle ??
-                      Theme.of(context).textTheme.caption!.copyWith(
-                            height: 1.3,
-                            fontSize: textSize,
-                            fontWeight: fontWeight ?? FontWeight.bold,
-                            color: textColor ??
-                                (background == AppColor.primaryDarkColor
-                                    ? AppColor.accentColor
-                                    : AppColor.primaryDarkColor),
-                          ),
+                      Theme
+                          .of(context)
+                          .textTheme
+                          .caption!
+                          .copyWith(
+                        height: 1.3,
+                        fontSize: textSize,
+                        fontWeight: fontWeight ?? FontWeight.bold,
+                        color: textColor ??
+                            (background == AppColor.primaryDarkColor
+                                ? AppColor.accentColor
+                                : AppColor.primaryDarkColor),
+                      ),
                 ),
               ),
+
+              if (leftIconData != null)
+              const SizedBox(
+                width: 5,
+              ),
+
+              /// icon
+              if (leftIconData != null)
+                Icon(
+                  leftIconData,
+                  color: leftIconColor,
+                  size: leftIconSize ?? Sizes.dimen_16.w,
+                ),
+
+
+
             ],
           ),
         ),

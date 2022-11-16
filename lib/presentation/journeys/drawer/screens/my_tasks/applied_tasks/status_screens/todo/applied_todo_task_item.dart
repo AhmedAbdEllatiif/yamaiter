@@ -3,6 +3,9 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
+import 'package:yamaiter/presentation/widgets/app_button.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
@@ -35,115 +38,146 @@ class AppliedTodoTaskItem extends StatelessWidget {
                 bottom: Sizes.dimen_8.h),
             child: Padding(
               padding: EdgeInsets.only(top: Sizes.dimen_10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
+              child: Column(
                 children: [
-                  /// img, rating
-                  ImageNameRatingWidget(
-                    imgUrl: taskEntity.creatorImage,
-                    name: taskEntity.creatorName,
-                    rating: taskEntity.creatorRating.toDouble(),
-                    nameColor: AppColor.primaryDarkColor,
-                    ratedColor: AppColor.accentColor,
-                    unRatedColor: AppColor.primaryColor,
-                    minImageSize: Sizes.dimen_40,
-                    maxImageSize: Sizes.dimen_48,
-                    withRow: false,
-                    onPressed: () {},
-                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      /// img, rating
+                      ImageNameRatingWidget(
+                        imgUrl: taskEntity.creatorImage,
+                        name: taskEntity.creatorName,
+                        rating: taskEntity.creatorRating.toDouble(),
+                        nameColor: AppColor.primaryDarkColor,
+                        ratedColor: AppColor.accentColor,
+                        unRatedColor: AppColor.primaryColor,
+                        minImageSize: Sizes.dimen_40,
+                        maxImageSize: Sizes.dimen_48,
+                        withRow: false,
+                        onPressed: () {},
+                      ),
 
-                  /// data
-                  Expanded(
-                    child: Padding(
-                      padding: EdgeInsets.only(right: Sizes.dimen_4.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          /// title
-                          Text(
-                            taskEntity.title,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style:
-                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                      /// data
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(right: Sizes.dimen_4.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /// title
+                              Text(
+                                taskEntity.title,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyText2!
+                                    .copyWith(
                                       fontWeight: FontWeight.bold,
                                       height: 1.5,
                                     ),
-                          ),
+                              ),
 
-                          SizedBox(
-                            height: Sizes.dimen_2.h,
-                          ),
+                              SizedBox(
+                                height: Sizes.dimen_2.h,
+                              ),
 
-                          /// description
-                          Text(
-                            taskEntity.description,
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            softWrap: true,
-                            style:
-                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                              /// description
+                              Text(
+                                taskEntity.description,
+                                overflow: TextOverflow.ellipsis,
+                                maxLines: 2,
+                                softWrap: true,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodySmall!
+                                    .copyWith(
                                       fontWeight: FontWeight.normal,
                                       height: 1.3,
                                     ),
-                          ),
+                              ),
 
-                          /// date, court
-                          Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.only(top: 10, right: 5),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                /// court
-                                Flexible(
-                                  child: TextWithIconWidget(
-                                    iconData: Icons.pin_drop_outlined,
-                                    text: taskEntity.governorates,
-                                  ),
+                              /// date, court
+                              Container(
+                                width: double.infinity,
+                                padding:
+                                    const EdgeInsets.only(top: 10, right: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    /// court
+                                    Flexible(
+                                      child: TextWithIconWidget(
+                                        iconData: Icons.pin_drop_outlined,
+                                        text: taskEntity.governorates,
+                                      ),
+                                    ),
+
+                                    SizedBox(width: Sizes.dimen_8.w),
+
+                                    /// date
+                                    Flexible(
+                                      child: TextWithIconWidget(
+                                        iconData: Icons.date_range_outlined,
+                                        text: taskEntity.startingDate,
+                                      ),
+                                    ),
+                                  ],
                                 ),
+                              ),
 
-                                SizedBox(width: Sizes.dimen_8.w),
-
-                                /// date
-                                Flexible(
-                                  child: TextWithIconWidget(
-                                    iconData: Icons.date_range_outlined,
-                                    text: taskEntity.startingDate,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-
-                          /// price
-                          RoundedText(
-                            text: "${taskEntity.price} جنيه مصرى",
-                            background: AppColor.accentColor,
-                          ),
-
-                          /// apply, readMore
-                          Row(
-                            children: [
-                              //==> apply for the task
+                              /// price
                               RoundedText(
+                                text: "${taskEntity.price} جنيه مصرى",
+                                background: AppColor.accentColor,
+                              ),
+
+                              /// apply, readMore
+                              /* Row(
+                                children: [
+                                  //==> apply for the task
+                                  RoundedText(
+                                    text: "تقدم للمهمة",
+                                    background: AppColor.primaryDarkColor,
+                                    onPressed: () {},
+                                  ),
+
+                                  //==> readMore
+                                  RoundedText(
+                                    text: "المزيد عن المهمة",
+                                    background: AppColor.primaryDarkColor,
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              )*/
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      //==> apply for the task
+                      /*RoundedText(
                                 text: "تقدم للمهمة",
                                 background: AppColor.primaryDarkColor,
                                 onPressed: () {},
-                              ),
+                              ),*/
 
-                              //==> readMore
-                              RoundedText(
-                                text: "المزيد عن المهمة",
-                                background: AppColor.primaryDarkColor,
-                                onPressed: () {},
-                              ),
-                            ],
-                          )
-                        ],
+                      //==> readMore
+                      RoundedText(
+                        text: "المزيد عن المهمة",
+                        background: AppColor.primaryDarkColor,
+                        leftIconData: Icons.keyboard_double_arrow_left,
+                        onPressed: () => _navigateToTaskDetails(context),
                       ),
-                    ),
-                  ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -163,5 +197,11 @@ class AppliedTodoTaskItem extends StatelessWidget {
             },
           }),
     );
+  }
+
+  void _navigateToTaskDetails(BuildContext context) {
+    RouteHelper().taskDetails(context,
+        taskDetailsArguments: TaskDetailsArguments(
+            taskEntity: taskEntity, isAlreadyApplied: true));
   }
 }

@@ -16,6 +16,7 @@ import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
+import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
@@ -783,7 +784,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// getAppliedTasks
   @override
   Future<Either<AppError, List<TaskEntity>>> getAppliedTasks(
@@ -794,6 +794,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to get applied tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// applyForTask
+  @override
+  Future<Either<AppError, SuccessModel>> applyForTask(
+      ApplyForTaskParams params) async {
+    try {
+      // send get applied tasks request
+      final result = await remoteDataSource.applyForTask(params);
+
+      // received success
+      if (result is SuccessModel) {
         return Right(result);
       }
 

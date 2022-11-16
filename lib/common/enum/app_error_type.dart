@@ -13,6 +13,7 @@ enum AppErrorType {
   notFound,
   idNotFound,
   userAlreadyExists,
+  alreadyAppliedToThisTask,
   wrongPassword,
   wrongEmail,
 

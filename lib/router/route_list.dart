@@ -38,4 +38,5 @@ class RouteList {
   static const String endTask = "/endTask";
   static const String tasksForOther = "/tasksForOther";
   static const String taskDetails = "/taskDetails";
+  static const String applyForTask = "/applyForTask";
 }

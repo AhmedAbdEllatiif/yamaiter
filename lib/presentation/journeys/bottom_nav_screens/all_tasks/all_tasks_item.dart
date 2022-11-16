@@ -36,7 +36,7 @@ class _AllTasksItemState extends State<AllTasksItem> {
       child: Card(
         child: InkWell(
           onTap: () {
-             _navigateToTaskDetailsScreen();
+            _navigateToTaskDetailsScreen();
           },
           borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
           child: Padding(
@@ -293,11 +293,12 @@ class _AllTasksItemState extends State<AllTasksItem> {
     );
   }
 
-
   /// to navigate to TaskDetailsScreen
   void _navigateToTaskDetailsScreen() {
     RouteHelper().taskDetails(context,
-        taskDetailsArguments:
-            TaskDetailsArguments(taskEntity: widget.taskEntity));
+        taskDetailsArguments: TaskDetailsArguments(
+          taskEntity: widget.taskEntity,
+          isAlreadyApplied: false,
+        ));
   }
 }

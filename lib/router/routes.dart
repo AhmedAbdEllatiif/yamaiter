@@ -40,6 +40,7 @@ import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.
 import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
+import '../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../domain/entities/screen_arguments/update_article_args.dart';
 import '../presentation/journeys/ads/add_new_ad.dart';
@@ -52,6 +53,7 @@ import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.d
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
+import '../presentation/journeys/task_details/appy_for_task_screen.dart';
 import '../presentation/journeys/taxes/add_new_tax_screen.dart';
 import '../presentation/journeys/taxes/create_tax_screen.dart';
 import 'route_list.dart';
@@ -129,6 +131,11 @@ class Routes {
         /// task details
         RouteList.taskDetails: (context) => TaskDetailsScreen(
               taskDetailsArguments: settings.arguments as TaskDetailsArguments,
+            ),
+
+        /// apply for task
+        RouteList.applyForTask: (context) => ApplyForTaskScreen(
+              applyForTaskArgument: settings.arguments as ApplyForTaskArguments,
             ),
 
         /// add sos

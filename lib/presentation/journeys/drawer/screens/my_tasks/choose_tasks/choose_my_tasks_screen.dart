@@ -90,5 +90,5 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
 
   /// to navigate to TasksForOtherScreen
   void _navigateTasksForOtherScreen(BuildContext context) =>
-      RouteHelper().tasksForOther(context);
+      RouteHelper().appliedTasksScreen(context);
 }

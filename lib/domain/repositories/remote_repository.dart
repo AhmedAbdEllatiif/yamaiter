@@ -3,6 +3,7 @@ import 'package:yamaiter/data/models/accept_terms/accept_terms_response_model.da
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
+import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
@@ -147,6 +148,10 @@ abstract class RemoteRepository {
   /// get AppliedTasks
   Future<Either<AppError, List<TaskEntity>>> getAppliedTasks(
       GetAppliedTasksParams params);
+
+  /// apply for task
+  Future<Either<AppError, SuccessModel>> applyForTask(
+      ApplyForTaskParams params);
 
   /// get accept terms
   Future<Either<AppError, AcceptTermsEntity>> getAcceptTerms(String userToken);

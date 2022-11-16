@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
@@ -159,11 +161,15 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         text: "${_taskEntity.price} جنيه مصرى",
                         background: AppColor.accentColor,
                       ),
+
+                      if(!widget.taskDetailsArguments.isAlreadyApplied)
                       //==> apply for the task
                       RoundedText(
                         text: "تقدم للمهمة",
                         background: AppColor.primaryDarkColor,
-                        onPressed: () {},
+                        onPressed: () {
+                          _navigateToApplyForTask();
+                        },
                       ),
                     ],
                   ),
@@ -193,6 +199,13 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _navigateToApplyForTask() {
+    RouteHelper().applyForTask(
+      context,
+      applyForTaskArguments: ApplyForTaskArguments(taskEntity: _taskEntity),
     );
   }
 }
