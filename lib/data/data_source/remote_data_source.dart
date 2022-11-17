@@ -27,6 +27,7 @@ import 'package:yamaiter/data/api/requests/post_requests/end_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
+import 'package:yamaiter/data/api/requests/post_requests/upload_task_file.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
 import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
@@ -38,6 +39,7 @@ import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
+import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
@@ -174,6 +176,9 @@ abstract class RemoteDataSource {
 
   /// get accept terms
   Future<dynamic> getAcceptTerms(String token);
+
+  /// upload task file
+  Future<dynamic> uploadTaskFile(UploadTaskFileParams params);
 
   /// accept terms
   Future<dynamic> acceptTerms(AcceptTermsParams params);
@@ -1397,10 +1402,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         // notActivatedUser
         case 403:
           log("applyForTask >> body:${jsonDecode(response.body)}");
-          if(response.body.contains("alreadyAppliedBefore")){
+          if (response.body.contains("alreadyAppliedBefore")) {
             return AppError(AppErrorType.alreadyAppliedToThisTask,
                 message:
-                "applyForTask Status Code >> ${response.statusCode},Body: ${response.body}");
+                    "applyForTask Status Code >> ${response.statusCode},Body: ${response.body}");
           }
           return AppError(AppErrorType.notActivatedUser,
               message:
@@ -1424,6 +1429,51 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("applyForTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "assignTask UnHandledError >> $e");
+    }
+  }
+
+
+  /// uploadTaskFile
+  @override
+  Future uploadTaskFile(UploadTaskFileParams params) async {
+    try {
+      log("uploadTaskFile >> Start request");
+
+      // init request
+      final createArticleRequest = UploadTaskFileRequest();
+      final request = await createArticleRequest(params);
+
+      // send a request
+      final streamResponse = await request.send();
+
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("uploadTaskFile >> ResponseCode: ${response.statusCode}");
+      log("uploadTaskFile >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "uploadTaskFile Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "uploadTaskFile Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("uploadTaskFile >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "uploadTaskFile Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("uploadTaskFile >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "uploadTaskFile UnHandledError >> $e");
     }
   }
 }

@@ -3,30 +3,23 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
-import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
 import '../../../../../../../themes/theme_color.dart';
+import '../../../../../../../widgets/image_name_rating_widget.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
 
-class AppliedInProgressItem extends StatefulWidget {
+class AppliedInReviewItem extends StatelessWidget {
   final TaskEntity taskEntity;
-  final Function() onUploadFileClicked;
 
-  const AppliedInProgressItem({
+  const AppliedInReviewItem({
     Key? key,
     required this.taskEntity,
-    required this.onUploadFileClicked,
   }) : super(key: key);
 
-  @override
-  State<AppliedInProgressItem> createState() => _AppliedInProgressItemState();
-}
-
-class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -48,9 +41,9 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ImageNameRatingWidget(
-                        imgUrl: widget.taskEntity.creatorImage,
-                        name: widget.taskEntity.creatorName,
-                        rating: widget.taskEntity.creatorRating.toDouble(),
+                        imgUrl: taskEntity.creatorImage,
+                        name: taskEntity.creatorName,
+                        rating: taskEntity.creatorRating.toDouble(),
                         nameColor: AppColor.primaryDarkColor,
                         ratedColor: AppColor.accentColor,
                         unRatedColor: AppColor.primaryColor,
@@ -67,7 +60,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                             children: [
                               /// title
                               Text(
-                                widget.taskEntity.title,
+                                taskEntity.title,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 style: Theme.of(context)
@@ -85,7 +78,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
 
                               /// description
                               Text(
-                                widget.taskEntity.description,
+                                taskEntity.description,
                                 overflow: TextOverflow.ellipsis,
                                 maxLines: 2,
                                 softWrap: true,
@@ -109,7 +102,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                                     Flexible(
                                       child: TextWithIconWidget(
                                         iconData: Icons.pin_drop_outlined,
-                                        text: widget.taskEntity.governorates,
+                                        text: taskEntity.governorates,
                                       ),
                                     ),
 
@@ -119,18 +112,18 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                                     Flexible(
                                       child: TextWithIconWidget(
                                         iconData: Icons.date_range_outlined,
-                                        text: widget.taskEntity.startingDate,
+                                        text: taskEntity.startingDate,
                                       ),
                                     ),
 
                                     SizedBox(width: Sizes.dimen_8.w),
 
                                     /// applicantsCount
-                                    TextWithIconWidget(
+                                    /*TextWithIconWidget(
                                       iconData: Icons.person_outline_outlined,
-                                      text: widget.taskEntity.applicantsCount
-                                          .toString(),
-                                    ),
+                                      text:
+                                          taskEntity.applicantsCount.toString(),
+                                    ),*/
                                   ],
                                 ),
                               ),
@@ -147,7 +140,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                       ///==> price
                       Flexible(
                         child: RoundedText(
-                          text: "${widget.taskEntity.price} جنيه مصرى",
+                          text: "${taskEntity.price} جنيه مصرى",
                           background: AppColor.accentColor,
                         ),
                       ),
@@ -155,18 +148,9 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                       ///==> start chat
                       Flexible(
                         child: RoundedText(
-                          text: "ابدأ المحادثة",
-                          rightIconData: Icons.chat_bubble_outline,
+                          text: "ملف المهمة",
+                          rightIconData: Icons.file_copy_outlined,
                           onPressed: () {},
-                        ),
-                      ),
-
-                      ///==> attach file
-                      Flexible(
-                        child: RoundedText(
-                          text: "ارفق الملف",
-                          rightIconData: Icons.upload_file_outlined,
-                          onPressed: widget.onUploadFileClicked,
                         ),
                       ),
                     ],

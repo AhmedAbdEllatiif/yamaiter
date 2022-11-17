@@ -55,6 +55,7 @@ import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
 import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
 import '../domain/use_cases/applied_tasks/get_applied_tasks.dart';
+import '../domain/use_cases/applied_tasks/upload_task_file.dart';
 import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
@@ -490,6 +491,11 @@ Future init() async {
   //==> GetAppliedTasksCase
   getItInstance.registerFactory<GetAppliedTasksCase>(
     () => GetAppliedTasksCase(remoteRepository: getItInstance()),
+  );
+
+  //==> UploadTaskFileCase
+  getItInstance.registerFactory<UploadTaskFileCase>(
+    () => UploadTaskFileCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAcceptTermsCase

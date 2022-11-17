@@ -29,6 +29,7 @@ import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 
 import '../../data/models/success_model.dart';
+import '../../data/models/tasks/upload_task_params.dart';
 import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
@@ -152,6 +153,10 @@ abstract class RemoteRepository {
   /// apply for task
   Future<Either<AppError, SuccessModel>> applyForTask(
       ApplyForTaskParams params);
+
+  /// upload task file
+  Future<Either<AppError, SuccessModel>> uploadTaskFile(
+      UploadTaskFileParams params);
 
   /// get accept terms
   Future<Either<AppError, AcceptTermsEntity>> getAcceptTerms(String userToken);

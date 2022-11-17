@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/completed/applied_completed_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_progress/applied_in_progress_tasks_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_review/applied_in_review_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_progress/my_tasks_in_progress.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../../../../common/constants/sizes.dart';
 import '../../../../../logic/cubit/assign_task/assign_task_cubit.dart';
+import '../../../../../logic/cubit/upload_task_file/upload_task_file_cubit.dart';
 import '../../../../../widgets/app_content_title_widget.dart';
 import '../../../../../widgets/tab_bar/tab_bar_widget.dart';
 import '../../../../../widgets/tab_bar/tab_item.dart';
@@ -26,6 +29,9 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
   /// TabController
   late final TabController _tabController;
 
+  /// UploadTaskFileCubit
+  late final UploadTaskFileCubit _uploadTaskFileCubit;
+
   /// current tab selected index
   int currentIndex = 0;
 
@@ -33,37 +39,38 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
+    _uploadTaskFileCubit = getItInstance<UploadTaskFileCubit>();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-
+    _uploadTaskFileCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      /*providers:  [
-        BlocProvider(create: (context) {}),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _uploadTaskFileCubit),
         //BlocProvider(create: (context) => _endTaskCubit),
-      ],*/
-      child: Container(
-        /* listeners: [
+      ],
+      child: MultiBlocListener(
+        listeners: [
           /// listener on assign task to lawyer
-          BlocListener<AssignTaskCubit, AssignTaskState>(
+          BlocListener<UploadTaskFileCubit, UploadTaskFileState>(
             listener: (context, state) {
-              if (state is TaskAssignedSuccessfully) {
+              if (state is TaskFiledUploadedSuccessfully) {
                 setState(() {
-                  currentIndex = 1;
+                  currentIndex = 2;
                   _tabController.index = currentIndex;
                 });
               }
             },
           ),
 
-          /// listener on end task
+          /*    /// listener on end task
           BlocListener<EndTaskCubit, EndTaskState>(
             listener: (context, state) {
               if (state is TaskEndedSuccessfully) {
@@ -73,8 +80,8 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                 });
               }
             },
-          )
-        ],*/
+          )*/
+        ],
         child: Scaffold(
           /// appBar
           appBar: AppBar(
@@ -145,13 +152,17 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                       ),
 
                       /// InProgress
-                      const AppliedInProgressScreen(),
+                      AppliedInProgressScreen(
+                        uploadTaskFileCubit: _uploadTaskFileCubit,
+                      ),
 
                       /// InReview
-                      Container(),
+                      AppliedInReviewScreen(
+                        uploadTaskFileCubit: _uploadTaskFileCubit,
+                      ),
 
                       /// Completed
-                      Container()
+                      const AppliedCompletedScreen()
                     ],
                   ),
                 ),

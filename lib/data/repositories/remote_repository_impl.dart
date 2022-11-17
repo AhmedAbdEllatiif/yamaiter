@@ -12,6 +12,7 @@ import 'package:yamaiter/data/models/auth/login/login_response.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
@@ -807,7 +808,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// applyForTask
   @override
   Future<Either<AppError, SuccessModel>> applyForTask(
@@ -822,6 +822,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get applied tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// uploadTaskFile
+  @override
+  Future<Either<AppError, SuccessModel>> uploadTaskFile(
+      UploadTaskFileParams params) async {
+    try {
+      // send upload task file request
+      final result = await remoteDataSource.uploadTaskFile(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to upload task file
       else {
         return Left(result);
       }

@@ -35,12 +35,18 @@ class _UploadFileScreenState extends State<UploadFileScreen> {
   @override
   void initState() {
     super.initState();
-    _uploadTaskFileCubit = getItInstance<UploadTaskFileCubit>();
+
+    // init _uploadTaskFileCubit
+    _uploadTaskFileCubit = widget.uploadTaskFileArguments.uploadTaskFileCubit ??
+        getItInstance<UploadTaskFileCubit>();
   }
 
   @override
   void dispose() {
-    _uploadTaskFileCubit.close();
+    /// only close if uploadTaskFileCubit not passed with arguments
+    if (widget.uploadTaskFileArguments.uploadTaskFileCubit == null) {
+      _uploadTaskFileCubit.close();
+    }
     super.dispose();
   }
 
@@ -62,9 +68,27 @@ class _UploadFileScreenState extends State<UploadFileScreen> {
           color: AppColor.primaryDarkColor,
           width: double.infinity,
           padding: EdgeInsets.only(top: ScreenUtil.screenHeight * 0.10),
-          child: BlocBuilder<UploadTaskFileCubit, UploadTaskFileState>(
-            //bloc: _deleteTaskCubit,
+          child: BlocConsumer<UploadTaskFileCubit, UploadTaskFileState>(
+            bloc: _uploadTaskFileCubit,
+            listener: (context, state) {
+              if (state is TaskFiledUploadedSuccessfully) {
+                Navigator.pop(context);
+              }
+            },
             builder: (context, state) {
+              /// Error
+              if (state is ErrorWhileUploadingTaskFile) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.unauthorizedUser,
+                    buttonText: "اعد المحاولة",
+                    onPressedRetry: () {
+                      _uploadPickedFile();
+                    },
+                  ),
+                );
+              }
+
               /// UnAuthorized
               if (state is UnAuthorizedUploadTaskFile) {
                 return Center(
@@ -229,7 +253,18 @@ class _UploadFileScreenState extends State<UploadFileScreen> {
 
   /// to upload task file
   void _uploadPickedFile() {
+    // userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    // taskId
+    final taskId = widget.uploadTaskFileArguments.taskId;
+
+    // upload the file
+    _uploadTaskFileCubit.uploadTaskFile(
+      taskFilePath: pickedFilePath,
+      taskId: taskId,
+      token: userToken,
+    );
   }
 
   /// To pick a file

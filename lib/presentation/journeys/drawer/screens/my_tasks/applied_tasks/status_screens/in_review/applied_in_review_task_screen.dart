@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_progress/applied_in_progress_item.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_review/applied_in_review_task_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_applied_tasks/get_applied_tasks_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/upload_task_file/upload_task_file_cubit.dart';
 
@@ -10,7 +10,6 @@ import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../common/enum/task_status.dart';
 import '../../../../../../../../di/git_it.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
-import '../../../../../../../../domain/entities/screen_arguments/upload_file_args.dart';
 import '../../../../../../../../router/route_helper.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
@@ -19,18 +18,19 @@ import '../../../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 import '../../loading_more_applied_tasks.dart';
 
-class AppliedInProgressScreen extends StatefulWidget {
+class AppliedInReviewScreen extends StatefulWidget {
   final UploadTaskFileCubit uploadTaskFileCubit;
 
-  const AppliedInProgressScreen({Key? key, required this.uploadTaskFileCubit})
-      : super(key: key);
+  const AppliedInReviewScreen({
+    Key? key,
+    required this.uploadTaskFileCubit,
+  }) : super(key: key);
 
   @override
-  State<AppliedInProgressScreen> createState() =>
-      _AppliedInProgressScreenState();
+  State<AppliedInReviewScreen> createState() => _AppliedInReviewState();
 }
 
-class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
+class _AppliedInReviewState extends State<AppliedInReviewScreen>
     with AutomaticKeepAliveClientMixin {
   /// my_tasks list
   final List<TaskEntity> taskList = [];
@@ -46,7 +46,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
     super.initState();
     _controller = ScrollController();
     _getAppliedTasks = getItInstance<GetAppliedTasksCubit>();
-    _fetchInProgressTasksList();
+    _fetchInReviewTasksList();
     _listenerOnScrollController();
   }
 
@@ -64,14 +64,12 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
       providers: [
         BlocProvider(create: (context) => _getAppliedTasks),
       ],
-
-      /// listen on upload task to update the current list
       child: BlocListener<UploadTaskFileCubit, UploadTaskFileState>(
         bloc: widget.uploadTaskFileCubit,
         listener: (context, state) {
           if (state is TaskFiledUploadedSuccessfully) {
             taskList.clear();
-            _fetchInProgressTasksList();
+            _fetchInReviewTasksList();
           }
         },
         child: BlocConsumer<GetAppliedTasksCubit, GetAppliedTasksState>(
@@ -120,7 +118,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
               return Center(
                 child: AppErrorWidget(
                   appTypeError: state.appError.appErrorType,
-                  onPressedRetry: () => _fetchInProgressTasksList(),
+                  onPressedRetry: () => _fetchInReviewTasksList(),
                 ),
               );
             }
@@ -129,7 +127,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
             if (state is EmptyAppliedTasksList) {
               return Center(
                 child: Text(
-                  "ليس لديك مهمات قيد التنفيذ",
+                  "ليس لديك مهمات قيد المراجعة",
                   style: Theme.of(context).textTheme.titleMedium!.copyWith(
                         color: AppColor.primaryDarkColor,
                       ),
@@ -140,7 +138,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
             return AppRefreshIndicator(
               onRefresh: () async {
                 taskList.clear();
-                _fetchInProgressTasksList();
+                _fetchInReviewTasksList();
               },
               child: ListView.separated(
                 controller: _controller,
@@ -161,11 +159,8 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
                 itemBuilder: (BuildContext context, int index) {
                   /// TaskItem
                   if (index < taskList.length) {
-                    return AppliedInProgressItem(
+                    return AppliedInReviewItem(
                       taskEntity: taskList[index],
-                      onUploadFileClicked: () => _navigateToUploadTaskFile(
-                        taskEntity: taskList[index],
-                      ),
                     );
                   }
 
@@ -183,12 +178,12 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
   }
 
   /// to fetch my my_tasks list
-  void _fetchInProgressTasksList() {
+  void _fetchInReviewTasksList() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
     _getAppliedTasks.fetchAppliedTasksList(
       userToken: userToken,
-      taskType: TaskType.inprogress,
+      taskType: TaskType.inreview,
       currentListLength: taskList.length,
       offset: taskList.length,
     );
@@ -201,16 +196,6 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
   /// To navigate to contactUs
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
 
-  /// to navigate to uploadFileTaskScreen
-  void _navigateToUploadTaskFile({required TaskEntity taskEntity}) {
-    RouteHelper().uploadTaskFile(
-      context,
-      uploadTaskFileArguments: UploadTaskFileArguments(
-          taskId: taskEntity.id,
-          uploadTaskFileCubit: widget.uploadTaskFileCubit),
-    );
-  }
-
   /// listener on controller
   /// when last item reached fetch next page
   /// when last item reached no action needed
@@ -218,7 +203,7 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
     _controller.addListener(() {
       if (_controller.position.maxScrollExtent == _controller.offset) {
         if (_getAppliedTasks.state is! LastPageAppliedTasksListFetched) {
-          _fetchInProgressTasksList();
+          _fetchInReviewTasksList();
         }
       }
     });

@@ -90,6 +90,9 @@ class ApiConstants {
   static Uri _appliedTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.appliedTasks, queryParams);
 
+  static Uri _uploadTaskFile(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.uploadTaskFile}/$id");
+
   static Uri _acceptTerms() => Uri.https(_baseUrl, EndPoints.acceptTerms);
 
   static Uri _allTasks({required Map<String, dynamic> queryParams}) =>
@@ -199,6 +202,9 @@ class ApiConstants {
       // applyForTask
       case RequestType.applyForTask:
         return _applyForTask(id);
+      // uploadTaskFile
+      case RequestType.uploadTaskFile:
+        return _uploadTaskFile(id);
     }
   }
 }
@@ -293,6 +299,9 @@ class EndPoints {
   /// apply for task
   static String applyForTask = "${_apiVersion}apply-to-task";
 
+  /// upload task file
+  static String uploadTaskFile = "${_apiVersion}upload-task-file";
+
   /// acceptTerms
   static String acceptTerms = "${_apiVersion}accept-terms";
 
@@ -334,7 +343,8 @@ enum RequestType {
   appliedTasks,
   acceptTerms,
   allTasks,
-  applyForTask
+  applyForTask,
+  uploadTaskFile,
 }
 
 class ApiParamsConstant {

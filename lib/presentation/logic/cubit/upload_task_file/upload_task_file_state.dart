@@ -12,8 +12,6 @@ class UploadTaskFileInitial extends UploadTaskFileState {}
 /// loading
 class LoadingUploadTaskFile extends UploadTaskFileState {}
 
-
-
 /// not a lawyer to create article
 class NotActivatedUserToUploadTaskFile extends UploadTaskFileState {}
 
