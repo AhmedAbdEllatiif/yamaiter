@@ -39,4 +39,5 @@ class RouteList {
   static const String tasksForOther = "/tasksForOther";
   static const String taskDetails = "/taskDetails";
   static const String applyForTask = "/applyForTask";
+  static const String uploadTaskFile = "/uploadFile";
 }

@@ -14,6 +14,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_pa
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
@@ -220,6 +221,13 @@ class RouteHelper {
       {required ApplyForTaskArguments applyForTaskArguments}) {
     Navigator.of(context).pushNamed(RouteList.applyForTask,
         arguments: applyForTaskArguments);
+  }
+
+  /// To upload task file screen \\\
+  void uploadTaskFile(BuildContext context,
+      {required UploadTaskFileArguments uploadTaskFileArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.uploadTaskFile, arguments: uploadTaskFileArguments);
   }
 
   /// To create sos screen \\\

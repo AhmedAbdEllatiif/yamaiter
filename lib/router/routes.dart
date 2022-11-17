@@ -11,6 +11,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
@@ -18,6 +19,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_scre
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/upload_file_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_tasks/choose_my_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/delete_task/delete_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
@@ -136,6 +138,11 @@ class Routes {
         /// apply for task
         RouteList.applyForTask: (context) => ApplyForTaskScreen(
               applyForTaskArgument: settings.arguments as ApplyForTaskArguments,
+            ),
+
+        /// upload task file
+        RouteList.uploadTaskFile: (context) => UploadFileScreen(
+              uploadTaskFileArguments: settings.arguments as UploadTaskFileArguments,
             ),
 
         /// add sos

@@ -3,7 +3,9 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
@@ -45,7 +47,6 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-
                       ImageNameRatingWidget(
                         imgUrl: widget.taskEntity.creatorImage,
                         name: widget.taskEntity.creatorName,
@@ -73,9 +74,9 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                                     .textTheme
                                     .bodyText2!
                                     .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.5,
-                                ),
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5,
+                                    ),
                               ),
 
                               SizedBox(
@@ -92,9 +93,9 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.3,
-                                ),
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.3,
+                                    ),
                               ),
 
                               /// date, court, applicants
@@ -133,14 +134,10 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                                   ],
                                 ),
                               ),
-
-
                             ],
                           ),
                         ),
                       ),
-
-
                     ],
                   ),
 
@@ -150,8 +147,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                       ///==> price
                       Flexible(
                         child: RoundedText(
-                          text:
-                          "${widget.taskEntity.price} جنيه مصرى",
+                          text: "${widget.taskEntity.price} جنيه مصرى",
                           background: AppColor.accentColor,
                         ),
                       ),
@@ -170,7 +166,7 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
                         child: RoundedText(
                           text: "ارفق الملف",
                           rightIconData: Icons.upload_file_outlined,
-                          onPressed: () {},
+                          onPressed: () => _navigateToUploadTaskFile(),
                         ),
                       ),
                     ],
@@ -193,6 +189,15 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
               FadeOpacity.end: 1.0,
             },
           }),
+    );
+  }
+
+  /// to navigate to uploadFileTaskScreen
+  void _navigateToUploadTaskFile() {
+    RouteHelper().uploadTaskFile(
+      context,
+      uploadTaskFileArguments:
+          UploadTaskFileArguments(taskId: widget.taskEntity.id),
     );
   }
 }

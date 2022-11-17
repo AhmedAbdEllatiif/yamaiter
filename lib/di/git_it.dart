@@ -38,6 +38,7 @@ import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/update_sos_cubit/update_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/upload_task_file/upload_task_file_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 
 import '../data/api/init_rest_api_client.dart';
@@ -292,6 +293,11 @@ Future init() async {
   //==> ApplyForTaskCubit
   getItInstance.registerFactory<ApplyForTaskCubit>(
     () => ApplyForTaskCubit(),
+  );
+
+  //==> UploadTaskFileCubit
+  getItInstance.registerFactory<UploadTaskFileCubit>(
+    () => UploadTaskFileCubit(),
   );
 
   //==> AutoLoginCubit
