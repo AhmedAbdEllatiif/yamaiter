@@ -1,49 +1,45 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/sizes.dart';
-import '../../themes/theme_color.dart';
-import '../../widgets/app_content_title_widget.dart';
-import '../../widgets/image_name_rating_widget.dart';
-import '../../widgets/rounded_text.dart';
-import '../../widgets/scrollable_app_card.dart';
-import '../../widgets/ads_widget.dart';
-import '../../widgets/text_with_icon.dart';
+import '../../../../../../../common/constants/app_utils.dart';
+import '../../../../../../../common/constants/sizes.dart';
+import '../../../../../../../domain/entities/screen_arguments/invite_task_details_args.dart';
+import '../../../../../../themes/theme_color.dart';
+import '../../../../../../widgets/app_content_title_widget.dart';
+import '../../../../../../widgets/image_name_rating_widget.dart';
+import '../../../../../../widgets/rounded_text.dart';
+import '../../../../../../widgets/scrollable_app_card.dart';
+import '../../../../../../widgets/ads_widget.dart';
+import '../../../../../../widgets/text_with_icon.dart';
 
-class TaskDetailsScreen extends StatefulWidget {
-  final TaskDetailsArguments taskDetailsArguments;
+class InvitedTaskDetailsScreen extends StatefulWidget {
+  final InvitedTaskDetailsArguments arguments;
 
-  const TaskDetailsScreen({Key? key, required this.taskDetailsArguments})
+  const InvitedTaskDetailsScreen({Key? key, required this.arguments})
       : super(key: key);
 
   @override
-  State<TaskDetailsScreen> createState() => _TaskDetailsScreenState();
+  State<InvitedTaskDetailsScreen> createState() =>
+      _InvitedTaskDetailsScreenState();
 }
 
-class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
+class _InvitedTaskDetailsScreenState extends State<InvitedTaskDetailsScreen> {
   late final TaskEntity _taskEntity;
-
-  late final ApplyForTaskCubit applyForTaskCubit;
+  late final LawyerEntity _recommenderEntity;
+  late final ApplyForTaskCubit _applyForTaskCubit;
 
   @override
   void initState() {
     super.initState();
-    _taskEntity = widget.taskDetailsArguments.taskEntity;
-    applyForTaskCubit = getItInstance<ApplyForTaskCubit>();
-  }
-
-  @override
-  void dispose() {
-    applyForTaskCubit.close();
-    super.dispose();
+    _taskEntity = widget.arguments.taskEntity;
+    _recommenderEntity = widget.arguments.taskEntity.recommenderLawyer;
+    _applyForTaskCubit = widget.arguments.applyForTaskCubit;
   }
 
   @override
@@ -56,11 +52,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
       /// body
       body: BlocListener<ApplyForTaskCubit, ApplyForTaskState>(
-        bloc: applyForTaskCubit,
+        bloc: _applyForTaskCubit,
         listener: (context, state) {
-          if (state is AppliedForTaskSuccessfully) {
-            _navigateToAppliedTaskScreen();
-          }
+          Navigator.pop(context);
         },
         child: Column(
           children: [
@@ -159,9 +153,9 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
 
                         /// img, rating
                         ImageNameRatingWidget(
-                          imgUrl: _taskEntity.creatorImage,
-                          name: _taskEntity.creatorName,
-                          rating: _taskEntity.creatorRating.toDouble(),
+                          imgUrl: _recommenderEntity.profileImage,
+                          name: _recommenderEntity.name,
+                          rating: _recommenderEntity.rating.toDouble(),
                           nameColor: AppColor.primaryDarkColor,
                           ratedColor: AppColor.accentColor,
                           unRatedColor: AppColor.primaryColor,
@@ -188,19 +182,18 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                               ),
                             ),
 
-                            if (!widget.taskDetailsArguments.isAlreadyApplied)
-                              //==> apply for the task
-                              RoundedText(
-                                text: "تقدم للمهمة",
-                                background: AppColor.primaryDarkColor,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: Sizes.dimen_10,
-                                  horizontal: Sizes.dimen_15,
-                                ),
-                                onPressed: () {
-                                  _navigateToApplyForTask();
-                                },
+                            //==> apply for the task
+                            RoundedText(
+                              text: "تقدم للمهمة",
+                              background: AppColor.primaryDarkColor,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: Sizes.dimen_10,
+                                horizontal: Sizes.dimen_15,
                               ),
+                              onPressed: () {
+                                _navigateToApplyForTask();
+                              },
+                            ),
                           ],
                         ),
                       ],
@@ -240,14 +233,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
       context,
       applyForTaskArguments: ApplyForTaskArguments(
         taskEntity: _taskEntity,
-        applyForTaskCubit: applyForTaskCubit,
+        applyForTaskCubit: widget.arguments.applyForTaskCubit,
       ),
     );
-  }
-
-  /// to navigate to applied tasks screen
-  /// after a success process
-  void _navigateToAppliedTaskScreen() {
-    RouteHelper().appliedTasksScreen(context, isPushReplacement: true);
   }
 }

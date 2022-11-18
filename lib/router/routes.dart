@@ -5,6 +5,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -54,9 +55,10 @@ import '../presentation/journeys/article/single_article_screen.dart';
 import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
+import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
-import '../presentation/journeys/task_details/appy_for_task_screen.dart';
+import '../presentation/journeys/apply_for_task/appy_for_task_screen.dart';
 import '../presentation/journeys/taxes/add_new_tax_screen.dart';
 import '../presentation/journeys/taxes/create_tax_screen.dart';
 import 'route_list.dart';
@@ -147,8 +149,13 @@ class Routes {
                   settings.arguments as UploadTaskFileArguments,
             ),
 
-        /// CreateArticleScreen
+        /// invitedTasks
         RouteList.invitedTasks: (context) => const InvitedTasksScreen(),
+
+        /// InvitedTaskDetailsScreen
+        RouteList.invitedTaskDetails: (context) => InvitedTaskDetailsScreen(
+              arguments: settings.arguments as InvitedTaskDetailsArguments,
+            ),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

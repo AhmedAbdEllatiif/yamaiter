@@ -46,13 +46,17 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
   @override
   void initState() {
     super.initState();
-    _applyForTaskCubit = getItInstance<ApplyForTaskCubit>();
+    _applyForTaskCubit = widget.applyForTaskArgument.applyForTaskCubit ??
+        getItInstance<ApplyForTaskCubit>();
     _taskEntity = widget.applyForTaskArgument.taskEntity;
   }
 
   @override
   void dispose() {
-    _applyForTaskCubit.close();
+    if (widget.applyForTaskArgument.applyForTaskCubit == null) {
+      _applyForTaskCubit.close();
+    }
+
     super.dispose();
   }
 
@@ -71,11 +75,12 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
           padding: EdgeInsets.only(
               top: ScreenUtil.screenHeight * 0.10, right: 20, left: 20),
           child: BlocConsumer<ApplyForTaskCubit, ApplyForTaskState>(
+            bloc: _applyForTaskCubit,
             //==> listener
             listener: (context, state) {
               // success
               if (state is AppliedForTaskSuccessfully) {
-                _navigateToAppliedTaskScreen();
+                Navigator.pop(context);
               }
             },
 
@@ -222,12 +227,6 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
 
   /// navigate to contact us
   void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
-
-  /// to navigate to applied tasks screen
-  /// after a success process
-  void _navigateToAppliedTaskScreen() {
-    RouteHelper().appliedTasksScreen(context, isPushReplacement: true);
-  }
 
   /// to back to TaskDetailsScreen
   void _backToTaskDetailsScreen() {

@@ -7,6 +7,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -233,6 +234,13 @@ class RouteHelper {
   /// To invited tasks screen \\\
   void invitedTasksScreen(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.invitedTasks);
+  }
+
+  /// To invite task details screen \\\
+  void inviteTaskDetails(BuildContext context,
+      {required InvitedTaskDetailsArguments invitedTaskDetailsArguments}) {
+    Navigator.of(context).pushNamed(RouteList.invitedTaskDetails,
+        arguments: invitedTaskDetailsArguments);
   }
 
   /// To create sos screen \\\

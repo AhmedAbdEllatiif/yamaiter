@@ -7,6 +7,7 @@ import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
+import '../../../../../../domain/entities/data/lawyer_entity.dart';
 import '../../../../../themes/theme_color.dart';
 import '../../../../../widgets/image_name_rating_widget.dart';
 import '../../../../../widgets/rounded_text.dart';
@@ -14,11 +15,18 @@ import '../../../../../widgets/text_with_icon.dart';
 
 class InvitedTaskItem extends StatelessWidget {
   final TaskEntity taskEntity;
+  late final LawyerEntity recommenderLawyer;
+  final Function() onApplyForTaskPressed;
+  final Function() onShowMorePressed;
 
-  const InvitedTaskItem({
+  InvitedTaskItem({
     Key? key,
     required this.taskEntity,
-  }) : super(key: key);
+    required this.onApplyForTaskPressed,
+    required this.onShowMorePressed,
+  }) : super(key: key) {
+    recommenderLawyer = taskEntity.recommenderLawyer;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,12 +49,14 @@ class InvitedTaskItem extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ImageNameRatingWidget(
-                        imgUrl: taskEntity.creatorImage,
-                        name: taskEntity.creatorName,
-                        rating: taskEntity.creatorRating.toDouble(),
+                        imgUrl: recommenderLawyer.profileImage,
+                        name: recommenderLawyer.name,
+                        rating: recommenderLawyer.rating.toDouble(),
                         nameColor: AppColor.primaryDarkColor,
                         ratedColor: AppColor.accentColor,
                         unRatedColor: AppColor.primaryColor,
+                        minImageSize: Sizes.dimen_35,
+                        maxImageSize: Sizes.dimen_48,
                         withRow: false,
                         onPressed: () {},
                       ),
@@ -67,9 +77,9 @@ class InvitedTaskItem extends StatelessWidget {
                                     .textTheme
                                     .bodyText2!
                                     .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.5,
-                                ),
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5,
+                                    ),
                               ),
 
                               SizedBox(
@@ -86,15 +96,16 @@ class InvitedTaskItem extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.3,
-                                ),
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.3,
+                                    ),
                               ),
 
                               /// date, court, applicants
                               Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.only(top: 20, right: 5),
+                                padding:
+                                    const EdgeInsets.only(top: 12, right: 5),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
@@ -119,13 +130,19 @@ class InvitedTaskItem extends StatelessWidget {
                                     SizedBox(width: Sizes.dimen_8.w),
 
                                     /// applicantsCount
-                                    /*TextWithIconWidget(
+                                    TextWithIconWidget(
                                       iconData: Icons.person_outline_outlined,
                                       text:
                                       taskEntity.applicantsCount.toString(),
-                                    ),*/
+                                    ),
                                   ],
                                 ),
+                              ),
+
+                              ///==> price
+                              RoundedText(
+                                text: "${taskEntity.price} جنيه مصرى",
+                                background: AppColor.accentColor,
                               ),
                             ],
                           ),
@@ -137,20 +154,42 @@ class InvitedTaskItem extends StatelessWidget {
                   /// price, startChat
                   Row(
                     children: [
-                      ///==> price
+                      ///==> apply for task
                       Flexible(
                         child: RoundedText(
-                          text: "${taskEntity.price} جنيه مصرى",
-                          background: AppColor.accentColor,
+                          text: "تقدم للمهمة",
+                          textSize: Sizes.dimen_10,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.dimen_10,
+                            horizontal: Sizes.dimen_15,
+                          ),
+                          onPressed: onApplyForTaskPressed,
                         ),
                       ),
 
-                      ///==> start chat
+                      ///==> decline
                       Flexible(
                         child: RoundedText(
-                          text: "ملف المهمة",
-                          rightIconData: Icons.file_copy_outlined,
+                          text: "رفض المهمة",
+                          textSize: Sizes.dimen_10,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.dimen_10,
+                            horizontal: Sizes.dimen_15,
+                          ),
                           onPressed: () {},
+                        ),
+                      ),
+
+                      ///==> more details
+                      Flexible(
+                        child: RoundedText(
+                          text: "المزيد عن  المهمة",
+                          textSize: Sizes.dimen_10,
+                          padding: const EdgeInsets.symmetric(
+                            vertical: Sizes.dimen_10,
+                            horizontal: Sizes.dimen_15,
+                          ),
+                          onPressed:onShowMorePressed,
                         ),
                       ),
                     ],

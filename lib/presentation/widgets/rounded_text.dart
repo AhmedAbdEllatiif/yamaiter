@@ -20,12 +20,12 @@ class RoundedText extends StatelessWidget {
   final Color leftIconColor;
   final double? leftIconSize;
 
-
   final Color background;
   final Color? textColor;
   final TextStyle? textStyle;
   final double? textSize;
   final FontWeight? fontWeight;
+  final EdgeInsets? padding;
 
   const RoundedText({
     Key? key,
@@ -42,6 +42,7 @@ class RoundedText extends StatelessWidget {
     this.leftIconData,
     this.leftIconColor = AppColor.accentColor,
     this.leftIconSize,
+    this.padding,
   }) : super(key: key);
 
   @override
@@ -53,10 +54,11 @@ class RoundedText extends StatelessWidget {
           left: Sizes.dimen_4.w,
           top: Sizes.dimen_10,
         ),
-        padding: const EdgeInsets.symmetric(
-          vertical: Sizes.dimen_5,
-          horizontal: Sizes.dimen_15,
-        ),
+        padding: padding ??
+            const EdgeInsets.symmetric(
+              vertical: Sizes.dimen_5,
+              horizontal: Sizes.dimen_15,
+            ),
         decoration: BoxDecoration(
           color: background,
           borderRadius: BorderRadius.circular(
@@ -67,7 +69,6 @@ class RoundedText extends StatelessWidget {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-
               /// icon
               if (rightIconData != null)
                 Icon(
@@ -88,26 +89,22 @@ class RoundedText extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: textStyle ??
-                      Theme
-                          .of(context)
-                          .textTheme
-                          .caption!
-                          .copyWith(
-                        height: 1.1,
-                        fontSize: textSize,
-                        fontWeight: fontWeight ?? FontWeight.bold,
-                        color: textColor ??
-                            (background == AppColor.primaryDarkColor
-                                ? AppColor.accentColor
-                                : AppColor.primaryDarkColor),
-                      ),
+                      Theme.of(context).textTheme.caption!.copyWith(
+                            height: 1.1,
+                            fontSize: textSize,
+                            fontWeight: fontWeight ?? FontWeight.bold,
+                            color: textColor ??
+                                (background == AppColor.primaryDarkColor
+                                    ? AppColor.accentColor
+                                    : AppColor.primaryDarkColor),
+                          ),
                 ),
               ),
 
               if (leftIconData != null)
-              const SizedBox(
-                width: 5,
-              ),
+                const SizedBox(
+                  width: 5,
+                ),
 
               /// icon
               if (leftIconData != null)
@@ -116,9 +113,6 @@ class RoundedText extends StatelessWidget {
                   color: leftIconColor,
                   size: leftIconSize ?? Sizes.dimen_16.w,
                 ),
-
-
-
             ],
           ),
         ),

@@ -29,6 +29,9 @@ class TaskEntity extends Equatable {
   late final int creatorRating;
   late final String creatorImage;
 
+  /// recommender lawyer
+  late final UserLawyerModel recommenderLawyer;
+
   TaskEntity({
     required this.id,
     required this.title,
@@ -85,6 +88,12 @@ class TaskEntity extends Equatable {
     creatorPhoneNum = lawyerModel.lawyerPhoneNum;
     creatorRating = lawyerModel.lawyerRating;
     creatorImage = ApiConstants.mediaUrl + lawyerModel.lawyerProfileImage;
+
+
+    /// init recommender lawyer
+    if(recommenderLawyers.isNotEmpty){
+      recommenderLawyer = recommenderLawyers[0];
+    }
   }
 
   @override
