@@ -16,6 +16,7 @@ class TaskEntity extends Equatable {
   final int applicantsCount;
   final List<UserLawyerModel> assignedLawyers;
   final List<UserLawyerModel> applicantLawyers;
+  final List<UserLawyerModel> recommenderLawyers;
 
   /// dates in strings
   late final String startingDate;
@@ -40,6 +41,7 @@ class TaskEntity extends Equatable {
     required this.applicantsCount,
     required this.assignedLawyers,
     required this.applicantLawyers,
+    required this.recommenderLawyers,
     required UserLawyerModel lawyerModel,
     required final DateTime? taskStartingDate,
     required final DateTime? taskCreatedAt,

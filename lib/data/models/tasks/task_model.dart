@@ -37,6 +37,7 @@ class TaskModel extends TaskEntity {
     required this.userLawyerModel,
     required this.taskAssignedLawyers,
     required this.taskApplicantLawyers,
+    required this.taskRecommenderLawyers,
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -50,6 +51,7 @@ class TaskModel extends TaskEntity {
           applicantsCount: taskApplicantsCount,
           assignedLawyers: taskAssignedLawyers,
           applicantLawyers: taskApplicantLawyers,
+          recommenderLawyers: taskRecommenderLawyers,
           taskStartingDate: taskStartingDate,
           taskCreatedAt: taskCreatedAt,
           taskUpdatedAt: taskUpdatedAt,
@@ -70,6 +72,7 @@ class TaskModel extends TaskEntity {
   final List<UserLawyerModel> userLawyerModel;
   final List<UserLawyerModel> taskAssignedLawyers;
   final List<UserLawyerModel> taskApplicantLawyers;
+  final List<UserLawyerModel> taskRecommenderLawyers;
 
   factory TaskModel.fromJson(Map<String, dynamic> json) => TaskModel(
         taskId: json["id"] ?? -1,
@@ -115,6 +118,14 @@ class TaskModel extends TaskEntity {
         taskApplicantLawyers: json["applicantlawyers"] != null
             ? List<UserLawyerModel>.from(
                 json["applicantlawyers"]
+                    .map((x) => UserLawyerModel.fromJson(x)),
+              )
+            : [UserLawyerModel.empty()],
+
+        // recommender lawyers
+        taskRecommenderLawyers: json["recommenderlawyers"] != null
+            ? List<UserLawyerModel>.from(
+                json["recommenderlawyers"]
                     .map((x) => UserLawyerModel.fromJson(x)),
               )
             : [UserLawyerModel.empty()],
