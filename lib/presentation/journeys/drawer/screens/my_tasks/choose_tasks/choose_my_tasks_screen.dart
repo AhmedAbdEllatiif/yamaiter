@@ -72,7 +72,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                     ChooseMyTasksTypeItem(
                       image: AssetsImages.newsPaperSvg,
                       text: "عروض الوظائف",
-                      onPressed: () => {},
+                      onPressed: () => _navigateInvitedTasksScreen(context),
                     ),
                   ],
                 ),
@@ -91,4 +91,8 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
   /// to navigate to TasksForOtherScreen
   void _navigateTasksForOtherScreen(BuildContext context) =>
       RouteHelper().appliedTasksScreen(context);
+
+  /// to navigate to InvitedTasksScreen
+  void _navigateInvitedTasksScreen(BuildContext context) =>
+      RouteHelper().invitedTasksScreen(context);
 }

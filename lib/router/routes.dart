@@ -21,6 +21,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.d
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/upload_file_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_tasks/choose_my_tasks_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/delete_task/delete_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/end_task/end_task_screen.dart';
@@ -142,8 +143,12 @@ class Routes {
 
         /// upload task file
         RouteList.uploadTaskFile: (context) => UploadFileScreen(
-              uploadTaskFileArguments: settings.arguments as UploadTaskFileArguments,
+              uploadTaskFileArguments:
+                  settings.arguments as UploadTaskFileArguments,
             ),
+
+        /// CreateArticleScreen
+        RouteList.invitedTasks: (context) => const InvitedTasksScreen(),
 
         /// add sos
         RouteList.addSos: (context) => AddSosScreen(

@@ -219,15 +219,20 @@ class RouteHelper {
   /// To apply for task screen \\\
   void applyForTask(BuildContext context,
       {required ApplyForTaskArguments applyForTaskArguments}) {
-    Navigator.of(context).pushNamed(RouteList.applyForTask,
-        arguments: applyForTaskArguments);
+    Navigator.of(context)
+        .pushNamed(RouteList.applyForTask, arguments: applyForTaskArguments);
   }
 
   /// To upload task file screen \\\
   void uploadTaskFile(BuildContext context,
       {required UploadTaskFileArguments uploadTaskFileArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.uploadTaskFile, arguments: uploadTaskFileArguments);
+    Navigator.of(context).pushNamed(RouteList.uploadTaskFile,
+        arguments: uploadTaskFileArguments);
+  }
+
+  /// To invited tasks screen \\\
+  void invitedTasksScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.invitedTasks);
   }
 
   /// To create sos screen \\\
