@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-import 'package:yamaiter/data/models/accept_terms/accept_terms_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
@@ -33,6 +32,7 @@ import '../../data/models/tasks/upload_task_params.dart';
 import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
+import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../../data/params/update_sos_params.dart';
@@ -167,4 +167,8 @@ abstract class RemoteRepository {
   /// get my my_tasks
   Future<Either<AppError, List<TaskEntity>>> getAllTasks(
       GetAllTasksParams params);
+
+  /// get InvitedTasks
+  Future<Either<AppError, List<TaskEntity>>> getInvitedTasks(
+      GetInvitedTasksParams params);
 }

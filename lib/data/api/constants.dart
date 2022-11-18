@@ -98,6 +98,9 @@ class ApiConstants {
   static Uri _allTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.allTasks, queryParams);
 
+  static Uri _invitedTasks({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.invitedTasks, queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -205,6 +208,9 @@ class ApiConstants {
       // uploadTaskFile
       case RequestType.uploadTaskFile:
         return _uploadTaskFile(id);
+      // invitedTasks
+      case RequestType.invitedTask:
+        return _invitedTasks(queryParams: queryParams);
     }
   }
 }
@@ -307,6 +313,9 @@ class EndPoints {
 
   /// allTasks
   static String allTasks = "${_apiVersion}tasks";
+
+  /// invitedTask
+  static String invitedTasks = "${_apiVersion}invited-tasks";
 }
 
 /// The api request type
@@ -345,6 +354,7 @@ enum RequestType {
   allTasks,
   applyForTask,
   uploadTaskFile,
+  invitedTask,
 }
 
 class ApiParamsConstant {

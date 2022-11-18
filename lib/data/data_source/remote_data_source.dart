@@ -10,6 +10,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_invited_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
@@ -55,6 +56,7 @@ import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
+import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
@@ -185,6 +187,9 @@ abstract class RemoteDataSource {
 
   /// get all my_tasks
   Future<dynamic> getAllTasks(GetAllTasksParams params);
+
+  /// get invited tasks
+  Future<dynamic> getInvitedTasks(GetInvitedTasksParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1346,7 +1351,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       // response
       final response = await request(params);
 
-      log("getAppliedTasksTasks >> ResponseCode: ${response.statusCode},body: ${jsonDecode(response.body)}");
+      log("getAppliedTasksTasks >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
         // success
@@ -1432,7 +1437,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// uploadTaskFile
   @override
   Future uploadTaskFile(UploadTaskFileParams params) async {
@@ -1474,6 +1478,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("uploadTaskFile >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "uploadTaskFile UnHandledError >> $e");
+    }
+  }
+
+  /// getInvitedTasks
+  @override
+  Future getInvitedTasks(GetInvitedTasksParams params) async {
+    try {
+      log("getInvitedTasks >> Start request");
+      // init request
+      final request = GetInvitedTasksRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getInvitedTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return listOfTasksFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getInvitedTasks Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getInvitedTasks Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getInvitedTasks Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getInvitedTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "getInvitedTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getInvitedTasks >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getInvitedTasks UnHandledError >> $e");
     }
   }
 }

@@ -30,6 +30,7 @@ import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_applied_tasks_params.dart';
+import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
@@ -831,7 +832,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// uploadTaskFile
   @override
   Future<Either<AppError, SuccessModel>> uploadTaskFile(
@@ -846,6 +846,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to upload task file
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// getInvitedTasks
+  @override
+  Future<Either<AppError, List<TaskEntity>>> getInvitedTasks(
+      GetInvitedTasksParams params) async {
+    try {
+      // send get invited tasks request
+      final result = await remoteDataSource.getInvitedTasks(params);
+
+      // received success
+      if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to get invited tasks
       else {
         return Left(result);
       }
