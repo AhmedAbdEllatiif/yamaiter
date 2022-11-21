@@ -101,6 +101,9 @@ class ApiConstants {
   static Uri _invitedTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.invitedTasks, queryParams);
 
+  static Uri _declineTask(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.declineTask}/$id");
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -211,6 +214,9 @@ class ApiConstants {
       // invitedTasks
       case RequestType.invitedTask:
         return _invitedTasks(queryParams: queryParams);
+      // declineTask
+      case RequestType.declineTask:
+        return _declineTask(id);
     }
   }
 }
@@ -316,6 +322,9 @@ class EndPoints {
 
   /// invitedTask
   static String invitedTasks = "${_apiVersion}invited-tasks";
+
+  /// invitedTask
+  static String declineTask = "${_apiVersion}refuse-invitaion";
 }
 
 /// The api request type
@@ -355,6 +364,7 @@ enum RequestType {
   applyForTask,
   uploadTaskFile,
   invitedTask,
+  declineTask,
 }
 
 class ApiParamsConstant {

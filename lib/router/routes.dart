@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
@@ -22,6 +23,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.d
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/upload_file_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_tasks/choose_my_tasks_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/decline_task/decline_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/delete_task/delete_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
@@ -155,6 +157,11 @@ class Routes {
         /// InvitedTaskDetailsScreen
         RouteList.invitedTaskDetails: (context) => InvitedTaskDetailsScreen(
               arguments: settings.arguments as InvitedTaskDetailsArguments,
+            ),
+
+        /// DeclineTaskScreen
+        RouteList.declineTask: (context) => DeclineTaskScreen(
+              arguments: settings.arguments as DeclineTaskArguments,
             ),
 
         /// add sos

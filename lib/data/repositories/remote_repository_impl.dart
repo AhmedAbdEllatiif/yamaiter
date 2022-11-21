@@ -24,6 +24,7 @@ import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
+import 'package:yamaiter/data/params/decline_task_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_sos_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
@@ -869,6 +870,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get invited tasks
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// declineTask
+  @override
+  Future<Either<AppError, SuccessModel>> declineTask(
+      DeclineTaskParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.declineInvitedTasks(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to send request
       else {
         return Left(result);
       }

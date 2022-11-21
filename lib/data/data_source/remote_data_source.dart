@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/api/requests/delete_requests/decline_task.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
@@ -52,6 +53,7 @@ import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
 import 'package:yamaiter/data/params/create_task_params.dart';
 import 'package:yamaiter/data/params/create_tax_params.dart';
+import 'package:yamaiter/data/params/decline_task_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
@@ -190,6 +192,9 @@ abstract class RemoteDataSource {
 
   /// get invited tasks
   Future<dynamic> getInvitedTasks(GetInvitedTasksParams params);
+
+  /// get invited tasks
+  Future<dynamic> declineInvitedTasks(DeclineTaskParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1521,6 +1526,53 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getInvitedTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getInvitedTasks UnHandledError >> $e");
+    }
+  }
+
+  /// declineInvitedTasks
+  @override
+  Future declineInvitedTasks(DeclineTaskParams params) async {
+    try {
+      log("declineInvitedTasks >> Start request");
+      // init request
+      final request = DeclineTaskRequest();
+
+      // response
+      final response = await request(params);
+
+      log("declineInvitedTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "declineInvitedTasks Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message:
+                  "declineInvitedTasks Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "declineInvitedTasks Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("declineInvitedTasks >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message:
+                  "declineInvitedTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("declineInvitedTasks >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "declineInvitedTasks UnHandledError >> $e");
     }
   }
 }

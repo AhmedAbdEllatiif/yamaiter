@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_item.dart';
+import 'package:yamaiter/presentation/logic/cubit/decline_invited_task/decline_task_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
@@ -42,12 +44,16 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
   /// ApplyForTaskCubit
   late final ApplyForTaskCubit _applyForTaskCubit;
 
+  /// DeclineTaskCubit
+  late final DeclineTaskCubit _declineTaskCubit;
+
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
     _getInvitedTasks = getItInstance<GetInvitedTasksCubit>();
     _applyForTaskCubit = getItInstance<ApplyForTaskCubit>();
+    _declineTaskCubit = getItInstance<DeclineTaskCubit>();
     _fetchInvitedTasksList();
     _listenerOnScrollController();
   }
@@ -57,6 +63,7 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
     _controller.dispose();
     _getInvitedTasks.close();
     _applyForTaskCubit.close();
+    _declineTaskCubit.close();
     super.dispose();
   }
 
@@ -66,22 +73,40 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
       providers: [
         BlocProvider(create: (context) => _getInvitedTasks),
         BlocProvider(create: (context) => _applyForTaskCubit),
+        BlocProvider(create: (context) => _declineTaskCubit),
       ],
       child: Scaffold(
+
         /// appBar
         appBar: AppBar(
           title: const Text("عروض مقدمة"),
         ),
 
         /// body
-        body: BlocListener<ApplyForTaskCubit, ApplyForTaskState>(
-          listener: (context, state) {
-            if (state is AppliedForTaskSuccessfully) {
-              taskList.clear();
-              _fetchInvitedTasksList();
-              _navigateToAppliedTaskScreen();
-            }
-          },
+        body: MultiBlocListener(
+          listeners: [
+
+            /// listener on ApplyForTaskCubit
+            BlocListener<ApplyForTaskCubit, ApplyForTaskState>(
+              listener: (context, state) {
+                if (state is AppliedForTaskSuccessfully) {
+                  taskList.clear();
+                  _fetchInvitedTasksList();
+                  _navigateToAppliedTaskScreen();
+                }
+              },
+            ),
+
+            /// listener on DeclineTaskCubit
+            BlocListener<DeclineTaskCubit, DeclineTaskState>(
+              listener: (context, state) {
+                if (state is TaskDeclinedSuccessfully) {
+                  taskList.clear();
+                  _fetchInvitedTasksList();
+                }
+              },
+            )
+          ],
           child: BlocConsumer<GetInvitedTasksCubit, GetInvitedTasksState>(
             listener: (_, state) {
               //==> MyTasksListFetchedSuccessfully
@@ -138,9 +163,13 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
                 return Center(
                   child: Text(
                     "ليس لديك عروض مقدمة",
-                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          color: AppColor.primaryDarkColor,
-                        ),
+                    style: Theme
+                        .of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(
+                      color: AppColor.primaryDarkColor,
+                    ),
                   ),
                 );
               }
@@ -152,12 +181,14 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+
                     /// title
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: AppContentTitleWidget(
                         title: "عروض مقدمة من الغير",
-                        textStyle: Theme.of(context)
+                        textStyle: Theme
+                            .of(context)
                             .textTheme
                             .headline6!
                             .copyWith(fontWeight: FontWeight.bold),
@@ -211,6 +242,13 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
                                     taskEntity: taskList[index],
                                   );
                                 },
+
+
+                                //==> onDeletePressed
+                                onDeletePressed: () {
+                                  _navigateToDeclineTask(
+                                      taskId: taskList[index].id);
+                                },
                               );
                             }
 
@@ -234,7 +272,10 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
 
   /// to fetch my my_tasks list
   void _fetchInvitedTasksList() {
-    final userToken = context.read<UserTokenCubit>().state.userToken;
+    final userToken = context
+        .read<UserTokenCubit>()
+        .state
+        .userToken;
 
     _getInvitedTasks.fetchInvitedTasksList(
       userToken: userToken,
@@ -248,7 +289,7 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
       RouteHelper().loginScreen(context, isClearStack: true);
 
   /// To navigate to contactUs
-  void _navigateToContactUs() => RouteHelper().chooseUserType(context);
+  void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
 
   /// to navigate to applied tasks screen
   /// after a success process
@@ -276,6 +317,15 @@ class _InvitedTasksScreenState extends State<InvitedTasksScreen> {
         applyForTaskCubit: _applyForTaskCubit,
       ),
     );
+  }
+
+  /// To navigate to decline task
+  void _navigateToDeclineTask({required int taskId}) {
+    RouteHelper().declineTask(context,
+        declineTaskArguments: DeclineTaskArguments(
+          taskId: taskId,
+          declineTaskCubit: _declineTaskCubit,
+        ));
   }
 
   /// listener on controller

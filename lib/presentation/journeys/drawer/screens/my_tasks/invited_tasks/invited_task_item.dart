@@ -18,12 +18,14 @@ class InvitedTaskItem extends StatelessWidget {
   late final LawyerEntity recommenderLawyer;
   final Function() onApplyForTaskPressed;
   final Function() onShowMorePressed;
+  final Function() onDeletePressed;
 
   InvitedTaskItem({
     Key? key,
     required this.taskEntity,
     required this.onApplyForTaskPressed,
     required this.onShowMorePressed,
+    required this.onDeletePressed,
   }) : super(key: key) {
     recommenderLawyer = taskEntity.recommenderLawyer;
   }
@@ -176,7 +178,7 @@ class InvitedTaskItem extends StatelessWidget {
                             vertical: Sizes.dimen_10,
                             horizontal: Sizes.dimen_15,
                           ),
-                          onPressed: () {},
+                          onPressed: onDeletePressed,
                         ),
                       ),
 

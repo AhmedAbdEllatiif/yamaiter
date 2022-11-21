@@ -42,4 +42,5 @@ class RouteList {
   static const String uploadTaskFile = "/uploadFile";
   static const String invitedTasks = "/invitedTasks";
   static const String invitedTaskDetails = "/invitedTaskDetails";
+  static const String declineTask = "/declineTask";
 }
