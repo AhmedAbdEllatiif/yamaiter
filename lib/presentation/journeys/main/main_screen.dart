@@ -5,6 +5,7 @@ import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/all_
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
@@ -45,6 +46,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: CustomAppBar(
         context: context,
         onMenuPressed: () => _openDrawer(),
+        onSearchPressed: () => _navigateToSearchForLawyer(),
       ),
 
       /// drawer
@@ -66,7 +68,6 @@ class _MainScreenState extends State<MainScreen> {
               child: IndexedStack(
                 index: _selectedIndex,
                 children: [
-
                   /// Home >> allArticles
                   SingleChildScrollView(
                     physics: const BouncingScrollPhysics(),
@@ -98,7 +99,6 @@ class _MainScreenState extends State<MainScreen> {
                       child: Text("Unknown"),
                     ),
                   ),
-
 
                   /// AllTasksScreen
                   SingleChildScrollView(
@@ -151,6 +151,11 @@ class _MainScreenState extends State<MainScreen> {
       final w = MediaQuery.of(context).size.width;
       ScreenUtil.init(height: h, width: w);
     }
+  }
+
+  /// to navigate to search for lawyer
+  void _navigateToSearchForLawyer() {
+    RouteHelper().searchForLawyer(context);
   }
 
   List<Widget> _currentDestinations() {

@@ -37,6 +37,7 @@ import 'package:yamaiter/presentation/journeys/forget_password/forget_password_s
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/register_client/register_client_screen.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/register_lawyer_screen.dart';
+import 'package:yamaiter/presentation/journeys/search_for_lawyer/search_for_lawyer_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
@@ -69,6 +70,9 @@ class Routes {
   static Map<String, WidgetBuilder> getRoutes(RouteSettings settings) => {
         /// mainScreen
         RouteList.mainScreen: (context) => const MainScreen(),
+
+        /// searchForLawyerScreen
+        RouteList.searchForLawyer: (context) => const SearchForLawyerScreen(),
 
         /// registerLawyer
         RouteList.registerLawyer: (context) => const RegisterLawyerScreen(),

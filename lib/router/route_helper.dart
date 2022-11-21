@@ -10,7 +10,6 @@ import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
@@ -32,6 +31,11 @@ class RouteHelper {
         ? Navigator.of(context)
             .pushNamedAndRemoveUntil(RouteList.mainScreen, (route) => false)
         : Navigator.of(context).pushNamed(RouteList.mainScreen);
+  }
+
+  /// To search for lawyer screen \\\
+  void searchForLawyer(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.searchForLawyer);
   }
 
   /// To chooseUserType screen \\\
@@ -247,8 +251,8 @@ class RouteHelper {
   /// To decline task  screen \\\
   void declineTask(BuildContext context,
       {required DeclineTaskArguments declineTaskArguments}) {
-    Navigator.of(context).pushNamed(RouteList.declineTask,
-        arguments: declineTaskArguments);
+    Navigator.of(context)
+        .pushNamed(RouteList.declineTask, arguments: declineTaskArguments);
   }
 
   /// To create sos screen \\\
