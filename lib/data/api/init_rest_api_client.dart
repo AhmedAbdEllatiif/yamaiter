@@ -31,10 +31,15 @@ http.MultipartRequest initMultiPartPostRequest(
 Future<http.Response> initRawPostRequest(
     {required RequestType requestType,
     required Map<String, dynamic> body,
+    Map<String, String> queryParams = const {"": ""},
     String id = "",
     required String token}) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(requestType,id: id);
+  final url = ApiConstants.buildUrl(
+    requestType,
+    id: id,
+    queryParams: queryParams,
+  );
 
   // build post request
   final request = await http.post(url,

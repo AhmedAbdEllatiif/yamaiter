@@ -104,6 +104,9 @@ class ApiConstants {
   static Uri _declineTask(String id) =>
       Uri.https(_baseUrl, "${EndPoints.declineTask}/$id");
 
+  static Uri _searchForLawyer({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.searchForLawyer, queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -217,6 +220,9 @@ class ApiConstants {
       // declineTask
       case RequestType.declineTask:
         return _declineTask(id);
+      // searchForLawyer
+      case RequestType.searchForLawyer:
+        return _searchForLawyer(queryParams: queryParams);
     }
   }
 }
@@ -325,6 +331,9 @@ class EndPoints {
 
   /// invitedTask
   static String declineTask = "${_apiVersion}refuse-invitaion";
+
+  /// searchForLawyer
+  static String searchForLawyer = "${_apiVersion}search-lawyer";
 }
 
 /// The api request type
@@ -365,9 +374,11 @@ enum RequestType {
   uploadTaskFile,
   invitedTask,
   declineTask,
+  searchForLawyer,
 }
 
 class ApiParamsConstant {
   static String offset = "offset";
   static String status = "status";
+  static String governorates = "governorates";
 }
