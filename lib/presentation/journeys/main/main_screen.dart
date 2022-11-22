@@ -12,6 +12,7 @@ import '../../../common/constants/sizes.dart';
 import '../../../common/screen_utils/screen_util.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/ads_widget.dart';
+import '../../widgets/app_content_title_widget.dart';
 import '../../widgets/icon_with_badge.dart';
 import '../drawer/drawer_screen/drawer_screen.dart';
 
@@ -59,57 +60,91 @@ class _MainScreenState extends State<MainScreen> {
           /// Ads ListView
           const AdsWidget(),
 
-          Expanded(
+          /// title with add new Tasks
+          Padding(
+            padding: EdgeInsets.only(
+                //bottom: AppUtils.mainPagesVerticalPadding.h,
+                right: AppUtils.mainPagesHorizontalPadding.w,
+                left: AppUtils.mainPagesVerticalPadding.h),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const AppContentTitleWidget(
+                  title: "مهام مطلوبة التنفيذ",
+                ),
+
+                //
+                IconButton(
+                  icon: const Icon(
+                    Icons.filter_list_outlined,
+                  ),
+                  splashRadius: 24,
+                  onPressed: () {},
+                )
+              ],
+            ),
+          ),
+
+          Flexible(
             child: Padding(
               padding: EdgeInsets.only(
-                  bottom: AppUtils.mainPagesVerticalPadding.h,
+                  //bottom: AppUtils.mainPagesVerticalPadding.h,
                   right: AppUtils.mainPagesHorizontalPadding.w,
                   left: AppUtils.mainPagesVerticalPadding.h),
-              child: IndexedStack(
-                index: _selectedIndex,
-                children: [
-                  /// Home >> allArticles
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: allArticlesController,
-                    child: HomeScreen(
-                      scrollController: allArticlesController,
+              child: const AllTasksScreen(),
+              /* child: Container(
+                child: IndexedStack(
+                  index: _selectedIndex,
+                  children: [
+                    /// Home >> allArticles
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      controller: allArticlesController,
+                      child: HomeScreen(
+                        scrollController: allArticlesController,
+                      ),
                     ),
-                  ),
 
-                  /// AllSosScreen
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: allSosController,
-                    child: AllSosScreen(
+                    /// AllSosScreen
+                    SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
                       controller: allSosController,
+                      child: AllSosScreen(
+                        controller: allSosController,
+                      ),
                     ),
-                  ),
 
-                  /// ChooseToAddScreen
-                  const SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: ChooseToAddScreen(),
-                  ),
-
-                  /// unKnown
-                  const SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
-                    child: Center(
-                      child: Text("Unknown"),
+                    /// ChooseToAddScreen
+                    const SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: ChooseToAddScreen(),
                     ),
-                  ),
 
-                  /// AllTasksScreen
-                  SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    controller: allTasksController,
-                    child: AllTasksScreen(
+                    /// unKnown
+                    const SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Center(
+                        child: Text("Unknown"),
+                      ),
+                    ),
+
+                    /// AllTasksScreen
+                    */ /*SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
                       controller: allTasksController,
+                      child: AllTasksScreen(
+                        controller: allTasksController,
+                      ),
+                    ),*/ /*
+
+                    Flexible(
+                      child: AllTasksScreen(
+                        controller: allTasksController,
+                      ),
                     ),
-                  ),
-                ],
-              ),
+                  ],
+                ),
+              ),*/
             ),
           ),
         ],

@@ -11,17 +11,14 @@ import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_tasks/get_all_task_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
-import '../../../widgets/app_content_title_widget.dart';
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/loading_widget.dart';
-import '../../drawer/screens/my_tasks/my_tasks/status_screens/todo/todo_task_item.dart';
 import 'all_tasks_item.dart';
 
 class AllTasksScreen extends StatefulWidget {
-  // ScrollController
-  final ScrollController controller;
-
-  const AllTasksScreen({Key? key, required this.controller}) : super(key: key);
+  const AllTasksScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<AllTasksScreen> createState() => _AllTasksScreenState();
@@ -35,21 +32,20 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
   final List<TaskEntity> allTasksList = [];
 
   // ScrollController
-  late final ScrollController _controller;
+  final ScrollController _controller = ScrollController();
 
   @override
   void initState() {
     super.initState();
     _getAllTasksCubit = getItInstance<GetAllTasksCubit>();
     _fetchMyTasksList();
-    _controller = widget.controller;
     _listenerOnScrollController();
   }
 
   @override
   void dispose() {
     _getAllTasksCubit.close();
-    //_controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -69,98 +65,87 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
           }
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_10.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// title with add new Tasks
-              const AppContentTitleWidget(
-                title: "مهام مطلوبة التنفيذ",
-              ),
+          padding: EdgeInsets.only(
+              top: Sizes.dimen_10.h, left: Sizes.dimen_10.w,right: Sizes.dimen_10.w),
+          child: Padding(
+            padding: EdgeInsets.only(top: Sizes.dimen_3.h),
+            child: BlocBuilder<GetAllTasksCubit, GetAllTasksState>(
+                builder: (_, state) {
+              //==> loading
+              if (state is LoadingGetAllTasksList) {
+                return const Center(
+                  child: LoadingWidget(),
+                );
+              }
 
-              /// list of all Tasks
-              Padding(
-                padding: EdgeInsets.only(top: Sizes.dimen_3.h),
-                child: BlocBuilder<GetAllTasksCubit, GetAllTasksState>(
-                    builder: (_, state) {
-                  //==> loading
-                  if (state is LoadingGetAllTasksList) {
-                    return const Center(
-                      child: LoadingWidget(),
+              //==> unAuthorized
+              if (state is UnAuthorizedGetAllTasksList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.unauthorizedUser,
+                    buttonText: "تسجيل الدخول",
+                    onPressedRetry: () => _navigateToLogin(),
+                  ),
+                );
+              }
+
+              //==> notActivatedUser
+              if (state is NotActivatedUserToGetAllTasksList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.notActivatedUser,
+                    buttonText: "تواصل معنا",
+                    onPressedRetry: () => _navigateToContactUs(),
+                  ),
+                );
+              }
+
+              //==> notActivatedUser
+              if (state is ErrorWhileGettingAllTasksList) {
+                return Center(
+                  child: AppErrorWidget(
+                    appTypeError: state.appError.appErrorType,
+                    onPressedRetry: () => _fetchMyTasksList(),
+                  ),
+                );
+              }
+
+              //==> empty
+              if (state is EmptyAllTasksList) {
+                return Center(
+                  child: Text(
+                    "لا يوجد مهام",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColor.primaryDarkColor,
+                        ),
+                  ),
+                );
+              }
+
+              //==> fetched
+              return ListView.separated(
+                controller: _controller,
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: allTasksList.length + 1,
+                // controller: _controller,
+                separatorBuilder: (context, index) => SizedBox(
+                  height: Sizes.dimen_2.h,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < allTasksList.length) {
+                    return AllTasksItem(
+                      taskEntity: allTasksList[index],
                     );
                   }
 
-                  //==> unAuthorized
-                  if (state is UnAuthorizedGetAllTasksList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.unauthorizedUser,
-                        buttonText: "تسجيل الدخول",
-                        onPressedRetry: () => _navigateToLogin(),
-                      ),
-                    );
-                  }
-
-                  //==> notActivatedUser
-                  if (state is NotActivatedUserToGetAllTasksList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.notActivatedUser,
-                        buttonText: "تواصل معنا",
-                        onPressedRetry: () => _navigateToContactUs(),
-                      ),
-                    );
-                  }
-
-                  //==> notActivatedUser
-                  if (state is ErrorWhileGettingAllTasksList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: state.appError.appErrorType,
-                        onPressedRetry: () => _fetchMyTasksList(),
-                      ),
-                    );
-                  }
-
-                  //==> empty
-                  if (state is EmptyAllTasksList) {
-                    return Center(
-                      child: Text(
-                        "لا يوجد مهام",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppColor.primaryDarkColor,
-                                ),
-                      ),
-                    );
-                  }
-
-                  //==> fetched
-                  return ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: allTasksList.length + 1,
-                    // controller: _controller,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: Sizes.dimen_2.h,
-                    ),
-                    itemBuilder: (context, index) {
-                      if (index < allTasksList.length) {
-                        return AllTasksItem(
-                          taskEntity: allTasksList[index],
-                        );
-                      }
-
-                      /// loading or end of list
-                      return LoadingMoreAllTasksWidget(
-                        allTasksCubit: _getAllTasksCubit,
-                      );
-                    },
+                  /// loading or end of list
+                  return LoadingMoreAllTasksWidget(
+                    allTasksCubit: _getAllTasksCubit,
                   );
-                }),
-              ),
-            ],
+                },
+              );
+            }),
           ),
         ),
       ),
@@ -183,7 +168,9 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
   /// when last item reached no action needed
   void _listenerOnScrollController() {
     _controller.addListener(() {
+      print("Controller is Here outside");
       if (_controller.position.maxScrollExtent == _controller.offset) {
+        print("Controller is Here inside");
         if (_getAllTasksCubit.state is! LastPageAllTasksListFetched) {
           _fetchMyTasksList();
         }
