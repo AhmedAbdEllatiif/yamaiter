@@ -81,7 +81,7 @@ class ChooseToAddScreen extends StatelessWidget {
 
   /// to navigate to create task
   void _navigateToCreateTask(BuildContext context) =>
-      RouteHelper().createTask(context);
+      RouteHelper().createTask(context,createTaskArguments: null);
 
   /// to navigate to create sos
   void _navigateToCreateSos(BuildContext context) =>

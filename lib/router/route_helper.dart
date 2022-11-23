@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
@@ -174,8 +175,10 @@ class RouteHelper {
   }
 
   /// To create task screen \\\
-  void createTask(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.createTask);
+  void createTask(BuildContext context,
+      {required CreateTaskArguments? createTaskArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.createTask, arguments: createTaskArguments);
   }
 
   /// To edit task screen \\\

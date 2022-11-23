@@ -5,7 +5,9 @@ import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer/my_tasks_drop_down.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
@@ -29,6 +31,7 @@ class InviteLawyerScreen extends StatefulWidget {
 
 class _InviteLawyerScreenState extends State<InviteLawyerScreen> {
   late final GetMyTasksCubit _getMyTasksCubit;
+  late final CreateTaskCubit _createTaskCubit;
 
   String chosenTask = "";
   String? errorText;
@@ -37,6 +40,7 @@ class _InviteLawyerScreenState extends State<InviteLawyerScreen> {
   void initState() {
     super.initState();
     _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
+    _createTaskCubit = getItInstance<CreateTaskCubit>();
 
     _fetchMyTaskTitle();
   }
@@ -44,13 +48,17 @@ class _InviteLawyerScreenState extends State<InviteLawyerScreen> {
   @override
   void dispose() {
     _getMyTasksCubit.close();
+    _createTaskCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _getMyTasksCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _getMyTasksCubit),
+        BlocProvider(create: (context) => _createTaskCubit),
+      ],
       child: Scaffold(
         backgroundColor: AppColor.primaryDarkColor,
 
@@ -58,82 +66,90 @@ class _InviteLawyerScreenState extends State<InviteLawyerScreen> {
         appBar: AppBar(),
 
         /// body
-        body: Container(
-          padding: EdgeInsets.only(
-            top: ScreenUtil.screenHeight * 0.10,
-            right: AppUtils.mainPagesHorizontalPadding.w,
-            left: AppUtils.mainPagesHorizontalPadding.w,
-          ),
-          child: BlocBuilder<GetMyTasksCubit, GetMyTasksState>(
-            builder: (context, state) {
-              return Column(
-                children: [
-                  /// title
-                  Text(
-                    "دعوة لتنفيذ مهمة",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColor.accentColor,
-                          fontWeight: FontWeight.bold,
+        body: BlocListener<CreateTaskCubit, CreateTaskState>(
+          listener: (context, state) {
+            if (state is TaskCreatedSuccessfully) {
+              _fetchMyTaskTitle();
+            }
+          },
+          child: Container(
+            padding: EdgeInsets.only(
+              top: ScreenUtil.screenHeight * 0.10,
+              right: AppUtils.mainPagesHorizontalPadding.w,
+              left: AppUtils.mainPagesHorizontalPadding.w,
+            ),
+            child: BlocBuilder<GetMyTasksCubit, GetMyTasksState>(
+              builder: (context, state) {
+                return Column(
+                  children: [
+                    /// title
+                    Text(
+                      "دعوة لتنفيذ مهمة",
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: AppColor.accentColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+
+                    /// space
+                    if (state is OnlyNames)
+                      if (state.names.isNotEmpty)
+                        SizedBox(
+                          height: Sizes.dimen_10.h,
                         ),
-                  ),
 
-                  /// space
-                  if (state is OnlyNames)
-                    if (state.names.isNotEmpty)
-                      SizedBox(
-                        height: Sizes.dimen_10.h,
-                      ),
+                    ///  dropDown
+                    MyTasksDropDown(
+                      getMyTasksCubit: _getMyTasksCubit,
+                      errorText: errorText,
+                      onChanged: (value) {
+                        if (value != null) {
+                          chosenTask = value;
+                          _showOrHideError(false);
+                        }
+                      },
+                    ),
 
-                  ///  dropDown
-                  MyTasksDropDown(
-                    getMyTasksCubit: _getMyTasksCubit,
-                    errorText: errorText,
-                    onChanged: (value) {
-                      if (value != null) {
-                        chosenTask = value;
-                        _showOrHideError(false);
-                      }
-                    },
-                  ),
+                    /// space
+                    SizedBox(
+                      height: Sizes.dimen_10.h,
+                    ),
 
-                  /// space
-                  SizedBox(
-                    height: Sizes.dimen_10.h,
-                  ),
+                    /// add task text button
+                    AppButton(
+                      text: "اضف مهمة جديدة من هنا",
+                      isTextButton: true,
+                      textStyle:
+                          Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: AppColor.white,
+                                fontWeight: FontWeight.bold,
+                              ),
+                      onPressed: () => _navigateToCreateTask(),
+                    ),
 
-                  /// add task text button
-                  AppButton(
-                    text: "اضف مهمة جديدة من هنا",
-                    isTextButton: true,
-                    textStyle: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: AppColor.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                    onPressed: () => _navigateToCreateTask(),
-                  ),
+                    /// space
+                    SizedBox(
+                      height: Sizes.dimen_10.h,
+                    ),
 
-                  /// space
-                  SizedBox(
-                    height: Sizes.dimen_10.h,
-                  ),
-
-                  /// send invitation
-                  AppButton(
-                    text: "ارسال الدعوة",
-                    width: double.infinity,
-                    margin: EdgeInsets.symmetric(
-                        horizontal: AppUtils.mainPagesHorizontalPadding.w),
-                    color: AppColor.accentColor,
-                    textColor: AppColor.white,
-                    onPressed: () {
-                      if (_validate()) {
-                        print("Sending an invitation");
-                      }
-                    },
-                  ),
-                ],
-              );
-            },
+                    /// send invitation
+                    AppButton(
+                      text: "ارسال الدعوة",
+                      width: double.infinity,
+                      margin: EdgeInsets.symmetric(
+                          horizontal: AppUtils.mainPagesHorizontalPadding.w),
+                      color: AppColor.accentColor,
+                      textColor: AppColor.white,
+                      onPressed: () {
+                        if (_validate()) {
+                          print("Sending an invitation");
+                        }
+                      },
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
@@ -167,6 +183,10 @@ class _InviteLawyerScreenState extends State<InviteLawyerScreen> {
 
   /// to navigate to create task screen
   void _navigateToCreateTask() {
-    RouteHelper().createTask(context);
+    RouteHelper().createTask(context,
+        createTaskArguments: CreateTaskArguments(
+          createTaskCubit: _createTaskCubit,
+          goBackAfterSuccess: true,
+        ));
   }
 }

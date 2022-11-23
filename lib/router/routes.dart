@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
@@ -123,7 +124,9 @@ class Routes {
         RouteList.createSos: (context) => const CreateSosScreen(),
 
         /// createTask
-        RouteList.createTask: (context) => const CreateTaskScreen(),
+        RouteList.createTask: (context) => CreateTaskScreen(
+              createTaskArguments: settings.arguments as CreateTaskArguments,
+            ),
 
         /// MyTasksScreen
         RouteList.myTasks: (context) => const MyTasksScreen(),

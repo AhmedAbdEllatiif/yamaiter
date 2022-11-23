@@ -5,10 +5,12 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/task/task_form.dart';
 import 'package:yamaiter/presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
 import '../../../common/enum/app_error_type.dart';
+import '../../../domain/entities/screen_arguments/create_task_args.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../widgets/accept_terms_widget.dart';
@@ -16,7 +18,10 @@ import '../../widgets/app_error_widget.dart';
 import '../../widgets/loading_widget.dart';
 
 class CreateTaskScreen extends StatefulWidget {
-  const CreateTaskScreen({Key? key}) : super(key: key);
+  final CreateTaskArguments? createTaskArguments;
+
+  const CreateTaskScreen({Key? key, this.createTaskArguments})
+      : super(key: key);
 
   @override
   State<CreateTaskScreen> createState() => _CreateTaskScreenState();
@@ -25,6 +30,8 @@ class CreateTaskScreen extends StatefulWidget {
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
   late final GetAcceptTermsCubit _getAcceptTermsCubit;
   late final AcceptTermsCubit _acceptTermsCubit;
+  late final CreateTaskCubit? _createTaskCubit;
+  late final bool isBackAfterSuccess;
 
   @override
   void initState() {
@@ -33,6 +40,10 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
     // init GetAcceptTermsCubit
     _getAcceptTermsCubit = getItInstance<GetAcceptTermsCubit>();
     _acceptTermsCubit = getItInstance<AcceptTermsCubit>();
+    if (widget.createTaskArguments != null) {
+      _createTaskCubit = widget.createTaskArguments!.createTaskCubit;
+      isBackAfterSuccess = widget.createTaskArguments!.goBackAfterSuccess;
+    }
 
     // fetch terms
     _fetchTermsToAccept();
@@ -141,7 +152,14 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
                     /// AlreadyAccepted
                     if (state is TermsAlreadyAccepted) {
                       return TaskForm(
-                        onSuccess: () => _navigateMyTasksScreen(context),
+                        createTaskCubit: _createTaskCubit,
+                        onSuccess: () {
+                          if (isBackAfterSuccess) {
+                            Navigator.pop(context);
+                          } else {
+                            _navigateMyTasksScreen(context);
+                          }
+                        },
                       );
                     }
 
