@@ -15,6 +15,7 @@ import '../../widgets/ads_widget.dart';
 import '../../widgets/app_content_title_widget.dart';
 import '../../widgets/icon_with_badge.dart';
 import '../drawer/drawer_screen/drawer_screen.dart';
+import 'main_page_title.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);
@@ -66,22 +67,10 @@ class _MainScreenState extends State<MainScreen> {
                 //bottom: AppUtils.mainPagesVerticalPadding.h,
                 right: AppUtils.mainPagesHorizontalPadding.w,
                 left: AppUtils.mainPagesVerticalPadding.h),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const AppContentTitleWidget(
-                  title: "مهام مطلوبة التنفيذ",
-                ),
-
-                //
-                IconButton(
-                  icon: const Icon(
-                    Icons.filter_list_outlined,
-                  ),
-                  splashRadius: 24,
-                  onPressed: () {},
-                )
-              ],
+            child: MainPageTitle(
+              title: "مهام مطلوبة التنفيذ",
+              iconData: Icons.filter_list_outlined,
+              onPressed: () {},
             ),
           ),
 

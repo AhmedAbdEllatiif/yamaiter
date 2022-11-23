@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart'
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
@@ -36,6 +37,13 @@ class RouteHelper {
   /// To search for lawyer screen \\\
   void searchForLawyer(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.searchForLawyer);
+  }
+
+  /// To search result screen \\\
+  void searchResult(BuildContext context,
+      {required SearchResultArguments searchResultArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.searchResult, arguments: searchResultArguments);
   }
 
   /// To chooseUserType screen \\\

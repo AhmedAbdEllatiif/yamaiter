@@ -12,6 +12,7 @@ class AppButton extends StatelessWidget {
   final String text;
   final Color color;
   final Color textColor;
+  final TextStyle? textStyle;
   final Function() onPressed;
   final EdgeInsets margin;
   final double? height;
@@ -28,35 +29,39 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.margin = EdgeInsets.zero,
     this.color = AppColor.primaryColor,
+    this.textStyle,
     this.height,
     this.icon,
     this.width,
     this.isTextButton = false,
     this.withAnimation = false,
-     this.textColor = AppColor.white,
-    this.fontSize, this.padding,
+    this.textColor = AppColor.white,
+    this.fontSize,
+    this.padding,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return withAnimation ? button(context).animate(
-        slideDuration: const Duration(milliseconds: 300),
-        fadeDuration: const Duration(milliseconds: 300),
-        map: {
-          AnimationType.slide: {
-            SlideOffset.begin: const Offset(0.0, 0.5),
-            SlideOffset.end: const Offset(0.0, 0.0),
-          },
-          AnimationType.fade: {
-            FadeOpacity.begin: 0.5,
-            FadeOpacity.end: 1.0,
-          },
-        }) : button(context);
+    return withAnimation
+        ? button(context).animate(
+            slideDuration: const Duration(milliseconds: 300),
+            fadeDuration: const Duration(milliseconds: 300),
+            map: {
+                AnimationType.slide: {
+                  SlideOffset.begin: const Offset(0.0, 0.5),
+                  SlideOffset.end: const Offset(0.0, 0.0),
+                },
+                AnimationType.fade: {
+                  FadeOpacity.begin: 0.5,
+                  FadeOpacity.end: 1.0,
+                },
+              })
+        : button(context);
   }
 
-  Widget button(BuildContext context){
+  Widget button(BuildContext context) {
     return Container(
-       height: height,
+      height: height,
       margin: margin,
       width: width,
       /*height: height ??
@@ -75,21 +80,19 @@ class AppButton extends StatelessWidget {
           colors: [AppColor.appPurple, AppColor.appPurple],
         ),*/
       ),
-      child: isTextButton
-          ? _customTextButton(context)
-          : _elevatedButton(context),
+      child:
+          isTextButton ? _customTextButton(context) : _elevatedButton(context),
     );
   }
 
-
   /// return custom text button
-  Widget _customTextButton(BuildContext context){
+  Widget _customTextButton(BuildContext context) {
     return InkWell(
       onTap: onPressed,
       borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_30.w)),
       child: Container(
         padding: const EdgeInsets.all(Sizes.dimen_6),
-      /*  decoration: BoxDecoration(
+        /*  decoration: BoxDecoration(
           shape: BoxShape.rectangle,
           border: Border.all(
             color: AppColor.accentColor,
@@ -103,26 +106,24 @@ class AppButton extends StatelessWidget {
           children: [
             Text(
               text,
-              style: Theme.of(context).textTheme.button!.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.bold,
-                fontSize: fontSize ?? ResponsiveValue(context,
-                    defaultValue: Sizes.dimen_12.sp,
-                    valueWhen: [
-                      Condition.largerThan(
-                          name: TABLET,
-                          value: Sizes.dimen_12.sp),
-                      Condition.equals(
-                          name: TABLET,
-                          value: Sizes.dimen_12.sp),
-                      Condition.equals(
-                          name: MOBILE,
-                          value: Sizes.dimen_14.sp),
-                      Condition.smallerThan(
-                          name: MOBILE,
-                          value: Sizes.dimen_15.sp),
-                    ]).value,
-              ),
+              style: textStyle ??
+                  Theme.of(context).textTheme.button!.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.bold,
+                        fontSize: fontSize ??
+                            ResponsiveValue(context,
+                                defaultValue: Sizes.dimen_12.sp,
+                                valueWhen: [
+                                  Condition.largerThan(
+                                      name: TABLET, value: Sizes.dimen_12.sp),
+                                  Condition.equals(
+                                      name: TABLET, value: Sizes.dimen_12.sp),
+                                  Condition.equals(
+                                      name: MOBILE, value: Sizes.dimen_14.sp),
+                                  Condition.smallerThan(
+                                      name: MOBILE, value: Sizes.dimen_15.sp),
+                                ]).value,
+                      ),
             ),
             if (icon != null)
               SizedBox(
@@ -136,42 +137,42 @@ class AppButton extends StatelessWidget {
   }
 
   /// return elevated button
-  ElevatedButton _elevatedButton(BuildContext context){
+  ElevatedButton _elevatedButton(BuildContext context) {
     return ElevatedButton(
       style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all<Color>(color),
-          shadowColor:  MaterialStateProperty.all<Color>(Colors.transparent),
+          backgroundColor: MaterialStateProperty.all<Color>(color),
+          shadowColor: MaterialStateProperty.all<Color>(Colors.transparent),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(
-                  borderRadius:BorderRadius.all(Radius.circular(Sizes.dimen_30.w)),
-                  // side: BorderSide(color: Colors.red)
-              )
-          )
-      ),
+            borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_30.w)),
+            // side: BorderSide(color: Colors.red)
+          ))),
       onPressed: onPressed,
       child: Container(
-        padding: padding??EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
+        padding: padding ?? EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               text,
-              style: Theme.of(context).textTheme.headline6!.copyWith(
-                color: textColor,
-                fontWeight: FontWeight.w500,
-                fontSize:fontSize?? ResponsiveValue(context,
-                    defaultValue: Sizes.dimen_12.sp,
-                    valueWhen: [
-                      Condition.largerThan(
-                          name: TABLET, value: Sizes.dimen_12.sp),
-                      Condition.equals(
-                          name: TABLET, value: Sizes.dimen_12.sp),
-                      Condition.equals(
-                          name: MOBILE, value: Sizes.dimen_18.sp),
-                      Condition.smallerThan(
-                          name: MOBILE, value: Sizes.dimen_15.sp),
-                    ]).value,
-              ),
+              style: textStyle ??
+                  Theme.of(context).textTheme.headline6!.copyWith(
+                        color: textColor,
+                        fontWeight: FontWeight.w500,
+                        fontSize: fontSize ??
+                            ResponsiveValue(context,
+                                defaultValue: Sizes.dimen_12.sp,
+                                valueWhen: [
+                                  Condition.largerThan(
+                                      name: TABLET, value: Sizes.dimen_12.sp),
+                                  Condition.equals(
+                                      name: TABLET, value: Sizes.dimen_12.sp),
+                                  Condition.equals(
+                                      name: MOBILE, value: Sizes.dimen_18.sp),
+                                  Condition.smallerThan(
+                                      name: MOBILE, value: Sizes.dimen_15.sp),
+                                ]).value,
+                      ),
             ),
             if (icon != null)
               SizedBox(

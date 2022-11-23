@@ -49,6 +49,7 @@ import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
+import '../domain/entities/screen_arguments/search_result_args.dart';
 import '../domain/entities/screen_arguments/update_article_args.dart';
 import '../presentation/journeys/ads/add_new_ad.dart';
 import '../presentation/journeys/article/create_article/add_article.dart';
@@ -60,6 +61,7 @@ import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.d
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
+import '../presentation/journeys/search_result_for_lawyers/search_result_for_lawyers.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
 import '../presentation/journeys/apply_for_task/appy_for_task_screen.dart';
 import '../presentation/journeys/taxes/add_new_tax_screen.dart';
@@ -73,6 +75,12 @@ class Routes {
 
         /// searchForLawyerScreen
         RouteList.searchForLawyer: (context) => const SearchForLawyerScreen(),
+
+        /// searchResult
+        RouteList.searchResult: (context) => SearchResultForLawyers(
+              arguments:
+                  settings.arguments as SearchResultArguments,
+            ),
 
         /// registerLawyer
         RouteList.registerLawyer: (context) => const RegisterLawyerScreen(),

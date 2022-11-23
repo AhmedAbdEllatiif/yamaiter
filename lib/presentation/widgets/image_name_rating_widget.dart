@@ -14,7 +14,7 @@ class ImageNameRatingWidget extends StatelessWidget {
   final String name;
   final double rating;
   final double? nameSize;
-  final Function() onPressed;
+  final Function()? onPressed;
   final double minImageSize;
   final double maxImageSize;
   final Color nameColor;
@@ -29,7 +29,7 @@ class ImageNameRatingWidget extends StatelessWidget {
     required this.imgUrl,
     required this.name,
     required this.rating,
-    required this.onPressed,
+    this.onPressed,
     this.nameSize,
     this.withRow = true,
     this.minImageSize = Sizes.dimen_30,

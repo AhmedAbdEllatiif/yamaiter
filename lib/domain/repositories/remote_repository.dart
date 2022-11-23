@@ -20,8 +20,10 @@ import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
+import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
+import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
@@ -175,4 +177,8 @@ abstract class RemoteRepository {
 
   /// decline tax
   Future<Either<AppError, SuccessModel>> declineTask(DeclineTaskParams params);
+
+  /// search for lawyers
+  Future<Either<AppError, List<LawyerEntity>>> searchForLawyers(
+      SearchForLawyerParams params);
 }

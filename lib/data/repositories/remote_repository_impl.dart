@@ -37,10 +37,12 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
+import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 import 'package:yamaiter/domain/entities/app_error.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
+import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
@@ -879,7 +881,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// declineTask
   @override
   Future<Either<AppError, SuccessModel>> declineTask(
@@ -890,6 +891,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+
+  /// searchForLawyers
+  @override
+  Future<Either<AppError, List<LawyerEntity>>> searchForLawyers(
+      SearchForLawyerParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.searchForLawyer(params);
+
+      // received success
+      if (result is List<LawyerEntity>) {
         return Right(result);
       }
 

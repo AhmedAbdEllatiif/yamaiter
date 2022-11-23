@@ -1,5 +1,20 @@
+import 'dart:convert';
+
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
+
+
+/// return a list of searched lawyers
+List<UserLawyerModel> resultOfSearchForLawyer(String responseBody) {
+  final List<UserLawyerModel> lawyers = [];
+
+  if (json.decode(responseBody)["lawyers"] != null) {
+    json.decode(responseBody)["lawyers"].forEach((v) {
+      lawyers.add(UserLawyerModel.fromJson(v));
+    });
+  }
+  return lawyers;
+}
 
 class UserLawyerModel extends LawyerEntity {
   UserLawyerModel({
@@ -85,8 +100,8 @@ class UserLawyerModel extends LawyerEntity {
 
         // description
         lawyerDescription: json["userable"] != null
-            ? json["userable"]["description"] ?? AppUtils.undefined
-            : AppUtils.undefined,
+            ? json["userable"]["description"] ?? "لا يوجد نبذة عن المحامى"
+            : "لا يوجد نبذة عن المحامى",
 
         // profileImage
         lawyerProfileImage: json["userable"] != null

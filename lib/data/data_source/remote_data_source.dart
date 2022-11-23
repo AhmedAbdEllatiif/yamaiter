@@ -28,6 +28,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/end_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
+import 'package:yamaiter/data/api/requests/post_requests/search_for_lawyer.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/upload_task_file.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
@@ -62,6 +63,7 @@ import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
+import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
@@ -79,6 +81,7 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/sos/sos_model.dart';
+import '../models/user_lawyer_model.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
@@ -195,6 +198,9 @@ abstract class RemoteDataSource {
 
   /// get invited tasks
   Future<dynamic> declineInvitedTasks(DeclineTaskParams params);
+
+  /// search for lawyer
+  Future<dynamic> searchForLawyer(SearchForLawyerParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1573,6 +1579,55 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("declineInvitedTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "declineInvitedTasks UnHandledError >> $e");
+    }
+  }
+
+
+
+  /// searchForLawyer
+  @override
+  Future searchForLawyer(SearchForLawyerParams params) async {
+    try {
+      log("searchForLawyer >> Start request");
+      // init request
+      final request = SearchForLawyerRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("searchForLawyer >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return resultOfSearchForLawyer(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "searchForLawyer Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message:
+                  "searchForLawyer Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "searchForLawyer Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("searchForLawyer >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message:
+                  "searchForLawyer Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("searchForLawyer >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "searchForLawyer UnHandledError >> $e");
     }
   }
 }

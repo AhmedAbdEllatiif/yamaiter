@@ -65,6 +65,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/invited_tasks.dart';
 import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
+import '../domain/use_cases/search_for_lawyers.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
 import '../domain/use_cases/sos/delete_sos.dart';
@@ -95,6 +96,7 @@ import '../presentation/logic/cubit/login/login_cubit.dart';
 import '../presentation/logic/cubit/pick_images/pick_image_cubit.dart';
 import '../presentation/logic/cubit/register_client/register_client_cubit.dart';
 import '../presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
+import '../presentation/logic/cubit/search_for_lawyers/search_for_lawyers_cubit.dart';
 import '../presentation/logic/cubit/update_task/update_task_cubit.dart';
 
 final getItInstance = GetIt.I;
@@ -315,6 +317,11 @@ Future init() async {
     () => DeclineTaskCubit(),
   );
 
+  //==> SearchForLawyersCubit
+  getItInstance.registerFactory<SearchForLawyersCubit>(
+    () => SearchForLawyersCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -530,5 +537,10 @@ Future init() async {
   //==> DeclineInvitedTaskCase
   getItInstance.registerFactory<DeclineInvitedTaskCase>(
     () => DeclineInvitedTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> SearchForLawyerCase
+  getItInstance.registerFactory<SearchForLawyerCase>(
+    () => SearchForLawyerCase(remoteRepository: getItInstance()),
   );
 }
