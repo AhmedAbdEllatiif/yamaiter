@@ -29,7 +29,7 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
   late final SearchForLawyersCubit _searchForLawyersCubit;
 
   /// current value
-  String chosenValue = "";
+  String chosenValue = "Alex";
 
   /// errorText
   String? errorText;

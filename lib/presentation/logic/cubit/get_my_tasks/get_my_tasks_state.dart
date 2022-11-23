@@ -45,6 +45,16 @@ class MyTasksListFetchedSuccessfully extends GetMyTasksState {
   List<Object> get props => [taskEntityList];
 }
 
+/// onlyNames
+class OnlyNames extends GetMyTasksState {
+  final List<String> names;
+
+  const OnlyNames({required this.names});
+
+  @override
+  List<Object> get props => [names];
+}
+
 /// error
 class ErrorWhileGettingMyTasksList extends GetMyTasksState {
   final AppError appError;

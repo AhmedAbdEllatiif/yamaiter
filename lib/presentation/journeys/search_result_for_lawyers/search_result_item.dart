@@ -3,6 +3,9 @@ import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
+import 'package:yamaiter/router/route_helper.dart';
+
+import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
 
 class SearchResultItem extends StatelessWidget {
   final LawyerEntity lawyerEntity;
@@ -43,11 +46,17 @@ class SearchResultItem extends StatelessWidget {
                     AppButton(
                         text: "دعوة لمهمة",
                         padding: EdgeInsets.zero,
-                        textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                          color: AppColor.accentColor,
-                        ),
+                        textStyle:
+                            Theme.of(context).textTheme.caption!.copyWith(
+                                  color: AppColor.accentColor,
+                                ),
                         color: AppColor.primaryDarkColor,
-                        onPressed: () {})
+                        onPressed: () {
+                          _navigateToInviteLawyerScreen(
+                            context,
+                            lawyerId: lawyerEntity.id,
+                          );
+                        })
                   ],
                 )
               ],
@@ -56,5 +65,13 @@ class SearchResultItem extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _navigateToInviteLawyerScreen(BuildContext context,
+      {required int lawyerId}) {
+    RouteHelper().inviteLawyer(context,
+        inviteLawyerArguments: InviteLawyerArguments(
+          lawyerId: lawyerId,
+        ));
   }
 }

@@ -19,6 +19,7 @@ class GetMyTasksCubit extends Cubit<GetMyTasksState> {
     required TaskType taskType,
     required int currentListLength,
     int offset = 0,
+    bool fetchOnlyNames = false,
   }) async {
     //==> loading
     if (currentListLength == 0) {
@@ -47,7 +48,11 @@ class GetMyTasksCubit extends Cubit<GetMyTasksState> {
 
       //==> list fetched
       (tasksList) => _emitIfNotClosed(
-          _statusToEmit(tasksList: tasksList, offset: offset)),
+        _statusToEmit(
+            tasksList: tasksList,
+            offset: offset,
+            emitOnlyNames: fetchOnlyNames),
+      ),
     );
   }
 
@@ -55,8 +60,23 @@ class GetMyTasksCubit extends Cubit<GetMyTasksState> {
   /// * param [offset] is the current offset to fetch
   /// * if the offset > 0 and the length is zero,
   /// this means last page reached
-  GetMyTasksState _statusToEmit(
-      {required List<TaskEntity> tasksList, required int offset}) {
+  GetMyTasksState _statusToEmit({
+    required List<TaskEntity> tasksList,
+    required int offset,
+    required emitOnlyNames,
+  }) {
+    if (emitOnlyNames) {
+      if (tasksList.isEmpty) {
+        return EmptyMyTasksList();
+      }
+
+      final List<String> names = [];
+      for (var element in tasksList) {
+        names.add(element.title);
+      }
+      return OnlyNames(names: names);
+    }
+
     //==> last page reached
     if (offset > 0 && tasksList.isEmpty) {
       return LastPageMyTasksListFetched(taskEntityList: tasksList);
