@@ -9,12 +9,14 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/enum/app_error_type.dart';
 import '../../../common/screen_utils/screen_util.dart';
 import '../../../domain/entities/data/lawyer_entity.dart';
 import '../../../domain/entities/screen_arguments/search_result_args.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_drop_down_field.dart';
+import '../../widgets/app_error_widget.dart';
 import '../../widgets/loading_widget.dart';
 
 class SearchForLawyerScreen extends StatefulWidget {
@@ -51,6 +53,8 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
     return BlocProvider(
       create: (context) => _searchForLawyersCubit,
       child: Scaffold(
+        backgroundColor: AppColor.primaryDarkColor,
+
         /// appBar
         appBar: AppBar(),
 
@@ -71,6 +75,35 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
 
           //==> builder
           builder: (context, state) {
+            /// UnAuthorized
+            if (state is UnAuthorizedSearchForLawyers) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.unauthorizedUser,
+                  buttonText: "تسجيل الدخول",
+                  onPressedRetry: () {
+                    _navigateToLogin();
+                  },
+                ),
+              );
+            }
+
+            /// NotActivatedUser
+            if (state is NotActivatedUserToSearchForLawyers) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.notActivatedUser,
+                  buttonText: "تواصل معنا",
+                  message:
+                      "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                  onPressedRetry: () {
+                    _navigateToContactUs();
+                  },
+                ),
+              );
+            }
+
+            /// else
             return Container(
               height: double.infinity,
               width: double.infinity,
@@ -193,4 +226,11 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
       ),
     );
   }
+
+  /// navigate to login
+  void _navigateToLogin() =>
+      RouteHelper().loginScreen(context, isClearStack: true);
+
+  /// navigate to contact us
+  void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
 }

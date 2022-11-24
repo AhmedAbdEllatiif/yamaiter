@@ -34,6 +34,7 @@ import 'package:yamaiter/data/params/get_applied_tasks_params.dart';
 import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
@@ -904,7 +905,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// searchForLawyers
   @override
   Future<Either<AppError, List<LawyerEntity>>> searchForLawyers(
@@ -915,6 +915,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is List<LawyerEntity>) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// inviteToTask
+  @override
+  Future<Either<AppError, SuccessModel>> inviteToTask(
+      InviteToTaskParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.inviteToTask(params);
+
+      // received success
+      if (result is SuccessModel) {
         return Right(result);
       }
 

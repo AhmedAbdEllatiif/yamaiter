@@ -26,6 +26,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/end_task.dart';
+import 'package:yamaiter/data/api/requests/post_requests/invite_to_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/search_for_lawyer.dart';
@@ -62,6 +63,7 @@ import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
@@ -201,6 +203,9 @@ abstract class RemoteDataSource {
 
   /// search for lawyer
   Future<dynamic> searchForLawyer(SearchForLawyerParams params);
+
+  /// invite to task
+  Future<dynamic> inviteToTask(InviteToTaskParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1582,8 +1587,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
-
   /// searchForLawyer
   @override
   Future searchForLawyer(SearchForLawyerParams params) async {
@@ -1604,30 +1607,69 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
-              message:
-                  "searchForLawyer Status Code >> ${response.statusCode}");
+              message: "searchForLawyer Status Code >> ${response.statusCode}");
         // not found
         case 404:
           return AppError(AppErrorType.notFound,
-              message:
-                  "searchForLawyer Status Code >> ${response.statusCode}");
+              message: "searchForLawyer Status Code >> ${response.statusCode}");
         // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
-              message:
-                  "searchForLawyer Status Code >> ${response.statusCode}");
+              message: "searchForLawyer Status Code >> ${response.statusCode}");
         // default
         default:
           log("searchForLawyer >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
           return AppError(AppErrorType.api,
-              message:
-                  "searchForLawyer Status Code >> ${response.statusCode}"
+              message: "searchForLawyer Status Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
       }
     } catch (e) {
       log("searchForLawyer >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "searchForLawyer UnHandledError >> $e");
+    }
+  }
+
+  /// inviteToTask
+  @override
+  Future inviteToTask(InviteToTaskParams params) async {
+    try {
+      log("inviteToTask >> Start request");
+      // init request
+      final request = InviteToTaskTaskRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("inviteToTask >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "inviteToTask Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "inviteToTask Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "inviteToTask Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("inviteToTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "inviteToTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("inviteToTask >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "inviteToTask UnHandledError >> $e");
     }
   }
 }

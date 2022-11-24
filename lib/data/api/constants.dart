@@ -107,6 +107,11 @@ class ApiConstants {
   static Uri _searchForLawyer({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.searchForLawyer, queryParams);
 
+  static Uri _inviteToTask(
+          {required String lawyerId,
+          required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, "${EndPoints.invitedTasks}/$lawyerId", queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -223,6 +228,9 @@ class ApiConstants {
       // searchForLawyer
       case RequestType.searchForLawyer:
         return _searchForLawyer(queryParams: queryParams);
+      // inviteToTask
+      case RequestType.inviteToTask:
+        return _inviteToTask(lawyerId: id, queryParams: queryParams);
     }
   }
 }
@@ -334,6 +342,9 @@ class EndPoints {
 
   /// searchForLawyer
   static String searchForLawyer = "${_apiVersion}search-lawyer";
+
+  /// searchForLawyer
+  static String inviteToTask = "${_apiVersion}recommend-task";
 }
 
 /// The api request type
@@ -375,6 +386,7 @@ enum RequestType {
   invitedTask,
   declineTask,
   searchForLawyer,
+  inviteToTask,
 }
 
 class ApiParamsConstant {

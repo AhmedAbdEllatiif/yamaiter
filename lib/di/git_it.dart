@@ -34,6 +34,7 @@ import 'package:yamaiter/presentation/logic/cubit/get_invited_tasks/get_invited_
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/invite_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
@@ -65,6 +66,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/invited_tasks.dart';
 import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
+import '../domain/use_cases/my_tasks/invite_to_task.dart';
 import '../domain/use_cases/search_for_lawyers.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
@@ -322,6 +324,11 @@ Future init() async {
     () => SearchForLawyersCubit(),
   );
 
+  //==> InviteTaskCubit
+  getItInstance.registerFactory<InviteTaskCubit>(
+    () => InviteTaskCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -542,5 +549,10 @@ Future init() async {
   //==> SearchForLawyerCase
   getItInstance.registerFactory<SearchForLawyerCase>(
     () => SearchForLawyerCase(remoteRepository: getItInstance()),
+  );
+
+  //==> InviteToTaskCase
+  getItInstance.registerFactory<InviteToTaskCase>(
+    () => InviteToTaskCase(remoteRepository: getItInstance()),
   );
 }
