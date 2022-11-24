@@ -27,6 +27,8 @@ import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/filter_tasks/filter_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/filter_tasks/filter_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_sos/get_all_soso_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';
@@ -63,6 +65,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/filter_tasks.dart';
 import '../domain/use_cases/invited_tasks.dart';
 import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
@@ -329,6 +332,11 @@ Future init() async {
     () => InviteLawyerCubit(),
   );
 
+  //==> FilterTaskCubit
+  getItInstance.registerFactory<FilterTasksCubit>(
+    () => FilterTasksCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -554,5 +562,10 @@ Future init() async {
   //==> InviteToTaskCase
   getItInstance.registerFactory<InviteToTaskCase>(
     () => InviteToTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> FilterTasksCase
+  getItInstance.registerFactory<FilterTasksCase>(
+    () => FilterTasksCase(remoteRepository: getItInstance()),
   );
 }

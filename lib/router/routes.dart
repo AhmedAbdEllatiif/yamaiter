@@ -7,6 +7,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
@@ -64,6 +65,7 @@ import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
+import '../presentation/journeys/filtered_tasks_result/filtered_tasks_result_screen.dart';
 import '../presentation/journeys/invite_lawyer/invite_lawyer_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
 import '../presentation/journeys/search_result_for_lawyers/search_result_for_lawyers.dart';
@@ -140,6 +142,12 @@ class Routes {
 
         /// FilterTasksScreen
         RouteList.filterTasks: (context) => const FilterTasksScreen(),
+
+        /// FilteredTasksResultScreen
+        RouteList.filteredTasks: (context) => FilteredTasksResultScreen(
+              filteredTaskArguments:
+                  settings.arguments as FilteredTasksArguments,
+            ),
 
         /// edit task
         RouteList.editTask: (context) => EditTaskScreen(

@@ -112,6 +112,9 @@ class ApiConstants {
           required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, "${EndPoints.inviteToTask}/$lawyerId", queryParams);
 
+  static Uri _filterTasks({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.filterTask, queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -231,6 +234,9 @@ class ApiConstants {
       // inviteToTask
       case RequestType.inviteToTask:
         return _inviteToTask(lawyerId: id, queryParams: queryParams);
+      // filterTasks
+      case RequestType.filterTasks:
+        return _filterTasks(queryParams: queryParams);
     }
   }
 }
@@ -345,6 +351,9 @@ class EndPoints {
 
   /// searchForLawyer
   static String inviteToTask = "${_apiVersion}recommend-task";
+
+  /// filterTask
+  static String filterTask = "${_apiVersion}tasks";
 }
 
 /// The api request type
@@ -387,10 +396,14 @@ enum RequestType {
   declineTask,
   searchForLawyer,
   inviteToTask,
+  filterTasks,
 }
 
 class ApiParamsConstant {
   static String offset = "offset";
   static String status = "status";
   static String governorates = "governorates";
+  static String city = "city";
+  static String orderBy = "order_by";
+  static String applicantsCount = "count";
 }

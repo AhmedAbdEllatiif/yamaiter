@@ -7,6 +7,7 @@ import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/filter_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
@@ -59,6 +60,7 @@ import 'package:yamaiter/data/params/decline_task_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
+import 'package:yamaiter/data/params/filter_task_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
@@ -206,6 +208,9 @@ abstract class RemoteDataSource {
 
   /// invite to task
   Future<dynamic> inviteToTask(InviteToTaskParams params);
+
+  /// filter tasks
+  Future<dynamic> filterTasks(FilterTasksParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -1671,6 +1676,53 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("inviteToTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "inviteToTask UnHandledError >> $e");
+    }
+  }
+
+
+  /// filterTasks
+  @override
+  Future filterTasks(FilterTasksParams params) async{
+    try {
+      log("filterTasks >> Start request");
+      // init request
+      final request = FilterTasksRequest();
+
+      // response
+      final response = await request(params);
+
+      log("filterTasks >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return listOfTasksFromJson(response.body);
+      // notActivatedUser
+        case 403:
+          log("filterTasks >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notActivatedUser,
+              message: "filterTasks Status Code >> ${response.statusCode}");
+      // not found
+        case 404:
+          log("filterTasks >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message: "filterTasks Status Code >> ${response.statusCode}");
+      // unAuthorized
+        case 401:
+          log("filterTasks >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "filterTasks Status Code >> ${response.statusCode}");
+      // default
+        default:
+          log("filterTasks >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "filterTasks Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("filterTasks >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "filterTasks UnHandledError >> $e");
     }
   }
 }

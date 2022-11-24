@@ -10,6 +10,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
@@ -179,6 +180,13 @@ class RouteHelper {
   /// To filter tasks screen \\\
   void filterTasks(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.filterTasks);
+  }
+
+  /// To filtered tasks result screen \\\
+  void filteredTasksResult(BuildContext context,
+      {required FilteredTasksArguments filteredTasksArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.filteredTasks, arguments: filteredTasksArguments);
   }
 
   /// To create task screen \\\

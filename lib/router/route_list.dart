@@ -47,4 +47,5 @@ class RouteList {
   static const String searchResult = "/searchResult";
   static const String inviteLawyer = "/inviteLawyer";
   static const String filterTasks = "/filterTasks";
+  static const String filteredTasks = "/filteredTasks";
 }

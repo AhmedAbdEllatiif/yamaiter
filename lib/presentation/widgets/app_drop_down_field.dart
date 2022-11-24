@@ -16,6 +16,7 @@ class AppDropDownField extends StatefulWidget {
   final double? width;
   final EdgeInsets? margin;
   final bool isLastItemHighlighted;
+  final bool disabled;
 
   AppDropDownField({
     Key? key,
@@ -28,6 +29,7 @@ class AppDropDownField extends StatefulWidget {
     this.height,
     this.width,
     this.margin,
+    this.disabled = false,
     this.isLastItemHighlighted = false,
   }) : super(key: key) {
     if (taskItems != null) {
@@ -58,6 +60,7 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         isExpanded: true,
         //value: "A",
         value: widget.initialValue,
+
         // decoration
         decoration: InputDecoration(
           filled: true,
@@ -115,7 +118,7 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         ),
 
         // onChanged
-        onChanged: widget.onChanged,
+        onChanged: widget.disabled ? null : widget.onChanged,
 
         validator: (value) {
           // if (value == null) return "* اختر المحافظة محل العمل";
