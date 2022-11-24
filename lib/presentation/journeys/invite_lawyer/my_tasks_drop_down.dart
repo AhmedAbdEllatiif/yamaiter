@@ -6,7 +6,7 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 class MyTasksDropDown extends StatelessWidget {
   final GetMyTasksCubit getMyTasksCubit;
-  final Function(String?) onChanged;
+  final Function(dynamic?) onChanged;
   final String? errorText;
 
   const MyTasksDropDown({
@@ -27,12 +27,12 @@ class MyTasksDropDown extends StatelessWidget {
         }
 
         /// names fetched
-        if (state is OnlyNames) {
-          if (state.names.isNotEmpty) {
+        if (state is MyTasksListFetchedSuccessfully) {
+          if (state.taskEntityList.isNotEmpty) {
             return AppDropDownField(
               hintText: "اختر مهمة من مهامك المضافة سابقا",
               errorText: errorText,
-              itemsList: state.names,
+              taskItems: state.taskEntityList,
               onChanged: onChanged,
             );
           }

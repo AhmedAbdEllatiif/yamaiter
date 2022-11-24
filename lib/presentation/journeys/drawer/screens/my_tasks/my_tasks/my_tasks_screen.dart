@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/completed/my_tasks_completed.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_progress/my_tasks_in_progress.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/in_review/my_tasks_in_review.dart';
@@ -17,7 +18,8 @@ import '../../../../../widgets/tab_bar/tab_bar_widget.dart';
 import '../../../../../widgets/tab_bar/tab_item.dart';
 
 class MyTasksScreen extends StatefulWidget {
-  const MyTasksScreen({Key? key}) : super(key: key);
+  final MyTasksArguments myTasksArguments;
+  const MyTasksScreen({Key? key, required this.myTasksArguments}) : super(key: key);
 
   @override
   State<MyTasksScreen> createState() => _MyTasksScreenState();

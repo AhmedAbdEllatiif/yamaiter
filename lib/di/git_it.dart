@@ -34,7 +34,7 @@ import 'package:yamaiter/presentation/logic/cubit/get_invited_tasks/get_invited_
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
-import 'package:yamaiter/presentation/logic/cubit/invite_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/invite_lawyer/invite_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
@@ -324,9 +324,9 @@ Future init() async {
     () => SearchForLawyersCubit(),
   );
 
-  //==> InviteTaskCubit
-  getItInstance.registerFactory<InviteTaskCubit>(
-    () => InviteTaskCubit(),
+  //==> InviteLawyerCubit
+  getItInstance.registerFactory<InviteLawyerCubit>(
+    () => InviteLawyerCubit(),
   );
 
   //==> AutoLoginCubit

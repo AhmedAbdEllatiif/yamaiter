@@ -110,7 +110,7 @@ class ApiConstants {
   static Uri _inviteToTask(
           {required String lawyerId,
           required Map<String, dynamic> queryParams}) =>
-      Uri.https(_baseUrl, "${EndPoints.invitedTasks}/$lawyerId", queryParams);
+      Uri.https(_baseUrl, "${EndPoints.inviteToTask}/$lawyerId", queryParams);
 
   static Uri buildUrl(
     RequestType requestType, {

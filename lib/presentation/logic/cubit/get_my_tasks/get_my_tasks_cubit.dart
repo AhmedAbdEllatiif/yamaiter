@@ -70,11 +70,13 @@ class GetMyTasksCubit extends Cubit<GetMyTasksState> {
         return EmptyMyTasksList();
       }
 
-      final List<String> names = [];
+      /*final List<String> names = [];
       for (var element in tasksList) {
         names.add(element.title);
       }
-      return OnlyNames(names: names);
+      return OnlyNames(names: names);*/
+
+      return MyTasksListFetchedSuccessfully( taskEntityList: tasksList);
     }
 
     //==> last page reached

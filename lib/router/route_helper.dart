@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
@@ -23,6 +24,7 @@ import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
+import '../domain/entities/screen_arguments/my_task_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
 
 class RouteHelper {
@@ -210,11 +212,20 @@ class RouteHelper {
   }
 
   /// To my my_tasks screen \\\
-  void myTasks(BuildContext context, {bool isReplacement = false}) {
+  void myTasks(BuildContext context,
+      {bool isReplacement = false,
+      bool isPushNamedAndRemoveUntil = false,
+      TaskType taskType = TaskType.todo}) {
     if (isReplacement) {
-      Navigator.of(context).pushReplacementNamed(RouteList.myTasks);
+      Navigator.of(context).pushReplacementNamed(RouteList.myTasks,
+          arguments: MyTasksArguments(taskType: taskType));
+    } else if (isPushNamedAndRemoveUntil) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          RouteList.myTasks, (Route<dynamic> route) => route.isFirst,
+          arguments: MyTasksArguments(taskType: taskType));
     } else {
-      Navigator.of(context).pushNamed(RouteList.myTasks);
+      Navigator.of(context).pushNamed(RouteList.myTasks,
+          arguments: MyTasksArguments(taskType: taskType));
     }
   }
 

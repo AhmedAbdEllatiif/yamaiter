@@ -1653,6 +1653,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
               message: "inviteToTask Status Code >> ${response.statusCode}");
         // not found
         case 404:
+          log("inviteToTask >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.notFound,
               message: "inviteToTask Status Code >> ${response.statusCode}");
         // unAuthorized

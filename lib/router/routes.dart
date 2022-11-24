@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -129,7 +130,9 @@ class Routes {
             ),
 
         /// MyTasksScreen
-        RouteList.myTasks: (context) => const MyTasksScreen(),
+        RouteList.myTasks: (context) => MyTasksScreen(
+              myTasksArguments: settings.arguments as MyTasksArguments,
+            ),
 
         /// ChooseTasksScreen
         RouteList.chooseTasks: (context) => const ChooseTasksScreen(),
