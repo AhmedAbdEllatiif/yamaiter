@@ -113,9 +113,15 @@ List<String> governoratesListWithSelectAll = [
   "انشر على كل الزملاء فى اى مكان",
 ];
 
-
 List<String> adPages = [
   "الصفحة الرئيسية",
   "الصفحات الداخلية",
   "كل الصفحات",
 ];
+
+Map<String, String> sortTasksBy = {
+  "newest": "الاحدث",
+  "oldest": "الاقدم",
+  "highest price": "الاعلى سعرا",
+  "lowest price": "الاقل سعرا",
+};

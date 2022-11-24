@@ -70,7 +70,7 @@ class _MainScreenState extends State<MainScreen> {
             child: MainPageTitle(
               title: "مهام مطلوبة التنفيذ",
               iconData: Icons.filter_list_outlined,
-              onPressed: () {},
+              onPressed: () => _navigateTFilterTask(),
             ),
           ),
 
@@ -180,6 +180,11 @@ class _MainScreenState extends State<MainScreen> {
   /// to navigate to search for lawyer
   void _navigateToSearchForLawyer() {
     RouteHelper().searchForLawyer(context);
+  }
+
+  /// to navigate to filter tasks
+  void _navigateTFilterTask() {
+    RouteHelper().filterTasks(context);
   }
 
   List<Widget> _currentDestinations() {

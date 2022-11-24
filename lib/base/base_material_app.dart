@@ -67,6 +67,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
             primaryColorDark: AppColor.primaryDarkColor,
             splashColor: AppColor.accentColor.withOpacity(0.3),
             shadowColor: AppColor.accentColor,
+            unselectedWidgetColor: AppColor.white,
             colorScheme: ColorScheme.fromSwatch().copyWith(
               secondary: AppColor.accentColor, // Your accent color
             ),

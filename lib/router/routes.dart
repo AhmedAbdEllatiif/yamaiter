@@ -36,6 +36,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
+import 'package:yamaiter/presentation/journeys/filter_tasks/filter_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/forget_password/forget_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/register_client/register_client_screen.dart';
@@ -136,6 +137,9 @@ class Routes {
 
         /// ChooseTasksScreen
         RouteList.chooseTasks: (context) => const ChooseTasksScreen(),
+
+        /// FilterTasksScreen
+        RouteList.filterTasks: (context) => const FilterTasksScreen(),
 
         /// edit task
         RouteList.editTask: (context) => EditTaskScreen(

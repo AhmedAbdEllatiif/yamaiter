@@ -176,6 +176,11 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.chooseTasks);
   }
 
+  /// To filter tasks screen \\\
+  void filterTasks(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.filterTasks);
+  }
+
   /// To create task screen \\\
   void createTask(BuildContext context,
       {required CreateTaskArguments? createTaskArguments}) {
