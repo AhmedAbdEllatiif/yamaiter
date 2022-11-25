@@ -62,78 +62,46 @@ class _MainScreenState extends State<MainScreen> {
           const AdsWidget(),
 
           /// title with add new Tasks
+          if(_selectedIndex != 2)
           Padding(
             padding: EdgeInsets.only(
                 //bottom: AppUtils.mainPagesVerticalPadding.h,
                 right: AppUtils.mainPagesHorizontalPadding.w,
                 left: AppUtils.mainPagesVerticalPadding.h),
             child: MainPageTitle(
-              title: "مهام مطلوبة التنفيذ",
-              iconData: Icons.filter_list_outlined,
-              onPressed: () => _navigateTFilterTask(),
+              title: titles[_selectedIndex],
+              iconData: _selectedIndex == 4 ? Icons.filter_list_outlined : null,
+              onPressed:
+                  _selectedIndex == 4 ? () => _navigateTFilterTask() : null,
             ),
           ),
 
           Flexible(
             child: Padding(
               padding: EdgeInsets.only(
-                  //bottom: AppUtils.mainPagesVerticalPadding.h,
                   right: AppUtils.mainPagesHorizontalPadding.w,
                   left: AppUtils.mainPagesVerticalPadding.h),
-              child: const AllTasksScreen(),
-              /* child: Container(
-                child: IndexedStack(
-                  index: _selectedIndex,
-                  children: [
-                    /// Home >> allArticles
-                    SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: allArticlesController,
-                      child: HomeScreen(
-                        scrollController: allArticlesController,
-                      ),
-                    ),
+              child: IndexedStack(
+                index: _selectedIndex,
+                children: const [
+                  /// Home >> allArticles
+                  HomeScreen(),
 
-                    /// AllSosScreen
-                    SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: allSosController,
-                      child: AllSosScreen(
-                        controller: allSosController,
-                      ),
-                    ),
+                  /// AllSosScreen
+                  AllSosScreen(),
 
-                    /// ChooseToAddScreen
-                    const SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: ChooseToAddScreen(),
-                    ),
+                  /// ChooseToAddScreen
+                  ChooseToAddScreen(),
 
-                    /// unKnown
-                    const SingleChildScrollView(
-                      physics: BouncingScrollPhysics(),
-                      child: Center(
-                        child: Text("Unknown"),
-                      ),
-                    ),
+                  /// unKnown
+                  Center(
+                    child: Text("Unknown"),
+                  ),
 
-                    /// AllTasksScreen
-                    */ /*SingleChildScrollView(
-                      physics: const BouncingScrollPhysics(),
-                      controller: allTasksController,
-                      child: AllTasksScreen(
-                        controller: allTasksController,
-                      ),
-                    ),*/ /*
-
-                    Flexible(
-                      child: AllTasksScreen(
-                        controller: allTasksController,
-                      ),
-                    ),
-                  ],
-                ),
-              ),*/
+                  /// AllTasksScreen
+                  AllTasksScreen(),
+                ],
+              ),
             ),
           ),
         ],
@@ -155,12 +123,24 @@ class _MainScreenState extends State<MainScreen> {
     );
   }
 
+
+  /// Pages titles
+  final titles = [
+    "احدث المنشورات",
+    "نداءات الاستغاثة",
+    "",
+    "Unknown",
+    "مهام مطلوبة التنفيذ",
+  ];
+
+  /// to open drawer
   void _openDrawer() {
     if (_scaffoldKey.currentState != null) {
       _scaffoldKey.currentState!.openDrawer();
     }
   }
 
+  /// change selected index
   void _onItemTapped(int index) {
     if (index == 0) {}
     setState(() {

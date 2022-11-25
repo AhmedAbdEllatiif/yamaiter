@@ -227,6 +227,7 @@ class _TaskFormState extends State<TaskForm> {
               /// price
               AppTextField(
                 controller: priceController,
+                textInputType: TextInputType.number,
                 label: "حدد مبلغ مكافئة التنفيذ",
               ),
 

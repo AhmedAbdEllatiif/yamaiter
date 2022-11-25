@@ -30,8 +30,8 @@ class CreateTaskScreen extends StatefulWidget {
 class _CreateTaskScreenState extends State<CreateTaskScreen> {
   late final GetAcceptTermsCubit _getAcceptTermsCubit;
   late final AcceptTermsCubit _acceptTermsCubit;
-  late final CreateTaskCubit? _createTaskCubit;
-  late final bool isBackAfterSuccess;
+  CreateTaskCubit? _createTaskCubit;
+  bool isBackAfterSuccess =  false;
 
   @override
   void initState() {

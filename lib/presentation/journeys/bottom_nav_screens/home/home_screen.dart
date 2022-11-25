@@ -22,10 +22,9 @@ import '../../../widgets/article_item.dart';
 import '../../../widgets/loading_widget.dart';
 
 class HomeScreen extends StatefulWidget {
-  final ScrollController scrollController;
-
-  const HomeScreen({Key? key, required this.scrollController})
-      : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -46,14 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
     _fetchMyArticlesList();
-    _controller = widget.scrollController;
+    _controller = ScrollController();
     _listenerOnScrollController();
   }
 
   @override
   void dispose() {
     _getAllArticlesCubit.close();
-    //_controller.dispose();
+    _controller.dispose();
     super.dispose();
   }
 
@@ -73,100 +72,90 @@ class _HomeScreenState extends State<HomeScreen> {
           }
         },
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_10.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              /// title with add new Articles
-              const AppContentTitleWidget(
-                title: "المنشورات",
-              ),
-
-              /// list of my Articles
-              Padding(
-                padding: EdgeInsets.only(top: Sizes.dimen_3.h),
-                child: BlocBuilder<GetAllArticlesCubit, GetAllArticlesState>(
-                    builder: (_, state) {
-                  //==> loading
-                  if (state is LoadingGetAllArticlesList) {
-                    return const Center(
-                      child: LoadingWidget(),
-                    );
-                  }
-
-                  //==> unAuthorized
-                  if (state is UnAuthorizedGetAllArticlesList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.unauthorizedUser,
-                        buttonText: "تسجيل الدخول",
-                        onPressedRetry: () => _navigateToLogin(),
-                      ),
-                    );
-                  }
-
-                  //==> notActivatedUser
-                  if (state is NotActivatedUserToGetAllArticlesList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.notActivatedUser,
-                        buttonText: "تواصل معنا",
-                        onPressedRetry: () => _navigateToContactUs(),
-                      ),
-                    );
-                  }
-
-                  //==> notActivatedUser
-                  if (state is ErrorWhileGettingAllArticlesList) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: state.appError.appErrorType,
-                        onPressedRetry: () => _fetchMyArticlesList(),
-                      ),
-                    );
-                  }
-
-                  //==> empty
-                  if (state is EmptyAllArticlesList) {
-                    return Center(
-                      child: Text(
-                        "لا يوجد منشورات",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppColor.primaryDarkColor,
-                                ),
-                      ),
-                    );
-                  }
-
-                  //==> fetched
-                  return ListView.separated(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: allArticlesList.length + 1,
-                    // controller: _controller,
-                    separatorBuilder: (context, index) => SizedBox(
-                      height: Sizes.dimen_2.h,
-                    ),
-                    itemBuilder: (context, index) {
-                      if (index < allArticlesList.length) {
-                        return ArticleItem(
-                          articleEntity: allArticlesList[index],
-                          withMenu: false,
-                        );
-                      }
-
-                      /// loading or end of list
-                      return LoadingMoreAllArticlesWidget(
-                        allArticlesCubit: _getAllArticlesCubit,
-                      );
-                    },
-                  );
-                }),
-              ),
-            ],
+          padding: EdgeInsets.only(
+            top: Sizes.dimen_10.h,
+            bottom: Sizes.dimen_2.h,
+            left: Sizes.dimen_10.w,
+            right: Sizes.dimen_10.w,
           ),
+          child: BlocBuilder<GetAllArticlesCubit, GetAllArticlesState>(
+              builder: (_, state) {
+            //==> loading
+            if (state is LoadingGetAllArticlesList) {
+              return const Center(
+                child: LoadingWidget(),
+              );
+            }
+
+            //==> unAuthorized
+            if (state is UnAuthorizedGetAllArticlesList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.unauthorizedUser,
+                  buttonText: "تسجيل الدخول",
+                  onPressedRetry: () => _navigateToLogin(),
+                ),
+              );
+            }
+
+            //==> notActivatedUser
+            if (state is NotActivatedUserToGetAllArticlesList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.notActivatedUser,
+                  buttonText: "تواصل معنا",
+                  onPressedRetry: () => _navigateToContactUs(),
+                ),
+              );
+            }
+
+            //==> notActivatedUser
+            if (state is ErrorWhileGettingAllArticlesList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: state.appError.appErrorType,
+                  onPressedRetry: () => _fetchMyArticlesList(),
+                ),
+              );
+            }
+
+            //==> empty
+            if (state is EmptyAllArticlesList) {
+              return Center(
+                child: Text(
+                  "لا يوجد منشورات",
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: AppColor.primaryDarkColor,
+                      ),
+                ),
+              );
+            }
+
+            //==> fetched
+            return ListView.separated(
+              controller: _controller,
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: allArticlesList.length + 1,
+              // controller: _controller,
+              separatorBuilder: (context, index) => SizedBox(
+                height: Sizes.dimen_2.h,
+              ),
+              itemBuilder: (context, index) {
+                if (index < allArticlesList.length) {
+                  return ArticleItem(
+                    articleEntity: allArticlesList[index],
+                    withMenu: false,
+                  );
+                }
+
+                /// loading or end of list
+                return LoadingMoreAllArticlesWidget(
+                  allArticlesCubit: _getAllArticlesCubit,
+                );
+              },
+            );
+          }),
         ),
       ),
     );

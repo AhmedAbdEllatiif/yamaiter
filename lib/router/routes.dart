@@ -129,7 +129,9 @@ class Routes {
 
         /// createTask
         RouteList.createTask: (context) => CreateTaskScreen(
-              createTaskArguments: settings.arguments as CreateTaskArguments,
+              createTaskArguments: settings.arguments != null
+                  ? settings.arguments as CreateTaskArguments
+                  : null,
             ),
 
         /// MyTasksScreen

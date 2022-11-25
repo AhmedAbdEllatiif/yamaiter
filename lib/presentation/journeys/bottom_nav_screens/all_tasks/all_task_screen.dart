@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/loading_more_all_tasks.dart';
+import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
@@ -66,9 +67,11 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
         },
         child: Padding(
           padding: EdgeInsets.only(
-              top: Sizes.dimen_10.h,
-              left: Sizes.dimen_10.w,
-              right: Sizes.dimen_10.w),
+            //top: Sizes.dimen_10.h,
+            bottom: Sizes.dimen_2.h,
+            left: Sizes.dimen_10.w,
+            right: Sizes.dimen_10.w,
+          ),
           child: Padding(
             padding: EdgeInsets.only(top: Sizes.dimen_3.h),
             child: BlocBuilder<GetAllTasksCubit, GetAllTasksState>(
@@ -125,27 +128,33 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
               }
 
               //==> fetched
-              return ListView.separated(
-                controller: _controller,
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: allTasksList.length + 1,
-                // controller: _controller,
-                separatorBuilder: (context, index) => SizedBox(
-                  height: Sizes.dimen_2.h,
-                ),
-                itemBuilder: (context, index) {
-                  if (index < allTasksList.length) {
-                    return TaskItem(
-                      taskEntity: allTasksList[index],
-                    );
-                  }
-
-                  /// loading or end of list
-                  return LoadingMoreAllTasksWidget(
-                    allTasksCubit: _getAllTasksCubit,
-                  );
+              return AppRefreshIndicator(
+                onRefresh: () async {
+                  allTasksList.clear();
+                  _fetchMyTasksList();
                 },
+                child: ListView.separated(
+                  controller: _controller,
+                  physics: const BouncingScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: allTasksList.length + 1,
+                  // controller: _controller,
+                  separatorBuilder: (context, index) => SizedBox(
+                    height: Sizes.dimen_2.h,
+                  ),
+                  itemBuilder: (context, index) {
+                    if (index < allTasksList.length) {
+                      return TaskItem(
+                        taskEntity: allTasksList[index],
+                      );
+                    }
+
+                    /// loading or end of list
+                    return LoadingMoreAllTasksWidget(
+                      allTasksCubit: _getAllTasksCubit,
+                    );
+                  },
+                ),
               );
             }),
           ),
