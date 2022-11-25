@@ -8,27 +8,27 @@ import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../../../../common/constants/app_utils.dart';
-import '../../../../../../common/constants/sizes.dart';
-import '../../../../../../common/enum/animation_type.dart';
-import '../../../themes/theme_color.dart';
-import '../../../widgets/cached_image_widget.dart';
-import '../../../widgets/card_menu_item.dart';
-import '../../../widgets/text_with_icon.dart';
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/sizes.dart';
+import '../../../../common/enum/animation_type.dart';
+import '../themes/theme_color.dart';
+import 'cached_image_widget.dart';
+import 'card_menu_item.dart';
+import 'text_with_icon.dart';
 
-class AllTasksItem extends StatefulWidget {
+class TaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
 
-  const AllTasksItem({
+  const TaskItem({
     Key? key,
     required this.taskEntity,
   }) : super(key: key);
 
   @override
-  State<AllTasksItem> createState() => _AllTasksItemState();
+  State<TaskItem> createState() => _TaskItemState();
 }
 
-class _AllTasksItemState extends State<AllTasksItem> {
+class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
     return Container(

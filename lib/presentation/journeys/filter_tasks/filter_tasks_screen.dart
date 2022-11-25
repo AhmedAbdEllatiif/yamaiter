@@ -69,8 +69,10 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
         /// body
         body: BlocConsumer<FilterTasksCubit, FilterTasksState>(
           listener: (context, state) {
+            print("State >> $state");
             if (state is FilteredTasksFetchedSuccessfully) {
-              _navigateToFilteredTaskResultScreen(taskList: state.taskEntityList);
+              _navigateToFilteredTaskResultScreen(
+                  taskList: state.taskEntityList);
             }
           },
           builder: (context, state) {
@@ -252,6 +254,25 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                             )
                           ],
                         ),
+
+                  /// Empty list
+                  if (state is EmptyFilterTasks)
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          height: Sizes.dimen_16.h,
+                        ),
+                        Text(
+                          "* لا يوجد مهام بهذه المواصفات *",
+                          style:
+                              Theme.of(context).textTheme.bodyText2!.copyWith(
+                                    color: AppColor.white,
+                                    fontWeight: FontWeight.normal,
+                                  ),
+                        ),
+                      ],
+                    ),
                 ],
               ),
             );
@@ -288,15 +309,13 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
     );
   }
 
-  void _navigateToFilteredTaskResultScreen({required List<TaskEntity> taskList}) {
+  void _navigateToFilteredTaskResultScreen(
+      {required List<TaskEntity> taskList}) {
     if (filterTasksParams != null) {
       RouteHelper().filteredTasksResult(
         context,
         filteredTasksArguments: FilteredTasksArguments(
-          filterTasksCubit: _filterTasksCubit,
-          filterTasksParams: filterTasksParams!,
-          fetchedTasks: taskList
-        ),
+            filterTasksParams: filterTasksParams!, fetchedTasks: taskList),
       );
     } else {
       log("FilterTasksScreen >> _navigateToFilteredTaskResultScreen >> null params");

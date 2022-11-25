@@ -13,7 +13,7 @@ import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/loading_widget.dart';
-import 'all_tasks_item.dart';
+import '../../../widgets/task_item.dart';
 
 class AllTasksScreen extends StatefulWidget {
   const AllTasksScreen({
@@ -66,7 +66,9 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
         },
         child: Padding(
           padding: EdgeInsets.only(
-              top: Sizes.dimen_10.h, left: Sizes.dimen_10.w,right: Sizes.dimen_10.w),
+              top: Sizes.dimen_10.h,
+              left: Sizes.dimen_10.w,
+              right: Sizes.dimen_10.w),
           child: Padding(
             padding: EdgeInsets.only(top: Sizes.dimen_3.h),
             child: BlocBuilder<GetAllTasksCubit, GetAllTasksState>(
@@ -134,7 +136,7 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
                 ),
                 itemBuilder: (context, index) {
                   if (index < allTasksList.length) {
-                    return AllTasksItem(
+                    return TaskItem(
                       taskEntity: allTasksList[index],
                     );
                   }
@@ -168,9 +170,7 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
   /// when last item reached no action needed
   void _listenerOnScrollController() {
     _controller.addListener(() {
-      print("Controller is Here outside");
       if (_controller.position.maxScrollExtent == _controller.offset) {
-        print("Controller is Here inside");
         if (_getAllTasksCubit.state is! LastPageAllTasksListFetched) {
           _fetchMyTasksList();
         }
