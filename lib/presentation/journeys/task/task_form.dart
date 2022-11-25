@@ -44,6 +44,7 @@ class _TaskFormState extends State<TaskForm> {
 
   final _formKey = GlobalKey<FormState>();
   final TextEditingController descriptionController = TextEditingController();
+  final TextEditingController titleController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   String taskType = "";
@@ -177,14 +178,20 @@ class _TaskFormState extends State<TaskForm> {
           key: _formKey,
           child: Column(
             children: [
-              AppDropDownField(
+              /*AppDropDownField(
                   hintText: "موضوع المهمة",
                   itemsList: taskTypeList,
                   onChanged: (value) {
                     if (value != null) {
                       taskType = value;
                     }
-                  }),
+                  }),*/
+
+              /// price
+              AppTextField(
+                controller: titleController,
+                label: "موضوع المهمة",
+              ),
 
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
@@ -304,6 +311,9 @@ class _TaskFormState extends State<TaskForm> {
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
+    // init title
+    final title = titleController.value.text;
+
     // init description
     final description = descriptionController.value.text;
 
@@ -313,7 +323,7 @@ class _TaskFormState extends State<TaskForm> {
     // send create Task request
     _createTaskCubit.sendTask(
       token: userToken,
-      title: taskType,
+      title: title,
       governorates: governorate,
       description: description.isNotEmpty ? description : "لا يوجد",
       price: price,
