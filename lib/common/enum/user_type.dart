@@ -1,9 +1,19 @@
-enum UserType{
+enum UserType {
   lawyer,
   client,
   unDefined,
 }
 
+UserType userTypeFromString(String userTypeInString) {
+  switch (userTypeInString) {
+    case "lawyer":
+      return UserType.lawyer;
+    case "client":
+      return UserType.client;
+    default:
+      return UserType.unDefined;
+  }
+}
 
 /// Extension to convert UserType to string
 extension ToString on UserType {

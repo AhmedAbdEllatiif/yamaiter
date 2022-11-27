@@ -18,6 +18,21 @@ class UserEntity extends Equatable {
     required this.isVerified,
   });
 
+  factory UserEntity.empty() => const UserEntity(
+      id: -1,
+      name: "",
+      email: "",
+      phoneNum: "",
+      userType: UserType.unDefined,
+      isVerified: false);
+
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [
+        id,
+        name,
+        email,
+        phoneNum,
+        userType,
+        isVerified,
+      ];
 }

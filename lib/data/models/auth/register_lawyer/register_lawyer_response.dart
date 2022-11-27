@@ -111,11 +111,5 @@ class UserModel extends UserEntity {
     "updated_at": updatedAt,
   };
 
-  UserType buildUserType() {
-    return userableType.contains("Lawyer")
-        ? UserType.lawyer
-        : userableType.contains("Client")
-        ? UserType.client
-        : UserType.unDefined;
-  }
+
 }

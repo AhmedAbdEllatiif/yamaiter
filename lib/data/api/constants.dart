@@ -9,6 +9,9 @@ class ApiConstants {
     {"offset": 1}
   ]);*/
 
+  ///==> Client
+  static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerLawyer);
+
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
@@ -115,18 +118,24 @@ class ApiConstants {
   static Uri _filterTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.filterTask, queryParams);
 
+
+
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
     Map<String, String> queryParams = const {"": ""},
   }) {
     switch (requestType) {
+
+      ///============================>  Common <============================\\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///===================================================================\\\\
       // login
       case RequestType.login:
         return _loginUrl();
-      // registerLawyer
-      case RequestType.registerLawyer:
-        return _registerUrl();
       // about
       case RequestType.about:
         return _about();
@@ -138,6 +147,31 @@ class ApiConstants {
       // help
       case RequestType.help:
         return _help();
+
+      ///===================================================================\\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///=========================> End of Common <=========================\\\\
+
+      ///============================>  Client <============================\\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///===================================================================\\\\
+      case RequestType.registerClient:
+        return _registerClient();
+
+      ///===================================================================\\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///=========================> End of Client <=========================\\\\
+
+      // registerLawyer
+      case RequestType.registerLawyer:
+        return _registerUrl();
+
       // distresses
       case RequestType.distresses:
         return _distresses();
@@ -244,6 +278,13 @@ class ApiConstants {
 class EndPoints {
   static const String _apiVersion = "/api/";
 
+  ///===============> Client <=============\\\\
+  /// registerClient
+  static String registerClient = "${_apiVersion}client-register";
+
+  ///===========> End of Client <===========\\\\
+
+  ///===========> Lawyer <===========\\\\
   /// login
   static String login = "${_apiVersion}login";
 
@@ -358,6 +399,8 @@ class EndPoints {
 
 /// The api request type
 enum RequestType {
+  /// ===> Client
+  registerClient,
   login,
   registerLawyer,
   about,
