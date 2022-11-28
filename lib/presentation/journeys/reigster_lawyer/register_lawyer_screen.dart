@@ -6,7 +6,9 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
+import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
@@ -105,6 +107,9 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                   // save for auto login
                   _saveForAutoLogin(context,
                       token: state.registerResponseEntity.token);
+                  // save current authorized user date
+                  _saveAuthorizedUserData(context,
+                      userEntity: state.registerResponseEntity.userEntity);
                   // navigate to main screen
                   _navigateToMainScreen(context);
                   log("RegisterLawyerScreen RegisterLawyerSuccess");
@@ -131,7 +136,8 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                       child: Wrap(
                         alignment: WrapAlignment.center,
                         //spacing: 20, // to apply margin in the main axis of the wrap
-                        runSpacing: Sizes.dimen_4.h, //
+                        runSpacing: Sizes.dimen_4.h,
+                        //
                         children: [
                           // name
                           AppTextField(
@@ -234,7 +240,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
           padding: EdgeInsets.only(top: Sizes.dimen_4.h),
           child: AppCheckBoxTile(
             onChanged: (value) {},
-            text:"من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+            text: "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
             textColor: AppColor.white,
             checkBoxColor: AppColor.accentColor,
           ),
@@ -294,21 +300,22 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   bool _isFormValid() {
     log("Password >> ${passwordController.value.text},"
         " Repassword >> ${rePasswordController.value.text}");
-    if(phoneNumController.value.text.length != 11 ){
+    if (phoneNumController.value.text.length != 11) {
       showSnackBar(context, message: "رقم هاتف غير صحيح");
       return false;
     }
     if (_formKey.currentState != null) {
-      if(passwordController.value.text != rePasswordController.value.text){
+      if (passwordController.value.text != rePasswordController.value.text) {
         showSnackBar(context, message: "* يجب أن تكون كلمات المرور هي نفسها");
         return false;
       }
-      else if(_formKey.currentState!.validate()){
-        if(_idImagePath.isEmpty){
+      else if (_formKey.currentState!.validate()) {
+        if (_idImagePath.isEmpty) {
           showSnackBar(context, message: "ارفاق صورة الكارنيه مطلوبة");
           return false;
-        }else {
-          log("RegisterLawyerScreen >> trying to register but _idImagePath is empty");
+        } else {
+          log(
+              "RegisterLawyerScreen >> trying to register but _idImagePath is empty");
         }
         return true;
       }
@@ -327,5 +334,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   /// to save token for auto login
   void _saveForAutoLogin(BuildContext context, {required String token}) {
     context.read<UserTokenCubit>().save(token);
+  }
+
+  /// to save current authorized user date
+  void _saveAuthorizedUserData(BuildContext context,
+      {required AuthorizedUserEntity userEntity}) {
+    context.read<AuthorizedUserCubit>().save(userEntity);
   }
 }

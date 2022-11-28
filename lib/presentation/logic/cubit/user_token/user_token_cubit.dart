@@ -4,9 +4,9 @@ import 'package:equatable/equatable.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/auto_login_entity.dart';
 import '../../../../data/params/no_params.dart';
-import '../../../../domain/use_cases/app_settings/user_token/delete_user_token.dart';
-import '../../../../domain/use_cases/app_settings/user_token/get_user_token.dart';
-import '../../../../domain/use_cases/app_settings/user_token/save_user_token.dart';
+import '../../../../domain/use_cases/authorized_user/user_token/delete_user_token.dart';
+import '../../../../domain/use_cases/authorized_user/user_token/get_user_token.dart';
+import '../../../../domain/use_cases/authorized_user/user_token/save_user_token.dart';
 
 part 'user_token_state.dart';
 

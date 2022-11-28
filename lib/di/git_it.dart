@@ -5,6 +5,9 @@ import 'package:yamaiter/domain/use_cases/applied_tasks/apply_for_task.dart';
 import 'package:yamaiter/domain/use_cases/applied_tasks/apply_for_task.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
+import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/delete_user_data.dart';
+import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/get_user_data.dart';
+import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/save_user_data.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
@@ -19,6 +22,7 @@ import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_article/create_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_sos/create_sos_cubit.dart';
@@ -55,9 +59,9 @@ import '../domain/use_cases/about.dart';
 import '../domain/use_cases/accept_terms/accept_terms.dart';
 import '../domain/use_cases/accept_terms/get_accept_terms.dart';
 import '../domain/use_cases/ads/get_my_ads.dart';
-import '../domain/use_cases/app_settings/user_token/get_user_token.dart';
-import '../domain/use_cases/app_settings/user_token/delete_user_token.dart';
-import '../domain/use_cases/app_settings/user_token/save_user_token.dart';
+import '../domain/use_cases/authorized_user/user_token/get_user_token.dart';
+import '../domain/use_cases/authorized_user/user_token/delete_user_token.dart';
+import '../domain/use_cases/authorized_user/user_token/save_user_token.dart';
 import '../domain/use_cases/applied_tasks/decline_invited_task.dart';
 import '../domain/use_cases/applied_tasks/get_applied_tasks.dart';
 import '../domain/use_cases/applied_tasks/upload_task_file.dart';
@@ -347,7 +351,51 @@ Future init() async {
     ),
   );
 
+  //==> AuthorizedUserCubit
+  getItInstance.registerFactory<AuthorizedUserCubit>(
+    () => AuthorizedUserCubit(
+      saveUserDataCase: getItInstance(),
+      getUserDataCase: getItInstance(),
+      deleteUserDataCase: getItInstance(),
+    ),
+  );
+
   ///************************ init usecases *********************************\\\
+
+  //////////////////////////// Authorized user \\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  //==> GetAutoLogin
+  getItInstance.registerLazySingleton<GetUserTokenCase>(() => GetUserTokenCase(
+        appSettingsRepository: getItInstance(),
+      ));
+
+  //==> SaveAutoLogin
+  getItInstance
+      .registerLazySingleton<SaveUserTokenCase>(() => SaveUserTokenCase(
+            appSettingsRepository: getItInstance(),
+          ));
+
+  //==> DeleteAutoLogin
+  getItInstance
+      .registerLazySingleton<DeleteUserTokenCase>(() => DeleteUserTokenCase(
+            appSettingsRepository: getItInstance(),
+          ));
+
+  //==> SaveUserDataCase
+  getItInstance.registerLazySingleton<SaveUserDataCase>(() => SaveUserDataCase(
+        appSettingsRepository: getItInstance(),
+      ));
+
+  //==> GetUserDataCase
+  getItInstance.registerLazySingleton<GetUserDataCase>(() => GetUserDataCase(
+        appSettingsRepository: getItInstance(),
+      ));
+
+  //==> DeleteUserDataCase
+  getItInstance
+      .registerLazySingleton<DeleteUserDataCase>(() => DeleteUserDataCase(
+            appSettingsRepository: getItInstance(),
+          ));
+  /////////////////////////////////////////////////////////////////////////
 
   //==> RegisterClientCase
   getItInstance.registerFactory<RegisterClientCase>(
@@ -463,23 +511,6 @@ Future init() async {
   getItInstance.registerFactory<GetInProgressTaxesCase>(
     () => GetInProgressTaxesCase(remoteRepository: getItInstance()),
   );
-
-  //==> GetAutoLogin
-  getItInstance.registerLazySingleton<GetUserTokenCase>(() => GetUserTokenCase(
-        appSettingsRepository: getItInstance(),
-      ));
-
-  //==> SaveAutoLogin
-  getItInstance
-      .registerLazySingleton<SaveUserTokenCase>(() => SaveUserTokenCase(
-            appSettingsRepository: getItInstance(),
-          ));
-
-  //==> DeleteAutoLogin
-  getItInstance
-      .registerLazySingleton<DeleteUserTokenCase>(() => DeleteUserTokenCase(
-            appSettingsRepository: getItInstance(),
-          ));
 
   //==> GetAboutCase
   getItInstance.registerFactory<GetAboutCase>(

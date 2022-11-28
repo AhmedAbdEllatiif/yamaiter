@@ -6,6 +6,7 @@ import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
+import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import '../common/extensions/size_extensions.dart';
 import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
@@ -24,18 +25,26 @@ class BaseMaterialApp extends StatefulWidget {
 
 class _BaseMaterialAppState extends State<BaseMaterialApp> {
   late final UserTokenCubit userToken;
+  late final AuthorizedUserCubit authorizedUserCubit;
 
   @override
   void initState() {
+    //==> current user token
     userToken = getItInstance<UserTokenCubit>();
     userToken.loadCurrentAutoLoginStatus();
+    //==> current authorized token
+    authorizedUserCubit = getItInstance<AuthorizedUserCubit>();
+    authorizedUserCubit.loadCurrentAuthorizedUserData();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => userToken,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => userToken),
+        BlocProvider(create: (context) => authorizedUserCubit),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'YaMaiter',
@@ -78,8 +87,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
               indicatorColor: AppColor.accentColor,
               //indicatorColor: Colors.transparent,
               backgroundColor: AppColor.primaryDarkColor,
-              labelBehavior:
-                  NavigationDestinationLabelBehavior.alwaysHide,
+              labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
               indicatorShape: const CircleBorder(),
               labelTextStyle: MaterialStateProperty.all(
                 const TextStyle(

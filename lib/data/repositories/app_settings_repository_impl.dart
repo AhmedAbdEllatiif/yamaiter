@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 import '../../common/enum/app_error_type.dart';
 import '../../domain/entities/app_error.dart';
@@ -39,20 +39,18 @@ class AppSettingsRepositoryImpl extends AppSettingsRepository {
   @override
   Future<Either<AppError, void>> deleteAutoLogin() async {
     try {
-      final deleteAutoLogin =
-          await appSettingsDataSource.deleteAutoLogin();
+      final deleteAutoLogin = await appSettingsDataSource.deleteAutoLogin();
       return Right(deleteAutoLogin);
     } on Exception {
       return const Left(AppError(AppErrorType.sharedPreferences));
     }
   }
 
- /* /// deleteCurrentUserData
+  /// deleteCurrentUserData
   @override
   Future<Either<AppError, void>> deleteCurrentUserData() async {
     try {
-      final deleteCurrentUser =
-          await appSettingsLocalDataSource.deleteCurrentUser();
+      final deleteCurrentUser = await appSettingsDataSource.deleteCurrentUser();
       return Right(deleteCurrentUser);
     } on Exception {
       return const Left(AppError(AppErrorType.sharedPreferences));
@@ -61,9 +59,9 @@ class AppSettingsRepositoryImpl extends AppSettingsRepository {
 
   /// getCurrentUserData
   @override
-  Future<Either<AppError, UserEntity>> getCurrentUserData() async {
+  Future<Either<AppError, AuthorizedUserEntity>> getCurrentUserData() async {
     try {
-      final currentUserData = await appSettingsLocalDataSource.getCurrentUser();
+      final currentUserData = await appSettingsDataSource.getCurrentUser();
       return Right(currentUserData);
     } on Exception {
       return const Left(AppError(AppErrorType.sharedPreferences));
@@ -73,13 +71,13 @@ class AppSettingsRepositoryImpl extends AppSettingsRepository {
   /// saveCurrentUserData
   @override
   Future<Either<AppError, void>> saveCurrentUserData(
-      UserEntity userEntity) async {
+      AuthorizedUserEntity userEntity) async {
     try {
       final saveCurrentUser =
-          await appSettingsLocalDataSource.saveCurrentUser(userEntity);
+          await appSettingsDataSource.saveCurrentUser(userEntity);
       return Right(saveCurrentUser);
     } on Exception {
       return const Left(AppError(AppErrorType.sharedPreferences));
     }
-  }*/
+  }
 }

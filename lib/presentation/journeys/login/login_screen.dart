@@ -12,7 +12,9 @@ import 'package:yamaiter/presentation/widgets/text_login_instead.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/functions/common_functions.dart';
 import '../../../common/screen_utils/screen_util.dart';
+import '../../../domain/entities/data/authorized_user_entity.dart';
 import '../../../router/route_helper.dart';
+import '../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../logic/cubit/login/login_cubit.dart';
 import '../../widgets/app_button.dart';
 
@@ -70,6 +72,9 @@ class _LoginScreenState extends State<LoginScreen> {
               // save for auto login
               _saveForAutoLogin(context,
                   token: state.loginResponseEntity.token);
+              // save current authorized user date
+              _saveAuthorizedUserData(context,
+                  userEntity: state.loginResponseEntity.userEntity);
               // navigate to main screen
               _navigateToMainScreen(context);
             }
@@ -213,12 +218,18 @@ class _LoginScreenState extends State<LoginScreen> {
     context.read<UserTokenCubit>().save(token);
   }
 
+  /// to save current authorized user date
+  void _saveAuthorizedUserData(BuildContext context,
+      {required AuthorizedUserEntity userEntity}) {
+    context.read<AuthorizedUserCubit>().save(userEntity);
+  }
+
   /// to ensure init ScreenUtil
-  void _initScreenUtil(){
+  void _initScreenUtil() {
     if (ScreenUtil.screenHeight == 0) {
       final h = MediaQuery.of(context).size.height;
       final w = MediaQuery.of(context).size.width;
-      ScreenUtil.init(height: h,width: w);
+      ScreenUtil.init(height: h, width: w);
     }
   }
 }

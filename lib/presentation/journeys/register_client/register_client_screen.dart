@@ -9,7 +9,10 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../domain/entities/data/authorized_user_entity.dart';
 import '../../../router/route_helper.dart';
+import '../../logic/cubit/authorized_user/authorized_user_cubit.dart';
+import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_button.dart';
 import '../../widgets/app_check_box.dart';
@@ -68,6 +71,13 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
           listener: (context, state) {
             // success
             if (state is RegisterClientSuccess) {
+              // save for auto login
+              _saveForAutoLogin(context,
+                  token: state.registerResponseEntity.token);
+              // save current authorized user date
+              _saveAuthorizedUserData(context,
+                  userEntity: state.registerResponseEntity.userEntity);
+              // navigate to main screen
               _navigateToMainScreen();
             }
 
@@ -269,4 +279,15 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
   /// to mainScreen
   void _navigateToMainScreen() =>
       RouteHelper().main(context, isClearStack: true);
+
+  /// to save token for auto login
+  void _saveForAutoLogin(BuildContext context, {required String token}) {
+    context.read<UserTokenCubit>().save(token);
+  }
+
+  /// to save current authorized user date
+  void _saveAuthorizedUserData(BuildContext context,
+      {required AuthorizedUserEntity userEntity}) {
+    context.read<AuthorizedUserCubit>().save(userEntity);
+  }
 }

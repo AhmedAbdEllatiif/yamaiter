@@ -2,6 +2,8 @@ import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 
+import '../../../common/constants/app_utils.dart';
+
 class AuthorizedUserEntity extends Equatable {
   final int id;
   final String name;
@@ -19,11 +21,11 @@ class AuthorizedUserEntity extends Equatable {
     required this.acceptTerms,
   });
 
-  factory AuthorizedUserEntity.empty() => const AuthorizedUserEntity(
+  factory AuthorizedUserEntity.empty() =>  const AuthorizedUserEntity(
       id: -1,
-      name: "",
-      email: "",
-      phoneNum: "",
+      name: AppUtils.undefined,
+      email: AppUtils.undefined,
+      phoneNum: "01*********",
       userType: UserType.unDefined,
       acceptTerms: AcceptTerms.unKnown);
 

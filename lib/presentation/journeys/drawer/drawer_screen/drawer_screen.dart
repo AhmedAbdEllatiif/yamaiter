@@ -13,6 +13,7 @@ import 'package:yamaiter/router/route_helper.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/animation_type.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
+import '../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../widgets/image_name_rating_widget.dart';
 
@@ -39,7 +40,8 @@ class DrawerScreen extends StatelessWidget {
               children: [
                 /// Avatar and rating
                 ImageNameRatingWidget(
-                  name: "John Micheal",
+                  name:
+                      context.read<AuthorizedUserCubit>().state.userEntity.name,
                   imgUrl: AssetsImages.personAvatar,
                   rating: 3,
                   onPressed: () {
@@ -77,7 +79,7 @@ class DrawerScreen extends StatelessWidget {
 
           SizedBox(
             width: ScreenUtil.screenWidth * 0.8,
-            child: Divider(
+            child: const Divider(
               color: AppColor.white,
             ),
           ),
@@ -223,6 +225,7 @@ class DrawerScreen extends StatelessWidget {
           title: "تسجيل الخروج",
           onPressed: () {
             context.read<UserTokenCubit>().delete();
+            context.read<AuthorizedUserCubit>().delete();
             RouteHelper().loginScreen(context, isClearStack: true);
           },
         ),

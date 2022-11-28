@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 import '../entities/app_error.dart';
 import '../entities/auto_login_entity.dart';
@@ -15,15 +15,13 @@ abstract class AppSettingsRepository {
   /// return AutoLoginStatus
   Future<Either<AppError, String>> getAutoLoginStatus();
 
-
-
-  /*/// save CurrentUserData
+  /// save CurrentUserData
   Future<Either<AppError, void>> saveCurrentUserData(
-      UserEntity userEntity);
+      AuthorizedUserEntity userEntity);
 
   /// save CurrentUserData
   Future<Either<AppError, void>> deleteCurrentUserData();
 
   /// return CurrentUserData
-  Future<Either<AppError, UserEntity>> getCurrentUserData();*/
+  Future<Either<AppError, AuthorizedUserEntity>> getCurrentUserData();
 }
