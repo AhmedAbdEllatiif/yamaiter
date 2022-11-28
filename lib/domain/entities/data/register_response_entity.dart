@@ -1,8 +1,8 @@
-import 'package:yamaiter/domain/entities/data/user_entity.dart';
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 class RegisterResponseEntity{
 
-  final UserEntity userEntity;
+  final AuthorizedUserEntity userEntity;
   final String token;
 
   RegisterResponseEntity({required this.userEntity, required this.token});

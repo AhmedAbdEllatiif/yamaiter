@@ -23,6 +23,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
@@ -38,6 +39,7 @@ import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/auth/register_client/register_client_request_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
@@ -67,6 +69,7 @@ import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
+import 'package:yamaiter/data/params/no_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
@@ -84,6 +87,7 @@ import '../models/accept_terms/accept_terms_response_model.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
+import '../models/auth/register_client/register_client_response_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/delete_sos_params.dart';
@@ -92,6 +96,21 @@ import '../params/get_taxes_params.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
+  ///============================>  Client <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  /// registerClient
+  Future<dynamic> registerClient(RegisterClientRequestModel params);
+
+  ///============================>  Lawyer <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
   /// login
   Future<dynamic> login(LoginRequestModel loginRequestModel);
 
@@ -215,6 +234,74 @@ abstract class RemoteDataSource {
 
 class RemoteDataSourceImpl extends RemoteDataSource {
   RemoteDataSourceImpl();
+
+  ///============================>  Client <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  /// registerClient
+  @override
+  Future registerClient(RegisterClientRequestModel params) async {
+    try {
+      log("registerClient >> Start request");
+      // init request
+      final request = RegisterClientRequest();
+
+      // response
+      final response = await request(params, NoParams());
+
+      log("registerClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return registerClientResponseModelFromJson(response.body);
+        // UnProcessable Entity
+        case 422:
+          log("registerClient >> ResponseBody: ${response.body}");
+          //==> alreadyEmailUsedBefore
+          if (response.body.contains("alreadyEmailUsedBefore")) {
+            return AppError(AppErrorType.emailAlreadyExists,
+                message:
+                    "registerClient Status Code >> ${response.statusCode}");
+          }
+
+          //==> alreadyEmailUsedBefore
+          else if (response.body.contains("alreadyPhoneUsedBefore")) {
+            return AppError(AppErrorType.alreadyPhoneUsedBefore,
+                message:
+                    "registerClient Status Code >> ${response.statusCode}");
+          }
+
+          return AppError(AppErrorType.api,
+              message: "registerClient Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+        // unAuthorized
+        case 401:
+          log("registerClient >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "registerClient Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("registerClient >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "registerClient Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("registerClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "registerClient UnHandledError >> $e");
+    }
+  }
+
+  ///============================>  Lawyer <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
 
   /// Login
   @override
@@ -1679,10 +1766,9 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// filterTasks
   @override
-  Future filterTasks(FilterTasksParams params) async{
+  Future filterTasks(FilterTasksParams params) async {
     try {
       log("filterTasks >> Start request");
       // init request
@@ -1694,25 +1780,25 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("filterTasks >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return listOfTasksFromJson(response.body);
-      // notActivatedUser
+        // notActivatedUser
         case 403:
           log("filterTasks >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.notActivatedUser,
               message: "filterTasks Status Code >> ${response.statusCode}");
-      // not found
+        // not found
         case 404:
           log("filterTasks >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.notFound,
               message: "filterTasks Status Code >> ${response.statusCode}");
-      // unAuthorized
+        // unAuthorized
         case 401:
           log("filterTasks >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.unauthorizedUser,
               message: "filterTasks Status Code >> ${response.statusCode}");
-      // default
+        // default
         default:
           log("filterTasks >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.api,

@@ -9,6 +9,8 @@ import 'package:yamaiter/data/models/app_settings_models/help_response_model.dar
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/article/article_model.dart';
 import 'package:yamaiter/data/models/auth/login/login_response.dart';
+import 'package:yamaiter/data/models/auth/register_client/register_client_request_model.dart';
+import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
@@ -58,6 +60,7 @@ import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
 import '../params/get_taxes_params.dart';
+import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
@@ -66,6 +69,50 @@ class RemoteRepositoryImpl extends RemoteRepository {
   RemoteRepositoryImpl({
     required this.remoteDataSource,
   });
+
+  ///============================>  Client <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  @override
+  Future<Either<AppError, RegisterResponseEntity>> registerClient(
+      RegisterClientParams params) async {
+    try {
+      // build a model
+      final registerRequestModel = RegisterClientRequestModel(
+        name: params.name,
+        phone: params.phone,
+        email: params.email,
+        governorates: params.governorates,
+        password: params.password,
+        acceptTerms: params.isTermsAccepted,
+      );
+
+      // send request
+      final result =
+          await remoteDataSource.registerClient(registerRequestModel);
+
+      // success
+      if (result is RegisterClientResponseModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  ///============================>  Lawyer <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
 
   /// Login
   @override

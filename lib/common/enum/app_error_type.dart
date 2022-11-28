@@ -7,6 +7,8 @@ enum AppErrorType {
   unHandledError,
   // apiErrors
   api,
+  emailAlreadyExists,
+  alreadyPhoneUsedBefore,
   unauthorizedUser,
   notActivatedUser,
   notAcceptedYet,

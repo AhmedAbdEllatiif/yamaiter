@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
+import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
+import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
@@ -39,6 +41,7 @@ import '../../data/params/all_sos_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
+import '../../data/params/register_client_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
 import '../../data/params/update_sos_params.dart';
 import '../../data/params/update_task_params.dart';
@@ -46,6 +49,20 @@ import '../entities/app_error.dart';
 import '../entities/data/article_entity.dart';
 
 abstract class RemoteRepository {
+  ///============================>  Client <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  /// registerClient
+  Future<Either<AppError, RegisterResponseEntity>> registerClient(
+      RegisterClientParams params);
+
+  ///============================>  Lawyer <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
   /// login
   Future<Either<AppError, LoginResponseEntity>> login(
       LoginRequestParams loginRequestParams);
@@ -187,7 +204,6 @@ abstract class RemoteRepository {
   /// invite to task
   Future<Either<AppError, SuccessModel>> inviteToTask(
       InviteToTaskParams params);
-
 
   /// filter tasks
   Future<Either<AppError, List<TaskEntity>>> filterTasks(

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/common_functions.dart';
+import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/presentation/logic/cubit/register_client/register_client_cubit.dart';
+import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/drop_down_list.dart';
@@ -24,6 +29,8 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
   /// form key
   final _formKey = GlobalKey<FormState>();
 
+  late final RegisterClientCubit _registerClientCubit;
+
   /// Controllers
   final TextEditingController emailController = TextEditingController();
   final TextEditingController nameController = TextEditingController();
@@ -31,117 +38,178 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
 
-  String _governorate = " ";
+  String _governorate = "";
+  bool isTermsAccepted = false;
+  bool acceptTermsHasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _registerClientCubit = getItInstance<RegisterClientCubit>();
+  }
+
+  @override
+  void dispose() {
+    _registerClientCubit.close();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColor.primaryDarkColor,
-      // appbar
-      appBar: AppBar(),
+    return BlocProvider(
+      create: (context) => _registerClientCubit,
+      child: Scaffold(
+        backgroundColor: AppColor.primaryDarkColor,
+        // appbar
+        appBar: AppBar(),
 
-      // body
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: AppUtils.screenHorizontalPadding.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // LogoWithTitleWidget
-              const LogoWithTitleWidget(
-                title: "تسجيل موكل جديد",
+        // body
+        body: BlocListener<RegisterClientCubit, RegisterClientState>(
+          listener: (context, state) {
+            // success
+            if (state is RegisterClientSuccess) {
+              _navigateToMainScreen();
+            }
+
+            // email already exists
+            if (state is ClientEmailAlreadyExists) {
+              showSnackBar(context, message: "البريد الاكترونى مستخدم من قبل");
+            }
+
+            // phone already exists
+            if (state is ClientNumberAlreadyExists) {
+              showSnackBar(context, message: "رقم الهاتف مستخدم من قبل");
+            }
+          },
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: AppUtils.screenHorizontalPadding.w),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // LogoWithTitleWidget
+                  const LogoWithTitleWidget(
+                    title: "تسجيل موكل جديد",
+                  ),
+
+                  // Form
+                  Form(
+                    key: _formKey,
+                    child: Wrap(
+                      alignment: WrapAlignment.center,
+                      spacing: 20,
+                      // to apply margin in the main axis of the wrap
+                      runSpacing: 20,
+                      //
+                      children: [
+                        // name
+                        AppTextField(
+                          label: "الأسم",
+                          controller: nameController,
+                        ),
+
+                        // phone num
+                        AppTextField(
+                          label: "رقم الهاتف المحمول",
+                          controller: mobileNumController,
+                          textInputType: TextInputType.number,
+                          maxLength: 11,
+                        ),
+
+                        // email
+                        AppTextField(
+                          label: "البريد الاكترونى",
+                          controller: emailController,
+                          textInputType: TextInputType.emailAddress,
+                        ),
+
+                        // governoratesList
+                        AppDropDownField(
+                          hintText: "المحافظة",
+                          itemsList: governoratesList,
+                          onChanged: (value) {
+                            if (value != null) {
+                              _governorate = value;
+                            }
+                          },
+                        ),
+
+                        // password
+                        AppTextField(
+                          label: "كلمة المرور",
+                          textInputType: TextInputType.visiblePassword,
+                          controller: passwordController,
+                        ),
+
+                        // re-password
+                        AppTextField(
+                          label: "تأكيد كلمة المرور",
+                          textInputType: TextInputType.visiblePassword,
+                          controller: rePasswordController,
+                          rePassword: passwordController.value.text,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  BlocBuilder<RegisterClientCubit, RegisterClientState>(
+                    builder: (context, state) {
+                      //==> loading
+                      if (state is LoadingRegisterClient) {
+                        return const LoadingWidget();
+                      }
+
+                      //==> else
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // submit button
+                          Padding(
+                            padding:
+                                EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
+                            child: AppButton(
+                              text: "تسجيل",
+                              textColor: AppColor.primaryDarkColor,
+                              color: AppColor.accentColor,
+                              onPressed: () {
+                                if (_validate()) {
+                                  _tryToRegisterClient();
+                                }
+                              },
+                            ),
+                          ),
+
+                          AppCheckBoxTile(
+                            onChanged: (value) {
+                              if (value != null) {
+                                isTermsAccepted = value;
+                                _showOrHideAcceptTermsError(false);
+                              }
+                            },
+                            text:
+                                "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+                            hasError: acceptTermsHasError,
+                            textColor: AppColor.white,
+                            checkBoxColor: AppColor.accentColor,
+                          ),
+
+                          // already a user go to login
+                          LoginOrRegisterWidget(
+                            isLogin: false,
+                            onPressed: () => _navigateToLoginScreen(),
+                          ),
+
+                          // bottom space
+                          SizedBox(height: Sizes.dimen_30.h),
+                        ],
+                      );
+                    },
+                  )
+                ],
               ),
-
-              // Form
-              Form(
-                key: _formKey,
-                child: Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 20, // to apply margin in the main axis of the wrap
-                  runSpacing: 20, //
-                  children: [
-                    // name
-                    AppTextField(
-                      label: "الأسم",
-                      controller: nameController,
-                    ),
-
-                    // phone num
-                    AppTextField(
-                      label: "رقم الهاتف المحمول",
-                      controller: mobileNumController,
-                      textInputType: TextInputType.number,
-                      maxLength: 11,
-                    ),
-
-                    // email
-                    AppTextField(
-                      label: "البريد الاكترونى",
-                      controller: emailController,
-                      textInputType: TextInputType.emailAddress,
-                    ),
-
-                    // governoratesList
-                    AppDropDownField(
-                      hintText: "المحافظة",
-                      itemsList: governoratesList,
-                      onChanged: (value) {
-                        if (value != null) {
-                          _governorate = value;
-                        }
-                      },
-                    ),
-
-                    // password
-                    AppTextField(
-                      label: "كلمة المرور",
-                      textInputType: TextInputType.visiblePassword,
-                      controller: passwordController,
-                    ),
-
-                    // re-password
-                    AppTextField(
-                      label: "تأكيد كلمة المرور",
-                      textInputType: TextInputType.visiblePassword,
-                      controller: rePasswordController,
-                      rePassword: passwordController.value.text,
-                    ),
-                  ],
-                ),
-              ),
-
-              // submit button
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
-                child: AppButton(
-                  text: "تسجيل",
-                  textColor: AppColor.primaryDarkColor,
-                  color: AppColor.accentColor,
-                  onPressed: () {
-                    print(" >> $_governorate ");
-                    if (_isFormValid()) {}
-                  },
-                ),
-              ),
-
-              AppCheckBoxTile(
-                onChanged: (value) {},
-                text:"من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
-                textColor: AppColor.white,
-                checkBoxColor: AppColor.accentColor,
-              ),
-
-              // already a user go to login
-              LoginOrRegisterWidget(
-                isLogin: false,
-                onPressed: () => _navigateToLoginScreen(),
-              ),
-
-              // bottom space
-              SizedBox(height: Sizes.dimen_30.h),
-            ],
+            ),
           ),
         ),
       ),
@@ -149,14 +217,56 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
   }
 
   /// return true if the form is valid
-  bool _isFormValid() {
+  bool _validate() {
     if (_formKey.currentState != null) {
-      return _formKey.currentState!.validate();
+      if (_formKey.currentState!.validate()) {
+        if (isTermsAccepted) {
+          return true;
+        }
+        _showOrHideAcceptTermsError(true);
+        return false;
+      }
+      return false;
     }
     return false;
   }
 
+  /// to show or hide you have to accept terms
+  void _showOrHideAcceptTermsError(bool showError) {
+    if (showError) {
+      setState(() {
+        acceptTermsHasError = true;
+      });
+    } else {
+      setState(() {
+        acceptTermsHasError = false;
+      });
+    }
+  }
+
+  /// try to register a new client
+  void _tryToRegisterClient() {
+    final email = emailController.value.text;
+    final name = nameController.value.text;
+    final phoneNumber = mobileNumController.value.text;
+    final password = passwordController.value.text;
+    final termsAcceptance = isTermsAccepted;
+
+    _registerClientCubit.tryToRegister(
+      name: name,
+      email: email,
+      phone: phoneNumber,
+      governorates: _governorate,
+      password: password,
+      isTermsAccepted: termsAcceptance,
+    );
+  }
+
   /// to login
   void _navigateToLoginScreen() =>
-      RouteHelper().loginScreen(context,isClearStack: true);
+      RouteHelper().loginScreen(context, isClearStack: true);
+
+  /// to mainScreen
+  void _navigateToMainScreen() =>
+      RouteHelper().main(context, isClearStack: true);
 }

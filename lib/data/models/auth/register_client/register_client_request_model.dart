@@ -13,5 +13,17 @@ class RegisterClientRequestModel {
   final String phone;
   final String governorates;
   final String password;
-  final String acceptTerms;
+  final bool acceptTerms;
+
+  Map<String, dynamic> toJson() {
+    return {
+      "name": name,
+      "phone": phone,
+      "email": email,
+      "governorates": governorates,
+      "password": password,
+      "password_confirmation": password,
+      "accept_terms": acceptTerms.toString(),
+    };
+  }
 }

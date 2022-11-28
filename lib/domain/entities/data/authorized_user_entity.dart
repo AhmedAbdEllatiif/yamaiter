@@ -1,30 +1,31 @@
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 
-class UserEntity extends Equatable {
+class AuthorizedUserEntity extends Equatable {
   final int id;
   final String name;
   final String email;
   final String phoneNum;
   final UserType userType;
-  final bool isVerified;
+  final AcceptTerms acceptTerms;
 
-  const UserEntity({
+  const AuthorizedUserEntity({
     required this.id,
     required this.name,
     required this.email,
     required this.phoneNum,
     required this.userType,
-    required this.isVerified,
+    required this.acceptTerms,
   });
 
-  factory UserEntity.empty() => const UserEntity(
+  factory AuthorizedUserEntity.empty() => const AuthorizedUserEntity(
       id: -1,
       name: "",
       email: "",
       phoneNum: "",
       userType: UserType.unDefined,
-      isVerified: false);
+      acceptTerms: AcceptTerms.unKnown);
 
   @override
   List<Object?> get props => [
@@ -33,6 +34,6 @@ class UserEntity extends Equatable {
         email,
         phoneNum,
         userType,
-        isVerified,
+        acceptTerms,
       ];
 }

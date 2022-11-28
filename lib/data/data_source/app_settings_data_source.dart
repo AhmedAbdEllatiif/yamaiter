@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 
 import '../../domain/entities/auto_login_entity.dart';
-import '../../domain/entities/data/user_entity.dart';
+import '../../domain/entities/data/authorized_user_entity.dart';
 
 abstract class AppSettingsDataSource {
   //===============================>  Token  <================================\\
@@ -31,10 +32,10 @@ abstract class AppSettingsDataSource {
   //                                                                          \\
   //==========================================================================\\
   /// return UserEntity
-  Future<UserEntity> getCurrentUser();
+  Future<AuthorizedUserEntity> getCurrentUser();
 
   /// save current user Entity
-  Future<void> saveCurrentUser(UserEntity userEntity);
+  Future<void> saveCurrentUser(AuthorizedUserEntity userEntity);
 
   /// to remove current user data
   Future<void> deleteCurrentUser();
@@ -86,34 +87,38 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
 
   /// return UserEntity
   @override
-  Future<UserEntity> getCurrentUser() async {
+  Future<AuthorizedUserEntity> getCurrentUser() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
-    final userId = preferences.getInt("userId") ?? -1;
-    final isVerified = preferences.getBool("isVerified") ?? false;
 
+    // userId
+    final userId = preferences.getInt("userId") ?? -1;
+
+    // userData
     final data = preferences.getStringList("userData") ?? [];
+
+    // return user data
     return data.isNotEmpty
-        ? UserEntity(
+        ? AuthorizedUserEntity(
             id: userId,
             name: data[0],
             email: data[1],
             userType: userTypeFromString(data[2]),
             phoneNum: data[3],
-            isVerified: isVerified)
-        : UserEntity.empty();
+            acceptTerms: acceptTermsFromString(data[4]))
+        : AuthorizedUserEntity.empty();
   }
 
   /// save current user Entity
   @override
-  Future<void> saveCurrentUser(UserEntity userEntity) async {
+  Future<void> saveCurrentUser(AuthorizedUserEntity userEntity) async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt("userId", userEntity.id);
-    preferences.setBool("isVerified", userEntity.isVerified);
     preferences.setStringList("userData", [
       userEntity.name,
       userEntity.email,
       userEntity.userType.toShortString(),
       userEntity.phoneNum,
+      userEntity.acceptTerms.toShortString(),
     ]);
   }
 }

@@ -10,7 +10,7 @@ class ApiConstants {
   ]);*/
 
   ///==> Client
-  static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerLawyer);
+  static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
