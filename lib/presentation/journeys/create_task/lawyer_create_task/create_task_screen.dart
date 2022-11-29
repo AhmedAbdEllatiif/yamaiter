@@ -3,19 +3,19 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/presentation/journeys/task/task_form.dart';
+import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/task_form.dart';
 import 'package:yamaiter/presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
-import '../../../common/enum/app_error_type.dart';
-import '../../../domain/entities/screen_arguments/create_task_args.dart';
-import '../../../router/route_helper.dart';
-import '../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../widgets/accept_terms_widget.dart';
-import '../../widgets/app_error_widget.dart';
-import '../../widgets/loading_widget.dart';
+import '../../../../domain/entities/screen_arguments/create_task_args.dart';
+import '../../../../common/enum/app_error_type.dart';
+import '../../../../router/route_helper.dart';
+import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../widgets/accept_terms_widget.dart';
+import '../../../widgets/app_error_widget.dart';
+import '../../../widgets/loading_widget.dart';
 
 class CreateTaskScreen extends StatefulWidget {
   final CreateTaskArguments? createTaskArguments;
@@ -31,7 +31,7 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
   late final GetAcceptTermsCubit _getAcceptTermsCubit;
   late final AcceptTermsCubit _acceptTermsCubit;
   CreateTaskCubit? _createTaskCubit;
-  bool isBackAfterSuccess =  false;
+  bool isBackAfterSuccess = false;
 
   @override
   void initState() {

@@ -88,6 +88,7 @@ import '../domain/use_cases/my_tasks/update_task.dart';
 import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
+import '../presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
@@ -265,6 +266,11 @@ Future init() async {
   //==> CreateTaskCubit
   getItInstance.registerFactory<CreateTaskCubit>(
     () => CreateTaskCubit(),
+  );
+
+  //==> CreateTaskClientCubit
+  getItInstance.registerFactory<CreateTaskClientCubit>(
+    () => CreateTaskClientCubit(),
   );
 
   //==> AssignTaskCubit

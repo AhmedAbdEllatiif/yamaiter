@@ -573,33 +573,39 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   @override
   Future getAllSos(GetSosParams params) async {
-    log("getAllSos >> Start request");
-    // init request
-    final allSosRequest = GetAllSosRequest();
+    try {
+      log("getAllSos >> Start request");
+      // init request
+      final allSosRequest = GetAllSosRequest();
 
-    // response
-    final response = await allSosRequest(params);
+      // response
+      final response = await allSosRequest(params);
 
-    log("getAllSos >> ResponseCode: ${response.statusCode}");
+      log("getAllSos >> ResponseCode: ${response.statusCode}");
 
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return mySosResponseModelFromAllDistressDataCallsJson(response.body);
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "getAllSos Status Code >> ${response.statusCode}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "getAllSos Status Code >> ${response.statusCode}");
-      // default
-      default:
-        log("getAllSos >> ResponseCode: ${response.statusCode} \n Body: ${response.body}");
-        return AppError(AppErrorType.api,
-            message: "getAllSos Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return mySosResponseModelFromAllDistressDataCallsJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getAllSos Status Body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getAllSos Status Body >> ${response.body}");
+        // default
+        default:
+          log("getAllSos >> ResponseCode: ${response.statusCode} \n Body: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getAllSos Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getAllSos >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getAllSos UnHandledError >> $e");
     }
   }
 

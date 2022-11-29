@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
@@ -21,6 +22,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart'
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
+import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
@@ -47,9 +49,8 @@ import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
 import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
-import 'package:yamaiter/presentation/journeys/task/create_task_screen.dart';
+import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/create_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.dart';
-import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
@@ -131,6 +132,13 @@ class Routes {
         RouteList.createTask: (context) => CreateTaskScreen(
               createTaskArguments: settings.arguments != null
                   ? settings.arguments as CreateTaskArguments
+                  : null,
+            ),
+
+        /// createTaskClient
+        RouteList.createTaskClient: (context) => CreateTaskClient(
+              createTaskArgumentsClient: settings.arguments != null
+                  ? settings.arguments as CreateTaskArgumentsClient
                   : null,
             ),
 

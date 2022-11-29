@@ -4,33 +4,28 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/loading_more_all_articles.dart';
 
-import '../../../../common/constants/app_utils.dart';
-import '../../../../common/constants/assets_constants.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
-import '../../../../domain/entities/data/ad_entity.dart';
 import '../../../../domain/entities/data/article_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
-import '../../../widgets/ads_list/ads_list_view.dart';
-import '../../../widgets/app_content_title_widget.dart';
 import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/article_item.dart';
 import '../../../widgets/loading_widget.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({
+class AllArticlesScreen extends StatefulWidget {
+  const AllArticlesScreen({
     Key? key,
   }) : super(key: key);
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<AllArticlesScreen> createState() => _AllArticlesScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _AllArticlesScreenState extends State<AllArticlesScreen> {
   late final GetAllArticlesCubit _getAllArticlesCubit;
 
   int offset = 0;

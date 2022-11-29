@@ -30,6 +30,7 @@ class RouteList {
   static const String myTaxes = "/myTaxes";
   static const String addNewTax = "/addNewTaxes";
   static const String createTask = "/createTask";
+  static const String createTaskClient = "/createTaskClient";
   static const String chooseTasks = "/chooseTasks";
   static const String myTasks = "/myTasks";
   static const String editTask = "/editTask";

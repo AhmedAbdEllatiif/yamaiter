@@ -1,0 +1,197 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/presentation/journeys/create_task/client_create_task/task_form__client.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
+
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/enum/app_error_type.dart';
+import '../../../../di/git_it.dart';
+import '../../../../domain/entities/screen_arguments/create_task_args_client.dart';
+import '../../../../router/route_helper.dart';
+import '../../../logic/cubit/accept_terms/accept_terms_cubit.dart';
+import '../../../logic/cubit/get_accept_terms/get_accept_terms_cubit.dart';
+import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../widgets/accept_terms_widget.dart';
+import '../../../widgets/ads_widget.dart';
+import '../../../widgets/app_error_widget.dart';
+import '../../../widgets/loading_widget.dart';
+
+class CreateTaskClient extends StatefulWidget {
+  final CreateTaskArgumentsClient? createTaskArgumentsClient;
+
+  const CreateTaskClient({Key? key, required this.createTaskArgumentsClient})
+      : super(key: key);
+
+  @override
+  State<CreateTaskClient> createState() => _CreateTaskClientState();
+}
+
+class _CreateTaskClientState extends State<CreateTaskClient> {
+  late final GetAcceptTermsCubit _getAcceptTermsCubit;
+  late final AcceptTermsCubit _acceptTermsCubit;
+  CreateTaskClientCubit? _createTaskClientCubit;
+  bool isBackAfterSuccess = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // init GetAcceptTermsCubit
+    _getAcceptTermsCubit = getItInstance<GetAcceptTermsCubit>();
+    _acceptTermsCubit = getItInstance<AcceptTermsCubit>();
+    if (widget.createTaskArgumentsClient != null) {
+      _createTaskClientCubit =
+          widget.createTaskArgumentsClient!.createTaskClientCubit;
+      isBackAfterSuccess = widget.createTaskArgumentsClient!.goBackAfterSuccess;
+    }
+
+    // fetch terms
+    _fetchTermsToAccept();
+  }
+
+  @override
+  void dispose() {
+    _getAcceptTermsCubit.close();
+    _acceptTermsCubit.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _getAcceptTermsCubit),
+        BlocProvider(create: (context) => _acceptTermsCubit),
+      ],
+      child: MultiBlocListener(
+        listeners: [
+          /// AcceptTermsCubit
+          BlocListener<AcceptTermsCubit, AcceptTermsState>(
+              listener: (_, state) {
+            /// accepted successfully
+            if (state is TermsAcceptedSuccessfully) {
+              _fetchTermsToAccept();
+            }
+          })
+        ],
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text("نشر مهمة عمل"),
+          ),
+          body: Column(
+            children: [
+              const AdsWidget(),
+
+              //==> Task form
+              Expanded(
+                  child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppUtils.mainPagesHorizontalPadding.w,
+                  //vertical: AppUtils.mainPagesVerticalPadding.h,
+                ),
+                child: BlocBuilder<GetAcceptTermsCubit, GetAcceptTermsState>(
+                  builder: (context, state) {
+                    /// loading
+                    if (state is LoadingGetAcceptTerms) {
+                      return const Center(
+                        child: LoadingWidget(),
+                      );
+                    }
+
+                    /// UnAuthorizedGetAcceptTerms
+                    if (state is UnAuthorizedGetAcceptTerms) {
+                      return Center(
+                        child: AppErrorWidget(
+                          appTypeError: AppErrorType.unauthorizedUser,
+                          buttonText: "تسجيل الدخول",
+                          onPressedRetry: () {
+                            _navigateToLogin();
+                          },
+                        ),
+                      );
+                    }
+
+                    /// NotActivatedUserToGetAcceptTerms
+                    if (state is NotActivatedUserToGetAcceptTerms) {
+                      return Center(
+                        child: AppErrorWidget(
+                          appTypeError: AppErrorType.notActivatedUser,
+                          buttonText: "تواصل معنا",
+                          message:
+                              "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                          onPressedRetry: () {
+                            _navigateToContactUs();
+                          },
+                        ),
+                      );
+                    }
+
+                    /// NotActivatedUserToGetAcceptTerms
+                    if (state is ErrorWhileGettingAcceptTerms) {
+                      return Center(
+                        child: AppErrorWidget(
+                          appTypeError: state.appError.appErrorType,
+                          onPressedRetry: () {
+                            _fetchTermsToAccept();
+                          },
+                        ),
+                      );
+                    }
+
+                    /// NotAcceptedYet
+                    if (state is TermsNotAcceptedYet) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(vertical: 10),
+                        child: AcceptTermsWidget(
+                          acceptTermsCubit: _acceptTermsCubit,
+                          acceptTermsEntity: state.acceptTermsEntity,
+                        ),
+                      );
+                    }
+
+                    /// AlreadyAccepted
+                    if (state is TermsAlreadyAccepted) {
+                      return TaskFormClient(
+                        createTaskClientCubit: _createTaskClientCubit,
+                        onSuccess: () {
+                          if (isBackAfterSuccess) {
+                            Navigator.pop(context);
+                          } else {
+                            _navigateMyTasksScreen(context);
+                          }
+                        },
+                      );
+                    }
+
+                    /// else
+                    return const SizedBox.shrink();
+                  },
+                ),
+              )),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  /// navigate to login
+  void _navigateToLogin() =>
+      RouteHelper().loginScreen(context, isClearStack: true);
+
+  /// navigate to contact us
+  void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
+
+  /// navigate to myTask screen
+  void _navigateMyTasksScreen(BuildContext context) =>
+      RouteHelper().myTasks(context, isReplacement: true);
+
+  /// fetch terms to accept
+  void _fetchTermsToAccept() {
+    // init userToken
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    _getAcceptTermsCubit.getAcceptTerms(token: userToken);
+  }
+}
