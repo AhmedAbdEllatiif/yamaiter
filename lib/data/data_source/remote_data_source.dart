@@ -55,6 +55,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -76,6 +77,7 @@ import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/client/get_my_consultations.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
 import '../api/requests/get_requests/get_applied_tasks_for_other.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
@@ -91,6 +93,7 @@ import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
 import '../models/sos/sos_model.dart';
+import '../models/tasks/client/consultation_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/create_task_params.dart';
 import '../params/delete_sos_params.dart';
@@ -110,6 +113,9 @@ abstract class RemoteDataSource {
 
   /// createTaskClient
   Future<dynamic> createTaskClient(CreateTaskParamsClient params);
+
+  /// getMyConsultations
+  Future<dynamic> getMyConsultations(GetMyConsultationParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -344,6 +350,48 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("createTaskClient >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "createTaskClient UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future<dynamic> getMyConsultations(GetMyConsultationParams params) async {
+    try {
+      log("getMyConsultations >> Start request");
+      // init request
+      final request = GetMyConsultationsRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getMyConsultations >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return listOfConsultationsFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getMyConsultations body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getMyConsultations body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getMyConsultations body >> ${response.body}");
+        // default
+        default:
+          log("getMyConsultations >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getMyConsultations body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getMyConsultations >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getMyConsultations UnHandledError >> $e");
     }
   }
 

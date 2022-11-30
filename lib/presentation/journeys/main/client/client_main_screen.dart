@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen__client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
+import 'package:yamaiter/presentation/journeys/drawer/client/drawer_screen__client/drawer_screen_client.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/sizes.dart';
-import '../../../common/screen_utils/screen_util.dart';
-import '../../themes/theme_color.dart';
-import '../../widgets/ads_widget.dart';
-import '../../widgets/icon_with_badge.dart';
-import '../drawer/drawer_screen/drawer_screen.dart';
-import 'main_page_title.dart';
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/sizes.dart';
+import '../../../../common/screen_utils/screen_util.dart';
+import '../../../themes/theme_color.dart';
+import '../../../widgets/ads_widget.dart';
+import '../../../widgets/icon_with_badge.dart';
+import '../../drawer/drawer_screen/drawer_screen.dart';
+import '../main_page_title.dart';
 
 class ClientMainScreen extends StatefulWidget {
   const ClientMainScreen({Key? key}) : super(key: key);
@@ -49,7 +50,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
       ),
 
       /// drawer
-      drawer: const DrawerScreen(),
+      drawer: const DrawerScreenClient(),
 
       /// body
       body: Column(

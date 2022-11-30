@@ -56,10 +56,13 @@ import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
 import '../../domain/entities/data/accept_terms_entity.dart';
+import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../models/tasks/client/consultation_model.dart';
 import '../params/client/create_task_params.dart';
+import '../params/client/get_my_consultations_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
@@ -119,6 +122,27 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  @override
+  Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
+      GetMyConsultationParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getMyConsultations(params);
+
+      // success
+      if (result is List<ConsultationModel>) {
         return Right(result);
       }
 

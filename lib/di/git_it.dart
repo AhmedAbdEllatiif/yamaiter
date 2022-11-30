@@ -69,6 +69,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/client/consultations/get_my_consultations.dart';
 import '../domain/use_cases/client/tasks/create_task_client_case.dart';
 import '../domain/use_cases/client_auth/register_client.dart';
 import '../domain/use_cases/filter_tasks.dart';
@@ -90,6 +91,7 @@ import '../domain/use_cases/taxes/create_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
+import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
@@ -349,6 +351,11 @@ Future init() async {
     () => FilterTasksCubit(),
   );
 
+  //==> GetMyConsultationsCubit
+  getItInstance.registerFactory<GetMyConsultationsCubit>(
+    () => GetMyConsultationsCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -532,6 +539,11 @@ Future init() async {
   //==> CreateTaskCase
   getItInstance.registerFactory<CreateTaskCase>(
     () => CreateTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetMyConsultationsCase
+  getItInstance.registerFactory<GetMyConsultationsCase>(
+    () => GetMyConsultationsCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateTaskClientCase

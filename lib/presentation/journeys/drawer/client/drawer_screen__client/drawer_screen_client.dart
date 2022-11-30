@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
@@ -10,15 +9,15 @@ import 'package:yamaiter/presentation/journeys/drawer/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../../common/constants/sizes.dart';
-import '../../../../common/enum/animation_type.dart';
-import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
-import '../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
-import '../../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../../widgets/image_name_rating_widget.dart';
+import '../../../../../common/constants/sizes.dart';
+import '../../../../../common/enum/animation_type.dart';
+import '../../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
+import '../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
+import '../../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../../widgets/image_name_rating_widget.dart';
 
-class DrawerScreen extends StatelessWidget {
-  const DrawerScreen({Key? key}) : super(key: key);
+class DrawerScreenClient extends StatelessWidget {
+  const DrawerScreenClient({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -112,27 +111,23 @@ class DrawerScreen extends StatelessWidget {
     );
   }
 
-  void _navigateMyTaxesScreen(BuildContext context) =>
-      RouteHelper().myTaxesScreen(context, isReplacement: false);
-
+  /// to MyTaskScreen
   void _navigateMyTasksScreen(BuildContext context) =>
       RouteHelper().chooseTasks(context);
 
-  void _navigateMyArticlesScreen(BuildContext context) =>
-      RouteHelper().myArticlesScreen(context, isReplacement: false);
+  /// to MyConsultationsScreen
+  void _navigateMyConsultationsScreen(BuildContext context) =>
+      RouteHelper().myConsultations(context);
 
-  void _navigateToHelpScreen(BuildContext context) =>
-      RouteHelper().helpScreen(context);
-
+  /// to SettingsScreen
   void _navigateToSettingsScreen(BuildContext context) =>
       RouteHelper().settingsScreen(context);
 
-  void _navigateMySosListScreen(BuildContext context) =>
-      RouteHelper().mySosScreen(context);
-
+  /// to MyAdsScreen
   void _navigateMyAdsListScreen(BuildContext context) =>
       RouteHelper().myAdsScreen(context, isReplacement: false);
 
+  /// to AboutScreen
   void _navigateToAboutScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
         context,
@@ -140,6 +135,7 @@ class DrawerScreen extends StatelessWidget {
             pageTitle: "من نحن", sideMenuPage: SideMenuPage.about),
       );
 
+  /// to TermsAndConditionsScreen
   void _navigateToTermsAndConditionsScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
         context,
@@ -148,6 +144,7 @@ class DrawerScreen extends StatelessWidget {
             sideMenuPage: SideMenuPage.termsAndConditions),
       );
 
+  /// to PrivacyScreen
   void _navigateToPrivacyScreen(BuildContext context) =>
       RouteHelper().sideMenuPage(
         context,
@@ -155,16 +152,17 @@ class DrawerScreen extends StatelessWidget {
             pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
 
+  /// DrawerItems
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
           iconData: Icons.shopping_bag_outlined,
-          title: "مهامى",
+          title: "طلبات المساعدة القانونية",
           onPressed: () => _navigateMyTasksScreen(context),
         ),
         DrawerItem(
           iconData: Icons.list_alt_outlined,
-          title: "منشوراتى",
-          onPressed: () => _navigateMyArticlesScreen(context),
+          title: "استشاراتى القانونية",
+          onPressed: () => _navigateMyConsultationsScreen(context),
         ),
         DrawerItem(
           iconData: Icons.surround_sound_outlined,
@@ -172,20 +170,11 @@ class DrawerScreen extends StatelessWidget {
           onPressed: () => _navigateMyAdsListScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.shopping_bag_outlined,
-          title: "اقراراتى الضريبية",
-          onPressed: () => _navigateMyTaxesScreen(context),
-        ),
-        DrawerItem(
-          iconData: Icons.sos_outlined,
-          title: "نداءات الاستغاثة",
-          onPressed: () => _navigateMySosListScreen(context),
-        ),
-        DrawerItem(
           iconData: Icons.chat_outlined,
           title: "المحادثات",
           onPressed: () {},
         ),
+
         DrawerItem(
           iconData: Icons.settings_outlined,
           title: "الاعدادت",
@@ -209,11 +198,6 @@ class DrawerScreen extends StatelessWidget {
           iconData: Icons.shield_outlined,
           title: "شروط الاستخدام",
           onPressed: () => _navigateToTermsAndConditionsScreen(context),
-        ),
-        DrawerItem(
-          iconData: Icons.help_outline_outlined,
-          title: "المساعدة",
-          onPressed: () => _navigateToHelpScreen(context),
         ),
         DrawerItem(
           iconData: Icons.question_mark_outlined,

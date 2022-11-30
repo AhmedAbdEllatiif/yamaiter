@@ -183,6 +183,11 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.filterTasks);
   }
 
+  /// To filter tasks screen \\\
+  void myConsultations(BuildContext context) {
+    Navigator.of(context).pushNamed(RouteList.myConsultations);
+  }
+
   /// To filtered tasks result screen \\\
   void filteredTasksResult(BuildContext context,
       {required FilteredTasksArguments filteredTasksArguments}) {

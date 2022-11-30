@@ -7,6 +7,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/client/create_task_params.dart';
+import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -28,6 +29,7 @@ import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
+import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
@@ -62,6 +64,10 @@ abstract class RemoteRepository {
   /// create task client
   Future<Either<AppError, SuccessModel>> createTaskClient(
       CreateTaskParamsClient params);
+
+  /// getMyConsultations
+  Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
+      GetMyConsultationParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\

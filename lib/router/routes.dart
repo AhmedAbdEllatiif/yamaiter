@@ -23,6 +23,7 @@ import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
+import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
@@ -146,6 +147,9 @@ class Routes {
         RouteList.myTasks: (context) => MyTasksScreen(
               myTasksArguments: settings.arguments as MyTasksArguments,
             ),
+
+        /// createSos
+        RouteList.myConsultations: (context) => const MyConsultationScreen(),
 
         /// ChooseTasksScreen
         RouteList.chooseTasks: (context) => const ChooseTasksScreen(),

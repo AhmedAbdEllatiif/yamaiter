@@ -16,6 +16,10 @@ class ApiConstants {
   static Uri _createTaskClient() =>
       Uri.https(_baseUrl, EndPoints.createTaskClient);
 
+  /// _myConsultations
+  static Uri _myConsultations({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.myConsultations, queryParams);
+
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
@@ -160,11 +164,16 @@ class ApiConstants {
       ///                                                                   \\\\
       ///                                                                   \\\\
       ///===================================================================\\\\
+
+      // registerClient
       case RequestType.registerClient:
         return _registerClient();
-
+      // createTaskClient
       case RequestType.createTaskClient:
         return _createTaskClient();
+      // myConsultations
+      case RequestType.myConsultations:
+        return _myConsultations(queryParams: queryParams);
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -282,16 +291,19 @@ class ApiConstants {
 class EndPoints {
   static const String _apiVersion = "/api/";
 
-  ///===============> Client <=============\\\\
+  ///===============================> Client <==============================\\\\
   /// registerClient
   static String registerClient = "${_apiVersion}client-register";
 
   /// create task client
   static String createTaskClient = "${_apiVersion}client-tasks";
 
-  ///===========> End of Client <===========\\\\
+  /// my consultations
+  static String myConsultations = "${_apiVersion}consultations";
 
-  ///===========> Lawyer <===========\\\\
+  ///===========================> End of Client <===========================\\\\
+
+  ///==============================> Lawyer <===============================\\\\
   /// login
   static String login = "${_apiVersion}login";
 
@@ -409,6 +421,9 @@ enum RequestType {
   /// ===> Client
   registerClient,
   createTaskClient,
+  myConsultations,
+
+  ///==> Lawyer
   login,
   registerLawyer,
   about,

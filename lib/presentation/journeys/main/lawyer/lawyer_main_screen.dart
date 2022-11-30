@@ -7,13 +7,13 @@ import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_scre
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
-import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/sizes.dart';
-import '../../themes/theme_color.dart';
-import '../../widgets/ads_widget.dart';
-import '../../widgets/icon_with_badge.dart';
-import '../drawer/drawer_screen/drawer_screen.dart';
-import 'main_page_title.dart';
+import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/sizes.dart';
+import '../../../themes/theme_color.dart';
+import '../../../widgets/ads_widget.dart';
+import '../../../widgets/icon_with_badge.dart';
+import '../../drawer/drawer_screen/drawer_screen.dart';
+import '../main_page_title.dart';
 
 class LawyerMainScreen extends StatefulWidget {
   const LawyerMainScreen({Key? key}) : super(key: key);
