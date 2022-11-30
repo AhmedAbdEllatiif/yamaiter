@@ -45,6 +45,7 @@ import 'package:yamaiter/presentation/journeys/forget_password/forget_password_s
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/register_client/register_client_screen.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/register_lawyer_screen.dart';
+import 'package:yamaiter/presentation/journeys/request_a_consultation/request_a_consultation_screen.dart';
 import 'package:yamaiter/presentation/journeys/search_for_lawyer/search_for_lawyer_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
@@ -148,8 +149,12 @@ class Routes {
               myTasksArguments: settings.arguments as MyTasksArguments,
             ),
 
-        /// createSos
+        /// myConsultations
         RouteList.myConsultations: (context) => const MyConsultationScreen(),
+
+        /// requestAConsultation
+        RouteList.requestAConsultation: (context) =>
+            const RequestAConsultationScreen(),
 
         /// ChooseTasksScreen
         RouteList.chooseTasks: (context) => const ChooseTasksScreen(),

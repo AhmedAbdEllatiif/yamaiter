@@ -32,7 +32,7 @@ class ChooseToAddScreenClientUser extends StatelessWidget {
                 ChooseToAddItem(
                   image: AssetsImages.sosSvg,
                   text: "استشارة قانونية فورية",
-                  onPressed: () => _navigateToCreateSos(context),
+                  onPressed: () => _navigateToRequestAConsultation(context),
                 ),
               ],
             ),
@@ -65,9 +65,9 @@ class ChooseToAddScreenClientUser extends StatelessWidget {
   void _navigateToCreateTaskClient(BuildContext context) =>
       RouteHelper().createTaskClient(context, createTaskArgumentsClient: null);
 
-  /// to navigate to create sos
-  void _navigateToCreateSos(BuildContext context) =>
-      RouteHelper().createSos(context);
+  /// to navigate to request a consultation
+  void _navigateToRequestAConsultation(BuildContext context) =>
+      RouteHelper().requestAConsultation(context);
 
   /// to navigate to article
   void _navigateToCreateArticle(BuildContext context) =>
