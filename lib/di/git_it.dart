@@ -19,6 +19,7 @@ import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
@@ -354,6 +355,11 @@ Future init() async {
   //==> GetMyConsultationsCubit
   getItInstance.registerFactory<GetMyConsultationsCubit>(
     () => GetMyConsultationsCubit(),
+  );
+
+  //==> CreateConsultationCubit
+  getItInstance.registerFactory<CreateConsultationCubit>(
+        () => CreateConsultationCubit(),
   );
 
   //==> AutoLoginCubit
