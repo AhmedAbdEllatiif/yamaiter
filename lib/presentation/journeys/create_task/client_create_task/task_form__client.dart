@@ -322,7 +322,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
     final price = priceController.value.text;
 
     // send create Task request
-    /*_createTaskClientCubit.sendTask(
+    _createTaskClientCubit.sendTask(
       token: userToken,
       title: title,
       governorates: governorate,
@@ -330,7 +330,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
       price: price,
       court: subGovernorate,
       startingDate: _selectedDate ?? "",
-    );*/
+    );
   }
 
   /// navigate to login

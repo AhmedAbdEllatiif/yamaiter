@@ -12,6 +12,10 @@ class ApiConstants {
   ///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
+  /// _createTaskClient
+  static Uri _createTaskClient() =>
+      Uri.https(_baseUrl, EndPoints.createTaskClient);
+
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
@@ -118,9 +122,6 @@ class ApiConstants {
   static Uri _filterTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.filterTask, queryParams);
 
-
-
-
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -161,6 +162,9 @@ class ApiConstants {
       ///===================================================================\\\\
       case RequestType.registerClient:
         return _registerClient();
+
+      case RequestType.createTaskClient:
+        return _createTaskClient();
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -282,6 +286,9 @@ class EndPoints {
   /// registerClient
   static String registerClient = "${_apiVersion}client-register";
 
+  /// create task client
+  static String createTaskClient = "${_apiVersion}client-tasks";
+
   ///===========> End of Client <===========\\\\
 
   ///===========> Lawyer <===========\\\\
@@ -401,6 +408,7 @@ class EndPoints {
 enum RequestType {
   /// ===> Client
   registerClient,
+  createTaskClient,
   login,
   registerLawyer,
   about,

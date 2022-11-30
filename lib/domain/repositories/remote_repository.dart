@@ -6,6 +6,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_respon
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/client/create_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -57,6 +58,10 @@ abstract class RemoteRepository {
   /// registerClient
   Future<Either<AppError, RegisterResponseEntity>> registerClient(
       RegisterClientParams params);
+
+  /// create task client
+  Future<Either<AppError, SuccessModel>> createTaskClient(
+      CreateTaskParamsClient params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\

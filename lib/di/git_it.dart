@@ -69,6 +69,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/client/tasks/create_task_client_case.dart';
 import '../domain/use_cases/client_auth/register_client.dart';
 import '../domain/use_cases/filter_tasks.dart';
 import '../domain/use_cases/invited_tasks.dart';
@@ -531,6 +532,11 @@ Future init() async {
   //==> CreateTaskCase
   getItInstance.registerFactory<CreateTaskCase>(
     () => CreateTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CreateTaskClientCase
+  getItInstance.registerFactory<CreateTaskClientCase>(
+    () => CreateTaskClientCase(remoteRepository: getItInstance()),
   );
 
   //==> AssignTaskCase

@@ -23,6 +23,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
@@ -43,6 +44,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
+import 'package:yamaiter/data/models/tasks/client/create_task_request_model_client.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
@@ -90,6 +92,7 @@ import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
+import '../params/client/create_task_params.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
@@ -104,6 +107,9 @@ abstract class RemoteDataSource {
 
   /// registerClient
   Future<dynamic> registerClient(RegisterClientRequestModel params);
+
+  /// createTaskClient
+  Future<dynamic> createTaskClient(CreateTaskParamsClient params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -294,6 +300,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("registerClient >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "registerClient UnHandledError >> $e");
+    }
+  }
+
+  /// createTaskClient
+  @override
+  Future<dynamic> createTaskClient(CreateTaskParamsClient params) async {
+    try {
+      log("createTaskClient >> Start request");
+      // init request
+      final request = CreateTaskClientRequest();
+
+      // response
+      final response =
+          await request(params.createTaskRequestModelClient, params.userToken);
+
+      log("createTaskClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "createTaskClient body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "createTaskClient body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "createTaskClient body >> ${response.body}");
+        // default
+        default:
+          log("createTaskClient >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "createTaskClient body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("createTaskClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "createTaskClient UnHandledError >> $e");
     }
   }
 
