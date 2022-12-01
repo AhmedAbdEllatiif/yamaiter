@@ -51,7 +51,6 @@ import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
-import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
@@ -60,7 +59,6 @@ import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
-import '../models/tasks/client/consultation_model.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/get_my_consultations_params.dart';
@@ -143,7 +141,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
       final result = await remoteDataSource.getMyConsultations(params);
 
       // success
-      if (result is List<ConsultationModel>) {
+      if (result is List<ConsultationEntity>) {
         return Right(result);
       }
 
@@ -156,11 +154,10 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// createConsultation
   @override
   Future<Either<AppError, SuccessModel>> createConsultation(
-      CreateConsultationParams params)async{
+      CreateConsultationParams params) async {
     try {
       // send request
       final result = await remoteDataSource.createConsultation(params);
@@ -177,7 +174,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
     } on Exception catch (e) {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
-}
+  }
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\

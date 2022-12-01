@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../data/models/create_consultation_request_model.dart';
+import '../../../../data/models/consultations/create_consultation_request_model.dart';
 import '../../../../data/params/client/create_consultation_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';

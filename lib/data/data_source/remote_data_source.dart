@@ -45,7 +45,6 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/success_model.dart';
-import 'package:yamaiter/data/models/tasks/client/create_task_request_model_client.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
@@ -94,8 +93,8 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
+import '../models/consultations/consultation_model.dart';
 import '../models/sos/sos_model.dart';
-import '../models/tasks/client/consultation_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/create_task_params.dart';
 import '../params/delete_sos_params.dart';

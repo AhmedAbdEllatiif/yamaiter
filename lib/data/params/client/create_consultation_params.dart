@@ -1,4 +1,4 @@
-import 'package:yamaiter/data/models/create_consultation_request_model.dart';
+import 'package:yamaiter/data/models/consultations/create_consultation_request_model.dart';
 
 class CreateConsultationParams {
   final CreateConsultationRequestModel requestModel;
