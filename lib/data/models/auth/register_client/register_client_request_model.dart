@@ -23,7 +23,7 @@ class RegisterClientRequestModel {
       "governorates": governorates,
       "password": password,
       "password_confirmation": password,
-      "accept_terms": acceptTerms.toString(),
+      "accept_terms": acceptTerms ? "yes": "no",
     };
   }
 }
