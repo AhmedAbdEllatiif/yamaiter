@@ -23,6 +23,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/create_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
@@ -55,6 +56,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
@@ -116,6 +118,9 @@ abstract class RemoteDataSource {
 
   /// getMyConsultations
   Future<dynamic> getMyConsultations(GetMyConsultationParams params);
+
+  /// createConsultation
+  Future<dynamic> createConsultation(CreateConsultationParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -353,6 +358,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// getMyConsultations
   @override
   Future<dynamic> getMyConsultations(GetMyConsultationParams params) async {
     try {
@@ -395,6 +401,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// createConsultation
+  @override
+  Future<dynamic> createConsultation(CreateConsultationParams params) async {
+    try {
+      // init request
+      final createConsultationRequest = CreateConsultationRequest();
+      final request = await createConsultationRequest(params);
+
+      // send a request
+      final streamResponse = await request.send();
+
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("createConsultation >> ResponseCode: ${response.statusCode}");
+      log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "createConsultation Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "createConsultation Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "createConsultation Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("createConsultation >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "createConsultation UnHandledError >> $e");
+    }
+  }
+
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -418,9 +467,13 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       // success
       case 200:
         return loginResponseModelFromJson(response.body);
-      // wrong email
+      // wrong email or password
       case 422:
-        return const AppError(AppErrorType.wrongEmail);
+        if (response.body.contains("incorrectUserPassword")) {
+          return const AppError(AppErrorType.wrongPassword);
+        } else {
+          return const AppError(AppErrorType.wrongEmail);
+        }
       // wrong password
       case 401:
         return const AppError(AppErrorType.wrongPassword);

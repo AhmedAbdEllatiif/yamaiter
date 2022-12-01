@@ -11,6 +11,8 @@ class MyConsultationItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Card(
+      child: Container(),
+    );
   }
 }

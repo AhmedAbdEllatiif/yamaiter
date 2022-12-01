@@ -2,8 +2,11 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
+import '../../../../data/models/create_consultation_request_model.dart';
+import '../../../../data/params/client/create_consultation_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
+import '../../../../domain/use_cases/client/consultations/create_consultaion.dart';
 
 part 'create_consultation_state.dart';
 
@@ -20,20 +23,17 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
     //==> loading
     _emitIfNotClosed(LoadingCreateConsultation());
 
-    /*//==> init case
+    //==> init case
     final useCase = getItInstance<CreateConsultationCase>();
 
     //==> init params
     final params = CreateConsultationParams(
-      createConsultationRequestModel: CreateConsultationRequestModel(
+      requestModel: CreateConsultationRequestModel(
         title: title,
-        price: price,
-        court: court,
         description: description,
-        governorates: governorates,
-        startingDate: startingDate,
+        imageList: imagePaths,
       ),
-      userToken: token,
+      token: token,
     );
 
     //==> send request
@@ -41,11 +41,11 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
 
     //==> receive result
     either.fold(
-          (appError) => _emitError(appError),
-          (success) => _emitIfNotClosed(
+      (appError) => _emitError(appError),
+      (success) => _emitIfNotClosed(
         ConsultationCreatedSuccessfully(),
       ),
-    );*/
+    );
   }
 
   /// _emit an error according to AppError

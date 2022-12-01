@@ -184,8 +184,17 @@ class RouteHelper {
   }
 
   /// To my consultations screen \\\
-  void myConsultations(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.myConsultations);
+  void myConsultations(
+    BuildContext context, {
+    bool isReplacement = false,
+  }) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(
+        RouteList.myConsultations,
+      );
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myConsultations);
+    }
   }
 
   /// To request a consultation screen \\\

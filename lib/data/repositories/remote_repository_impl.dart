@@ -61,6 +61,7 @@ import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
 import '../models/tasks/client/consultation_model.dart';
+import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/get_taxes_params.dart';
@@ -154,6 +155,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
+
+
+  /// createConsultation
+  @override
+  Future<Either<AppError, SuccessModel>> createConsultation(
+      CreateConsultationParams params)async{
+    try {
+      // send request
+      final result = await remoteDataSource.createConsultation(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+}
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\

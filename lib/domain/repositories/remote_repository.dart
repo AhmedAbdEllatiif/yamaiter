@@ -6,6 +6,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_respon
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/create_task_params.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
@@ -68,6 +69,10 @@ abstract class RemoteRepository {
   /// getMyConsultations
   Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
       GetMyConsultationParams params);
+
+  /// create consultation
+  Future<Either<AppError, SuccessModel>> createConsultation(
+      CreateConsultationParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
