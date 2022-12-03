@@ -113,7 +113,7 @@ class DrawerScreenClient extends StatelessWidget {
 
   /// to MyTaskScreen
   void _navigateMyTasksScreen(BuildContext context) =>
-      RouteHelper().chooseTasks(context);
+      RouteHelper().myTasksClient(context);
 
   /// to MyConsultationsScreen
   void _navigateMyConsultationsScreen(BuildContext context) =>

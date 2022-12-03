@@ -14,6 +14,9 @@ import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -221,6 +224,26 @@ class RouteHelper {
       {required CreateTaskArgumentsClient? createTaskArgumentsClient}) {
     Navigator.of(context).pushNamed(RouteList.createTaskClient,
         arguments: createTaskArgumentsClient);
+  }
+
+  /// To  my_tasks_client screen \\\
+  void myTasksClient(
+    BuildContext context, {
+    bool isReplacement = false,
+    bool isPushNamedAndRemoveUntil = false,
+    TaskType taskType = TaskType.todo,
+  }) {
+    if (isReplacement) {
+      Navigator.of(context).pushReplacementNamed(RouteList.myTasksClient,
+          arguments: MyTasksClientArguments(taskType: taskType));
+    } else if (isPushNamedAndRemoveUntil) {
+      Navigator.of(context).pushNamedAndRemoveUntil(
+          RouteList.myTasksClient, (Route<dynamic> route) => route.isFirst,
+          arguments: MyTasksClientArguments(taskType: taskType));
+    } else {
+      Navigator.of(context).pushNamed(RouteList.myTasksClient,
+          arguments: MyTasksClientArguments(taskType: taskType));
+    }
   }
 
   /// To edit task screen \\\

@@ -185,7 +185,7 @@ class _CreateTaskClientState extends State<CreateTaskClient> {
 
   /// navigate to myTask screen
   void _navigateMyTasksScreen(BuildContext context) =>
-      RouteHelper().myTasks(context, isReplacement: true);
+      RouteHelper().myTasksClient(context, isReplacement: true);
 
   /// fetch terms to accept
   void _fetchTermsToAccept() {
