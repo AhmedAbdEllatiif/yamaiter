@@ -19,7 +19,11 @@ import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
@@ -283,6 +287,12 @@ Future init() async {
     () => AssignTaskCubit(),
   );
 
+  //==> AssignTaskClientCubit
+  getItInstance.registerFactory<AssignTaskClientCubit>(
+        () => AssignTaskClientCubit(),
+  );
+
+
   //==> GetMyTasksCubit
   getItInstance.registerFactory<GetMyTasksCubit>(
     () => GetMyTasksCubit(),
@@ -306,6 +316,11 @@ Future init() async {
   //==> EndTaskCubit
   getItInstance.registerFactory<EndTaskCubit>(
     () => EndTaskCubit(),
+  );
+
+  //==> EndTaskClientCubit
+  getItInstance.registerFactory<EndTaskClientCubit>(
+        () => EndTaskClientCubit(),
   );
 
   //==> GetAppliedTasksCubit

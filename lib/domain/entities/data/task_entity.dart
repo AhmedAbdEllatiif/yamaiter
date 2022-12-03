@@ -32,6 +32,27 @@ class TaskEntity extends Equatable {
   /// recommender lawyer
   late final UserLawyerModel recommenderLawyer;
 
+  factory TaskEntity.empty() {
+    return TaskEntity(
+      id: -1,
+      title: "title",
+      court: "court",
+      governorates: "governorates",
+      description: "description",
+      price: 100,
+      status: "status",
+      file: "file",
+      applicantsCount: 10,
+      assignedLawyers: [],
+      applicantLawyers: [],
+      recommenderLawyers: [],
+      lawyerModel: UserLawyerModel.empty(),
+      taskStartingDate: DateTime.now(),
+      taskCreatedAt: DateTime.now(),
+      taskUpdatedAt: DateTime.now(),
+    );
+  }
+
   TaskEntity({
     required this.id,
     required this.title,
@@ -89,9 +110,8 @@ class TaskEntity extends Equatable {
     creatorRating = lawyerModel.lawyerRating;
     creatorImage = ApiConstants.mediaUrl + lawyerModel.lawyerProfileImage;
 
-
     /// init recommender lawyer
-    if(recommenderLawyers.isNotEmpty){
+    if (recommenderLawyers.isNotEmpty) {
       recommenderLawyer = recommenderLawyers[0];
     }
   }
