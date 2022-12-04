@@ -7,6 +7,7 @@ import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/client/get_my_tasks_client.dart';
 import 'package:yamaiter/data/api/requests/get_requests/filter_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
@@ -57,6 +58,7 @@ import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
+import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -120,6 +122,9 @@ abstract class RemoteDataSource {
 
   /// createConsultation
   Future<dynamic> createConsultation(CreateConsultationParams params);
+
+  /// getMyTaskClient
+  Future<dynamic> getMyTaskClient(GetMyTasksClientParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -440,6 +445,48 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("createConsultation >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "createConsultation UnHandledError >> $e");
+    }
+  }
+
+  /// getMyTaskClient
+  @override
+  Future<dynamic> getMyTaskClient(GetMyTasksClientParams params) async {
+    try {
+      // init request
+      final request = GetMyTasksClientRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getMyTaskClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return listOfTasksFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getMyTaskClient body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getMyTaskClient body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getMyTaskClient body >> ${response.body}");
+        // default
+        default:
+          log("getMyTaskClient >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getMyTaskClient body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getMyTaskClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getMyTaskClient UnHandledError >> $e");
     }
   }
 

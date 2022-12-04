@@ -20,6 +20,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.d
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
@@ -244,6 +245,13 @@ class RouteHelper {
       Navigator.of(context).pushNamed(RouteList.myTasksClient,
           arguments: MyTasksClientArguments(taskType: taskType));
     }
+  }
+
+  /// To single task client screen \\\
+  void singleTaskClient(BuildContext context,
+      {required SingleTaskClientArguments singleTaskClientArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.singleTaskClient, arguments: singleTaskClientArguments);
   }
 
   /// To edit task screen \\\

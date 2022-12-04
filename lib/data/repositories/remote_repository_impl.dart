@@ -14,6 +14,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_respon
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
@@ -62,6 +63,7 @@ import '../models/success_model.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/get_my_consultations_params.dart';
+import '../params/client/get_my_task_params_client.dart';
 import '../params/get_taxes_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
@@ -164,6 +166,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// get my tasks client
+  @override
+  Future<Either<AppError, List<TaskEntity>>> getMyTasksClient(
+      GetMyTasksClientParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getMyTaskClient(params);
+
+      // success
+      if (result is List<TaskModel>) {
         return Right(result);
       }
 

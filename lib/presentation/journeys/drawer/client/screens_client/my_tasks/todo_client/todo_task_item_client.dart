@@ -59,25 +59,27 @@ class _TodoTaskItemClientState extends State<TodoTaskItemClient> {
               children: [
                 PopupMenuButton(
                     // add icon, by default "3 dot" icon
-                    // icon: Icon(Icons.book)
+                    // icon: Icon(Icons.book)]
+                    position: PopupMenuPosition.under,
                     itemBuilder: (context) {
-                  return [
-                    const PopupMenuItem<int>(
-                      value: 0,
-                      child: Text("تعديل المهمة"),
-                    ),
-                    const PopupMenuItem<int>(
-                      value: 1,
-                      child: Text("حذف المهمة"),
-                    ),
-                  ];
-                }, onSelected: (value) {
-                  if (value == 0) {
-                    widget.onUpdatePressed();
-                  } else if (value == 1) {
-                    widget.onDeletePressed();
-                  }
-                }),
+                      return [
+                        const PopupMenuItem<int>(
+                          value: 0,
+                          child: Text("تعديل المهمة"),
+                        ),
+                        const PopupMenuItem<int>(
+                          value: 1,
+                          child: Text("حذف المهمة"),
+                        ),
+                      ];
+                    },
+                    onSelected: (value) {
+                      if (value == 0) {
+                        widget.onUpdatePressed();
+                      } else if (value == 1) {
+                        widget.onDeletePressed();
+                      }
+                    }),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -187,4 +189,6 @@ class _TodoTaskItemClientState extends State<TodoTaskItemClient> {
           }),
     );
   }
+
+
 }

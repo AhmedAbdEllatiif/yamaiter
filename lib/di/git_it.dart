@@ -8,6 +8,8 @@ import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/delete_user_data.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/get_user_data.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/save_user_data.dart';
+import 'package:yamaiter/domain/use_cases/client/tasks/get_my_tasks_client.dart';
+import 'package:yamaiter/domain/use_cases/client/tasks/get_my_tasks_client.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
@@ -24,6 +26,8 @@ import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task
 import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
@@ -289,9 +293,8 @@ Future init() async {
 
   //==> AssignTaskClientCubit
   getItInstance.registerFactory<AssignTaskClientCubit>(
-        () => AssignTaskClientCubit(),
+    () => AssignTaskClientCubit(),
   );
-
 
   //==> GetMyTasksCubit
   getItInstance.registerFactory<GetMyTasksCubit>(
@@ -320,7 +323,7 @@ Future init() async {
 
   //==> EndTaskClientCubit
   getItInstance.registerFactory<EndTaskClientCubit>(
-        () => EndTaskClientCubit(),
+    () => EndTaskClientCubit(),
   );
 
   //==> GetAppliedTasksCubit
@@ -376,6 +379,11 @@ Future init() async {
   //==> CreateConsultationCubit
   getItInstance.registerFactory<CreateConsultationCubit>(
     () => CreateConsultationCubit(),
+  );
+
+  //==> GetMyTasksClientClientCubit
+  getItInstance.registerFactory<GetMyTasksClientCubit>(
+    () => GetMyTasksClientCubit(),
   );
 
   //==> AutoLoginCubit
@@ -471,6 +479,11 @@ Future init() async {
   //==> CreateConsultationCase
   getItInstance.registerFactory<CreateConsultationCase>(
     () => CreateConsultationCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetMyTasksCaseClient
+  getItInstance.registerFactory<GetMyTasksCaseClient>(
+    () => GetMyTasksCaseClient(remoteRepository: getItInstance()),
   );
 
   //==> CreateSosCase
