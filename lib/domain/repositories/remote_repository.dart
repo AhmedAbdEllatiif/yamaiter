@@ -8,6 +8,7 @@ import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/create_task_params.dart';
+import 'package:yamaiter/data/params/client/end_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
@@ -83,6 +84,10 @@ abstract class RemoteRepository {
   /// get single task client
   Future<Either<AppError, TaskEntity>> getSingleTaskClient(
       GetSingleTaskParamsClient params);
+
+  /// end task client
+  Future<Either<AppError, SuccessModel>> endTaskClient(
+      EndTaskParamsClient params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\

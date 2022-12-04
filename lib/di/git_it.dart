@@ -24,8 +24,7 @@ import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
-import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
-import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/end_task_client/end_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
@@ -82,6 +81,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
 import '../domain/use_cases/client/tasks/create_task_client_case.dart';
+import '../domain/use_cases/client/tasks/end_task_client_case.dart';
 import '../domain/use_cases/client/tasks/single_task_case.dart';
 import '../domain/use_cases/client_auth/register_client.dart';
 import '../domain/use_cases/filter_tasks.dart';
@@ -636,6 +636,11 @@ Future init() async {
   //==> EndTaskCase
   getItInstance.registerFactory<EndTaskCase>(
     () => EndTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> EndTaskClientCase
+  getItInstance.registerFactory<EndTaskClientCase>(
+    () => EndTaskClientCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAppliedTasksCase

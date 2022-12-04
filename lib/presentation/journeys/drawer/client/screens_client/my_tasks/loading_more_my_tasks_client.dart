@@ -11,11 +11,11 @@ import '../../../../../widgets/last_list_item.dart';
 import '../../../../../widgets/loading_widget.dart';
 
 class LoadingMoreMyTasksClientWidget extends StatelessWidget {
-  final GetMyTasksClientCubit myTasksCubit;
+  final GetMyTasksClientCubit myTasksClientCubit;
 
   const LoadingMoreMyTasksClientWidget({
     Key? key,
-    required this.myTasksCubit,
+    required this.myTasksClientCubit,
   }) : super(key: key);
 
   @override
@@ -29,7 +29,7 @@ class LoadingMoreMyTasksClientWidget extends StatelessWidget {
       child: Center(
         child: BlocConsumer<GetMyTasksClientCubit, GetMyTasksClientState>(
           /// bloc
-          bloc: myTasksCubit,
+          bloc: myTasksClientCubit,
 
           /// listener
           listener: (context, state) {

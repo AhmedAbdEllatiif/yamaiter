@@ -30,6 +30,7 @@ import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
+import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/my_task_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
 
@@ -250,8 +251,8 @@ class RouteHelper {
   /// To single task client screen \\\
   void singleTaskClient(BuildContext context,
       {required SingleTaskClientArguments singleTaskClientArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.singleTaskClient, arguments: singleTaskClientArguments);
+    Navigator.of(context).pushNamed(RouteList.singleTaskClient,
+        arguments: singleTaskClientArguments);
   }
 
   /// To edit task screen \\\
@@ -273,6 +274,13 @@ class RouteHelper {
       {required EndTaskArguments endTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.endTask, arguments: endTaskArguments);
+  }
+
+  /// To end task screen client\\\
+  void endTaskClient(BuildContext context,
+      {required EndTaskClientArguments endTaskClientArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.endTaskClient, arguments: endTaskClientArguments);
   }
 
   /// To delete task screen \\\

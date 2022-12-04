@@ -88,6 +88,7 @@ import '../api/requests/get_requests/get_applied_tasks_for_other.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
+import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/create_tax.dart';
 import '../api/requests/post_requests/update_article.dart';
@@ -101,6 +102,7 @@ import '../models/consultations/consultation_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/create_task_params.dart';
+import '../params/client/end_task_params_client.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
@@ -130,6 +132,9 @@ abstract class RemoteDataSource {
 
   /// get  single task client
   Future<dynamic> getSingleTaskClient(GetSingleTaskParamsClient params);
+
+  /// end task client
+  Future<dynamic> endTaskClient(EndTaskParamsClient params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -536,6 +541,57 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getSingleTaskClient >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getSingleTaskClient UnHandledError >> $e");
+    }
+  }
+
+  /// endTaskClient
+  @override
+  Future<dynamic> endTaskClient(EndTaskParamsClient params) async {
+    try {
+      log("endTaskClient >> Start request");
+      // init request
+      final request = EndTaskClientRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("endTaskClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          {
+            if (response.body.contains("notAllowedToCompleted")) {
+              return const AppError(AppErrorType.idNotFound,
+                  message: "The task is not found");
+            } else {
+              return SuccessModel();
+            }
+          }
+
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "endTaskClient body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "endTaskClient body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "endTaskClient body >> ${response.body}");
+        // default
+        default:
+          log("endTaskClient >> body:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "endTaskClient Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("endTaskClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "endTaskClient UnHandledError >> $e");
     }
   }
 

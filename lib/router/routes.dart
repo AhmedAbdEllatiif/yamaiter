@@ -61,6 +61,7 @@ import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
+import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/search_result_args.dart';
 import '../domain/entities/screen_arguments/single_task_client_args.dart';
 import '../domain/entities/screen_arguments/update_article_args.dart';
@@ -73,6 +74,7 @@ import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
+import '../presentation/journeys/end_task_client/end_task_screen_client.dart';
 import '../presentation/journeys/filtered_tasks_result/filtered_tasks_result_screen.dart';
 import '../presentation/journeys/invite_lawyer/invite_lawyer_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
@@ -203,6 +205,12 @@ class Routes {
         /// end task
         RouteList.endTask: (context) => EndTaskScreen(
               endTaskArguments: settings.arguments as EndTaskArguments,
+            ),
+
+        /// end task client
+        RouteList.endTaskClient: (context) => EndTaskScreenClient(
+              endTaskClientArguments:
+                  settings.arguments as EndTaskClientArguments,
             ),
 
         /// tasks for other

@@ -153,7 +153,7 @@ class _MyTasksInProgressClientState extends State<MyTasksInProgressClient>
 
                 /// loading or end of list
                 return LoadingMoreMyTasksClientWidget(
-                  myTasksCubit: _getMyTasksClientCubit,
+                  myTasksClientCubit: _getMyTasksClientCubit,
                 );
               },
             ),

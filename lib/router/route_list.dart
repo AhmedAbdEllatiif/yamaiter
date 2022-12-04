@@ -37,6 +37,7 @@ class RouteList {
   static const String deleteTask = "/deleteTask";
   static const String singleTask = "/singleTask";
   static const String endTask = "/endTask";
+  static const String endTaskClient = "/endTaskClient";
   static const String tasksForOther = "/tasksForOther";
   static const String taskDetails = "/taskDetails";
   static const String applyForTask = "/applyForTask";
