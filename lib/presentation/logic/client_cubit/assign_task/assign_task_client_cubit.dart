@@ -14,7 +14,7 @@ class AssignTaskClientCubit extends Cubit<AssignTaskClientState> {
   void assignTask(
       {required int userId, required int taskId, required String token}) async {
     //==> loading
-    _emitIfNotClosed(LoadingAssignTaskClient());
+    _emitIfNotClosed(LoadingAssignTaskClient(lawyerId: userId));
 
     /*//==> init case
     final useCase = getItInstance<AssignTaskClientCase>();

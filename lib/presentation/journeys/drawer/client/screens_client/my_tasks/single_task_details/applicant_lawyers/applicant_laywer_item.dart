@@ -46,7 +46,8 @@ class ApplicantLawyerItem extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-                color: state is LoadingAssignTaskClient
+                color: state is LoadingAssignTaskClient &&
+                        state.lawyerId == lawyerEntity.id
                     ? AppColor.primaryDarkColor.withOpacity(0.6)
                     : null),
             child: Padding(
@@ -198,10 +199,11 @@ class ApplicantLawyerItem extends StatelessWidget {
 
                   /// loading
                   if (state is LoadingAssignTaskClient)
-                    const Center(
-                        child: LoadingWidget(
-                      size: 50,
-                    )),
+                    if (state.lawyerId == lawyerEntity.id)
+                      const Center(
+                          child: LoadingWidget(
+                        size: 50,
+                      )),
                 ],
               ),
             ),
