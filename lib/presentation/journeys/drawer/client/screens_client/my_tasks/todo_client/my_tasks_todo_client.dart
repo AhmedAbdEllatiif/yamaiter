@@ -87,7 +87,7 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
             BlocListener<AssignTaskClientCubit, AssignTaskClientState>(
                 bloc: _assignTaskClientCubit,
                 listener: (context, state) {
-                  if (state is TaskAssignedSuccessfully) {
+                  if (state is TaskClientAssignedSuccessfully) {
                     tasksList.clear();
                     _fetchMyTasksList();
                   }
