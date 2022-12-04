@@ -59,6 +59,7 @@ import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
+import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -81,6 +82,7 @@ import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/client/get_my_consultations.dart';
+import '../api/requests/get_requests/client/get_single_task_details.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
 import '../api/requests/get_requests/get_applied_tasks_for_other.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
@@ -125,6 +127,9 @@ abstract class RemoteDataSource {
 
   /// getMyTaskClient
   Future<dynamic> getMyTaskClient(GetMyTasksClientParams params);
+
+  /// get  single task client
+  Future<dynamic> getSingleTaskClient(GetSingleTaskParamsClient params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -487,6 +492,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getMyTaskClient >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getMyTaskClient UnHandledError >> $e");
+    }
+  }
+
+  /// get  single task client
+  @override
+  Future<dynamic> getSingleTaskClient(GetSingleTaskParamsClient params) async {
+    try {
+      log("getSingleTaskClient >> Start request");
+      // init request
+      final request = GetSingleTaskClientRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getSingleTaskClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return taskModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getSingleTaskClient body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getSingleTaskClient body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getSingleTaskClient body >> ${response.body}");
+        // default
+        default:
+          log("getSingleTaskClient body >> ${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message:
+                  "getSingleTaskClient Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getSingleTaskClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getSingleTaskClient UnHandledError >> $e");
     }
   }
 

@@ -21,6 +21,8 @@ class AppContentTitleWidget extends StatelessWidget {
     return //==> title
         Text(
       title,
+      maxLines: 2,
+      overflow: TextOverflow.ellipsis,
       style: textStyle ??
           Theme.of(context).textTheme.titleMedium!.copyWith(
               height: textSpace, color: textColor, fontWeight: FontWeight.bold),

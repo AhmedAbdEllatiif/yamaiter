@@ -64,6 +64,7 @@ import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
+import '../params/client/get_single_task_params_client.dart';
 import '../params/get_taxes_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
@@ -188,6 +189,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is List<TaskModel>) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// get single task client
+  @override
+  Future<Either<AppError, TaskEntity>> getSingleTaskClient(
+      GetSingleTaskParamsClient params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getSingleTaskClient(params);
+
+      // success
+      if (result is TaskModel) {
         return Right(result);
       }
 

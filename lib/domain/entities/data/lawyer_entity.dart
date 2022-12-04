@@ -16,6 +16,23 @@ class LawyerEntity extends Equatable {
   late final String idPhoto;
   late final String profileImage;
 
+  factory LawyerEntity.empty(){
+    return LawyerEntity(id: -1,
+        rating: 2,
+        tasksCount: 5,
+        name: "name",
+        email: "email",
+        phoneNum: "phoneNum",
+        governorates: "governorates",
+        courtName: "courtName",
+        description: "description",
+        status: true,
+        lawyerIdPhoto: "lawyerIdPhoto",
+        lawyerProfileImage: "lawyerProfileImage");
+  }
+
+
+
   LawyerEntity({
     required this.id,
     required this.rating,

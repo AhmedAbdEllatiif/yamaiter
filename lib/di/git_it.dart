@@ -28,6 +28,7 @@ import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_clien
 import 'package:yamaiter/presentation/logic/client_cubit/end_task/end_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
@@ -81,6 +82,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
 import '../domain/use_cases/client/tasks/create_task_client_case.dart';
+import '../domain/use_cases/client/tasks/single_task_case.dart';
 import '../domain/use_cases/client_auth/register_client.dart';
 import '../domain/use_cases/filter_tasks.dart';
 import '../domain/use_cases/invited_tasks.dart';
@@ -304,6 +306,11 @@ Future init() async {
   //==> GetMySingleTaskCubit
   getItInstance.registerFactory<GetMySingleTaskCubit>(
     () => GetMySingleTaskCubit(),
+  );
+
+  //==> GetSingleTaskClientCubit
+  getItInstance.registerFactory<GetSingleTaskClientCubit>(
+    () => GetSingleTaskClientCubit(),
   );
 
   //==> UpdateTaskCubit
@@ -609,6 +616,11 @@ Future init() async {
   //==> GetMySingleTaskCase
   getItInstance.registerFactory<GetMySingleTaskCase>(
     () => GetMySingleTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetSingleTaskClientCase
+  getItInstance.registerFactory<GetSingleTaskClientCase>(
+    () => GetSingleTaskClientCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateTaskCase
