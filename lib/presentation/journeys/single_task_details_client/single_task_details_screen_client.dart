@@ -4,20 +4,19 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/single_task_details/applicant_lawyers/list_of_applicant_lawyers.dart';
+import 'package:yamaiter/presentation/journeys/single_task_details_client/applicant_lawyers/list_of_applicant_lawyers.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
-import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 
 import '../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../domain/entities/screen_arguments/single_task_client_args.dart';
 import '../../../../../../../router/route_helper.dart';
-import '../../../../../../logic/client_cubit/assign_task/assign_task_client_cubit.dart';
-import '../../../../../../logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
-import '../../../../../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../../../../../widgets/app_error_widget.dart';
-import '../../../../../../widgets/loading_widget.dart';
-import '../../../../../../widgets/text_with_icon.dart';
+import '../../logic/client_cubit/assign_task/assign_task_client_cubit.dart';
+import '../../logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
+import '../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../widgets/app_error_widget.dart';
+import '../../widgets/loading_widget.dart';
+import '../../widgets/text_with_icon.dart';
 
 class SingleTaskScreenClient extends StatefulWidget {
   final SingleTaskClientArguments arguments;

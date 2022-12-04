@@ -80,6 +80,7 @@ import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
+import '../domain/use_cases/client/tasks/assign_task_client_case.dart';
 import '../domain/use_cases/client/tasks/create_task_client_case.dart';
 import '../domain/use_cases/client/tasks/end_task_client_case.dart';
 import '../domain/use_cases/client/tasks/single_task_case.dart';
@@ -601,6 +602,11 @@ Future init() async {
   //==> AssignTaskCase
   getItInstance.registerFactory<AssignTaskCase>(
     () => AssignTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> AssignTaskClientCase
+  getItInstance.registerFactory<AssignTaskClientCase>(
+    () => AssignTaskClientCase(remoteRepository: getItInstance()),
   );
 
   //==> ApplyForTaskCase

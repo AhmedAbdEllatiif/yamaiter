@@ -60,6 +60,7 @@ import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/end_task_params_client.dart';
@@ -231,6 +232,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // send request
       final result = await remoteDataSource.endTaskClient(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// assignTaskClient
+  @override
+  Future<Either<AppError, SuccessModel>> assignTaskClient(
+      AssignTaskParamsClient params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.assignTaskClient(params);
 
       // success
       if (result is SuccessModel) {

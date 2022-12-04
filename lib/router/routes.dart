@@ -27,7 +27,7 @@ import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type
 import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/my_tasks_client.dart';
-import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/single_task_details/single_task_details_screen_client.dart';
+import 'package:yamaiter/presentation/journeys/single_task_details_client/single_task_details_screen_client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';

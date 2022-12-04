@@ -2,13 +2,15 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
+import '../../../../data/params/client/assign_task_params_client.dart';
+import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
+import '../../../../domain/use_cases/client/tasks/assign_task_client_case.dart';
 
 part 'assign_task_client_state.dart';
 
 class AssignTaskClientCubit extends Cubit<AssignTaskClientState> {
-  AssignTaskClientCubit() : super(AssignTaskClientInitial());
-
+  AssignTaskClientCubit() : super(const AssignTaskClientInitial());
 
   /// to assignTask
   void assignTask(
@@ -16,11 +18,11 @@ class AssignTaskClientCubit extends Cubit<AssignTaskClientState> {
     //==> loading
     _emitIfNotClosed(LoadingAssignTaskClient(lawyerId: userId));
 
-    /*//==> init case
+    //==> init case
     final useCase = getItInstance<AssignTaskClientCase>();
 
     //==> init params
-    final params = AssignTaskClientParams(
+    final params = AssignTaskParamsClient(
       userId: userId,
       taskId: taskId,
       userToken: token,
@@ -31,18 +33,18 @@ class AssignTaskClientCubit extends Cubit<AssignTaskClientState> {
 
     //==> receive result
     either.fold(
-            (appError) => _emitError(appError),
-            (success) => _emitIfNotClosed(
-          TaskClientAssignedSuccessfully(),
-        ));*/
+        (appError) => _emitError(appError),
+        (success) => _emitIfNotClosed(
+              const TaskClientAssignedSuccessfully(),
+            ));
   }
 
   /// _emit an error according to AppError
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
-      _emitIfNotClosed(UnAuthorizedAssignTaskClient());
+      _emitIfNotClosed(const UnAuthorizedAssignTaskClient());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
-      _emitIfNotClosed(NotActivatedUserToAssignTaskClient());
+      _emitIfNotClosed(const NotActivatedUserToAssignTaskClient());
     } else {
       _emitIfNotClosed(ErrorWhileAssigningTaskClient(appError: appError));
     }

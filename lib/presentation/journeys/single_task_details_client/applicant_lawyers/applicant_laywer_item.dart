@@ -12,8 +12,8 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/assets_constants.dart';
 import '../../../../../../../../common/constants/sizes.dart';
-import '../../../../../../../widgets/cached_image_widget.dart';
-import '../../../../../../../widgets/rounded_text.dart';
+import '../../../widgets/cached_image_widget.dart';
+import '../../../widgets/rounded_text.dart';
 
 class ApplicantLawyerItem extends StatelessWidget {
   final LawyerEntity lawyerEntity;

@@ -36,6 +36,10 @@ class ApiConstants {
   static Uri _endTaskClient(String id) =>
       Uri.https(_baseUrl, "${EndPoints.endTaskClient}/$id");
 
+  /// _assignTaskClient
+  static Uri _assignTaskClient() =>
+      Uri.https(_baseUrl, EndPoints.assignTaskClient);
+
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
@@ -202,6 +206,9 @@ class ApiConstants {
       // endTaskClient
       case RequestType.endTaskClient:
         return _endTaskClient(id);
+      // assignTaskClient
+      case RequestType.assignTaskClient:
+        return _assignTaskClient();
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -341,6 +348,9 @@ class EndPoints {
   /// end task client
   static String endTaskClient = "${_apiVersion}client-complete-task";
 
+  /// assign task client
+  static String assignTaskClient = "${_apiVersion}client-assign-task";
+
   ///===========================> End of Client <===========================\\\\
 
   ///==============================> Lawyer <===============================\\\\
@@ -466,6 +476,7 @@ enum RequestType {
   myTasksClient,
   singleTaskClient,
   endTaskClient,
+  assignTaskClient,
 
   ///==> Lawyer
   login,
