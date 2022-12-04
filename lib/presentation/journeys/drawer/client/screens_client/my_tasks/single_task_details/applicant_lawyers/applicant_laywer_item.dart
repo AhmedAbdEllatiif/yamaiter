@@ -164,7 +164,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                             children: [
                               ///==> price
                               RoundedText(
-                                text: "${-1} جنيه مصرى",
+                                text: "${lawyerEntity.costOfferedByLawyer} جنيه مصرى",
                                 background: AppColor.accentColor,
                                 textStyle: Theme.of(context)
                                     .textTheme

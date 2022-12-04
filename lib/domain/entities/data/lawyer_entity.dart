@@ -13,11 +13,13 @@ class LawyerEntity extends Equatable {
   final String courtName;
   final String description;
   final bool status;
+  final num costOfferedByLawyer;
   late final String idPhoto;
   late final String profileImage;
 
-  factory LawyerEntity.empty(){
-    return LawyerEntity(id: -1,
+  factory LawyerEntity.empty() {
+    return LawyerEntity(
+        id: -1,
         rating: 2,
         tasksCount: 5,
         name: "name",
@@ -27,11 +29,10 @@ class LawyerEntity extends Equatable {
         courtName: "courtName",
         description: "description",
         status: true,
+        costOfferedByLawyer: 0.0,
         lawyerIdPhoto: "lawyerIdPhoto",
         lawyerProfileImage: "lawyerProfileImage");
   }
-
-
 
   LawyerEntity({
     required this.id,
@@ -44,6 +45,7 @@ class LawyerEntity extends Equatable {
     required this.courtName,
     required this.description,
     required this.status,
+    required this.costOfferedByLawyer,
     required String lawyerIdPhoto,
     required String lawyerProfileImage,
   }) {

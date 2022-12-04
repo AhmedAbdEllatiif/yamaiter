@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 
-
 /// return a list of searched lawyers
 List<UserLawyerModel> resultOfSearchForLawyer(String responseBody) {
   final List<UserLawyerModel> lawyers = [];
@@ -30,6 +29,7 @@ class UserLawyerModel extends LawyerEntity {
     required this.lawyerDescription,
     required this.lawyerProfileImage,
     required this.lawyerStatus,
+    required this.costByLawyer,
   }) : super(
           id: lawyerId,
           rating: lawyerRating,
@@ -43,6 +43,7 @@ class UserLawyerModel extends LawyerEntity {
           status: lawyerStatus,
           lawyerIdPhoto: lawyerIdPhoto,
           lawyerProfileImage: lawyerProfileImage,
+          costOfferedByLawyer: costByLawyer,
         );
 
   final int lawyerId;
@@ -57,6 +58,7 @@ class UserLawyerModel extends LawyerEntity {
   final String lawyerDescription;
   final String lawyerProfileImage;
   final bool lawyerStatus;
+  final num costByLawyer;
 
   factory UserLawyerModel.empty() => UserLawyerModel(
         lawyerId: -1,
@@ -70,6 +72,7 @@ class UserLawyerModel extends LawyerEntity {
         lawyerIdPhoto: AppUtils.undefined,
         lawyerDescription: AppUtils.undefined,
         lawyerProfileImage: AppUtils.undefined,
+        costByLawyer: 0.0,
         lawyerStatus: false,
       );
 
@@ -81,6 +84,7 @@ class UserLawyerModel extends LawyerEntity {
         lawyerPhoneNum: json['phone'] ?? AppUtils.undefined,
         lawyerRating: json['rating'] ?? 0,
         lawyerTasksCount: json['tasks_count'] ?? 0,
+        costByLawyer: json["pivot"] != null ? json["pivot"]["cost"] ?? 0 : 0,
 
         /// userable
         // governorates
