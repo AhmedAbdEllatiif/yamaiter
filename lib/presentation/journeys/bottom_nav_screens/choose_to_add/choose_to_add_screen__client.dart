@@ -30,7 +30,7 @@ class ChooseToAddScreenClientUser extends StatelessWidget {
 
                 //==> request consultation services
                 ChooseToAddItem(
-                  image: AssetsImages.sosSvg,
+                  image: AssetsImages.newsPaperSvg,
                   text: "استشارة قانونية فورية",
                   onPressed: () => _navigateToRequestAConsultation(context),
                 ),
