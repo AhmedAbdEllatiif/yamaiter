@@ -40,6 +40,12 @@ class ApiConstants {
   static Uri _assignTaskClient() =>
       Uri.https(_baseUrl, EndPoints.assignTaskClient);
 
+  /// _topLawyers
+  static Uri _topLawyers() =>
+      Uri.https(_baseUrl, EndPoints.topLawyers,{
+        "rate":"desc"
+      });
+
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
@@ -172,6 +178,9 @@ class ApiConstants {
       // help
       case RequestType.help:
         return _help();
+        // help
+      case RequestType.topLawyers:
+        return _topLawyers();
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -351,6 +360,9 @@ class EndPoints {
   /// assign task client
   static String assignTaskClient = "${_apiVersion}client-assign-task";
 
+  /// topLawyers
+  static String topLawyers = "${_apiVersion}search-lawyer";
+
   ///===========================> End of Client <===========================\\\\
 
   ///==============================> Lawyer <===============================\\\\
@@ -477,6 +489,7 @@ enum RequestType {
   singleTaskClient,
   endTaskClient,
   assignTaskClient,
+  topLawyers,
 
   ///==> Lawyer
   login,

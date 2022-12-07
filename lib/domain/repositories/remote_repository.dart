@@ -94,6 +94,9 @@ abstract class RemoteRepository {
   Future<Either<AppError, SuccessModel>> assignTaskClient(
       AssignTaskParamsClient params);
 
+  /// top rated lawyers
+  Future<Either<AppError, List<LawyerEntity>>> topRatedLawyers(String token);
+
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\

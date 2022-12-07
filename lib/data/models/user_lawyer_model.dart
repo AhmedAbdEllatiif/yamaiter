@@ -15,6 +15,18 @@ List<UserLawyerModel> resultOfSearchForLawyer(String responseBody) {
   return lawyers;
 }
 
+/// return a list of lawyers
+List<UserLawyerModel> lawyersListFromJson(String responseBody) {
+  final List<UserLawyerModel> lawyers = [];
+
+  if (json.decode(responseBody)["lawyers"] != null) {
+    json.decode(responseBody)["lawyers"].forEach((v) {
+      lawyers.add(UserLawyerModel.fromJson(v));
+    });
+  }
+  return lawyers;
+}
+
 class UserLawyerModel extends LawyerEntity {
   UserLawyerModel({
     required this.lawyerId,
@@ -51,7 +63,7 @@ class UserLawyerModel extends LawyerEntity {
   final String lawyerName;
   final String lawyerEmail;
   final String lawyerPhoneNum;
-  final int lawyerRating;
+  final num lawyerRating;
   final String lawyerGovernorates;
   final String lawyerCourtName;
   final String lawyerIdPhoto;
@@ -82,9 +94,12 @@ class UserLawyerModel extends LawyerEntity {
         lawyerName: json["name"] ?? AppUtils.undefined,
         lawyerEmail: json["email"] ?? AppUtils.undefined,
         lawyerPhoneNum: json['phone'] ?? AppUtils.undefined,
-        lawyerRating: json['rating'] ?? 0,
+        //lawyerRating: json['rating'] ?? 0,
         lawyerTasksCount: json['tasks_count'] ?? 0,
         costByLawyer: json["pivot"] != null ? json["pivot"]["cost"] ?? 0 : 0,
+
+        lawyerRating:
+            json["userable"] != null ? json["userable"]["rate"] ?? 0 : 0,
 
         /// userable
         // governorates

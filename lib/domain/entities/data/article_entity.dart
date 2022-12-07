@@ -21,7 +21,7 @@ class ArticleEntity extends Equatable {
 
   /// user data
   final String authorName;
-  late final int creatorRating;
+  late final num creatorRating;
   late final String creatorImage;
 
   ArticleEntity({

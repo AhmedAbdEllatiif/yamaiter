@@ -27,6 +27,7 @@ import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dar
 import 'package:yamaiter/data/api/requests/post_requests/client/create_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/top_lawyers.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
@@ -140,6 +141,9 @@ abstract class RemoteDataSource {
 
   /// assign task client
   Future<dynamic> assignTaskClient(AssignTaskParamsClient params);
+
+  /// top rated lawyers
+  Future<dynamic> topRatedLawyers(String token);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -648,6 +652,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("assignTaskClient >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "assignTaskClient UnHandledError >> $e");
+    }
+  }
+
+  /// topRatedLawyers
+  @override
+  Future<dynamic> topRatedLawyers(String token) async {
+    try {
+      log("topRatedLawyers >> Start request");
+      // init request
+      final request = TopLawyersRequest();
+
+      // response
+      final response = await request(NoParams(), token);
+
+      log("topRatedLawyers >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return lawyersListFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "topRatedLawyers body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "topRatedLawyers body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "topRatedLawyers body >> ${response.body}");
+        // default
+        default:
+          log("topRatedLawyers >> body:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "topRatedLawyers Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("topRatedLawyers >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "topRatedLawyers UnHandledError >> $e");
     }
   }
 

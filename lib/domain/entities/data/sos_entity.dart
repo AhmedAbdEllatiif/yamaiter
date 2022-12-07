@@ -10,7 +10,7 @@ class SosEntity extends Equatable {
   final String description;
   late final String creatorName;
   late final String creatorPhoneNum;
-  late final int creatorRating;
+  late final num creatorRating;
   late final String creatorImage;
   final DateTime? createdAt;
   late final String createdAtString;

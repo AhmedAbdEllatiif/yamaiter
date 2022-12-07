@@ -269,6 +269,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+  /// topRatedLawyers
+  @override
+  Future<Either<AppError, List<LawyerEntity>>> topRatedLawyers(
+      String token) async {
+    try {
+      // send request
+      final result = await remoteDataSource.topRatedLawyers(token);
+
+      // success
+      if (result is List<LawyerEntity>) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\

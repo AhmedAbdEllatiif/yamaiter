@@ -26,7 +26,7 @@ class TaskEntity extends Equatable {
   /// creator
   late final String creatorName;
   late final String creatorPhoneNum;
-  late final int creatorRating;
+  late final num creatorRating;
   late final String creatorImage;
 
   /// recommender lawyer

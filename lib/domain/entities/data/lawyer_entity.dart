@@ -7,7 +7,7 @@ class LawyerEntity extends Equatable {
   final String name;
   final String email;
   final String phoneNum;
-  final int rating;
+  final num rating;
   final int tasksCount;
   final String governorates;
   final String courtName;
