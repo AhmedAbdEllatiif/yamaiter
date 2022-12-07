@@ -41,10 +41,8 @@ class ApiConstants {
       Uri.https(_baseUrl, EndPoints.assignTaskClient);
 
   /// _topLawyers
-  static Uri _topLawyers() =>
-      Uri.https(_baseUrl, EndPoints.topLawyers,{
-        "rate":"desc"
-      });
+  static Uri _lawyers({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.lawyers,queryParams);
 
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
@@ -179,8 +177,8 @@ class ApiConstants {
       case RequestType.help:
         return _help();
         // help
-      case RequestType.topLawyers:
-        return _topLawyers();
+      case RequestType.lawyers:
+        return _lawyers(queryParams: queryParams);
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -361,7 +359,7 @@ class EndPoints {
   static String assignTaskClient = "${_apiVersion}client-assign-task";
 
   /// topLawyers
-  static String topLawyers = "${_apiVersion}search-lawyer";
+  static String lawyers = "${_apiVersion}search-lawyer";
 
   ///===========================> End of Client <===========================\\\\
 
@@ -489,7 +487,7 @@ enum RequestType {
   singleTaskClient,
   endTaskClient,
   assignTaskClient,
-  topLawyers,
+  lawyers,
 
   ///==> Lawyer
   login,

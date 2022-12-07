@@ -12,8 +12,8 @@ import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/article_item.dart';
+import '../../../../widgets/lawyers/top_rated_lawyers_widget.dart';
 import '../../../../widgets/loading_widget.dart';
-import '../../../../widgets/top_rated_lawyers/top_rated_lawyers_widget.dart';
 import '../../../main/main_page_title.dart';
 
 class HomePageClient extends StatefulWidget {
@@ -126,7 +126,6 @@ class _HomePageClientState extends State<HomePageClient> {
                     automaticallyImplyLeading: false,
                     expandedHeight: ScreenUtil.screenHeight * 0.28,
                     backgroundColor: Colors.white,
-
                     flexibleSpace: FlexibleSpaceBar(
                       title: const MainPageTitle(
                         title: "احدث المنشورات",
@@ -143,7 +142,6 @@ class _HomePageClientState extends State<HomePageClient> {
                               title: "محامين متمزين",
                             ),
                             TopRatedLawyersWidget(),
-
                           ],
                         ),
                       ),

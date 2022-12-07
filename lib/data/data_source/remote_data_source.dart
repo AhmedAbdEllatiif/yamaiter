@@ -27,7 +27,7 @@ import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dar
 import 'package:yamaiter/data/api/requests/post_requests/client/create_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
-import 'package:yamaiter/data/api/requests/post_requests/client/top_lawyers.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/lawyers.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_article.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
@@ -106,6 +106,7 @@ import '../models/user_lawyer_model.dart';
 import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/end_task_params_client.dart';
+import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
@@ -143,7 +144,7 @@ abstract class RemoteDataSource {
   Future<dynamic> assignTaskClient(AssignTaskParamsClient params);
 
   /// top rated lawyers
-  Future<dynamic> topRatedLawyers(String token);
+  Future<dynamic> fetchLawyers(GetLawyersParams params);
 
   ///============================>  Lawyer <============================\\\\
   ///                                                                   \\\\
@@ -657,14 +658,14 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// topRatedLawyers
   @override
-  Future<dynamic> topRatedLawyers(String token) async {
+  Future<dynamic> fetchLawyers(GetLawyersParams params) async {
     try {
       log("topRatedLawyers >> Start request");
       // init request
-      final request = TopLawyersRequest();
+      final request = FetchLawyersRequest();
 
       // response
-      final response = await request(NoParams(), token);
+      final response = await request(params, params.userToken);
 
       log("topRatedLawyers >> ResponseCode: ${response.statusCode}");
 

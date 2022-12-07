@@ -4,12 +4,16 @@ import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
-class TopRatedLawyersCase extends UseCase<List<LawyerEntity>, String> {
+import '../../data/params/client/get_lawyers_params.dart';
+
+class FetchLawyersCase
+    extends UseCase<List<LawyerEntity>, GetLawyersParams> {
   final RemoteRepository remoteRepository;
 
-  TopRatedLawyersCase({required this.remoteRepository});
+  FetchLawyersCase({required this.remoteRepository});
 
   @override
-  Future<Either<AppError, List<LawyerEntity>>> call(String params) async =>
-      await remoteRepository.topRatedLawyers(params);
+  Future<Either<AppError, List<LawyerEntity>>> call(
+          GetLawyersParams params) async =>
+      await remoteRepository.fetchLawyers(params);
 }

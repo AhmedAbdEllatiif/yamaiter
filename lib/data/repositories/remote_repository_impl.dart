@@ -64,6 +64,7 @@ import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/end_task_params_client.dart';
+import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
@@ -271,11 +272,11 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// topRatedLawyers
   @override
-  Future<Either<AppError, List<LawyerEntity>>> topRatedLawyers(
-      String token) async {
+  Future<Either<AppError, List<LawyerEntity>>> fetchLawyers(
+      GetLawyersParams params) async {
     try {
       // send request
-      final result = await remoteDataSource.topRatedLawyers(token);
+      final result = await remoteDataSource.fetchLawyers(params);
 
       // success
       if (result is List<LawyerEntity>) {

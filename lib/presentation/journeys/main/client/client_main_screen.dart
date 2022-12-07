@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/presentation/journeys/all_lawyers/all_lawyers_widget.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen__client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/client/home_page_client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
@@ -13,7 +14,6 @@ import '../../../../common/screen_utils/screen_util.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
 import '../../../widgets/icon_with_badge.dart';
-import '../../drawer/drawer_screen/drawer_screen.dart';
 import '../main_page_title.dart';
 
 class ClientMainScreen extends StatefulWidget {
@@ -97,9 +97,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
                   ChooseToAddScreenClientUser(),
 
                   /// AllLawyers
-                  Center(
-                    child: Text("All Lawyers"),
-                  ),
+                  AllLawyerList(),
                 ],
               ),
             ),
@@ -126,7 +124,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   /// Pages titles
   final clientPageTitles = [
     "",
-   // "محامين متمزين",
+    // "محامين متمزين",
     "كل المنشورات",
     "",
     "كل المحامين",

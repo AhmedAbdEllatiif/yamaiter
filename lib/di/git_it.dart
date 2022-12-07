@@ -21,7 +21,7 @@ import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
-import 'package:yamaiter/domain/use_cases/top_rated_lawyers.dart';
+import 'package:yamaiter/domain/use_cases/fetch_lawyers.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
@@ -125,7 +125,7 @@ import '../presentation/logic/cubit/pick_images/pick_image_cubit.dart';
 import '../presentation/logic/cubit/register_client/register_client_cubit.dart';
 import '../presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
 import '../presentation/logic/cubit/search_for_lawyers/search_for_lawyers_cubit.dart';
-import '../presentation/logic/cubit/top_rated_lawyers/top_rated_lawyers_cubit.dart';
+import '../presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
 import '../presentation/logic/cubit/update_task/update_task_cubit.dart';
 
 final getItInstance = GetIt.I;
@@ -166,9 +166,9 @@ Future init() async {
     () => PickImageCubit(),
   );
 
-  //==> TopRatedLawyersCubit
-  getItInstance.registerFactory<TopRatedLawyersCubit>(
-    () => TopRatedLawyersCubit(),
+  //==> FetchLawyersCubit
+  getItInstance.registerFactory<FetchLawyersCubit>(
+    () => FetchLawyersCubit(),
   );
 
   //==> LoginCubit
@@ -467,8 +467,8 @@ Future init() async {
   );
 
   //==> TopRatedLawyersCase
-  getItInstance.registerFactory<TopRatedLawyersCase>(
-    () => TopRatedLawyersCase(remoteRepository: getItInstance()),
+  getItInstance.registerFactory<FetchLawyersCase>(
+    () => FetchLawyersCase(remoteRepository: getItInstance()),
   );
 
   //==> GetTermsAndConditionCase

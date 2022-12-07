@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/presentation/logic/cubit/top_rated_lawyers/top_rated_lawyers_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 import 'package:yamaiter/presentation/widgets/rounded_text.dart';
 
@@ -14,7 +14,6 @@ import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
-import '../app_button.dart';
 import '../app_error_widget.dart';
 import '../loading_widget.dart';
 
@@ -26,37 +25,37 @@ class TopRatedLawyersWidget extends StatefulWidget {
 }
 
 class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
-  late final TopRatedLawyersCubit _topRatedLawyersCubit;
+  late final FetchLawyersCubit _fetchLawyersCubit;
 
   @override
   void initState() {
     super.initState();
-    _topRatedLawyersCubit = getItInstance<TopRatedLawyersCubit>();
+    _fetchLawyersCubit = getItInstance<FetchLawyersCubit>();
     _fetchTopRatedLawyers();
   }
 
   @override
   void dispose() {
-    _topRatedLawyersCubit.close();
+    _fetchLawyersCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _topRatedLawyersCubit,
+      create: (context) => _fetchLawyersCubit,
       child: Builder(builder: (context) {
-        return BlocBuilder<TopRatedLawyersCubit, TopRatedLawyersState>(
+        return BlocBuilder<FetchLawyersCubit, FetchLawyersState>(
           builder: (context, state) {
             //==> loading
-            if (state is LoadingTopRatedLawyers) {
+            if (state is LoadingLawyers) {
               return const Center(
                 child: LoadingWidget(),
               );
             }
 
             //==> unAuthorized
-            if (state is UnAuthorizedTopRatedLawyers) {
+            if (state is UnAuthorizedToFetchLawyers) {
               return Center(
                 child: AppErrorWidget(
                   appTypeError: AppErrorType.unauthorizedUser,
@@ -67,7 +66,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
             }
 
             //==> notActivatedUser
-            if (state is ErrorWhileLoadingTopRatedLawyers) {
+            if (state is ErrorWhileLoadingLawyers) {
               return Center(
                 child: AppErrorWidget(
                   appTypeError: state.appError.appErrorType,
@@ -77,7 +76,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
             }
 
             //==> empty
-            if (state is EmptyTopRatedLawyers) {
+            if (state is EmptyLawyers) {
               return Center(
                 child: Text(
                   "لايوجد محامين",
@@ -89,8 +88,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
             }
 
             //==> fetched
-            if (state is TopRatedLawyersFetched) {
-
+            if (state is LawyersFetched) {
               return CarouselSlider(
                 options: CarouselOptions(
                   height: ScreenUtil.screenHeight * 0.18,
@@ -107,8 +105,8 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                   //onPageChanged: callbackFunction,
                   scrollDirection: Axis.horizontal,
                 ),
-                items: state.lawyerList.map((lawyer) {
-                 // final lawyer = state.lawyerList[index];
+                items: state.lawyersList.map((lawyer) {
+                  // final lawyer = state.lawyerList[index];
                   return Builder(
                     builder: (BuildContext context) {
                       return Card(
@@ -139,19 +137,19 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                   children: [
                                     Expanded(
                                         child: Text(
-                                          lawyer.description,
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .caption!
-                                              .copyWith(height: 1.3),
-                                        )),
+                                      lawyer.description,
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .caption!
+                                          .copyWith(height: 1.3),
+                                    )),
 
                                     /// tasksCount , button
                                     Column(
                                       mainAxisAlignment:
-                                      MainAxisAlignment.center,
+                                          MainAxisAlignment.center,
                                       children: [
                                         Text(
                                           "${lawyer.tasksCount} مهمة",
@@ -168,8 +166,8 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                                 .textTheme
                                                 .caption!
                                                 .copyWith(
-                                              color: AppColor.accentColor,
-                                            ),
+                                                  color: AppColor.accentColor,
+                                                ),
                                             // color: AppColor.primaryDarkColor,
                                             onPressed: () {
                                               _navigateToInviteLawyerScreen(
@@ -189,7 +187,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                   );
                 }).toList(),
               );
-           /*   return Flexible(
+              /*   return Flexible(
                 child: ListView.separated(
                   scrollDirection: Axis.horizontal,
                   physics: const BouncingScrollPhysics(),
@@ -301,7 +299,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
   void _fetchTopRatedLawyers() {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    _topRatedLawyersCubit.fetchToRatedLawyers(
+    _fetchLawyersCubit.fetchToRatedLawyers(
       userToken: userToken,
     );
   }
@@ -316,7 +314,4 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
   /// to navigate to login
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);
-
-  /// to navigate to contact us
-  void _navigateToContactUs() => RouteHelper().chooseUserType(context);
 }
