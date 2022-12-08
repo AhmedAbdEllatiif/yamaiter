@@ -6,13 +6,16 @@ import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/single_task_details_client/applicant_lawyers/list_of_applicant_lawyers.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 
 import '../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../domain/entities/screen_arguments/single_task_client_args.dart';
 import '../../../../../../../router/route_helper.dart';
+import '../../../domain/entities/data/task_entity.dart';
 import '../../../domain/entities/screen_arguments/delete_task_client_args.dart';
+import '../../../domain/entities/screen_arguments/update_task_client_args.dart';
 import '../../logic/client_cubit/assign_task/assign_task_client_cubit.dart';
 import '../../logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
@@ -23,8 +26,10 @@ import '../../widgets/text_with_icon.dart';
 class SingleTaskScreenClient extends StatefulWidget {
   final SingleTaskClientArguments arguments;
 
-  const SingleTaskScreenClient({Key? key, required this.arguments})
-      : super(key: key);
+  const SingleTaskScreenClient({
+    Key? key,
+    required this.arguments,
+  }) : super(key: key);
 
   @override
   State<SingleTaskScreenClient> createState() => _SingleTaskScreenClientState();
@@ -34,8 +39,9 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
   late final GetSingleTaskClientCubit _getSingleTaskClientCubit;
   late final AssignTaskClientCubit _assignTaskClientCubit;
   late final DeleteTaskClientCubit _deleteTaskClientCubit;
+  late final UpdateTaskClientCubit _updateTaskClientCubit;
 
-  late int _taskId;
+  late TaskEntity _taskEntity;
 
   @override
   void initState() {
@@ -43,7 +49,8 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
     _getSingleTaskClientCubit = getItInstance<GetSingleTaskClientCubit>();
     _assignTaskClientCubit = widget.arguments.assignTaskClientCubit;
     _deleteTaskClientCubit = widget.arguments.deleteTaskClientCubit;
-    _taskId = widget.arguments.taskId;
+    _updateTaskClientCubit = widget.arguments.updateTaskClientCubit;
+    _taskEntity = widget.arguments.taskEntity;
     _fetchSingleTaskClient();
   }
 
@@ -57,13 +64,25 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _getSingleTaskClientCubit,
-      child: BlocListener<DeleteTaskClientCubit, DeleteTaskClientState>(
-        bloc: _deleteTaskClientCubit,
-        listener: (_, state) {
-          if (state is TaskClientDeletedSuccessfully) {
-            Navigator.pop(context);
-          }
-        },
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<DeleteTaskClientCubit, DeleteTaskClientState>(
+            bloc: _deleteTaskClientCubit,
+            listener: (_, state) {
+              if (state is TaskClientDeletedSuccessfully) {
+                Navigator.pop(context);
+              }
+            },
+          ),
+          BlocListener<UpdateTaskClientCubit, UpdateTaskClientState>(
+            bloc: _updateTaskClientCubit,
+            listener: (_, state) {
+              if (state is TaskClientUpdatedSuccessfully) {
+                _fetchSingleTaskClient();
+              }
+            },
+          ),
+        ],
         child: Scaffold(
           /// appBar
           appBar: AppBar(
@@ -87,10 +106,11 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
                   },
                   onSelected: (value) {
                     if (value == 0) {
-                      print("My account menu is selected.");
+                      //==> update Task
+                      _navigateToUpdateClientTaskScreen();
                     } else if (value == 1) {
+                      //==> deleteTask
                       navigateToDeleteClientTaskScreen();
-                      print("Settings menu is selected.");
                     }
                   }),
             ],
@@ -266,7 +286,7 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
 
     _getSingleTaskClientCubit.fetchSingleTaskClient(
       userToken: userToken,
-      taskId: widget.arguments.taskId,
+      taskId: widget.arguments.taskEntity.id,
     );
   }
 
@@ -274,7 +294,16 @@ class _SingleTaskScreenClientState extends State<SingleTaskScreenClient> {
   void navigateToDeleteClientTaskScreen() {
     RouteHelper().deleteTaskClient(context,
         deleteTaskClientArguments: DeleteTaskClientArguments(
-            taskId: _taskId, deleteTaskClientCubit: _deleteTaskClientCubit));
+            taskId: _taskEntity.id,
+            deleteTaskClientCubit: _deleteTaskClientCubit));
+  }
+
+  /// To navigate to update task client screen
+  void _navigateToUpdateClientTaskScreen() {
+    RouteHelper().updateTaskClient(context,
+        updateTaskClientArguments: UpdateTaskClientArguments(
+            taskEntity: _taskEntity,
+            updateTaskClientCubit: _updateTaskClientCubit));
   }
 
   /// To navigate to login

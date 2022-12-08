@@ -189,9 +189,9 @@ class _TaskFormClientState extends State<TaskFormClient> {
                     }
                   }),*/
 
-              /// subject
+              /// title
               AppTextField(
-                controller: placeController,
+                controller: titleController,
                 label: "موضوع المساعدة",
               ),
 
@@ -213,9 +213,9 @@ class _TaskFormClientState extends State<TaskFormClient> {
 
               /// place
               AppTextField(
-                controller: titleController,
+                controller: placeController,
                 label: "مكان تنفيذ المساعدة",
-                minLength: 5,
+                //minLength: 5,
               ),
 
               /*AppDropDownField(

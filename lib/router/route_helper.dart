@@ -25,6 +25,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_pa
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
@@ -268,6 +269,13 @@ class RouteHelper {
       {required EditTaskArguments editTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.editTask, arguments: editTaskArguments);
+  }
+
+  /// To update task client screen \\\
+  void updateTaskClient(BuildContext context,
+      {required UpdateTaskClientArguments updateTaskClientArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.updateTaskClient, arguments: updateTaskClientArguments);
   }
 
   /// To single task screen \\\

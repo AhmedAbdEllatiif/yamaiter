@@ -69,6 +69,7 @@ import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
+import '../params/client/update_task_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
@@ -278,6 +279,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // send request
       final result = await remoteDataSource.deleteTaskClient(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// updateTaskClient
+  @override
+  Future<Either<AppError, SuccessModel>> updateTaskClient(
+      UpdateTaskClientParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.updateTaskClient(params);
 
       // success
       if (result is SuccessModel) {

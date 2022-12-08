@@ -56,4 +56,5 @@ class RouteList {
   static const String singleTaskClient = "/singleTaskClient";
   static const String inviteLawyerByClient = "/inviteLawyerByClient";
   static const String deleteTaskClient = "/deleteTaskClient";
+  static const String updateTaskClient = "/updateTaskClient";
 }

@@ -13,6 +13,7 @@ import 'package:yamaiter/data/params/client/end_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
+import 'package:yamaiter/data/params/client/update_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -99,6 +100,10 @@ abstract class RemoteRepository {
   /// delete task client
   Future<Either<AppError, SuccessModel>> deleteTaskClient(
       DeleteTaskClientParams params);
+
+  /// updateTaskClient
+  Future<Either<AppError, SuccessModel>> updateTaskClient(
+      UpdateTaskClientParams params);
 
   /// fetch lawyers
   Future<Either<AppError, List<LawyerEntity>>> fetchLawyers(

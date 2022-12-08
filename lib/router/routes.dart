@@ -20,6 +20,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
@@ -58,6 +59,7 @@ import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/create_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.dart';
+import 'package:yamaiter/presentation/journeys/update_task_client/update_task_client_screen.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
@@ -196,6 +198,12 @@ class Routes {
               editTaskArguments: settings.arguments as EditTaskArguments,
             ),
 
+        /// update task client
+        RouteList.updateTaskClient: (context) => UpdateTaskClientScreen(
+              updateTaskClientArguments:
+                  settings.arguments as UpdateTaskClientArguments,
+            ),
+
         /// delete task
         RouteList.deleteTask: (context) => DeleteTaskScreen(
               deleteTaskArguments: settings.arguments as DeleteTaskArguments,
@@ -203,7 +211,8 @@ class Routes {
 
         /// delete task client
         RouteList.deleteTaskClient: (context) => DeleteTaskClientScreen(
-              deleteTaskClientArguments: settings.arguments as DeleteTaskClientArguments,
+              deleteTaskClientArguments:
+                  settings.arguments as DeleteTaskClientArguments,
             ),
 
         /// single task

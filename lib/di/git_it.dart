@@ -86,6 +86,7 @@ import '../domain/use_cases/client/tasks/create_task_client_case.dart';
 import '../domain/use_cases/client/tasks/delete_task_client_case.dart';
 import '../domain/use_cases/client/tasks/end_task_client_case.dart';
 import '../domain/use_cases/client/tasks/single_task_case.dart';
+import '../domain/use_cases/client/tasks/update_task_client_case.dart';
 import '../domain/use_cases/client_auth/register_client.dart';
 import '../domain/use_cases/filter_tasks.dart';
 import '../domain/use_cases/invited_tasks.dart';
@@ -108,6 +109,7 @@ import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
 import '../presentation/logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
+import '../presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
@@ -328,11 +330,15 @@ Future init() async {
     () => UpdateTaskCubit(),
   );
 
+  //==> UpdateTaskClientCubit
+  getItInstance.registerFactory<UpdateTaskClientCubit>(
+    () => UpdateTaskClientCubit(),
+  );
+
   //==> DeleteTaskCubit
   getItInstance.registerFactory<DeleteTaskCubit>(
     () => DeleteTaskCubit(),
   );
-
 
   //==> DeleteTaskClientCubit
   getItInstance.registerFactory<DeleteTaskClientCubit>(
@@ -652,6 +658,11 @@ Future init() async {
   //==> UpdateTaskCase
   getItInstance.registerFactory<UpdateTaskCase>(
     () => UpdateTaskCase(remoteRepository: getItInstance()),
+  );
+
+  //==> UpdateTaskClientCase
+  getItInstance.registerFactory<UpdateTaskClientCase>(
+    () => UpdateTaskClientCase(remoteRepository: getItInstance()),
   );
 
   //==> DeleteTaskCase
