@@ -203,8 +203,7 @@ class Routes {
 
         /// delete task client
         RouteList.deleteTaskClient: (context) => DeleteTaskClientScreen(
-              deleteTaskClientArguments:
-                  settings.arguments as DeleteTaskClientArguments,
+              deleteTaskClientArguments: settings.arguments as DeleteTaskClientArguments,
             ),
 
         /// single task

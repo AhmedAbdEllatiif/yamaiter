@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
+import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
@@ -11,6 +12,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_clien
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/my_tasks_drop_down_client.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 
 import 'package:yamaiter/presentation/logic/cubit/invite_lawyer/invite_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
@@ -285,7 +287,16 @@ class _InviteLawyerByClientScreenState
 
   /// navigate to my tasks screen
   void _navigateToMyTaskScreen() {
-    RouteHelper().myTasks(context, isPushNamedAndRemoveUntil: true);
+    // init userToken
+    final currentUser =
+        context.read<AuthorizedUserCubit>().state.currentUserType;
+
+    // navigate to my tasks according to current user type
+    if (currentUser == UserType.lawyer) {
+      RouteHelper().myTasks(context, isPushNamedAndRemoveUntil: true);
+    }else{
+      RouteHelper().myTasksClient(context, isPushNamedAndRemoveUntil: true);
+    }
   }
 
   /// navigate to login
