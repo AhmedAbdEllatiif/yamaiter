@@ -77,7 +77,7 @@ class _CreateTaskClientState extends State<CreateTaskClient> {
         ],
         child: Scaffold(
           appBar: AppBar(
-            title: const Text("نشر مهمة عمل"),
+            title: const Text("طلب مساعدة"),
           ),
           body: Column(
             children: [

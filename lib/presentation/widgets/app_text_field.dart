@@ -239,12 +239,11 @@ class _AppTextFieldState extends State<AppTextField> {
       if (_isPasswordTextInputType()) {
         return passwordValidation(value);
       }
-      if(widget.minLength != null){
-        if(widget.minLength! > value.length){
+      if (widget.minLength != null) {
+        if (widget.minLength! > value.length) {
           return "الحد الأدنى من الأحرف هو ${widget.minLength}";
         }
       }
-
     }
 
     if (value == null) return "* مطلوب ادخاله";

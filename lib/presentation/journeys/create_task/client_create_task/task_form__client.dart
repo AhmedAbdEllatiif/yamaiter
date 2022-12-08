@@ -31,9 +31,9 @@ class TaskFormClient extends StatefulWidget {
 
   const TaskFormClient(
       {Key? key,
-        this.withWithCard = true,
-        this.createTaskClientCubit,
-        required this.onSuccess})
+      this.withWithCard = true,
+      this.createTaskClientCubit,
+      required this.onSuccess})
       : super(key: key);
 
   @override
@@ -46,6 +46,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController descriptionController = TextEditingController();
   final TextEditingController titleController = TextEditingController();
+  final TextEditingController placeController = TextEditingController();
   final TextEditingController priceController = TextEditingController();
 
   String taskType = "";
@@ -96,8 +97,8 @@ class _TaskFormClientState extends State<TaskFormClient> {
             ///  card
             child: Padding(
               padding: const EdgeInsets.only(
-                // top: Sizes.dimen_10.h,
-              ),
+                  // top: Sizes.dimen_10.h,
+                  ),
               child: BlocBuilder<CreateTaskClientCubit, CreateTaskClientState>(
                 bloc: _createTaskClientCubit,
                 builder: (context, state) {
@@ -135,7 +136,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
                         appTypeError: AppErrorType.notActivatedUser,
                         buttonText: "تواصل معنا",
                         message:
-                        "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                            "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
                         onPressedRetry: () {
                           _navigateToContactUs();
                         },
@@ -167,9 +168,9 @@ class _TaskFormClientState extends State<TaskFormClient> {
       children: [
         /// title
         AppContentTitleWidget(
-          title: "نشر مهمة عمل",
+          title: "طلب مساعدة قانونية بحضور محامى",
           textColor:
-          widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
+              widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
         ),
 
         //==> space
@@ -188,11 +189,10 @@ class _TaskFormClientState extends State<TaskFormClient> {
                     }
                   }),*/
 
-              /// title
+              /// subject
               AppTextField(
-                controller: titleController,
-                label: "موضوع المهمة",
-                minLength: 5,
+                controller: placeController,
+                label: "موضوع المساعدة",
               ),
 
               //==> space
@@ -211,15 +211,22 @@ class _TaskFormClientState extends State<TaskFormClient> {
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
 
-              AppDropDownField(
-                  hintText: "المحكمة الكلية المختصة بتنفيذ المهمة",
+              /// place
+              AppTextField(
+                controller: titleController,
+                label: "مكان تنفيذ المساعدة",
+                minLength: 5,
+              ),
+
+              /*AppDropDownField(
+                  hintText: "مكان",
                   itemsList: subGovernoratesList,
                   isLastItemHighlighted: true,
                   onChanged: (value) {
                     if (value != null) {
                       subGovernorate = value;
                     }
-                  }),
+                  }),*/
 
               //==> space
               SizedBox(height: Sizes.dimen_5.h),
@@ -237,7 +244,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
               AppTextField(
                 controller: priceController,
                 textInputType: TextInputType.number,
-                label: "حدد مبلغ مكافئة التنفيذ",
+                label: "حدد المبلغ المعروض لاتعاب التنفيذ",
               ),
 
               //==> space
@@ -246,7 +253,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
               TextFieldLargeContainer(
                 appTextField: AppTextField(
                   controller: descriptionController,
-                  label: "اشرح تفاصيل المهمة هنا",
+                  label: "اشرح بالتفصيل العمل المطلوب تنفيذه من المحامى",
                   maxLines: 20,
                   withFocusedBorder: false,
                   textInputType: TextInputType.multiline,
@@ -316,6 +323,9 @@ class _TaskFormClientState extends State<TaskFormClient> {
     // init title
     final title = titleController.value.text;
 
+    // init place
+    final place = placeController.value.text;
+
     // init description
     final description = descriptionController.value.text;
 
@@ -326,7 +336,7 @@ class _TaskFormClientState extends State<TaskFormClient> {
     _createTaskClientCubit.sendTask(
       token: userToken,
       title: title,
-      governorates: governorate,
+      governorates: place,
       description: description.isNotEmpty ? description : "لا يوجد",
       price: price,
       court: subGovernorate,
