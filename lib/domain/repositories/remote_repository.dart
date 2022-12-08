@@ -46,6 +46,7 @@ import '../../data/models/success_model.dart';
 import '../../data/models/tasks/upload_task_params.dart';
 import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
+import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/get_invited_task_params.dart';
@@ -95,7 +96,11 @@ abstract class RemoteRepository {
   Future<Either<AppError, SuccessModel>> assignTaskClient(
       AssignTaskParamsClient params);
 
-  /// top rated lawyers
+  /// delete task client
+  Future<Either<AppError, SuccessModel>> deleteTaskClient(
+      DeleteTaskClientParams params);
+
+  /// fetch lawyers
   Future<Either<AppError, List<LawyerEntity>>> fetchLawyers(
       GetLawyersParams params);
 

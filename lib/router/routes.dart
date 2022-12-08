@@ -62,6 +62,7 @@ import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
+import '../domain/entities/screen_arguments/delete_task_client_args.dart';
 import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/search_result_args.dart';
 import '../domain/entities/screen_arguments/single_task_client_args.dart';
@@ -71,6 +72,7 @@ import '../presentation/journeys/article/create_article/add_article.dart';
 import '../presentation/journeys/article/create_article/create_article_screen.dart';
 import '../presentation/journeys/article/delete_article.dart';
 import '../presentation/journeys/article/single_article_screen.dart';
+import '../presentation/journeys/delete_task_client_screen/delete_task_client_screen.dart';
 import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
@@ -197,6 +199,12 @@ class Routes {
         /// delete task
         RouteList.deleteTask: (context) => DeleteTaskScreen(
               deleteTaskArguments: settings.arguments as DeleteTaskArguments,
+            ),
+
+        /// delete task client
+        RouteList.deleteTaskClient: (context) => DeleteTaskClientScreen(
+              deleteTaskClientArguments:
+                  settings.arguments as DeleteTaskClientArguments,
             ),
 
         /// single task

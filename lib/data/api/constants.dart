@@ -40,9 +40,13 @@ class ApiConstants {
   static Uri _assignTaskClient() =>
       Uri.https(_baseUrl, EndPoints.assignTaskClient);
 
-  /// _topLawyers
+  /// _deleteTaskClient
+  static Uri _deleteTaskClient(String id) =>
+      Uri.https(_baseUrl, "${EndPoints.deleteTaskClient}/$id");
+
+  /// _lawyers
   static Uri _lawyers({required Map<String, dynamic> queryParams}) =>
-      Uri.https(_baseUrl, EndPoints.lawyers,queryParams);
+      Uri.https(_baseUrl, EndPoints.lawyers, queryParams);
 
   static Uri _loginUrl() => Uri.https(_baseUrl, EndPoints.login);
 
@@ -176,9 +180,6 @@ class ApiConstants {
       // help
       case RequestType.help:
         return _help();
-        // help
-      case RequestType.lawyers:
-        return _lawyers(queryParams: queryParams);
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -216,6 +217,12 @@ class ApiConstants {
       // assignTaskClient
       case RequestType.assignTaskClient:
         return _assignTaskClient();
+      // deleteTaskClient
+      case RequestType.deleteTaskClient:
+        return _deleteTaskClient(id);
+      // lawyers
+      case RequestType.lawyers:
+        return _lawyers(queryParams: queryParams);
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -358,7 +365,10 @@ class EndPoints {
   /// assign task client
   static String assignTaskClient = "${_apiVersion}client-assign-task";
 
-  /// topLawyers
+  /// deleteTask
+  static String deleteTaskClient = "${_apiVersion}client-tasks";
+
+  /// lawyers
   static String lawyers = "${_apiVersion}search-lawyer";
 
   ///===========================> End of Client <===========================\\\\
@@ -488,6 +498,7 @@ enum RequestType {
   endTaskClient,
   assignTaskClient,
   lawyers,
+  deleteTaskClient,
 
   ///==> Lawyer
   login,

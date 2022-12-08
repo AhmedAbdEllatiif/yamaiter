@@ -30,6 +30,7 @@ import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
+import '../domain/entities/screen_arguments/delete_task_client_args.dart';
 import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/my_task_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
@@ -295,6 +296,13 @@ class RouteHelper {
       {required DeleteTaskArguments deleteTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.deleteTask, arguments: deleteTaskArguments);
+  }
+
+  /// To delete task client screen \\\
+  void deleteTaskClient(BuildContext context,
+      {required DeleteTaskClientArguments deleteTaskClientArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.deleteTaskClient, arguments: deleteTaskClientArguments);
   }
 
   /// To my my_tasks screen \\\

@@ -7,13 +7,14 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_task_client_arg
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/loading_more_my_tasks_client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/todo_client/todo_task_item_client.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/assign_task/assign_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 
 import '../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../common/enum/task_status.dart';
+import '../../../../../../../domain/entities/screen_arguments/delete_task_client_args.dart';
 import '../../../../../../../router/route_helper.dart';
-import '../../../../../../logic/cubit/assign_task/assign_task_cubit.dart';
 import '../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../themes/theme_color.dart';
 import '../../../../../../widgets/app_error_widget.dart';
@@ -41,6 +42,9 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
   /// AssignTaskClientCubit
   late final AssignTaskClientCubit _assignTaskClientCubit;
 
+  /// DeleteTaskClientCubit
+  late final DeleteTaskClientCubit _deleteTaskClientCubit;
+
   /// ScrollController
   late final ScrollController _controller;
 
@@ -56,6 +60,9 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
     //==> init _getMyTasksClientCubit
     _getMyTasksClientCubit = getItInstance<GetMyTasksClientCubit>();
 
+    //==> init _deleteTaskClientCubit
+    _deleteTaskClientCubit = getItInstance<DeleteTaskClientCubit>();
+
     //==> start fetching tasks list
     _fetchMyTasksList();
   }
@@ -64,6 +71,7 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
   void dispose() {
     _controller.dispose();
     _getMyTasksClientCubit.close();
+    _deleteTaskClientCubit.close();
     super.dispose();
   }
 
@@ -73,7 +81,7 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
         providers: [
           BlocProvider(create: (context) => _getMyTasksClientCubit),
           //BlocProvider(create: (context) => _updateTaskCubit),
-          //BlocProvider(create: (context) => _deleteTaskCubit),
+          BlocProvider(create: (context) => _deleteTaskClientCubit),
         ],
         child: MultiBlocListener(
           listeners: [
@@ -103,13 +111,13 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
             }),*/
 
             /// delete task listener
-            /*BlocListener<DeleteTaskCubit, DeleteTaskState>(
+            BlocListener<DeleteTaskClientCubit, DeleteTaskClientState>(
                 listener: (context, state) {
-              if (state is TaskDeletedSuccessfully) {
+              if (state is TaskClientDeletedSuccessfully) {
                 tasksList.clear();
                 _fetchMyTasksList();
               }
-            }),*/
+            }),
           ],
           child: BlocConsumer<GetMyTasksClientCubit, GetMyTasksClientState>(
             listener: (_, state) {
@@ -199,15 +207,18 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
                     /// TaskItem
                     if (index < tasksList.length) {
                       return TodoTaskItemClient(
-                          taskEntity: tasksList[index],
-                          onPressed: () {
-                            _navigateToSingleTaskScreen(
-                                taskId: tasksList[index].id);
-                          },
-                          onUpdatePressed: () {
-                            //_navigateToEditTaskScreen(taskList[index]);
-                          },
-                          onDeletePressed: () {});
+                        taskEntity: tasksList[index],
+                        onPressed: () {
+                          _navigateToSingleTaskScreen(
+                              taskId: tasksList[index].id);
+                        },
+                        onUpdatePressed: () {
+                          //_navigateToEditTaskScreen(taskList[index]);
+                        },
+                        onDeletePressed: () => navigateToDeleteClientTaskScreen(
+                          taskId: tasksList[index].id,
+                        ),
+                      );
                     }
 
                     /// loading or end of list
@@ -238,6 +249,13 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);
 
+  /// To navigate to delete task client screen
+  void navigateToDeleteClientTaskScreen({required int taskId}) {
+    RouteHelper().deleteTaskClient(context,
+        deleteTaskClientArguments: DeleteTaskClientArguments(
+            taskId: taskId, deleteTaskClientCubit: _deleteTaskClientCubit));
+  }
+
   /// To navigate to contactUs
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
 
@@ -246,6 +264,7 @@ class _MyTasksTodoClientState extends State<MyTasksTodoClient>
         context,
         singleTaskClientArguments: SingleTaskClientArguments(
           assignTaskClientCubit: _assignTaskClientCubit,
+          deleteTaskClientCubit: _deleteTaskClientCubit,
           taskId: taskId,
         ),
       );

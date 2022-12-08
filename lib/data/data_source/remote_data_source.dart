@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
+import 'package:yamaiter/data/api/requests/delete_requests/client/delete_task.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/decline_task.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
@@ -105,6 +106,7 @@ import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_task_params.dart';
+import '../params/client/delete_task_params.dart';
 import '../params/client/end_task_params_client.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
@@ -143,7 +145,10 @@ abstract class RemoteDataSource {
   /// assign task client
   Future<dynamic> assignTaskClient(AssignTaskParamsClient params);
 
-  /// top rated lawyers
+  /// delete task client
+  Future<dynamic> deleteTaskClient(DeleteTaskClientParams params);
+
+  /// fetch lawyers
   Future<dynamic> fetchLawyers(GetLawyersParams params);
 
   ///============================>  Lawyer <============================\\\\
@@ -233,7 +238,7 @@ abstract class RemoteDataSource {
   /// update task
   Future<dynamic> updateTask(UpdateTaskParams params);
 
-  /// update task
+  /// delete task
   Future<dynamic> deleteTask(DeleteTaskParams params);
 
   /// update task
@@ -656,7 +661,51 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-  /// topRatedLawyers
+  /// deleteTaskClient
+  @override
+  Future<dynamic> deleteTaskClient(DeleteTaskClientParams params) async {
+    try {
+      log("deleteTaskClient >> Start request");
+      // init request
+      final request = DeleteTaskClientRequest();
+
+      // response
+      final response = await request(params);
+
+      log("deleteTaskClient >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "deleteTaskClient body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "deleteTaskClient body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "deleteTaskClient body >> ${response.body}");
+        // default
+        default:
+          log("deleteTaskClient >> body:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "deleteTaskClient Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("deleteTaskClient >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "deleteTaskClient UnHandledError >> $e");
+    }
+  }
+
+  /// fetchLawyers
   @override
   Future<dynamic> fetchLawyers(GetLawyersParams params) async {
     try {

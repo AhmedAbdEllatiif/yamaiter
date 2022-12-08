@@ -63,6 +63,7 @@ import '../models/success_model.dart';
 import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
+import '../params/client/delete_task_params.dart';
 import '../params/client/end_task_params_client.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
@@ -270,7 +271,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-  /// topRatedLawyers
+  /// deleteTaskClient
+  @override
+  Future<Either<AppError, SuccessModel>> deleteTaskClient(
+      DeleteTaskClientParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.deleteTaskClient(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// fetchLawyers
   @override
   Future<Either<AppError, List<LawyerEntity>>> fetchLawyers(
       GetLawyersParams params) async {
