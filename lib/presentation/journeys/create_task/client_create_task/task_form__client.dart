@@ -188,10 +188,11 @@ class _TaskFormClientState extends State<TaskFormClient> {
                     }
                   }),*/
 
-              /// price
+              /// title
               AppTextField(
                 controller: titleController,
                 label: "موضوع المهمة",
+                minLength: 5,
               ),
 
               //==> space

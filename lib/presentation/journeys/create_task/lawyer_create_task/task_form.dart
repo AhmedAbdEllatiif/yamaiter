@@ -191,6 +191,7 @@ class _TaskFormState extends State<TaskForm> {
               AppTextField(
                 controller: titleController,
                 label: "موضوع المهمة",
+                minLength: 5,
               ),
 
               //==> space

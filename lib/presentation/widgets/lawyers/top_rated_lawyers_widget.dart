@@ -305,7 +305,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
   }
 
   void _navigateToInviteLawyerScreen({required int lawyerId}) {
-    RouteHelper().inviteLawyer(context,
+    RouteHelper().inviteLawyerByClient(context,
         inviteLawyerArguments: InviteLawyerArguments(
           lawyerId: lawyerId,
         ));

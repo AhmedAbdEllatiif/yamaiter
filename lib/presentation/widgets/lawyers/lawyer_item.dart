@@ -11,8 +11,11 @@ import '../rounded_text.dart';
 
 class LawyerItem extends StatelessWidget {
   final LawyerEntity lawyer;
+  final Function() onInvitePressed;
 
-  const LawyerItem({Key? key, required this.lawyer}) : super(key: key);
+  const LawyerItem(
+      {Key? key, required this.lawyer, required this.onInvitePressed})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -65,19 +68,15 @@ class LawyerItem extends StatelessWidget {
                             .copyWith(height: .5),
                       ),
                       RoundedText(
-                          text: "دعوة لمهمة",
-                          padding: const EdgeInsets.symmetric(horizontal: 10),
-                          textStyle:
-                              Theme.of(context).textTheme.caption!.copyWith(
-                                    color: AppColor.accentColor,
-                                  ),
-                          // color: AppColor.primaryDarkColor,
-                          onPressed: () {
-                            _navigateToInviteLawyerScreen(
-                              context,
-                              lawyerId: lawyer.id,
-                            );
-                          })
+                        text: "دعوة لمهمة",
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        textStyle:
+                            Theme.of(context).textTheme.caption!.copyWith(
+                                  color: AppColor.accentColor,
+                                ),
+                        // color: AppColor.primaryDarkColor,
+                        onPressed: onInvitePressed,
+                      )
                     ],
                   )
                 ],
@@ -87,13 +86,5 @@ class LawyerItem extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _navigateToInviteLawyerScreen(BuildContext context,
-      {required int lawyerId}) {
-    RouteHelper().inviteLawyer(context,
-        inviteLawyerArguments: InviteLawyerArguments(
-          lawyerId: lawyerId,
-        ));
   }
 }

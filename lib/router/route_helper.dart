@@ -64,6 +64,13 @@ class RouteHelper {
         .pushNamed(RouteList.inviteLawyer, arguments: inviteLawyerArguments);
   }
 
+  /// To invite lawyer by client screen \\\
+  void inviteLawyerByClient(BuildContext context,
+      {required InviteLawyerArguments inviteLawyerArguments}) {
+    Navigator.of(context).pushNamed(RouteList.inviteLawyerByClient,
+        arguments: inviteLawyerArguments);
+  }
+
   /// To chooseUserType screen \\\
   void chooseUserType(BuildContext context) {
     Navigator.of(context)

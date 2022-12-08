@@ -18,6 +18,7 @@ class AppTextField extends StatefulWidget {
   final TextInputType textInputType;
   final TextInputAction? textInputAction;
   final int? maxLength;
+  final int? minLength;
   final bool? enabled;
   final String? rePassword;
   final double? height;
@@ -40,6 +41,7 @@ class AppTextField extends StatefulWidget {
     this.label,
     this.textInputAction = TextInputAction.next,
     this.maxLength,
+    this.minLength,
     this.enabled,
     this.rePassword,
     this.height,
@@ -237,6 +239,12 @@ class _AppTextFieldState extends State<AppTextField> {
       if (_isPasswordTextInputType()) {
         return passwordValidation(value);
       }
+      if(widget.minLength != null){
+        if(widget.minLength! > value.length){
+          return "الحد الأدنى من الأحرف هو ${widget.minLength}";
+        }
+      }
+
     }
 
     if (value == null) return "* مطلوب ادخاله";

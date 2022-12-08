@@ -9,6 +9,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
 import '../../../../router/route_helper.dart';
 import '../../../domain/entities/data/lawyer_entity.dart';
+import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_error_widget.dart';
@@ -126,7 +127,13 @@ class _AllLawyerListState extends State<AllLawyerList> {
               ),
               itemBuilder: (context, index) {
                 if (index < allLawyersList.length) {
-                  return LawyerItem(lawyer: allLawyersList[index]);
+                  return LawyerItem(
+                    lawyer: allLawyersList[index],
+                    onInvitePressed: () =>
+                        _navigateToInviteLawyerByClientScreen(
+                      lawyerId: allLawyersList[index].id,
+                    ),
+                  );
                 }
 
                 /// loading or end of list
@@ -163,6 +170,13 @@ class _AllLawyerListState extends State<AllLawyerList> {
         }
       }
     });
+  }
+
+  void _navigateToInviteLawyerByClientScreen({required int lawyerId}) {
+    RouteHelper().inviteLawyerByClient(context,
+        inviteLawyerArguments: InviteLawyerArguments(
+          lawyerId: lawyerId,
+        ));
   }
 
   /// to navigate to login
