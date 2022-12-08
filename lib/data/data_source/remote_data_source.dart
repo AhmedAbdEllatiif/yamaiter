@@ -8,6 +8,7 @@ import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
+import 'package:yamaiter/data/api/requests/get_requests/client/get_consultation_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/client/get_my_tasks_client.dart';
 import 'package:yamaiter/data/api/requests/get_requests/filter_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
@@ -60,6 +61,7 @@ import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
+import 'package:yamaiter/data/params/client/get_consultation_details.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
 import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
@@ -127,14 +129,17 @@ abstract class RemoteDataSource {
   /// registerClient
   Future<dynamic> registerClient(RegisterClientRequestModel params);
 
-  /// createTaskClient
-  Future<dynamic> createTaskClient(CreateTaskParamsClient params);
-
   /// getMyConsultations
   Future<dynamic> getMyConsultations(GetMyConsultationParams params);
 
   /// createConsultation
   Future<dynamic> createConsultation(CreateConsultationParams params);
+
+  /// getConsultationDetails
+  Future<dynamic> getConsultationDetails(GetConsultationDetailsParams params);
+
+  /// createTaskClient
+  Future<dynamic> createTaskClient(CreateTaskParamsClient params);
 
   /// getMyTaskClient
   Future<dynamic> getMyTaskClient(GetMyTasksClientParams params);
@@ -409,7 +414,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       switch (response.statusCode) {
         // success
         case 200:
-          return listOfConsultationsFromJson(response.body);
+          return listOfMyConsultationsFromJson(response.body);
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
@@ -798,6 +803,49 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("topRatedLawyers >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "topRatedLawyers UnHandledError >> $e");
+    }
+  }
+
+  /// getConsultationDetails
+  @override
+  Future<dynamic> getConsultationDetails(GetConsultationDetailsParams params) async {
+    try {
+      log("getConsultationDetails >> Start request");
+      // init request
+      final request = GetConsultationDetailsRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getConsultationDetails >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return consultationFromJson(response.body);
+      // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getConsultationDetails body >> ${response.body}");
+      // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getConsultationDetails body >> ${response.body}");
+      // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getConsultationDetails body >> ${response.body}");
+      // default
+        default:
+          log("getConsultationDetails >> body:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "getConsultationDetails Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getConsultationDetails >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getConsultationDetails UnHandledError >> $e");
     }
   }
 

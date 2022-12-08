@@ -3,6 +3,7 @@ import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
@@ -216,6 +217,11 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.requestAConsultation);
   }
 
+  /// To consultation details \\\
+  void consultationDetails(BuildContext context,{required ConsultationDetailsArguments arguments}) {
+    Navigator.of(context).pushNamed(RouteList.consultationDetails,arguments: arguments);
+  }
+
   /// To filtered tasks result screen \\\
   void filteredTasksResult(BuildContext context,
       {required FilteredTasksArguments filteredTasksArguments}) {
@@ -274,8 +280,8 @@ class RouteHelper {
   /// To update task client screen \\\
   void updateTaskClient(BuildContext context,
       {required UpdateTaskClientArguments updateTaskClientArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.updateTaskClient, arguments: updateTaskClientArguments);
+    Navigator.of(context).pushNamed(RouteList.updateTaskClient,
+        arguments: updateTaskClientArguments);
   }
 
   /// To single task screen \\\
@@ -309,8 +315,8 @@ class RouteHelper {
   /// To delete task client screen \\\
   void deleteTaskClient(BuildContext context,
       {required DeleteTaskClientArguments deleteTaskClientArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.deleteTaskClient, arguments: deleteTaskClientArguments);
+    Navigator.of(context).pushNamed(RouteList.deleteTaskClient,
+        arguments: deleteTaskClientArguments);
   }
 
   /// To my my_tasks screen \\\

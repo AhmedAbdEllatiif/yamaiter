@@ -1,12 +1,21 @@
-
 import 'dart:convert';
 
 import 'package:yamaiter/common/constants/app_utils.dart';
 
 import '../../../../../domain/entities/data/client/consultation_entity.dart';
 
+/// return a consultation model form json
+ConsultationModel consultationFromJson(String str) {
+  ConsultationModel? model;
+
+  if (json.decode(str)["Consultation"] != null) {
+    model = ConsultationModel.fromJson(json.decode(str)["Consultation"]);
+  }
+  return model ?? ConsultationModel.empty();
+}
+
 /// return a list of consultations form MyConsultations json
-List<ConsultationModel> listOfConsultationsFromJson(String str) {
+List<ConsultationModel> listOfMyConsultationsFromJson(String str) {
   final List<ConsultationModel> consultationsList = [];
 
   if (json.decode(str)["my consultations"] != null) {
@@ -45,6 +54,16 @@ class ConsultationModel extends ConsultationEntity {
           receivedFiles: consultationFiles,
         );
 
+  factory ConsultationModel.empty() => ConsultationModel(
+        consultationId: -1,
+        consultationType: AppUtils.undefined,
+        consultationDescription: AppUtils.undefined,
+        consultationPrice: 0,
+        consultationCreatedAt: null,
+        consultationUpdatedAt: null,
+        consultationFiles: const [],
+      );
+
   factory ConsultationModel.fromJson(Map<String, dynamic> json) =>
       ConsultationModel(
         // id
@@ -70,8 +89,10 @@ class ConsultationModel extends ConsultationEntity {
             : null,
 
         // files
-        consultationFiles: List<ConsultationFile>.from(
-            json["files"].map((x) => ConsultationFile.fromJson(x))),
+        consultationFiles: json["files"] != null
+            ? List<ConsultationFile>.from(
+                json["files"].map((x) => ConsultationFile.fromJson(x)))
+            : [],
       );
 }
 

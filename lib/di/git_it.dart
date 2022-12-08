@@ -80,6 +80,7 @@ import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
+import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
 import '../domain/use_cases/client/tasks/assign_task_client_case.dart';
 import '../domain/use_cases/client/tasks/create_task_client_case.dart';
@@ -108,6 +109,7 @@ import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
 import '../presentation/logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
+import '../presentation/logic/client_cubit/get_consultation_details/get_consultation_details_cubit.dart';
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
@@ -410,6 +412,11 @@ Future init() async {
     () => CreateConsultationCubit(),
   );
 
+  //==> GetConsultationDetailsCubit
+  getItInstance.registerFactory<GetConsultationDetailsCubit>(
+    () => GetConsultationDetailsCubit(),
+  );
+
   //==> GetMyTasksClientClientCubit
   getItInstance.registerFactory<GetMyTasksClientCubit>(
     () => GetMyTasksClientCubit(),
@@ -513,6 +520,11 @@ Future init() async {
   //==> CreateConsultationCase
   getItInstance.registerFactory<CreateConsultationCase>(
     () => CreateConsultationCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetConsultationDetailsCase
+  getItInstance.registerFactory<GetConsultationDetailsCase>(
+    () => GetConsultationDetailsCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyTasksCaseClient

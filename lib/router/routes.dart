@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
@@ -25,6 +26,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart'
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
+import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/my_tasks_client.dart';
@@ -176,6 +178,11 @@ class Routes {
 
         /// myConsultations
         RouteList.myConsultations: (context) => const MyConsultationScreen(),
+
+        /// consultationDetails
+        RouteList.consultationDetails: (context) => ConsultationDetailScreen(
+              arguments: settings.arguments as ConsultationDetailsArguments,
+            ),
 
         /// requestAConsultation
         RouteList.requestAConsultation: (context) =>

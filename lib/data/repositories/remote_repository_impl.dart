@@ -13,6 +13,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/consultations/consultation_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
@@ -65,6 +66,7 @@ import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
 import '../params/client/delete_task_params.dart';
 import '../params/client/end_task_params_client.dart';
+import '../params/client/get_consultation_details.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
@@ -172,6 +174,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// get consultation details
+  @override
+  Future<Either<AppError, ConsultationEntity>> getConsultationDetails(
+      GetConsultationDetailsParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getConsultationDetails(params);
+
+      // success
+      if (result is ConsultationModel) {
         return Right(result);
       }
 

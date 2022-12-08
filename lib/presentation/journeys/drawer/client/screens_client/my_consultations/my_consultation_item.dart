@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../common/constants/sizes.dart';
 import '../../../../../themes/theme_color.dart';
@@ -47,13 +49,10 @@ class MyConsultationItem extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                     maxLines: 2,
                     softWrap: true,
-                    style: Theme.of(context)
-                        .textTheme
-                        .bodySmall!
-                        .copyWith(
-                      fontWeight: FontWeight.normal,
-                      height: 1.3,
-                    ),
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.normal,
+                          height: 1.3,
+                        ),
                   ),
 
                   /// createAt
@@ -61,22 +60,23 @@ class MyConsultationItem extends StatelessWidget {
                     iconData: Icons.date_range_outlined,
                     text: consultationEntity.createdAt,
                   )
-
                 ],
               ),
             ),
 
             ///==> readMore
-             RoundedText(
+            RoundedText(
               text: "اقرأ المزيد",
               background: AppColor.accentColor,
-               onPressed: (){
-                throw UnimplementedError("Create Consultation Details Screen");
-               },
+              onPressed: () => _navigateToConsultationDetailsScreen(context),
             ),
           ],
         ),
       ),
     );
+  }
+
+  void _navigateToConsultationDetailsScreen(BuildContext context) {
+    RouteHelper().consultationDetails(context,arguments: ConsultationDetailsArguments(consultationEntity: consultationEntity));
   }
 }
