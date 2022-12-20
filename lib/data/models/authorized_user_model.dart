@@ -6,7 +6,8 @@ import '../../common/constants/app_utils.dart';
 
 class AuthorizedUserModel extends AuthorizedUserEntity {
   final int userId;
-  final String userName;
+  final String userFirstName;
+  final String userLastName;
   final String userEmail;
   final String userPhone;
 
@@ -18,7 +19,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
 
   const AuthorizedUserModel({
     required this.userId,
-    required this.userName,
+    required this.userFirstName,
+    required this.userLastName,
     required this.userEmail,
     required this.userPhone,
     required this.userableType,
@@ -28,7 +30,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
     required this.userAcceptTerms,
   }) : super(
           id: userId,
-          name: userName,
+          firstName: userFirstName,
+          lastName: userLastName,
           email: userEmail,
           phoneNum: userPhone,
           userType: userableType,
@@ -42,7 +45,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
   factory AuthorizedUserModel.fromJson(Map<String, dynamic> json) =>
       AuthorizedUserModel(
         userId: json["id"] ?? -1,
-        userName: json["name"] ?? AppUtils.undefined,
+        userFirstName: json["first_name"] ?? AppUtils.undefined,
+        userLastName: json["last_name"] ?? AppUtils.undefined,
         userEmail: json["email"] ?? AppUtils.undefined,
         userPhone: json['phone'] ?? AppUtils.undefined,
         userableType: json['userable_type'] != null

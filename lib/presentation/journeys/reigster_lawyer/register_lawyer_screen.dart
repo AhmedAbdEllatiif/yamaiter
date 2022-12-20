@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
@@ -35,7 +34,8 @@ class RegisterLawyerScreen extends StatefulWidget {
 
 class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController nameController = TextEditingController();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController phoneNumController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -139,10 +139,16 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                         runSpacing: Sizes.dimen_4.h,
                         //
                         children: [
-                          // name
+                          // fisrt name
                           AppTextField(
-                            label: "الأسم",
-                            controller: nameController,
+                            label: "الأسم الاول",
+                            controller: firstNameController,
+                          ),
+
+                          // last name
+                          AppTextField(
+                            label: "الأسم الاخير",
+                            controller: lastNameController,
                           ),
 
                           // phone num
@@ -150,6 +156,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                             label: "رقم الهاتف المحمول",
                             textInputType: TextInputType.number,
                             maxLength: 11,
+                            minLength: 11,
                             controller: phoneNumController,
                           ),
 
@@ -276,7 +283,8 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   void registerNewLawyer() {
     log("registerNewLawyer >> send Request");
     // init RegisterLawyerRequestParams
-    final String name = nameController.value.text;
+    final String firstName = firstNameController.value.text;
+    final String lastName = lastNameController.value.text;
     final String email = emailController.value.text;
     final String phone = phoneNumController.value.text;
     final String governorates = _governorate;
@@ -286,7 +294,8 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
 
     // send register request
     _registerLawyerCubit.tryToRegister(
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phone,
       governorates: governorates,

@@ -100,11 +100,12 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
     return data.isNotEmpty
         ? AuthorizedUserEntity(
             id: userId,
-            name: data[0],
-            email: data[1],
-            userType: userTypeFromString(data[2]),
-            phoneNum: data[3],
-            acceptTerms: acceptTermsFromString(data[4]))
+            firstName: data[0],
+            lastName: data[1],
+            email: data[2],
+            userType: userTypeFromString(data[3]),
+            phoneNum: data[4],
+            acceptTerms: acceptTermsFromString(data[5]))
         : AuthorizedUserEntity.empty();
   }
 
@@ -114,7 +115,8 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
     preferences.setInt("userId", userEntity.id);
     preferences.setStringList("userData", [
-      userEntity.name,
+      userEntity.firstName,
+      userEntity.lastName,
       userEntity.email,
       userEntity.userType.toShortString(),
       userEntity.phoneNum,

@@ -14,7 +14,8 @@ class RegisterLawyerCubit extends Cubit<RegisterLawyerState> {
 
   /// Send register lawyer request
   void tryToRegister({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
     required String phone,
     required String governorates,
@@ -30,7 +31,8 @@ class RegisterLawyerCubit extends Cubit<RegisterLawyerState> {
 
     // init params
     final params = RegisterLawyerRequestParams(
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phone,
       governorates: governorates,

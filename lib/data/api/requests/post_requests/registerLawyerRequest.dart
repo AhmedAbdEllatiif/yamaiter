@@ -11,8 +11,9 @@ class RegisterLawyerRequest extends MultiPartPostRequest<RegisterRequestModel> {
   Future<http.MultipartRequest> call(RegisterRequestModel params) async {
     var request =
         initMultiPartPostRequest(requestType: RequestType.registerLawyer, token: "");
+    request.fields["first_name"] = params.firstName;
+    request.fields["last_name"] = params.lastName;
     request.fields["email"] = params.email;
-    request.fields["name"] = params.name;
     request.fields["phone"] = params.phone;
     request.fields["governorates"] = params.governorates;
     request.fields["court_name"] = params.courtName;

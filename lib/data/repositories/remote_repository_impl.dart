@@ -403,7 +403,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // build a RegisterRequestModel
       final registerRequestModel = RegisterRequestModel(
-        name: registerLawyerRequestParams.name,
+        firstName: registerLawyerRequestParams.firstName,
+        lastName: registerLawyerRequestParams.lastName,
         phone: registerLawyerRequestParams.phone,
         email: registerLawyerRequestParams.email,
         governorates: registerLawyerRequestParams.governorates,

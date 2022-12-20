@@ -39,8 +39,11 @@ class DrawerScreenClient extends StatelessWidget {
               children: [
                 /// Avatar and rating
                 ImageNameRatingWidget(
-                  name:
-                      context.read<AuthorizedUserCubit>().state.userEntity.name,
+                  name: context
+                      .read<AuthorizedUserCubit>()
+                      .state
+                      .userEntity
+                      .firstName,
                   imgUrl: AssetsImages.personAvatar,
                   rating: 3,
                   onPressed: () {
