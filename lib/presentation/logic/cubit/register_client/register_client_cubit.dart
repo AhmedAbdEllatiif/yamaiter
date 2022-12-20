@@ -15,7 +15,8 @@ class RegisterClientCubit extends Cubit<RegisterClientState> {
 
   /// Send register Client request
   void tryToRegister({
-    required String name,
+    required String firstName,
+    required String lastName,
     required String email,
     required String phone,
     required String governorates,
@@ -30,7 +31,8 @@ class RegisterClientCubit extends Cubit<RegisterClientState> {
 
     // init params
     final params = RegisterClientParams(
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phone,
       governorates: governorates,

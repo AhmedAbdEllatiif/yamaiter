@@ -1,6 +1,7 @@
 class RegisterClientRequestModel {
   RegisterClientRequestModel({
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.phone,
     required this.governorates,
@@ -8,7 +9,8 @@ class RegisterClientRequestModel {
     required this.acceptTerms,
   });
 
-  final String name;
+  final String firstName;
+  final String lastName;
   final String email;
   final String phone;
   final String governorates;
@@ -17,7 +19,8 @@ class RegisterClientRequestModel {
 
   Map<String, dynamic> toJson() {
     return {
-      "name": name,
+      "first_name": firstName,
+      "last_name": lastName,
       "phone": phone,
       "email": email,
       "governorates": governorates,

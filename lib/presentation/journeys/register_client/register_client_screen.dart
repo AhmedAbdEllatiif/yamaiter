@@ -35,8 +35,9 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
   late final RegisterClientCubit _registerClientCubit;
 
   /// Controllers
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
   final TextEditingController mobileNumController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
@@ -114,10 +115,16 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
                       runSpacing: 20,
                       //
                       children: [
-                        // name
+                        // firstName
                         AppTextField(
-                          label: "الأسم",
-                          controller: nameController,
+                          label: "الأسم الاول",
+                          controller: firstNameController,
+                        ),
+
+                        // lastName
+                        AppTextField(
+                          label: "الأسم الاخير",
+                          controller: lastNameController,
                         ),
 
                         // phone num
@@ -126,6 +133,7 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
                           controller: mobileNumController,
                           textInputType: TextInputType.number,
                           maxLength: 11,
+                          minLength: 11,
                         ),
 
                         // email
@@ -181,6 +189,7 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
                                 EdgeInsets.symmetric(vertical: Sizes.dimen_8.h),
                             child: AppButton(
                               text: "تسجيل",
+                              width: double.infinity,
                               textColor: AppColor.primaryDarkColor,
                               color: AppColor.accentColor,
                               onPressed: () {
@@ -256,14 +265,16 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
 
   /// try to register a new client
   void _tryToRegisterClient() {
+    final firstName = firstNameController.value.text;
+    final lastName = lastNameController.value.text;
     final email = emailController.value.text;
-    final name = nameController.value.text;
     final phoneNumber = mobileNumController.value.text;
     final password = passwordController.value.text;
     final termsAcceptance = isTermsAccepted;
 
     _registerClientCubit.tryToRegister(
-      name: name,
+      firstName: firstName,
+      lastName: lastName,
       email: email,
       phone: phoneNumber,
       governorates: _governorate,

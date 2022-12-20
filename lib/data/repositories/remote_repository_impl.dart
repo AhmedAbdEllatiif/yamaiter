@@ -95,7 +95,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // build a model
       final registerRequestModel = RegisterClientRequestModel(
-        name: params.name,
+        firstName: params.firstName,
+        lastName: params.lastName,
         phone: params.phone,
         email: params.email,
         governorates: params.governorates,
