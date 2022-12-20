@@ -6,6 +6,7 @@ import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
+import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import '../common/extensions/size_extensions.dart';
