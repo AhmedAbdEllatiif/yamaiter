@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/applicant_lawyers/applicant_laywer_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../domain/entities/data/lawyer_entity.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
@@ -38,10 +40,19 @@ class ListOfApplicantLawyers extends StatelessWidget {
           assignTaskCubit: assignTaskCubit,
           lawyerEntity: applicants[index],
           onAssignPressed: () {
-            _assignTask(context: context, lawyerId: applicants[index].id);
+            //_assignTask(context: context, lawyerId: applicants[index].id);
+            _navigateToPaymentScreen(context);
           },
         );
       },
+    );
+  }
+
+  /// to navigate to payment screen
+  void _navigateToPaymentScreen(BuildContext context) {
+    RouteHelper().paymentScreen(
+      context,
+      paymentArguments: PaymentArguments(),
     );
   }
 

@@ -1,7 +1,9 @@
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/enum/cost_type.dart';
+import 'package:yamaiter/domain/entities/data/accept_terms/cost_entity.dart';
 
-import '../../../domain/entities/data/accept_terms_entity.dart';
-import '../../../domain/entities/data/accept_terms_page.dart';
+import '../../../domain/entities/data/accept_terms/accept_terms_entity.dart';
+import '../../../domain/entities/data/accept_terms/accept_terms_page.dart';
 
 //  return AcceptTermsResponseModel
 AcceptTermsResponseModel acceptTermsResponseModel(dynamic response) =>
@@ -10,29 +12,46 @@ AcceptTermsResponseModel acceptTermsResponseModel(dynamic response) =>
 class AcceptTermsResponseModel extends AcceptTermsEntity {
   final bool acceptTerms;
   final List<AcceptTermsPagesModel> acceptTermsPages;
+  final List<CostModel> costsList;
 
-  const AcceptTermsResponseModel({
-    required this.acceptTerms,
-    required this.acceptTermsPages,
-  }) : super(
-          isUserAcceptedTerms: acceptTerms,
-          pages: acceptTermsPages,
-        );
+  const AcceptTermsResponseModel(
+      {required this.acceptTerms,
+      required this.acceptTermsPages,
+      required this.costsList})
+      : super(
+            isUserAcceptedTerms: acceptTerms,
+            pages: acceptTermsPages,
+            costs: costsList);
 
   factory AcceptTermsResponseModel.fromJson(Map<String, dynamic> json) =>
       AcceptTermsResponseModel(
+        //==> bool accept terms
         acceptTerms: json["accept-terms"] ?? false,
+
+        //==> pages
         acceptTermsPages: json["data"]["page"] != null
-            ? listOfAcceptTermsResponseModels(json["data"]["page"])
+            ? listOfPages(json["data"]["page"])
+            : [],
+
+        //==> costs
+        costsList: json["data"]["costs"] != null
+            ? listOfCostModel(json["data"]["costs"])
             : [],
       );
 }
 
 ///  return a list of accept terms models
-List<AcceptTermsPagesModel> listOfAcceptTermsResponseModels(dynamic data) =>
+List<AcceptTermsPagesModel> listOfPages(dynamic data) =>
     List<AcceptTermsPagesModel>.from(
       data.map(
         (x) => AcceptTermsPagesModel.fromJson(x),
+      ),
+    );
+
+///  return a list of cost  models
+List<CostModel> listOfCostModel(dynamic data) => List<CostModel>.from(
+      data.map(
+        (x) => CostModel.fromJson(x),
       ),
     );
 
@@ -92,5 +111,44 @@ class AcceptTermsPageSection extends AcceptTermsPageSectionEntity {
         pageId: json["page_id"] ?? -1,
         createdAt: json["created_at"] ?? AppUtils.undefined,
         updatedAt: json["updated_at"] ?? AppUtils.undefined,
+      );
+}
+
+/// cost model
+class CostModel extends CostEntity {
+  CostModel({
+    required this.costId,
+    required this.infoName,
+    required this.infoValue,
+  }) : super(
+          // id
+          id: costId,
+
+          // costType
+          costType: infoName.contains("tax")
+              ? CostType.tax
+              : infoName.contains("consultation")
+                  ? CostType.consultation
+                  : CostType.undefined,
+
+          // value
+          value: infoValue,
+        );
+
+  final int costId;
+  final String infoName;
+  final num infoValue;
+
+  factory CostModel.fromJson(Map<String, dynamic> json) => CostModel(
+        //id
+        costId: json["id"] ?? -1,
+
+        // name
+        infoName: json["info_name"] ?? AppUtils.undefined,
+
+        // value
+        infoValue: json["info_value"] != null
+            ? double.tryParse(json["info_value"]) ?? -1
+            : -1,
       );
 }

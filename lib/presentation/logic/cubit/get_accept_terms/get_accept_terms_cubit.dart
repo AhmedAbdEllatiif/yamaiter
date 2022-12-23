@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:yamaiter/domain/entities/data/accept_terms_entity.dart';
+import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/use_cases/accept_terms/get_accept_terms.dart';
 
 import '../../../../common/enum/app_error_type.dart';

@@ -56,7 +56,7 @@ import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
-import '../../domain/entities/data/accept_terms_entity.dart';
+import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';

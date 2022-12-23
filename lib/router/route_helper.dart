@@ -18,6 +18,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_ar
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -218,8 +219,10 @@ class RouteHelper {
   }
 
   /// To consultation details \\\
-  void consultationDetails(BuildContext context,{required ConsultationDetailsArguments arguments}) {
-    Navigator.of(context).pushNamed(RouteList.consultationDetails,arguments: arguments);
+  void consultationDetails(BuildContext context,
+      {required ConsultationDetailsArguments arguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.consultationDetails, arguments: arguments);
   }
 
   /// To filtered tasks result screen \\\
@@ -473,6 +476,13 @@ class RouteHelper {
       {required DeleteArticleArguments arguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.deleteArticle, arguments: arguments);
+  }
+
+  /// To payment screen \\\
+  void paymentScreen(BuildContext context,
+      {required PaymentArguments paymentArguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.payment, arguments: paymentArguments);
   }
 
   /// To contact us screen \\\

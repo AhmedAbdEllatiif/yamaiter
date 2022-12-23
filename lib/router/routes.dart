@@ -15,6 +15,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dar
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -31,6 +32,7 @@ import 'package:yamaiter/presentation/journeys/create_task/client_create_task/cr
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/my_tasks_client.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/invite_lawyer_by_client_screen.dart';
+import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/journeys/single_task_details_client/single_task_details_screen_client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
@@ -348,6 +350,11 @@ class Routes {
         RouteList.sideMenuPage: (context) => SideMenuPageScreen(
               sideMenuPageArguments:
                   settings.arguments as SideMenuPageArguments,
+            ),
+
+        /// PaymentScreen
+        RouteList.payment: (context) => PaymentScreen(
+              paymentArguments: settings.arguments as PaymentArguments,
             ),
       };
 }

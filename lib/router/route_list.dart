@@ -58,4 +58,6 @@ class RouteList {
   static const String deleteTaskClient = "/deleteTaskClient";
   static const String updateTaskClient = "/updateTaskClient";
   static const String consultationDetails = "/consultationDetails";
+  static const String payment = "/payment";
+
 }
