@@ -303,8 +303,8 @@ Future init() async {
   );
 
   //==> AssignTaskCubit
-  getItInstance.registerFactory<AssignTaskCubit>(
-    () => AssignTaskCubit(),
+  getItInstance.registerFactory<PaymentAssignTaskCubit>(
+    () => PaymentAssignTaskCubit(),
   );
 
   //==> AssignTaskClientCubit

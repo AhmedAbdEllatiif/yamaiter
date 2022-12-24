@@ -1,18 +1,11 @@
-class AssignTaskParams {
+import '../models/tasks/pay_for_task_model.dart';
+
+class PayForTaskParams {
   final String userToken;
-  final int userId;
-  final int taskId;
+  final PayForTaskModel payForTaskModel;
 
-  AssignTaskParams({
+  PayForTaskParams({
     required this.userToken,
-    required this.userId,
-    required this.taskId,
+    required this.payForTaskModel,
   });
-
-  Map<String, dynamic> toJson() {
-    return {
-      "user_id": userId.toString(),
-      "task_id": taskId.toString(),
-    };
-  }
 }

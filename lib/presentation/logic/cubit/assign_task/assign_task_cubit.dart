@@ -1,6 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/data/models/tasks/pay_for_task_model.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
+import 'package:yamaiter/domain/entities/data/task_entity.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it.dart';
@@ -9,22 +12,32 @@ import '../../../../domain/use_cases/my_tasks/assign_task.dart';
 
 part 'assign_task_state.dart';
 
-class AssignTaskCubit extends Cubit<AssignTaskState> {
-  AssignTaskCubit() : super(AssignTaskInitial());
+class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
+  PaymentAssignTaskCubit() : super(PaymentToAssignTaskInitial());
 
   /// to assignTask
-  void assignTask(
-      {required int userId, required int taskId, required String token}) async {
+  void assignTask({
+    required int userId,
+    required TaskEntity taskEntity,
+    required double value,
+    required String token,
+  }) async {
     //==> loading
-    _emitIfNotClosed(LoadingAssignTask());
+    _emitIfNotClosed(LoadingPaymentToAssignTask());
 
     //==> init case
     final useCase = getItInstance<AssignTaskCase>();
 
     //==> init params
-    final params = AssignTaskParams(
-      userId: userId,
-      taskId: taskId,
+    final params = PayForTaskParams(
+      payForTaskModel: PayForTaskModel(
+        missionType: "task",
+        userId: userId,
+        taskId: taskEntity.id,
+        name: taskEntity.title,
+        description: taskEntity.description,
+        value: value.toString(),
+      ),
       userToken: token,
     );
 
@@ -34,24 +47,24 @@ class AssignTaskCubit extends Cubit<AssignTaskState> {
     //==> receive result
     either.fold(
         (appError) => _emitError(appError),
-        (success) => _emitIfNotClosed(
-              TaskAssignedSuccessfully(),
+        (payEntity) => _emitIfNotClosed(
+              PaymentLinkToAssignTaskFetched(payEntity: payEntity),
             ));
   }
 
   /// _emit an error according to AppError
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
-      _emitIfNotClosed(UnAuthorizedAssignTask());
+      _emitIfNotClosed(UnAuthorizedPayToAssignTask());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
-      _emitIfNotClosed(NotActivatedUserToAssignTask());
+      _emitIfNotClosed(NotActivatedUserToPayToAssignTask());
     } else {
-      _emitIfNotClosed(ErrorWhileAssigningTask(appError: appError));
+      _emitIfNotClosed(ErrorWhilePaymentToAssignTask(appError: appError));
     }
   }
 
   /// emit if not close
-  void _emitIfNotClosed(AssignTaskState state) {
+  void _emitIfNotClosed(PaymentToAssignTaskState state) {
     if (!isClosed) {
       emit(state);
     }

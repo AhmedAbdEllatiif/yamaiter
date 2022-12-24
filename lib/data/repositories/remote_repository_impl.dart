@@ -1053,14 +1053,14 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// assignTask
   @override
-  Future<Either<AppError, SuccessModel>> assignTask(
-      AssignTaskParams params) async {
+  Future<Either<AppError, PayEntity>> assignTask(
+      PayForTaskParams params) async {
     try {
       // send get my_tasks request
-      final result = await remoteDataSource.assignTask(params);
+      final result = await remoteDataSource.payToAssignTask(params);
 
       // received success
-      if (result is SuccessModel) {
+      if (result is PayResponseModel) {
         return Right(result);
       }
 

@@ -24,7 +24,7 @@ import '../../../../../../../widgets/app_error_widget.dart';
 import '../../../../../../../widgets/loading_widget.dart';
 
 class MyTasksTodo extends StatefulWidget {
-  final AssignTaskCubit assignTaskCubit;
+  final PaymentAssignTaskCubit assignTaskCubit;
 
   const MyTasksTodo({Key? key, required this.assignTaskCubit})
       : super(key: key);
@@ -49,7 +49,9 @@ class _MyTasksTodoState extends State<MyTasksTodo>
 
   /// DeleteTaskCubit
   late final DeleteTaskCubit _deleteTaskCubit;
-  late final AssignTaskCubit _assignTaskCubit;
+
+  /// AssignTaskCubit
+  late final PaymentAssignTaskCubit _assignTaskCubit;
 
   @override
   void initState() {
@@ -90,10 +92,10 @@ class _MyTasksTodoState extends State<MyTasksTodo>
             }),
 
             /// assign task listener
-            BlocListener<AssignTaskCubit, AssignTaskState>(
+            BlocListener<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
                 bloc: _assignTaskCubit,
                 listener: (context, state) {
-                  if (state is TaskAssignedSuccessfully) {
+                  if (state is PaymentLinkToAssignTaskFetched) {
                     taskList.clear();
                     _fetchMyTasksList();
                   }
@@ -208,7 +210,7 @@ class _MyTasksTodoState extends State<MyTasksTodo>
                         taskEntity: taskList[index],
                         onPressed: () {
                           _navigateToSingleTaskScreen(
-                              taskId: taskList[index].id);
+                              taskEntity: taskList[index]);
                         },
                         onUpdatePressed: () {
                           _navigateToEditTaskScreen(taskList[index]);
@@ -270,12 +272,14 @@ class _MyTasksTodoState extends State<MyTasksTodo>
       );
 
   /// to navigate to single task screen
-  void _navigateToSingleTaskScreen({required int taskId}) {
+  void _navigateToSingleTaskScreen({required TaskEntity taskEntity}) {
     RouteHelper().singleTask(
       context,
       editTaskArguments: SingleTaskArguments(
-        taskId: taskId,
+        taskEntity: taskEntity,
         assignTaskCubit: _assignTaskCubit,
+        updateTaskCubit: _updateTaskCubit,
+        deleteTaskCubit: _deleteTaskCubit,
       ),
     );
   }

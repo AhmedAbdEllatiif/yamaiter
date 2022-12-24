@@ -17,8 +17,8 @@ import '../../../../../../../widgets/rounded_text.dart';
 
 class ApplicantLawyerItem extends StatelessWidget {
   final LawyerEntity lawyerEntity;
-  final Function() onAssignPressed;
-  final AssignTaskCubit assignTaskCubit;
+  final Function(double) onAssignPressed;
+  final PaymentAssignTaskCubit assignTaskCubit;
 
   const ApplicantLawyerItem({
     Key? key,
@@ -30,10 +30,10 @@ class ApplicantLawyerItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: BlocConsumer<AssignTaskCubit, AssignTaskState>(
+      child: BlocConsumer<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
         bloc: assignTaskCubit,
         listener: (context, state) {
-          if (state is ErrorWhileAssigningTask) {
+          if (state is ErrorWhilePaymentToAssignTask) {
             showSnackBar(
               context,
               message: "Something went wrong, try again",
@@ -46,7 +46,7 @@ class ApplicantLawyerItem extends StatelessWidget {
           return Container(
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-                color: state is LoadingAssignTask
+                color: state is LoadingPaymentToAssignTask
                     ? AppColor.primaryDarkColor.withOpacity(0.6)
                     : null),
             child: Padding(
@@ -163,7 +163,8 @@ class ApplicantLawyerItem extends StatelessWidget {
                             children: [
                               ///==> price
                               RoundedText(
-                                text: "${-1} جنيه مصرى",
+                                text:
+                                    "${lawyerEntity.costOfferedByLawyer} جنيه مصرى",
                                 background: AppColor.accentColor,
                                 textStyle: Theme.of(context)
                                     .textTheme
@@ -186,7 +187,11 @@ class ApplicantLawyerItem extends StatelessWidget {
                                         fontSize: Sizes.dimen_12.sp,
                                         fontWeight: FontWeight.bold,
                                         color: AppColor.accentColor),
-                                onPressed: onAssignPressed,
+                                onPressed: () {
+                                  onAssignPressed(
+                                    lawyerEntity.costOfferedByLawyer.toDouble(),
+                                  );
+                                },
                               ),
                             ],
                           ),
@@ -197,7 +202,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                   ),
 
                   /// loading
-                  if (state is LoadingAssignTask)
+                  if (state is LoadingPaymentToAssignTask)
                     const Center(
                         child: LoadingWidget(
                       size: 50,

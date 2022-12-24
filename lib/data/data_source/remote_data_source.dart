@@ -238,8 +238,8 @@ abstract class RemoteDataSource {
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
 
-  /// assign task
-  Future<dynamic> assignTask(AssignTaskParams params);
+  /// pay to assign task
+  Future<dynamic> payToAssignTask(PayForTaskParams params);
 
   /// get my my_tasks
   Future<dynamic> getMyTasks(GetMyTasksParams params);
@@ -1929,44 +1929,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-  /// assignTask
+  /// payToAssignTask
   @override
-  Future assignTask(AssignTaskParams params) async {
+  Future payToAssignTask(PayForTaskParams params) async {
     try {
-      log("assignTask >> Start request");
+      log("payToAssignTask >> Start request");
       // init request
-      final request = AssignTaskRequest();
+      final request = PayToAssignTaskRequest();
 
       // response
       final response = await request(params, params.userToken);
 
-      log("assignTask >> ResponseCode: ${response.statusCode}");
+      log("payToAssignTask >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
         // success
         case 200:
-          return SuccessModel();
+          return payResponseFromJson(response.body);
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
-              message: "assignTask Status Code >> ${response.statusCode}");
+              message: "payToAssignTask body >> ${response.body}");
         // not found
         case 404:
           return AppError(AppErrorType.notFound,
-              message: "assignTask Status Code >> ${response.statusCode}");
+              message: "payToAssignTask Status Code >> ${response.body}");
         // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
-              message: "assignTask Status Code >> ${response.statusCode}");
+              message: "payToAssignTask body >> ${response.body}");
         // default
         default:
-          log("assignTask >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          log("payToAssignTask >> body:${jsonDecode(response.body)}");
           return AppError(AppErrorType.api,
-              message: "assignTask Status Code >> ${response.statusCode}"
+              message: "payToAssignTask Status Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
       }
     } catch (e) {
-      log("assignTask >> Error: $e");
+      log("payToAssignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "assignTask UnHandledError >> $e");
     }

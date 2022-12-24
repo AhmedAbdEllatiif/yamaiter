@@ -1,32 +1,39 @@
 part of 'assign_task_cubit.dart';
 
-abstract class AssignTaskState extends Equatable {
-  const AssignTaskState();
+abstract class PaymentToAssignTaskState extends Equatable {
+  const PaymentToAssignTaskState();
 
   @override
   List<Object> get props => [];
 }
 
 /// initial
-class AssignTaskInitial extends AssignTaskState {}
+class PaymentToAssignTaskInitial extends PaymentToAssignTaskState {}
 
 /// loading
-class LoadingAssignTask extends AssignTaskState {}
+class LoadingPaymentToAssignTask extends PaymentToAssignTaskState {}
 
 /// not a lawyer to create article
-class NotActivatedUserToAssignTask extends AssignTaskState {}
+class NotActivatedUserToPayToAssignTask extends PaymentToAssignTaskState {}
 
 /// unAuthorized
-class UnAuthorizedAssignTask extends AssignTaskState {}
+class UnAuthorizedPayToAssignTask extends PaymentToAssignTaskState {}
 
 /// success
-class TaskAssignedSuccessfully extends AssignTaskState {}
+class PaymentLinkToAssignTaskFetched extends PaymentToAssignTaskState {
+  final PayEntity payEntity;
+
+  const PaymentLinkToAssignTaskFetched({required this.payEntity});
+
+  @override
+  List<Object> get props => [payEntity];
+}
 
 /// error
-class ErrorWhileAssigningTask extends AssignTaskState {
+class ErrorWhilePaymentToAssignTask extends PaymentToAssignTaskState {
   final AppError appError;
 
-  const ErrorWhileAssigningTask({required this.appError});
+  const ErrorWhilePaymentToAssignTask({required this.appError});
 
   @override
   List<Object> get props => [appError];

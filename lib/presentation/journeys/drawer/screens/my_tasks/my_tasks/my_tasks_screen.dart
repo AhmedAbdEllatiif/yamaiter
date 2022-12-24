@@ -34,7 +34,7 @@ class _MyTasksScreenState extends State<MyTasksScreen>
   int currentIndex = 0;
 
   /// AssignTaskCubit
-  late final AssignTaskCubit _assignTaskCubit;
+  late final PaymentAssignTaskCubit _assignTaskCubit;
 
   /// EndTaskCubit
   late final EndTaskCubit _endTaskCubit;
@@ -43,7 +43,7 @@ class _MyTasksScreenState extends State<MyTasksScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);
-    _assignTaskCubit = getItInstance<AssignTaskCubit>();
+    _assignTaskCubit = getItInstance<PaymentAssignTaskCubit>();
     _endTaskCubit = getItInstance<EndTaskCubit>();
   }
 
@@ -65,9 +65,9 @@ class _MyTasksScreenState extends State<MyTasksScreen>
       child: MultiBlocListener(
         listeners: [
           /// listener on assign task to lawyer
-          BlocListener<AssignTaskCubit, AssignTaskState>(
+          BlocListener<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
             listener: (context, state) {
-              if (state is TaskAssignedSuccessfully) {
+              if (state is PaymentLinkToAssignTaskFetched) {
                 setState(() {
                   currentIndex = 1;
                   _tabController.index = currentIndex;

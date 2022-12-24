@@ -148,7 +148,7 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                     children: [
                       /// MyTodo
                       AppliedTaskTodo(
-                        assignTaskCubit: getItInstance<AssignTaskCubit>(),
+                        assignTaskCubit: getItInstance<PaymentAssignTaskCubit>(),
                       ),
 
                       /// InProgress

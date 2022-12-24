@@ -25,7 +25,7 @@ import '../../loading_more_applied_tasks.dart';
 import 'applied_todo_task_item.dart';
 
 class AppliedTaskTodo extends StatefulWidget {
-  final AssignTaskCubit assignTaskCubit;
+  final PaymentAssignTaskCubit assignTaskCubit;
 
   const AppliedTaskTodo({Key? key, required this.assignTaskCubit})
       : super(key: key);
@@ -50,7 +50,7 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
 
   /// DeleteTaskCubit
   late final DeleteTaskCubit _deleteTaskCubit;
-  late final AssignTaskCubit _assignTaskCubit;
+  late final PaymentAssignTaskCubit _assignTaskCubit;
 
   @override
   void initState() {
@@ -85,10 +85,10 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
         child: MultiBlocListener(
           listeners: [
             /// assign task listener
-            BlocListener<AssignTaskCubit, AssignTaskState>(
+            BlocListener<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
                 bloc: _assignTaskCubit,
                 listener: (context, state) {
-                  if (state is TaskAssignedSuccessfully) {
+                  if (state is PaymentLinkToAssignTaskFetched) {
                     taskList.clear();
                     _fetchAppliedTaskList();
                   }
@@ -255,12 +255,14 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
       );
 
   /// to navigate to single task screen
-  void _navigateToSingleTaskScreen({required int taskId}) {
+  void _navigateToSingleTaskScreen({required TaskEntity taskEntity}) {
     RouteHelper().singleTask(
       context,
       editTaskArguments: SingleTaskArguments(
-        taskId: taskId,
+        taskEntity: taskEntity,
         assignTaskCubit: _assignTaskCubit,
+        updateTaskCubit: _updateTaskCubit,
+        deleteTaskCubit: _deleteTaskCubit,
       ),
     );
   }
