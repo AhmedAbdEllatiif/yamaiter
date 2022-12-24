@@ -4,10 +4,11 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/completed_taxes/completed_taxes.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/in_progress_taxes/in_progress_taxes.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/tax_item.dart';
-import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -30,7 +31,7 @@ class MyTaxesScreen extends StatefulWidget {
 
 class _MyTaxesScreenState extends State<MyTaxesScreen>
     with SingleTickerProviderStateMixin {
-  late final CreateTaxCubit _createTaxCubit;
+  late final PayForTaxCubit _payForTaxCubit;
 
   /// TabController
   late final TabController _tabController;
@@ -41,13 +42,13 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
   @override
   void initState() {
     super.initState();
-    _createTaxCubit = getItInstance<CreateTaxCubit>();
+    _payForTaxCubit = getItInstance<PayForTaxCubit>();
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    _createTaxCubit.close();
+    _payForTaxCubit.close();
     _tabController.dispose();
     super.dispose();
   }
@@ -55,13 +56,12 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _createTaxCubit,
-      child: BlocListener<CreateTaxCubit, CreateTaxState>(
+      create: (context) => _payForTaxCubit,
+      child: BlocListener<PayForTaxCubit, PayForTaxState>(
         listener: (context, state) {
           // TODO: implement listener
         },
         child: Scaffold(
-
           /// appBar
           appBar: AppBar(
             title: const Text("اقرارتى الضريبية"),
@@ -69,11 +69,10 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
 
           body: Padding(
             padding: EdgeInsets.only(
-              //horizontal: AppUtils.mainPagesHorizontalPadding.w,
+                //horizontal: AppUtils.mainPagesHorizontalPadding.w,
                 top: AppUtils.mainPagesVerticalPadding.h),
             child: Column(
               children: [
-
                 /// Ads ListView
                 const AdsWidget(),
 
@@ -86,7 +85,6 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
                     ),
                     child: Column(
                       children: [
-
                         /// title with add new sos
                         Padding(
                           padding: EdgeInsets.symmetric(
@@ -106,24 +104,24 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
 
                         ///TabBar widget
                         TabBarWidget(
-                            currentSelectedIndex: currentIndex,
-                            tabController: _tabController,
-                            onTabPressed: (index) {
-                              setState(() {
-                                currentIndex = index;
-                              });
-                            },
-                            tabs: const [
-                              TabItem(
-                                text: "اقرارات تحت التنفيذ",
-                              ),
-                              TabItem(
-                                text: "اقرارات مكتملة",
-                              ),
-                            ],
+                          currentSelectedIndex: currentIndex,
+                          tabController: _tabController,
+                          onTabPressed: (index) {
+                            setState(() {
+                              currentIndex = index;
+                            });
+                          },
+                          tabs: const [
+                            TabItem(
+                              text: "اقرارات تحت التنفيذ",
+                            ),
+                            TabItem(
+                              text: "اقرارات مكتملة",
+                            ),
+                          ],
                         ),
 
-                        /// list of my sos
+                        /// list of my taxes
                         Expanded(
                           child: SingleChildScrollView(
                             physics: const NeverScrollableScrollPhysics(),
@@ -133,10 +131,9 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
                                 //physics: NeverScrollableScrollPhysics(),
                                 controller: _tabController,
                                 children: [
-
                                   /// InProgressTaxesList
                                   InProgressTaxesList(
-                                    createTaxCubit: _createTaxCubit,
+                                    createTaxCubit: _payForTaxCubit,
                                   ),
 
                                   /// CompletedTaxesList
@@ -163,6 +160,10 @@ class _MyTaxesScreenState extends State<MyTaxesScreen>
 
   /// to navigate to add new tax screen
   void _navigateToAddNewTaxScreen(BuildContext context) =>
-      RouteHelper().addNewTaxScreen(context,
-          addTaxArguments: AddTaxArguments(createTaxCubit: _createTaxCubit));
+      RouteHelper().createTaxScreen(context,
+          createTaxArguments: CreateTaxArguments(
+              withAdsWidget: false,
+              withBackgroundWhite: false,
+              payForTaxCubit: _payForTaxCubit,
+          ));
 }

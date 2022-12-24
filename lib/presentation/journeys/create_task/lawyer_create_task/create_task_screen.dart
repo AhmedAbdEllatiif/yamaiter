@@ -67,12 +67,13 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
         listeners: [
           /// AcceptTermsCubit
           BlocListener<AcceptTermsCubit, AcceptTermsState>(
-              listener: (_, state) {
-            /// accepted successfully
-            if (state is TermsAcceptedSuccessfully) {
-              _fetchTermsToAccept();
-            }
-          })
+            listener: (_, state) {
+              /// accepted successfully
+              if (state is TermsAcceptedSuccessfully) {
+                _fetchTermsToAccept();
+              }
+            },
+          )
         ],
         child: Scaffold(
           appBar: AppBar(

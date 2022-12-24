@@ -39,6 +39,7 @@ import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
@@ -188,7 +189,7 @@ abstract class RemoteRepository {
       CreateAdParams createAdParams);
 
   /// create tax
-  Future<Either<AppError, SuccessModel>> createTax(CreateTaxParams params);
+  Future<Either<AppError, PayEntity>> payForTax(CreateTaxParams params);
 
   /// get my in progress taxes
   Future<Either<AppError, List<TaxEntity>>> getInProgressTaxes(

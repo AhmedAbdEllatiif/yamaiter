@@ -1,17 +1,18 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/data/models/tax/tax_request_model.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/create_tax_params.dart';
 import '../../../../di/git_it.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/taxes/create_tax.dart';
+import '../../../../domain/use_cases/taxes/pay_for_tax.dart';
 
-part 'create_tax_state.dart';
+part 'pay_for_tax_state.dart';
 
-class CreateTaxCubit extends Cubit<CreateTaxState> {
-  CreateTaxCubit() : super(CreateTaxInitial());
+class PayForTaxCubit extends Cubit<PayForTaxState> {
+  PayForTaxCubit() : super(CreateTaxInitial());
 
   /// to create Tax
   void createTax(
@@ -19,31 +20,34 @@ class CreateTaxCubit extends Cubit<CreateTaxState> {
       required String taxPassword,
       required String taxFile,
       required String note,
+      required double value,
       required String token}) async {
     //==> loTaxing
     _emitIfNotClosed(LoadingCreateTax());
 
     //==> init case
-    final createTaxCase = getItInstance<CreateTaxCase>();
+    final useCase = getItInstance<PayForTaxCase>();
 
     //==> init params
     final params = CreateTaxParams(
-        createTaxRequestModel: CreateTaxRequestModel(
-          taxName: taxName,
-          taxPassword: taxPassword,
-          taxFile: taxFile,
-          note: note,
-        ),
-        userToken: token);
+      createTaxRequestModel: CreateTaxRequestModel(
+        taxName: taxName,
+        taxPassword: taxPassword,
+        value: value,
+        taxFile: taxFile,
+        description: note,
+      ),
+      userToken: token,
+    );
 
     //==> send request
-    final either = await createTaxCase(params);
+    final either = await useCase(params);
 
     //==> receive result
     either.fold(
         (appError) => _emitError(appError),
-        (success) => _emitIfNotClosed(
-              TaxCreatedSuccessfully(),
+        (payEntity) => _emitIfNotClosed(
+              TaxCreatedSuccessfully(payEntity: payEntity),
             ));
   }
 
@@ -59,7 +63,7 @@ class CreateTaxCubit extends Cubit<CreateTaxState> {
   }
 
   /// emit if not close
-  void _emitIfNotClosed(CreateTaxState state) {
+  void _emitIfNotClosed(PayForTaxState state) {
     if (!isClosed) {
       emit(state);
     }

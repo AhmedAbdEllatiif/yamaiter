@@ -4,7 +4,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/tax_item.dart';
-import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_in_progress_taxes/get_in_progress_taxes_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
@@ -17,7 +17,7 @@ import '../../../../../widgets/loading_widget.dart';
 import 'loading_more_in_progress_taxes.dart';
 
 class InProgressTaxesList extends StatefulWidget {
-  final CreateTaxCubit createTaxCubit;
+  final PayForTaxCubit createTaxCubit;
 
   const InProgressTaxesList({Key? key, required this.createTaxCubit})
       : super(key: key);
@@ -62,7 +62,7 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
       child: MultiBlocListener(
         listeners: [
           /// CreateTaxCubit
-          BlocListener<CreateTaxCubit, CreateTaxState>(
+          BlocListener<PayForTaxCubit, PayForTaxState>(
               listener: (context, state) {
             if (state is TaxCreatedSuccessfully) {
               _fetchInProgressTaxes();

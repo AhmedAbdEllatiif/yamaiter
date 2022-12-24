@@ -4,6 +4,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/sizes.dart';
+import '../../../../domain/entities/screen_arguments/create_tax_args.dart';
 import 'choose_to_add_item.dart';
 
 class ChooseToAddScreenClientUser extends StatelessWidget {
@@ -76,8 +77,4 @@ class ChooseToAddScreenClientUser extends StatelessWidget {
   /// to navigate to create ad
   void _navigateCreateAdScreen(BuildContext context) =>
       RouteHelper().createAdScreen(context);
-
-  /// to navigate to create tax
-  void _navigateToCreateTax(BuildContext context) =>
-      RouteHelper().createTaxScreen(context);
 }

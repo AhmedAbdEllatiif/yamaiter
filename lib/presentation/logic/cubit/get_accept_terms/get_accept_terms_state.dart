@@ -20,7 +20,14 @@ class NotActivatedUserToGetAcceptTerms extends GetAcceptTermsState {}
 class UnAuthorizedGetAcceptTerms extends GetAcceptTermsState {}
 
 /// terms accepted before
-class TermsAlreadyAccepted extends GetAcceptTermsState {}
+class TermsAlreadyAccepted extends GetAcceptTermsState {
+  final AcceptTermsEntity acceptTermsEntity;
+
+  const TermsAlreadyAccepted({required this.acceptTermsEntity});
+
+  @override
+  List<Object> get props => [acceptTermsEntity];
+}
 
 /// terms not accepted yet
 class TermsNotAcceptedYet extends GetAcceptTermsState {

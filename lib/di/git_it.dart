@@ -104,7 +104,7 @@ import '../domain/use_cases/my_tasks/delete_task.dart';
 import '../domain/use_cases/my_tasks/get_all_tasks.dart';
 import '../domain/use_cases/my_tasks/get_my_tasks.dart';
 import '../domain/use_cases/my_tasks/update_task.dart';
-import '../domain/use_cases/taxes/create_tax.dart';
+import '../domain/use_cases/taxes/pay_for_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
@@ -114,7 +114,7 @@ import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultat
 import '../presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
-import '../presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 import '../presentation/logic/cubit/decline_invited_task/decline_task_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
 import '../presentation/logic/cubit/forget_password/forget_password_cubit.dart';
@@ -263,8 +263,8 @@ Future init() async {
   );
 
   //==> CreateTaxCubit
-  getItInstance.registerFactory<CreateTaxCubit>(
-    () => CreateTaxCubit(),
+  getItInstance.registerFactory<PayForTaxCubit>(
+    () => PayForTaxCubit(),
   );
 
   //==> GetInProgressTaxesCubit
@@ -593,8 +593,8 @@ Future init() async {
   );
 
   //==> CreateTaxCase
-  getItInstance.registerFactory<CreateTaxCase>(
-    () => CreateTaxCase(remoteRepository: getItInstance()),
+  getItInstance.registerFactory<PayForTaxCase>(
+    () => PayForTaxCase(remoteRepository: getItInstance()),
   );
 
   //==> GetCompletedTaxesCase

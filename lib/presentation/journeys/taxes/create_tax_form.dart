@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
-import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
@@ -21,15 +21,17 @@ import '../../widgets/scrollable_app_card.dart';
 import '../../widgets/text_field_large_container.dart';
 
 class CreateTaxForm extends StatefulWidget {
-  final Function() onSuccess;
+  final Function(String) onSuccess;
   final bool withWhiteCard;
-  final CreateTaxCubit? createTaxCubit;
+  final PayForTaxCubit? payForTaskCubit;
+  final double taxValue;
 
   const CreateTaxForm({
     Key? key,
     required this.onSuccess,
     required this.withWhiteCard,
-    this.createTaxCubit,
+    this.payForTaskCubit,
+    required this.taxValue,
   }) : super(key: key);
 
   @override
@@ -37,7 +39,7 @@ class CreateTaxForm extends StatefulWidget {
 }
 
 class _CreateTaxFormState extends State<CreateTaxForm> {
-  late final CreateTaxCubit _createTaxCubit;
+  late final PayForTaxCubit _createTaxCubit;
 
   /// imagerPicker cubit
   late final PickImageCubit _pickImageCubit;
@@ -51,13 +53,13 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   @override
   void initState() {
     super.initState();
-    _createTaxCubit = widget.createTaxCubit ?? getItInstance<CreateTaxCubit>();
+    _createTaxCubit = widget.payForTaskCubit ?? getItInstance<PayForTaxCubit>();
     _pickImageCubit = getItInstance<PickImageCubit>();
   }
 
   @override
   void dispose() {
-    if (widget.createTaxCubit == null) {
+    if (widget.payForTaskCubit == null) {
       _createTaxCubit.close();
     }
     _pickImageCubit.close();
@@ -82,23 +84,23 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
               },
             ),
 
-            BlocListener<CreateTaxCubit, CreateTaxState>(
-              bloc: _createTaxCubit,
+            BlocListener<PayForTaxCubit, PayForTaxState>(
+                bloc: _createTaxCubit,
                 listener: (_, state) {
-              /// show snackBar on bTaxInternetConnection
-              if (state is ErrorWhileCreatingTax) {
-                showSnackBar(context,
-                    backgroundColor: AppColor.accentColor,
-                    textColor: AppColor.primaryDarkColor,
-                    isFloating: false,
-                    message: "تحقق من اتصال الإنترنت");
-              }
+                  /// show snackBar on bTaxInternetConnection
+                  if (state is ErrorWhileCreatingTax) {
+                    showSnackBar(context,
+                        backgroundColor: AppColor.accentColor,
+                        textColor: AppColor.primaryDarkColor,
+                        isFloating: false,
+                        message: "تحقق من اتصال الإنترنت");
+                  }
 
-              /// success
-              if (state is TaxCreatedSuccessfully) {
-                _navigateToMyTaxes();
-              }
-            })
+                  /// success
+                  if (state is TaxCreatedSuccessfully) {
+                    _navigateToPayment(state.payEntity.link);
+                  }
+                })
           ],
           child: widget.withWhiteCard
               ? ScrollableAppCard(
@@ -119,31 +121,34 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                     ],
                   ),
                 ))
-              : Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    /// title
-                    AppContentTitleWidget(
-                      title: "طلب اقرار ضريبى",
-                      textStyle: widget.withWhiteCard
-                          ? null
-                          : Theme.of(context).textTheme.titleLarge!.copyWith(
-                              color: AppColor.white,
-                              fontWeight: FontWeight.bold),
-                      textColor: widget.withWhiteCard
-                          ? AppColor.primaryDarkColor
-                          : AppColor.white,
-                    ),
+              : SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /// title
+                      AppContentTitleWidget(
+                        title: "طلب اقرار ضريبى",
+                        textStyle: widget.withWhiteCard
+                            ? null
+                            : Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: AppColor.white,
+                                fontWeight: FontWeight.bold),
+                        textColor: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
 
-                    /// form
-                    Padding(
-                      padding: EdgeInsets.only(
-                          top: widget.withWhiteCard
-                              ? Sizes.dimen_5.h
-                              : Sizes.dimen_14.h),
-                      child: _form(),
-                    ),
-                  ],
+                      /// form
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: widget.withWhiteCard
+                                ? Sizes.dimen_5.h
+                                : Sizes.dimen_14.h),
+                        child: _form(),
+                      ),
+                    ],
+                  ),
                 )),
     );
   }
@@ -195,7 +200,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
         Padding(
           padding: EdgeInsets.only(top: Sizes.dimen_5.h),
           child: Text(
-            "تكلفة خدمة الاقرار الضريبي 150 جنيه فقط.\n"
+            "تكلفة خدمة الاقرار الضريبي ${widget.taxValue} جنيه فقط.\n"
             "قم بإرفاق الملف الضريبى و سيعمل فريق عملنا علي انجازه و تقديمه فى مدة لا تتعدى 3 ايام",
             style: Theme.of(context).textTheme.caption!.copyWith(
                   height: 1.5,
@@ -214,7 +219,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
         /// button
         SizedBox(
           width: double.infinity,
-          child: BlocBuilder<CreateTaxCubit, CreateTaxState>(
+          child: BlocBuilder<PayForTaxCubit, PayForTaxState>(
             bloc: _createTaxCubit,
             builder: (context, state) {
               if (state is LoadingCreateTax) {
@@ -278,6 +283,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
     final taxName = nameController.value.text;
     final taxPassword = passwordController.value.text;
     final note = notesController.value.text;
+    final value = widget.taxValue;
 
     // send a request
     _createTaxCubit.createTax(
@@ -285,6 +291,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
         taxPassword: taxPassword,
         taxFile: taxImage,
         note: note,
+        value: value,
         token: userToken);
   }
 
@@ -293,8 +300,8 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
       RouteHelper().loginScreen(context, isClearStack: true);
 
   /// navigate on success
-  void _navigateToMyTaxes() {
-    widget.onSuccess();
+  void _navigateToPayment(String paymentLink) {
+    widget.onSuccess(paymentLink);
   }
 
   /// navigate to contact us

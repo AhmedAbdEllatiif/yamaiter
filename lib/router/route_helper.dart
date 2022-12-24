@@ -6,6 +6,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_sos_args.dart';
@@ -159,8 +160,12 @@ class RouteHelper {
   }
 
   /// To create tax screen \\\
-  void createTaxScreen(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.createTax);
+  void createTaxScreen(BuildContext context,
+      {required CreateTaxArguments createTaxArguments}) {
+    Navigator.of(context).pushNamed(
+      RouteList.createTax,
+      arguments: createTaxArguments,
+    );
   }
 
   /// To add new  screen \\\
@@ -479,9 +484,9 @@ class RouteHelper {
   }
 
   /// To payment screen \\\
-  void paymentScreen(BuildContext context,
+  Future paymentScreen(BuildContext context,
       {required PaymentArguments paymentArguments}) {
-    Navigator.of(context)
+    return Navigator.of(context)
         .pushNamed(RouteList.payment, arguments: paymentArguments);
   }
 

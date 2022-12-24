@@ -19,27 +19,27 @@ class TitleWithAddNewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        AppContentTitleWidget(
-          title: title,
-        ),
-        Row(
-          children: [
-            Container(
-              padding: const EdgeInsets.all(1.5),
-              decoration: BoxDecoration(
-                  border: Border.all(color: AppColor.primaryDarkColor)),
-              child: Icon(
-                Icons.add,
-                color: AppColor.primaryDarkColor,
-                size: Sizes.dimen_12.w,
+    return GestureDetector(
+      onTap: onAddPressed,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          AppContentTitleWidget(
+            title: title,
+          ),
+          Row(
+            children: [
+              Container(
+                padding: const EdgeInsets.all(1.5),
+                decoration: BoxDecoration(
+                    border: Border.all(color: AppColor.primaryDarkColor)),
+                child: Icon(
+                  Icons.add,
+                  color: AppColor.primaryDarkColor,
+                  size: Sizes.dimen_12.w,
+                ),
               ),
-            ),
-            GestureDetector(
-              onTap: onAddPressed,
-              child: Padding(
+              Padding(
                 padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_5.w),
                 child: Text(
                   addText,
@@ -48,11 +48,11 @@ class TitleWithAddNewItem extends StatelessWidget {
                       .bodySmall!
                       .copyWith(color: AppColor.primaryDarkColor),
                 ),
-              ),
-            )
-          ],
-        )
-      ],
+              )
+            ],
+          )
+        ],
+      ),
     );
   }
 }

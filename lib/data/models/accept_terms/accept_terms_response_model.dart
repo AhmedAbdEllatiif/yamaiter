@@ -14,14 +14,15 @@ class AcceptTermsResponseModel extends AcceptTermsEntity {
   final List<AcceptTermsPagesModel> acceptTermsPages;
   final List<CostModel> costsList;
 
-  const AcceptTermsResponseModel(
+  AcceptTermsResponseModel(
       {required this.acceptTerms,
       required this.acceptTermsPages,
       required this.costsList})
       : super(
-            isUserAcceptedTerms: acceptTerms,
-            pages: acceptTermsPages,
-            costs: costsList);
+          isUserAcceptedTerms: acceptTerms,
+          pages: acceptTermsPages,
+          costs: costsList,
+        );
 
   factory AcceptTermsResponseModel.fromJson(Map<String, dynamic> json) =>
       AcceptTermsResponseModel(
@@ -132,7 +133,7 @@ class CostModel extends CostEntity {
                   : CostType.undefined,
 
           // value
-          value: infoValue,
+          value: infoValue.toDouble(),
         );
 
   final int costId;

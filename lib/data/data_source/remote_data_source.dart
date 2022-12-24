@@ -98,7 +98,7 @@ import '../api/requests/post_requests/client/assign_task_client.dart';
 import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/client/update_task_client.dart';
 import '../api/requests/post_requests/create_sos.dart';
-import '../api/requests/post_requests/create_tax.dart';
+import '../api/requests/post_requests/pay_for_tax.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../api/requests/post_requests/update_sos.dart';
 import '../models/accept_terms/accept_terms_response_model.dart';
@@ -107,6 +107,7 @@ import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
 import '../models/consultations/consultation_model.dart';
+import '../models/pay_response_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/assign_task_params_client.dart';
@@ -202,7 +203,7 @@ abstract class RemoteDataSource {
   Future<dynamic> getAllSos(GetSosParams params);
 
   /// createTax
-  Future<dynamic> createTax(CreateTaxParams params);
+  Future<dynamic> payForTax(CreateTaxParams params);
 
   /// createArticle
   Future<dynamic> getAllArticles(GetArticlesParams params);
@@ -808,7 +809,8 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// getConsultationDetails
   @override
-  Future<dynamic> getConsultationDetails(GetConsultationDetailsParams params) async {
+  Future<dynamic> getConsultationDetails(
+      GetConsultationDetailsParams params) async {
     try {
       log("getConsultationDetails >> Start request");
       // init request
@@ -820,26 +822,27 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getConsultationDetails >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return consultationFromJson(response.body);
-      // notActivatedUser
+        // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
               message: "getConsultationDetails body >> ${response.body}");
-      // not found
+        // not found
         case 404:
           return AppError(AppErrorType.notFound,
               message: "getConsultationDetails body >> ${response.body}");
-      // unAuthorized
+        // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
               message: "getConsultationDetails body >> ${response.body}");
-      // default
+        // default
         default:
           log("getConsultationDetails >> body:${jsonDecode(response.body)}");
           return AppError(AppErrorType.api,
-              message: "getConsultationDetails Status Code >> ${response.statusCode}"
+              message:
+                  "getConsultationDetails Status Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
       }
     } catch (e) {
@@ -1406,36 +1409,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   }
 
   @override
-  Future createTax(CreateTaxParams params) async {
-    // init request
-    final createTaxRequest = CreateTaxRequest();
-    final request = await createTaxRequest(params);
+  Future payForTax(CreateTaxParams params) async {
+    try {
+      // init request
+      final createTaxRequest = CreateTaxRequest();
+      final request = await createTaxRequest(params);
 
-    // send a request
-    final streamResponse = await request.send();
+      // send a request
+      final streamResponse = await request.send();
 
-    // retrieve a response from stream response
-    final response = await http.Response.fromStream(streamResponse);
-    log("createTax >> ResponseCode: ${response.statusCode}");
-    log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return SuccessModel();
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "createTax Status Code >> ${response.statusCode}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "createTax Status Code >> ${response.statusCode}");
-      // default
-      default:
-        log("createTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-        return AppError(AppErrorType.api,
-            message: "createTax Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("payForTax >> ResponseCode: ${response.statusCode}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          {
+            log("payForTax >> body:${response.body}");
+            return payResponseFromJson(response.body);
+          }
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "payForTax Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "payForTax Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("payForTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "payForTax Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("payForTax >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "payForTax UnHandledError >> $e");
     }
   }
 
@@ -1615,6 +1626,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
                   " \n Body: ${response.body}");
       }
     } catch (e) {
+      log("acceptTerms >> Exception: $e");
       return AppError(AppErrorType.unHandledError,
           message: "acceptTerms UnHandledError >> $e");
     }

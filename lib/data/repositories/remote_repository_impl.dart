@@ -14,6 +14,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_respon
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/consultations/consultation_model.dart';
+import 'package:yamaiter/data/models/pay_response_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
@@ -50,6 +51,7 @@ import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
@@ -784,16 +786,16 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-  /// createTax
+  /// payForTax
   @override
-  Future<Either<AppError, SuccessModel>> createTax(
+  Future<Either<AppError, PayEntity>> payForTax(
       CreateTaxParams params) async {
     try {
       // send create tax request
-      final result = await remoteDataSource.createTax(params);
+      final result = await remoteDataSource.payForTax(params);
 
       // received success
-      if (result is SuccessModel) {
+      if (result is PayResponseModel) {
         return Right(result);
       }
 

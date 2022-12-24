@@ -5,6 +5,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
@@ -330,7 +331,9 @@ class Routes {
             ),
 
         /// CreateTaxScreen
-        RouteList.createTax: (context) => const CreateTaxScreen(),
+        RouteList.createTax: (context) => CreateTaxScreen(
+              createTaxArguments: settings.arguments as CreateTaxArguments,
+            ),
 
         /// MyTaxesScreen
         RouteList.myTaxes: (context) => const MyTaxesScreen(),

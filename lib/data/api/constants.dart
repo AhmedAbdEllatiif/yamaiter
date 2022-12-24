@@ -101,7 +101,7 @@ class ApiConstants {
 
   static Uri _createAd() => Uri.https(_baseUrl, EndPoints.createAd);
 
-  static Uri _createTax() => Uri.https(_baseUrl, EndPoints.createTax);
+  static Uri _payForTax() => Uri.https(_baseUrl, EndPoints.payForTax);
 
   static Uri _inProgressTaxes({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.inProgressTaxes, queryParams);
@@ -284,8 +284,8 @@ class ApiConstants {
       case RequestType.createAd:
         return _createAd();
       // createAd
-      case RequestType.createTax:
-        return _createTax();
+      case RequestType.payForTax:
+        return _payForTax();
       // inProgressTaxes
       case RequestType.inProgressTaxes:
         return _inProgressTaxes(queryParams: queryParams);
@@ -445,7 +445,7 @@ class EndPoints {
   static String createAd = "${_apiVersion}announcements";
 
   /// createAd
-  static String createTax = "${_apiVersion}taxes";
+  static String payForTax = "${_apiVersion}pay";
 
   /// inProgressTaxes
   static String inProgressTaxes = "${_apiVersion}show-taxes";
@@ -540,7 +540,7 @@ enum RequestType {
   myArticles,
   deleteArticle,
   createAd,
-  createTax,
+  payForTax,
   inProgressTaxes,
   completedTaxes,
   myAds,

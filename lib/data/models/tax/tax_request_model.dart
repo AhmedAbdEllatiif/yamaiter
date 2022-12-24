@@ -1,22 +1,17 @@
 class CreateTaxRequestModel {
   final String taxName;
   final String taxPassword;
-  final String note;
+  final String description;
   final String taxFile;
+  final double value;
 
   CreateTaxRequestModel({
     required this.taxName,
     required this.taxPassword,
-    required this.note,
+    required this.description,
     required this.taxFile,
+    required this.value
   });
 
-  Map<String, dynamic> toJson() {
-    return {
-      "tax_name": taxName,
-      "tax_password": taxPassword,
-      "notes": note,
-      "tax_file": taxFile,
-    };
-  }
+
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/sizes.dart';
@@ -81,7 +82,7 @@ class ChooseToAddScreen extends StatelessWidget {
 
   /// to navigate to create task
   void _navigateToCreateTask(BuildContext context) =>
-      RouteHelper().createTask(context,createTaskArguments: null);
+      RouteHelper().createTask(context, createTaskArguments: null);
 
   /// to navigate to create sos
   void _navigateToCreateSos(BuildContext context) =>
@@ -97,5 +98,11 @@ class ChooseToAddScreen extends StatelessWidget {
 
   /// to navigate to create tax
   void _navigateToCreateTax(BuildContext context) =>
-      RouteHelper().createTaxScreen(context);
+      RouteHelper().createTaxScreen(
+        context,
+        createTaxArguments: CreateTaxArguments(
+          withBackgroundWhite: true,
+          withAdsWidget: true,
+        ),
+      );
 }

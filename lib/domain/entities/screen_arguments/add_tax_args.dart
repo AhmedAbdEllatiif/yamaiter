@@ -1,7 +1,7 @@
-import 'package:yamaiter/presentation/logic/cubit/create_tax/create_tax_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 
 class AddTaxArguments{
-  final CreateTaxCubit createTaxCubit;
+  final PayForTaxCubit payForTaskCubit;
 
-  AddTaxArguments({required this.createTaxCubit});
+  AddTaxArguments({required this.payForTaskCubit});
 }

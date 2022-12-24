@@ -10,10 +10,13 @@ class CreateTaxRequest extends MultiPartPostRequest<CreateTaxParams> {
   @override
   Future<http.MultipartRequest> call(CreateTaxParams params) async {
     var request = initMultiPartPostRequest(
-        requestType: RequestType.createTax, token: params.userToken);
-    request.fields["tax_name"] = params.createTaxRequestModel.taxName;
+        requestType: RequestType.payForTax, token: params.userToken);
+    request.fields["mission_type"] = "tax";
+    request.fields["name"] = params.createTaxRequestModel.taxName;
+    request.fields["amount_cents"] =
+        params.createTaxRequestModel.value.toString();
     request.fields["tax_password"] = params.createTaxRequestModel.taxPassword;
-    request.fields["notes"] = params.createTaxRequestModel.note;
+    request.fields["description"] = params.createTaxRequestModel.description;
 
     // create MultipartFile to add to files with request
     final photoId = http.MultipartFile.fromBytes(

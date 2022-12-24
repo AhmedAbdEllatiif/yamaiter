@@ -35,7 +35,7 @@ class GetAcceptTermsCubit extends Cubit<GetAcceptTermsState> {
   /// to emit the state after the request is succeed
   void _emitAfterSuccess(AcceptTermsEntity acceptTermsEntity) {
     final state = acceptTermsEntity.isUserAcceptedTerms
-        ? TermsAlreadyAccepted()
+        ? TermsAlreadyAccepted(acceptTermsEntity: acceptTermsEntity)
         : TermsNotAcceptedYet(acceptTermsEntity: acceptTermsEntity);
 
     _emitIfNotClosed(state);

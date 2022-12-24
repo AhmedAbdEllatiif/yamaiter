@@ -52,7 +52,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
   void _navigateToPaymentScreen(BuildContext context) {
     RouteHelper().paymentScreen(
       context,
-      paymentArguments: PaymentArguments(),
+      paymentArguments: PaymentArguments(link: ""),
     );
   }
 
