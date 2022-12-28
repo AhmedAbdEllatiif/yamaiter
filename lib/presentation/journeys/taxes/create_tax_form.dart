@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
 import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 
@@ -21,7 +22,7 @@ import '../../widgets/scrollable_app_card.dart';
 import '../../widgets/text_field_large_container.dart';
 
 class CreateTaxForm extends StatefulWidget {
-  final Function(String) onSuccess;
+  final Function(PayEntity) onSuccess;
   final bool withWhiteCard;
   final PayForTaxCubit? payForTaskCubit;
   final double taxValue;
@@ -98,7 +99,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
 
                   /// success
                   if (state is TaxCreatedSuccessfully) {
-                    _navigateToPayment(state.payEntity.link);
+                    _navigateToPayment(state.payEntity);
                   }
                 })
           ],
@@ -300,7 +301,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
       RouteHelper().loginScreen(context, isClearStack: true);
 
   /// navigate on success
-  void _navigateToPayment(String paymentLink) {
+  void _navigateToPayment(PayEntity paymentLink) {
     widget.onSuccess(paymentLink);
   }
 

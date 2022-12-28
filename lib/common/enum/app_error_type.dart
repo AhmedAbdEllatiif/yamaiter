@@ -3,7 +3,6 @@ enum AppErrorType {
   localDB,
   badRequest,
   pickImage,
-
   unHandledError,
   // apiErrors
   api,
@@ -19,6 +18,11 @@ enum AppErrorType {
   wrongPassword,
   wrongEmail,
 
+  //paymentError
+  notAPaymentProcess,
+  paymentFailed,
+
+  // paymentError
   unDefined,
 }
 

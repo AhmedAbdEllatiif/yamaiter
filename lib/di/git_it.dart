@@ -79,6 +79,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
@@ -112,6 +113,7 @@ import '../presentation/logic/client_cubit/delete_task_client/delete_task_client
 import '../presentation/logic/client_cubit/get_consultation_details/get_consultation_details_cubit.dart';
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
+import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
@@ -420,6 +422,11 @@ Future init() async {
   //==> GetMyTasksClientClientCubit
   getItInstance.registerFactory<GetMyTasksClientCubit>(
     () => GetMyTasksClientCubit(),
+  );
+
+  //==> CheckPaymentStatusCubit
+  getItInstance.registerFactory<CheckPaymentStatusCubit>(
+    () => CheckPaymentStatusCubit(),
   );
 
   //==> AutoLoginCubit
@@ -740,5 +747,10 @@ Future init() async {
   //==> FilterTasksCase
   getItInstance.registerFactory<FilterTasksCase>(
     () => FilterTasksCase(remoteRepository: getItInstance()),
+  );
+
+  //==> CheckPaymentStatusCase
+  getItInstance.registerFactory<CheckPaymentStatusCase>(
+    () => CheckPaymentStatusCase(remoteRepository: getItInstance()),
   );
 }

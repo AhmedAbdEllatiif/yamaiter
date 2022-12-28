@@ -2,7 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../presentation/themes/theme_color.dart';
+import '../../presentation/widgets/app_dialog.dart';
 import '../constants/sizes.dart';
+
+
+/// To show  dialog
+void showAppDialog(BuildContext context,
+    {String? message,
+      String? buttonText,
+      Function()? onPressed,bool isLoadingDialog = false}) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AppDialog(
+        description: message ?? "",
+        buttonText: buttonText ?? "",
+        onPressed: onPressed,
+        isLoadingDialog: isLoadingDialog,
+        // image: Logo(
+        //   size: Sizes.dimen_40.w,
+        //   color: AppColor.appPurple,
+        // ),
+      );
+    },
+  );
+}
 
 /// show snackBar
 /// * [context] the current context to show snackBar
@@ -42,4 +66,6 @@ void showSnackBar(BuildContext context,
             : null,
       ),
     );
+
+
 }

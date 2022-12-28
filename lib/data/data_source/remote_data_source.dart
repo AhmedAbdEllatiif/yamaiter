@@ -21,6 +21,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_single_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
+import 'package:yamaiter/data/api/requests/get_requests/paymeny_status/check_payment_status.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
@@ -83,6 +84,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
+import 'package:yamaiter/data/params/payment_status/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
@@ -288,6 +290,9 @@ abstract class RemoteDataSource {
 
   /// filter tasks
   Future<dynamic> filterTasks(FilterTasksParams params);
+
+  /// check payment status tasks
+  Future<dynamic> getPaymentStatus(CheckPaymentStatusParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -2383,6 +2388,62 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("filterTasks >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "filterTasks UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future getPaymentStatus(CheckPaymentStatusParams params) async {
+    try {
+      log("getPaymentStatus >> Start request");
+      // init request
+      final request = CheckPaymentStatusRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getPaymentStatus >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("getPaymentStatus >> ResponseBody: ${json.decode(response.body)}");
+          return SuccessModel();
+        // notAPaymentProcess
+        case 403:
+          log("getPaymentStatus >> ResponseBody: ${json.decode(response.body)}");
+          return AppError(AppErrorType.notAPaymentProcess,
+              message:
+                  "getPaymentStatus Status Code >> ${response.statusCode}");
+        // payment Failed
+        case 422:
+          log("getPaymentStatus >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.paymentFailed,
+              message:
+                  "getPaymentStatus Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          log("getPaymentStatus >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message:
+                  "getPaymentStatus Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          log("getPaymentStatus >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "getPaymentStatus Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("getPaymentStatus >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getPaymentStatus Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getPaymentStatus >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getPaymentStatus UnHandledError >> $e");
     }
   }
 }

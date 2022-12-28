@@ -116,7 +116,8 @@ class ApiConstants {
   static Uri _myTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.myTasks, queryParams);
 
-  static Uri _payToAssignTask() => Uri.https(_baseUrl, EndPoints.payToAssignTask);
+  static Uri _payToAssignTask() =>
+      Uri.https(_baseUrl, EndPoints.payToAssignTask);
 
   static Uri _mySingleTask(String id) =>
       Uri.https(_baseUrl, "${EndPoints.myTasks}/$id");
@@ -160,6 +161,9 @@ class ApiConstants {
 
   static Uri _filterTasks({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.filterTask, queryParams);
+
+  static Uri _checkPaymentStatus({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.checkPaymentStatus, queryParams);
 
   static Uri buildUrl(
     RequestType requestType, {
@@ -346,6 +350,9 @@ class ApiConstants {
       // filterTasks
       case RequestType.filterTasks:
         return _filterTasks(queryParams: queryParams);
+      // checkPaymentStatus
+      case RequestType.checkPaymentStatus:
+        return _checkPaymentStatus(queryParams: queryParams);
     }
   }
 }
@@ -503,6 +510,9 @@ class EndPoints {
 
   /// filterTask
   static String filterTask = "${_apiVersion}tasks";
+
+  /// checkPaymentStatus
+  static String checkPaymentStatus = "${_apiVersion}payment-status";
 }
 
 /// The api request type
@@ -561,6 +571,7 @@ enum RequestType {
   searchForLawyer,
   inviteToTask,
   filterTasks,
+  checkPaymentStatus,
 }
 
 class ApiParamsConstant {

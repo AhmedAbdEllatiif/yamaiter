@@ -75,6 +75,7 @@ import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
 import '../params/client/update_task_params.dart';
 import '../params/get_taxes_params.dart';
+import '../params/payment_status/check_payment_status_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
 
@@ -788,8 +789,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// payForTax
   @override
-  Future<Either<AppError, PayEntity>> payForTax(
-      CreateTaxParams params) async {
+  Future<Either<AppError, PayEntity>> payForTax(CreateTaxParams params) async {
     try {
       // send create tax request
       final result = await remoteDataSource.payForTax(params);
@@ -1267,6 +1267,35 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // received success
       if (result is List<TaskEntity>) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  ///============================>  Common <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  /// checkForPaymentStatus
+  @override
+  Future<Either<AppError, SuccessModel>> checkForPaymentStatus(
+      CheckPaymentStatusParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getPaymentStatus(params);
+
+      // received success
+      if (result is SuccessModel) {
         return Right(result);
       }
 
