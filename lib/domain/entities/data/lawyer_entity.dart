@@ -4,7 +4,8 @@ import '../../../data/api/constants.dart';
 
 class LawyerEntity extends Equatable {
   final int id;
-  final String name;
+  final String firstName;
+  final String lastName;
   final String email;
   final String phoneNum;
   final num rating;
@@ -22,7 +23,8 @@ class LawyerEntity extends Equatable {
         id: -1,
         rating: 2,
         tasksCount: 5,
-        name: "name",
+        firstName: "first name",
+        lastName: "last name",
         email: "email",
         phoneNum: "phoneNum",
         governorates: "governorates",
@@ -38,7 +40,8 @@ class LawyerEntity extends Equatable {
     required this.id,
     required this.rating,
     required this.tasksCount,
-    required this.name,
+    required this.firstName,
+    required this.lastName,
     required this.email,
     required this.phoneNum,
     required this.governorates,

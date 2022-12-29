@@ -25,7 +25,7 @@ class SearchResultItem extends StatelessWidget {
             /// image
             ImageNameRatingWidget(
               imgUrl: lawyerEntity.profileImage,
-              name: lawyerEntity.name,
+              name: lawyerEntity.firstName,
               rating: lawyerEntity.rating.toDouble(),
               withRow: false,
               nameColor: AppColor.primaryDarkColor,

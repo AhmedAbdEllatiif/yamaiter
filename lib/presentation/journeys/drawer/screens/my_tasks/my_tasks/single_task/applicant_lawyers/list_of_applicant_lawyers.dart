@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/applicant_lawyers/applicant_laywer_item.dart';
@@ -41,18 +42,18 @@ class ListOfApplicantLawyers extends StatelessWidget {
           assignTaskCubit: assignTaskCubit,
           lawyerEntity: applicants[index],
           onAssignPressed: (value) {
-            _assignTask(
-              context: context,
-              lawyerId: applicants[index].id,
-              value: value,
-            );
+            showAppDialog(context, message: "عمولة يامتر ${taskEntity.costCommission} ",buttonText: "اسناد المهمة", onPressed: () {
+              _assignTask(
+                context: context,
+                lawyerId: applicants[index].id,
+                value: value,
+              );
+            });
           },
         );
       },
     );
   }
-
-
 
   /// to assign a task to a lawyer
   void _assignTask({

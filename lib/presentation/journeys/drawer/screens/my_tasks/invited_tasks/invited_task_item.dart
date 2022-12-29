@@ -52,7 +52,7 @@ class InvitedTaskItem extends StatelessWidget {
                     children: [
                       ImageNameRatingWidget(
                         imgUrl: recommenderLawyer.profileImage,
-                        name: recommenderLawyer.name,
+                        name: recommenderLawyer.firstName,
                         rating: recommenderLawyer.rating.toDouble(),
                         nameColor: AppColor.primaryDarkColor,
                         ratedColor: AppColor.accentColor,

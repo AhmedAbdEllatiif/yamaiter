@@ -32,7 +32,8 @@ class UserLawyerModel extends LawyerEntity {
     required this.lawyerId,
     required this.lawyerRating,
     required this.lawyerTasksCount,
-    required this.lawyerName,
+    required this.lawyerFirstName,
+    required this.lawyerLastName,
     required this.lawyerEmail,
     required this.lawyerPhoneNum,
     required this.lawyerGovernorates,
@@ -46,7 +47,8 @@ class UserLawyerModel extends LawyerEntity {
           id: lawyerId,
           rating: lawyerRating,
           tasksCount: lawyerTasksCount,
-          name: lawyerName,
+          firstName: lawyerFirstName,
+          lastName: lawyerLastName,
           email: lawyerEmail,
           phoneNum: lawyerPhoneNum,
           governorates: lawyerGovernorates,
@@ -60,7 +62,8 @@ class UserLawyerModel extends LawyerEntity {
 
   final int lawyerId;
   final int lawyerTasksCount;
-  final String lawyerName;
+  final String lawyerFirstName;
+  final String lawyerLastName;
   final String lawyerEmail;
   final String lawyerPhoneNum;
   final num lawyerRating;
@@ -76,7 +79,8 @@ class UserLawyerModel extends LawyerEntity {
         lawyerId: -1,
         lawyerRating: 0,
         lawyerTasksCount: 0,
-        lawyerName: AppUtils.undefined,
+        lawyerFirstName: AppUtils.undefined,
+        lawyerLastName: AppUtils.undefined,
         lawyerEmail: AppUtils.undefined,
         lawyerPhoneNum: AppUtils.undefined,
         lawyerGovernorates: AppUtils.undefined,
@@ -91,7 +95,8 @@ class UserLawyerModel extends LawyerEntity {
   factory UserLawyerModel.fromJson(Map<String, dynamic> json) =>
       UserLawyerModel(
         lawyerId: json["id"] ?? -1,
-        lawyerName: json["name"] ?? AppUtils.undefined,
+        lawyerFirstName: json["first_name"] ?? AppUtils.undefined,
+        lawyerLastName: json["last_name"] ?? AppUtils.undefined,
         lawyerEmail: json["email"] ?? AppUtils.undefined,
         lawyerPhoneNum: json['phone'] ?? AppUtils.undefined,
         //lawyerRating: json['rating'] ?? 0,

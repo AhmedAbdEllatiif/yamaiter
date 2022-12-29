@@ -18,6 +18,10 @@ class TaskEntity extends Equatable {
   final List<UserLawyerModel> applicantLawyers;
   final List<UserLawyerModel> recommenderLawyers;
 
+  /// commissions
+  final String costCommission;
+  final String refundCommission;
+
   /// dates in strings
   late final String startingDate;
   late final String createdAt;
@@ -42,10 +46,12 @@ class TaskEntity extends Equatable {
       price: 100,
       status: "status",
       file: "file",
+      costCommission: AppUtils.undefined,
+      refundCommission: AppUtils.undefined,
       applicantsCount: 10,
-      assignedLawyers: [],
-      applicantLawyers: [],
-      recommenderLawyers: [],
+      assignedLawyers: const [],
+      applicantLawyers: const [],
+      recommenderLawyers: const [],
       lawyerModel: UserLawyerModel.empty(),
       taskStartingDate: DateTime.now(),
       taskCreatedAt: DateTime.now(),
@@ -62,6 +68,8 @@ class TaskEntity extends Equatable {
     required this.price,
     required this.status,
     required this.file,
+    required this.costCommission,
+    required this.refundCommission,
     required this.applicantsCount,
     required this.assignedLawyers,
     required this.applicantLawyers,
@@ -105,7 +113,7 @@ class TaskEntity extends Equatable {
     }
 
     /// init creator data
-    creatorName = lawyerModel.lawyerName;
+    creatorName = lawyerModel.lawyerFirstName;
     creatorPhoneNum = lawyerModel.lawyerPhoneNum;
     creatorRating = lawyerModel.lawyerRating;
     creatorImage = ApiConstants.mediaUrl + lawyerModel.lawyerProfileImage;

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
@@ -187,6 +189,7 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
 
               //==> fetched
               if (state is MySingleTaskFetchedSuccessfully) {
+                log("TaskCommission: ${state.taskEntity.costCommission}");
                 _taskEntity = state.taskEntity;
                 return Padding(
                   padding: EdgeInsets.only(
@@ -277,8 +280,8 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
                           padding: const EdgeInsets.only(top: 8.0),
                           child: ListOfApplicantLawyers(
                             assignTaskCubit: _assignTaskCubit,
-                            taskEntity: _taskEntity,
-                            applicants: _taskEntity.applicantLawyers,
+                            taskEntity: state.taskEntity,
+                            applicants: state.taskEntity.applicantLawyers,
                           ),
                         ),
                       ),

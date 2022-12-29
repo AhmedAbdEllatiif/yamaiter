@@ -11,7 +11,6 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/assets_constants.dart';
 import '../../../../../../../../common/constants/sizes.dart';
-import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../widgets/cached_image_widget.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 
@@ -81,7 +80,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                           children: [
                             //==> name
                             Text(
-                              lawyerEntity.name,
+                              lawyerEntity.firstName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)
@@ -110,7 +109,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                                   ignoreGestures: true,
                                   itemBuilder: (context, _) => const Icon(
                                     Icons.star,
-                                    color: AppColor.primaryColor,
+                                    color: AppColor.accentColor,
                                   ),
                                   onRatingUpdate: (rating) {},
                                 ),

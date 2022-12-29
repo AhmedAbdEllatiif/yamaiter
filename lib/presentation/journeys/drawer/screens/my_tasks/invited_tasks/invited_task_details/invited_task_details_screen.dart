@@ -154,7 +154,7 @@ class _InvitedTaskDetailsScreenState extends State<InvitedTaskDetailsScreen> {
                         /// img, rating
                         ImageNameRatingWidget(
                           imgUrl: _recommenderEntity.profileImage,
-                          name: _recommenderEntity.name,
+                          name: _recommenderEntity.firstName,
                           rating: _recommenderEntity.rating.toDouble(),
                           nameColor: AppColor.primaryDarkColor,
                           ratedColor: AppColor.accentColor,

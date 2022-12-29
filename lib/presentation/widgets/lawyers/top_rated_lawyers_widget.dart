@@ -119,7 +119,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                               /// image
                               ImageNameRatingWidget(
                                 imgUrl: lawyer.profileImage,
-                                name: lawyer.name,
+                                name: lawyer.firstName,
                                 rating: lawyer.rating.toDouble(),
                                 withRow: false,
                                 nameColor: AppColor.primaryDarkColor,

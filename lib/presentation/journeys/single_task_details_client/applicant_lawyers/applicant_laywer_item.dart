@@ -82,7 +82,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                           children: [
                             //==> name
                             Text(
-                              lawyerEntity.name,
+                              lawyerEntity.firstName,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: Theme.of(context)

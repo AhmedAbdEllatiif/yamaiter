@@ -23,7 +23,7 @@ class SosEntity extends Equatable {
     required this.createdAt,
     required UserLawyerModel lawyerModel,
   }) {
-    creatorName = lawyerModel.lawyerName;
+    creatorName = lawyerModel.lawyerFirstName;
     creatorPhoneNum = lawyerModel.lawyerPhoneNum;
     creatorRating = lawyerModel.lawyerRating;
     creatorImage = ApiConstants.mediaUrl + lawyerModel.lawyerProfileImage;
