@@ -7,12 +7,16 @@ import 'accept_terms_page.dart';
 class AcceptTermsEntity extends Equatable {
   final bool isUserAcceptedTerms;
   final List<AcceptTermsPageEntity> pages;
+  final String costCommission;
+  final String refundCommission;
   late final CostEntity taxCost;
   late final CostEntity consultationCost;
 
   AcceptTermsEntity({
     required this.isUserAcceptedTerms,
     required this.pages,
+    required this.costCommission,
+    required this.refundCommission,
     required final List<CostEntity> costs,
   }) {
     CostEntity? tax;

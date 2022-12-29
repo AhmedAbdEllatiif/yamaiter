@@ -13,15 +13,21 @@ class AcceptTermsResponseModel extends AcceptTermsEntity {
   final bool acceptTerms;
   final List<AcceptTermsPagesModel> acceptTermsPages;
   final List<CostModel> costsList;
+  final String costFees;
+  final String refundFees;
 
-  AcceptTermsResponseModel(
-      {required this.acceptTerms,
-      required this.acceptTermsPages,
-      required this.costsList})
-      : super(
+  AcceptTermsResponseModel({
+    required this.acceptTerms,
+    required this.acceptTermsPages,
+    required this.costsList,
+    required this.costFees,
+    required this.refundFees,
+  }) : super(
           isUserAcceptedTerms: acceptTerms,
           pages: acceptTermsPages,
           costs: costsList,
+          costCommission: costFees,
+          refundCommission: refundFees,
         );
 
   factory AcceptTermsResponseModel.fromJson(Map<String, dynamic> json) =>
@@ -30,14 +36,24 @@ class AcceptTermsResponseModel extends AcceptTermsEntity {
         acceptTerms: json["accept-terms"] ?? false,
 
         //==> pages
-        acceptTermsPages: json["data"]["page"] != null
-            ? listOfPages(json["data"]["page"])
+        acceptTermsPages: json["data"] != null
+            ? listOfPages(json["data"]["page"] ?? [])
             : [],
 
         //==> costs
-        costsList: json["data"]["costs"] != null
-            ? listOfCostModel(json["data"]["costs"])
+        costsList: json["data"]!= null
+            ? listOfCostModel(json["data"]["costs"] ?? [])
             : [],
+
+        //==> costCommission
+        costFees: json["data"] != null
+            ? json["data"]["cost_fees"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        //==> refundCommission
+        refundFees: json["data"] != null
+            ? json["data"]["refund_fees"] ?? AppUtils.undefined
+            : AppUtils.undefined,
       );
 }
 

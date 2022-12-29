@@ -251,6 +251,8 @@ class _CreateTaxScreenState extends State<CreateTaxScreen> {
                         return CreateTaxForm(
                           withWhiteCard: _showFormInCard,
                           taxValue: state.acceptTermsEntity.taxCost.value,
+                          costCommission:
+                              state.acceptTermsEntity.costCommission,
                           payForTaskCubit:
                               widget.createTaxArguments.payForTaxCubit,
                           onSuccess: (payEntity) => _navigateToPaymentScreen(

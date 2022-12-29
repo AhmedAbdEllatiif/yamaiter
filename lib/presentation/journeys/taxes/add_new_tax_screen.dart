@@ -28,6 +28,7 @@ class AddNewTaxScreen extends StatelessWidget {
             payForTaskCubit: addTaxArguments.payForTaskCubit,
             withWhiteCard: false,
             taxValue: -1,
+            costCommission: "",
             onSuccess: (paymentLink) {
               Navigator.pop(context);
             },
