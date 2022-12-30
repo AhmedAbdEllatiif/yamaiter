@@ -75,7 +75,7 @@ import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
 import '../params/client/update_task_params.dart';
 import '../params/get_taxes_params.dart';
-import '../params/payment_status/check_payment_status_params.dart';
+import '../params/payment/check_payment_status_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
 

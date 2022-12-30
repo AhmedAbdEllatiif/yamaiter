@@ -21,7 +21,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_single_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
-import 'package:yamaiter/data/api/requests/get_requests/paymeny_status/check_payment_status.dart';
+import 'package:yamaiter/data/api/requests/get_requests/paymeny/check_payment_status.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
 import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dart';
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
@@ -84,7 +84,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
-import 'package:yamaiter/data/params/payment_status/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 

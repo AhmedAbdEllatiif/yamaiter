@@ -165,6 +165,8 @@ class ApiConstants {
   static Uri _checkPaymentStatus({required Map<String, dynamic> queryParams}) =>
       Uri.https(_baseUrl, EndPoints.checkPaymentStatus, queryParams);
 
+  static Uri _refund() => Uri.https(_baseUrl, EndPoints.refund);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -350,9 +352,18 @@ class ApiConstants {
       // filterTasks
       case RequestType.filterTasks:
         return _filterTasks(queryParams: queryParams);
+
+      ///===================================================================\\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///                                                                   \\\\
+      ///============================> Payment <============================\\\\
       // checkPaymentStatus
       case RequestType.checkPaymentStatus:
         return _checkPaymentStatus(queryParams: queryParams);
+      // refund
+      case RequestType.refund:
+        return _refund();
     }
   }
 }
@@ -513,6 +524,9 @@ class EndPoints {
 
   /// checkPaymentStatus
   static String checkPaymentStatus = "${_apiVersion}payment-status";
+
+  /// refund
+  static String refund = "${_apiVersion}refund";
 }
 
 /// The api request type
@@ -572,6 +586,7 @@ enum RequestType {
   inviteToTask,
   filterTasks,
   checkPaymentStatus,
+  refund,
 }
 
 class ApiParamsConstant {

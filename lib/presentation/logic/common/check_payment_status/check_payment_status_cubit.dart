@@ -1,8 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/enum/payment_mission_type.dart';
-import 'package:yamaiter/data/models/payment_status/chech_payment_status_request_model.dart';
-import 'package:yamaiter/data/params/payment_status/check_payment_status_params.dart';
+import 'package:yamaiter/data/models/payment/chech_payment_status_request_model.dart';
+import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/domain/use_cases/check_paymet_status.dart';
 
 import '../../../../common/enum/app_error_type.dart';
