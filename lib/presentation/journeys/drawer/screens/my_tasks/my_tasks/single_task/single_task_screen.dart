@@ -9,11 +9,13 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_pa
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/applicant_lawyers/list_of_applicant_lawyers.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_single_task/get_my_single_task_cubit.dart';
+import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 
 import '../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../common/enum/app_error_type.dart';
+import '../../../../../../../common/enum/payment_mission_type.dart';
 import '../../../../../../../common/screen_utils/screen_util.dart';
 import '../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../domain/entities/screen_arguments/delete_task_args.dart';
@@ -21,6 +23,7 @@ import '../../../../../../../domain/entities/screen_arguments/edit_task_args.dar
 import '../../../../../../../domain/entities/screen_arguments/payment_args.dart';
 import '../../../../../../../router/route_helper.dart';
 import '../../../../../../logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
+import '../../../../../../logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../../../../../../logic/cubit/delete_task/delete_task_cubit.dart';
 import '../../../../../../logic/cubit/update_task/update_task_cubit.dart';
 import '../../../../../../logic/cubit/user_token/user_token_cubit.dart';
@@ -51,14 +54,18 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
   late final DeleteTaskCubit _deleteTaskCubit;
 
   /// AssignTaskCubit
-  late final PaymentAssignTaskCubit _assignTaskCubit;
+  late final PaymentAssignTaskCubit _payToAssignTaskCubit;
+
+  /// CheckPaymentStatusCubit
+  late final CheckPaymentStatusCubit _checkPaymentStatusCubit;
 
   @override
   void initState() {
     super.initState();
     _taskEntity = widget.singleTaskParams.taskEntity;
     _getMySingleTaskCubit = getItInstance<GetMySingleTaskCubit>();
-    _assignTaskCubit = widget.singleTaskParams.assignTaskCubit;
+    _payToAssignTaskCubit = getItInstance<PaymentAssignTaskCubit>();
+    _checkPaymentStatusCubit = widget.singleTaskParams.checkPaymentStatusCubit;
     _updateTaskCubit = widget.singleTaskParams.updateTaskCubit;
     _deleteTaskCubit = widget.singleTaskParams.deleteTaskCubit;
 
@@ -69,13 +76,18 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
   @override
   void dispose() {
     _getMySingleTaskCubit.close();
+    _payToAssignTaskCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _getMySingleTaskCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _getMySingleTaskCubit),
+        BlocProvider(create: (context) => _checkPaymentStatusCubit),
+        BlocProvider(create: (context) => _payToAssignTaskCubit)
+      ],
       child: Scaffold(
         /// appBar
         appBar: AppBar(
@@ -112,9 +124,9 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
         /// body
         body: MultiBlocListener(
           listeners: [
-            /// AssignTaskCubit
+            /// PaymentAssignTaskCubit
             BlocListener<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
-              bloc: _assignTaskCubit,
+              bloc: _payToAssignTaskCubit,
               listener: (_, state) {
                 if (state is PaymentLinkToAssignTaskFetched) {
                   _navigateToPaymentScreen(
@@ -143,6 +155,47 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
                 }
               },
             ),
+
+            /// CheckPaymentStatus listener
+            BlocListener<CheckPaymentStatusCubit, CheckPaymentStatusState>(
+                listener: (_, state) {
+              //==> loading
+              if (state is LoadingCheckPaymentStatus) {
+                showAppDialog(context, isLoadingDialog: true);
+              }
+              //==> accepted successfully
+              if (state is PaymentSuccess) {
+                Navigator.pop(context);
+                showAppDialog(
+                  context,
+                  message: " عملية دفع ناجحة",
+                  buttonText: "تاكيد",
+                  onPressed: () => Navigator.pop(context),
+                );
+              }
+
+              //==> NotAPaymentProcessYet
+              if (state is NotAPaymentProcessYet) {
+                Navigator.pop(context);
+                showAppDialog(
+                  context,
+                  message: "حدث خطأ فى عملية الدفع",
+                  buttonText: "اعدالمحاولة",
+                  onPressed: () => Navigator.pop(context),
+                );
+              }
+
+              //==> PaymentFailed
+              if (state is PaymentFailed) {
+                Navigator.pop(context);
+                showAppDialog(
+                  context,
+                  message: "فشلت عملية الدفع",
+                  buttonText: "اعدالمحاولة",
+                  onPressed: () => Navigator.pop(context),
+                );
+              }
+            }),
           ],
 
           //==> BlocBuilder
@@ -189,7 +242,6 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
 
               //==> fetched
               if (state is MySingleTaskFetchedSuccessfully) {
-                log("TaskCommission: ${state.taskEntity.costCommission}");
                 _taskEntity = state.taskEntity;
                 return Padding(
                   padding: EdgeInsets.only(
@@ -279,7 +331,7 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
                         child: Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: ListOfApplicantLawyers(
-                            assignTaskCubit: _assignTaskCubit,
+                            assignTaskCubit: _payToAssignTaskCubit,
                             taskEntity: state.taskEntity,
                             applicants: state.taskEntity.applicantLawyers,
                           ),
@@ -310,8 +362,8 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
 
     if (!mounted) return;
 
-    /// Todo check for if task is assign successfully
-    showSnackBar(context, message: "Todo check for if task is assign successfully");
+    //check payment status
+    _checkForPaymentStatus();
   }
 
   /// To fetch my single task details
@@ -321,6 +373,18 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
     _getMySingleTaskCubit.fetchMySingleTask(
       userToken: userToken,
       taskId: widget.singleTaskParams.taskEntity.id,
+    );
+  }
+
+  /// to check the payment status
+  void _checkForPaymentStatus() async {
+    // init userToken
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    _checkPaymentStatusCubit.checkForPaymentProcessStatus(
+      missionType: PaymentMissionType.task,
+      missionId: _taskEntity.id,
+      token: userToken,
     );
   }
 

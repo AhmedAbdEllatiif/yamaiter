@@ -5,12 +5,13 @@ import '../../presentation/themes/theme_color.dart';
 import '../../presentation/widgets/app_dialog.dart';
 import '../constants/sizes.dart';
 
-
 /// To show  dialog
 void showAppDialog(BuildContext context,
     {String? message,
-      String? buttonText,
-      Function()? onPressed,bool isLoadingDialog = false}) {
+    String? buttonText,
+    Function()? onPressed,
+    Widget? image,
+    bool isLoadingDialog = false}) {
   showDialog(
     context: context,
     builder: (context) {
@@ -19,10 +20,7 @@ void showAppDialog(BuildContext context,
         buttonText: buttonText ?? "",
         onPressed: onPressed,
         isLoadingDialog: isLoadingDialog,
-        // image: Logo(
-        //   size: Sizes.dimen_40.w,
-        //   color: AppColor.appPurple,
-        // ),
+        image: image,
       );
     },
   );
@@ -66,6 +64,4 @@ void showSnackBar(BuildContext context,
             : null,
       ),
     );
-
-
 }

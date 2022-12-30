@@ -3,6 +3,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../common/constants/sizes.dart';
+import '../../common/screen_utils/screen_util.dart';
 import '../themes/theme_color.dart';
 import 'app_button.dart';
 import 'close_widget.dart';
@@ -127,7 +128,7 @@ class AppDialog extends StatelessWidget {
                                 .textTheme
                                 .subtitle2!
                                 .copyWith(
-                                    color: AppColor.primaryColor,
+                                    color: AppColor.primaryDarkColor,
                                     fontWeight: FontWeight.normal),
                             textAlign: TextAlign.center,
                           ),
@@ -136,9 +137,9 @@ class AppDialog extends StatelessWidget {
                       /// Okay Button
                       AppButton(
                         text: buttonText.toUpperCase(),
-                        /*constraints: BoxConstraints(
-                    minWidth: ScreenUtil.screenWidth * 0.5,
-                  ),*/
+                        width: ScreenUtil.screenWidth * 0.5,
+                        color: AppColor.primaryDarkColor,
+                        textColor: AppColor.accentColor,
                         onPressed:
                             onPressed ?? () => Navigator.of(context).pop(),
                       )

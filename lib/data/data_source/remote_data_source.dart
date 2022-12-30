@@ -1973,7 +1973,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (e) {
       log("payToAssignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
-          message: "assignTask UnHandledError >> $e");
+          message: "payToAssignTask UnHandledError >> $e");
     }
   }
 

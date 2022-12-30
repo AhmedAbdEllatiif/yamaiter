@@ -11,6 +11,7 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../domain/entities/data/lawyer_entity.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../../../../../widgets/app_logo.dart';
 
 class ListOfApplicantLawyers extends StatelessWidget {
   final List<LawyerEntity> applicants;
@@ -41,12 +42,14 @@ class ListOfApplicantLawyers extends StatelessWidget {
         return ApplicantLawyerItem(
           assignTaskCubit: assignTaskCubit,
           lawyerEntity: applicants[index],
-          onAssignPressed: (value) {
-            showAppDialog(context, message: "عمولة يامتر ${taskEntity.costCommission} ",buttonText: "اسناد المهمة", onPressed: () {
-              _assignTask(
+          onAssignPressed: (valueOfferedByAppliedLawyer) {
+            showAppDialog(context,
+                message: "عمولة يامتر ${taskEntity.costCommission} ",
+                buttonText: "اسناد المهمة", onPressed: () {
+              _payToAssignTask(
                 context: context,
                 lawyerId: applicants[index].id,
-                value: value,
+                value: valueOfferedByAppliedLawyer,
               );
             });
           },
@@ -56,7 +59,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
   }
 
   /// to assign a task to a lawyer
-  void _assignTask({
+  void _payToAssignTask({
     required BuildContext context,
     required int lawyerId,
     required double value,
@@ -64,7 +67,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
     // user token
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    assignTaskCubit.assignTask(
+    assignTaskCubit.payToAssignTask(
       userId: lawyerId,
       taskEntity: taskEntity,
       value: value,

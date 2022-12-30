@@ -16,7 +16,7 @@ class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
   PaymentAssignTaskCubit() : super(PaymentToAssignTaskInitial());
 
   /// to assignTask
-  void assignTask({
+  void payToAssignTask({
     required int userId,
     required TaskEntity taskEntity,
     required double value,
@@ -32,11 +32,11 @@ class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
     final params = PayForTaskParams(
       payForTaskModel: PayForTaskModel(
         missionType: "task",
-        userId: userId,
+        lawyerId: userId,
         taskId: taskEntity.id,
-        name: taskEntity.title,
+        title: taskEntity.title,
         description: taskEntity.description,
-        value: value.toString(),
+        value: value,
       ),
       userToken: token,
     );

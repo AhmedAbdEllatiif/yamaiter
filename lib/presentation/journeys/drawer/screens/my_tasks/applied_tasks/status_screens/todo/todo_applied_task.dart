@@ -15,6 +15,7 @@ import '../../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../../domain/entities/screen_arguments/edit_task_args.dart';
 import '../../../../../../../../domain/entities/screen_arguments/single_task_details_params.dart';
 import '../../../../../../../../router/route_helper.dart';
+import '../../../../../../../logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../../../../../../../logic/cubit/update_task/update_task_cubit.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
@@ -50,7 +51,9 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
 
   /// DeleteTaskCubit
   late final DeleteTaskCubit _deleteTaskCubit;
-  late final PaymentAssignTaskCubit _assignTaskCubit;
+
+  /// CheckPaymentStatusCubit
+  late final CheckPaymentStatusCubit _checkPaymentStatusCubit;
 
   @override
   void initState() {
@@ -59,7 +62,7 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
     _getAppliedTaskCubit = getItInstance<GetAppliedTasksCubit>();
     _updateTaskCubit = getItInstance<UpdateTaskCubit>();
     _deleteTaskCubit = getItInstance<DeleteTaskCubit>();
-    _assignTaskCubit = widget.assignTaskCubit;
+    _checkPaymentStatusCubit = getItInstance<CheckPaymentStatusCubit>();
 
     _fetchAppliedTaskList();
     _listenerOnScrollController();
@@ -70,6 +73,7 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
     _controller.dispose();
     _getAppliedTaskCubit.close();
     _updateTaskCubit.close();
+    _checkPaymentStatusCubit.close();
     super.dispose();
   }
 
@@ -81,18 +85,19 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
           BlocProvider(create: (context) => _getAppliedTaskCubit),
           BlocProvider(create: (context) => _updateTaskCubit),
           BlocProvider(create: (context) => _deleteTaskCubit),
+          BlocProvider(create: (context) => _checkPaymentStatusCubit),
         ],
         child: MultiBlocListener(
           listeners: [
-            /// assign task listener
-            BlocListener<PaymentAssignTaskCubit, PaymentToAssignTaskState>(
-                bloc: _assignTaskCubit,
-                listener: (context, state) {
-                  if (state is PaymentLinkToAssignTaskFetched) {
-                    taskList.clear();
-                    _fetchAppliedTaskList();
-                  }
-                }),
+            /// CheckPaymentStatus listener
+            BlocListener<CheckPaymentStatusCubit, CheckPaymentStatusState>(
+                listener: (_, state) {
+              //==> accepted successfully
+              if (state is PaymentSuccess) {
+                taskList.clear();
+                _fetchAppliedTaskList();
+              }
+            }),
 
             /// update task listener
             BlocListener<UpdateTaskCubit, UpdateTaskState>(
@@ -260,7 +265,7 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
       context,
       editTaskArguments: SingleTaskArguments(
         taskEntity: taskEntity,
-        assignTaskCubit: _assignTaskCubit,
+        checkPaymentStatusCubit: _checkPaymentStatusCubit,
         updateTaskCubit: _updateTaskCubit,
         deleteTaskCubit: _deleteTaskCubit,
       ),

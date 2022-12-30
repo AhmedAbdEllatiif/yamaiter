@@ -14,7 +14,8 @@ class TaskEntity extends Equatable {
   final String status;
   final String file;
   final int applicantsCount;
-  final List<UserLawyerModel> assignedLawyers;
+
+  //final List<UserLawyerModel> assignedLawyers;
   final List<UserLawyerModel> applicantLawyers;
   final List<UserLawyerModel> recommenderLawyers;
 
@@ -35,6 +36,7 @@ class TaskEntity extends Equatable {
 
   /// recommender lawyer
   late final UserLawyerModel recommenderLawyer;
+  late final UserLawyerModel assignedLawyer;
 
   factory TaskEntity.empty() {
     return TaskEntity(
@@ -71,9 +73,10 @@ class TaskEntity extends Equatable {
     required this.costCommission,
     required this.refundCommission,
     required this.applicantsCount,
-    required this.assignedLawyers,
+    //required this.assignedLawyers,
     required this.applicantLawyers,
     required this.recommenderLawyers,
+    required List<UserLawyerModel> assignedLawyers,
     required UserLawyerModel lawyerModel,
     required final DateTime? taskStartingDate,
     required final DateTime? taskCreatedAt,
@@ -121,6 +124,15 @@ class TaskEntity extends Equatable {
     /// init recommender lawyer
     if (recommenderLawyers.isNotEmpty) {
       recommenderLawyer = recommenderLawyers[0];
+    } else {
+      recommenderLawyer = UserLawyerModel.empty();
+    }
+
+    /// init assigned lawyer
+    if (assignedLawyers.isNotEmpty) {
+      assignedLawyer = assignedLawyers[0];
+    } else {
+      assignedLawyer = UserLawyerModel.empty();
     }
   }
 
