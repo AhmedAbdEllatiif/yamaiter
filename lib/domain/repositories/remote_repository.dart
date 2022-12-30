@@ -34,6 +34,7 @@ import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
@@ -276,4 +277,7 @@ abstract class RemoteRepository {
   /// check payment status
   Future<Either<AppError, SuccessModel>> checkForPaymentStatus(
       CheckPaymentStatusParams params);
+
+  /// check payment status
+  Future<Either<AppError, SuccessModel>> refundPayment(RefundParams params);
 }

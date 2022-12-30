@@ -79,7 +79,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
-import '../domain/use_cases/check_paymet_status.dart';
+import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
 import '../domain/use_cases/client/consultations/get_my_consultations.dart';
@@ -95,6 +95,7 @@ import '../domain/use_cases/invited_tasks.dart';
 import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
 import '../domain/use_cases/my_tasks/invite_to_task.dart';
+import '../domain/use_cases/payment/refund_payment.dart';
 import '../domain/use_cases/search_for_lawyers.dart';
 import '../domain/use_cases/sos/create_sos.dart';
 import '../domain/use_cases/article/delete_article.dart';
@@ -114,6 +115,7 @@ import '../presentation/logic/client_cubit/get_consultation_details/get_consulta
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../presentation/logic/client_cubit/update_task/update_task_client_cubit.dart';
 import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
+import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
@@ -427,6 +429,11 @@ Future init() async {
   //==> CheckPaymentStatusCubit
   getItInstance.registerFactory<CheckPaymentStatusCubit>(
     () => CheckPaymentStatusCubit(),
+  );
+
+  //RefundPaymentCubit
+  getItInstance.registerFactory<RefundPaymentCubit>(
+    () => RefundPaymentCubit(),
   );
 
   //==> AutoLoginCubit
@@ -752,5 +759,10 @@ Future init() async {
   //==> CheckPaymentStatusCase
   getItInstance.registerFactory<CheckPaymentStatusCase>(
     () => CheckPaymentStatusCase(remoteRepository: getItInstance()),
+  );
+
+  //==> RefundPaymentCase
+  getItInstance.registerFactory<RefundPaymentCase>(
+    () => RefundPaymentCase(remoteRepository: getItInstance()),
   );
 }

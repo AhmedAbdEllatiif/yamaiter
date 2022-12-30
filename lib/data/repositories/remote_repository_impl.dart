@@ -76,6 +76,7 @@ import '../params/client/get_single_task_params_client.dart';
 import '../params/client/update_task_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
+import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
 import '../params/update_task_params.dart';
 
@@ -1280,7 +1281,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-  ///============================>  Common <============================\\\\
+  ///===========================>  Payment <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -1293,6 +1294,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
     try {
       // send request
       final result = await remoteDataSource.getPaymentStatus(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// refundPayment
+  @override
+  Future<Either<AppError, SuccessModel>> refundPayment(
+      RefundParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.refundPayment(params);
 
       // received success
       if (result is SuccessModel) {

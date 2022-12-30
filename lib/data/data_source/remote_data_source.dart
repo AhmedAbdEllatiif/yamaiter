@@ -85,6 +85,7 @@ import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
@@ -101,6 +102,7 @@ import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/client/update_task_client.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/pay_for_tax.dart';
+import '../api/requests/post_requests/payment/refund_request.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../api/requests/post_requests/update_sos.dart';
 import '../models/accept_terms/accept_terms_response_model.dart';
@@ -291,8 +293,17 @@ abstract class RemoteDataSource {
   /// filter tasks
   Future<dynamic> filterTasks(FilterTasksParams params);
 
+  ///===========================>  Payment <============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
   /// check payment status tasks
   Future<dynamic> getPaymentStatus(CheckPaymentStatusParams params);
+
+  /// refund
+  Future<dynamic> refundPayment(RefundParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -2391,6 +2402,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// getPaymentStatus
   @override
   Future getPaymentStatus(CheckPaymentStatusParams params) async {
     try {
@@ -2444,6 +2456,62 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getPaymentStatus >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "getPaymentStatus UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future refundPayment(RefundParams params) async {
+    try {
+      log("getPaymentStatus >> Start request");
+      // init request
+      final request = RefundRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("refundPayment >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("refundPayment >> ResponseBody: ${json.decode(response.body)}");
+          return SuccessModel();
+        // // notAPaymentProcess
+        // case 403:
+        //   log("refundPayment >> ResponseBody: ${json.decode(response.body)}");
+        //   return AppError(AppErrorType.notAPaymentProcess,
+        //       message:
+        //           "refundPayment Status Code >> ${response.statusCode}");
+        // // payment Failed
+        // case 422:
+        //   log("refundPayment >> ResponseBody: ${response.body}");
+        //   return AppError(AppErrorType.paymentFailed,
+        //       message:
+        //           "refundPayment Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          log("refundPayment >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message:
+                  "refundPayment Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          log("refundPayment >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "refundPayment Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("refundPayment >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "refundPayment Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("refundPayment >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "refundPayment UnHandledError >> $e");
     }
   }
 }
