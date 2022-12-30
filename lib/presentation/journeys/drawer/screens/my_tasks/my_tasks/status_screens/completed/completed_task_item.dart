@@ -120,9 +120,9 @@ class CompletedTaskItem extends StatelessWidget {
 
                       /// lawyer img
                       ImageNameRatingWidget(
-                        imgUrl: taskEntity.creatorImage,
-                        name: taskEntity.creatorName,
-                        rating: taskEntity.creatorRating.toDouble(),
+                        imgUrl: taskEntity.assignedLawyer.idPhoto,
+                        name: taskEntity.assignedLawyer.firstName,
+                        rating: taskEntity.assignedLawyer.rating.toDouble(),
                         nameColor: AppColor.primaryDarkColor,
                         ratedColor: AppColor.accentColor,
                         unRatedColor: AppColor.primaryColor,
