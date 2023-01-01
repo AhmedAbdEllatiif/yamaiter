@@ -9,11 +9,10 @@ List<TaskModel> listOfTasksFromJson(String str) {
 
   if (json.decode(str)["tasks"] != null) {
     json.decode(str)["tasks"].forEach((v) {
-
       taskList.add(
         TaskModel.fromJson(
           taskJson: v,
-          feesJson: const {},
+          feesJson: json.decode(str)["fees"] ?? {},
         ),
       );
     });

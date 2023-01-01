@@ -14,6 +14,10 @@ part 'refund_payment_state.dart';
 class RefundPaymentCubit extends Cubit<RefundPaymentState> {
   RefundPaymentCubit() : super(RefundPaymentInitial());
 
+  void reset() {
+    emit(RefundPaymentInitial());
+  }
+
   /// to refundPayment
   void refundPayment(
       {required PaymentMissionType missionType,

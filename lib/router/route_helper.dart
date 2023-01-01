@@ -20,6 +20,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.d
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/refund_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
@@ -488,6 +489,13 @@ class RouteHelper {
       {required PaymentArguments paymentArguments}) {
     return Navigator.of(context)
         .pushNamed(RouteList.payment, arguments: paymentArguments);
+  }
+
+  /// To refund screen \\\
+  Future refundScreen(BuildContext context,
+      {required RefundArguments refundArguments}) {
+    return Navigator.of(context)
+        .pushNamed(RouteList.refundPayment, arguments: refundArguments);
   }
 
   /// To contact us screen \\\

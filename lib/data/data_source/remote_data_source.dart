@@ -2462,13 +2462,13 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future refundPayment(RefundParams params) async {
     try {
-      log("getPaymentStatus >> Start request");
+      log("refundPayment >> Start request");
       // init request
       final request = RefundRequest();
 
       // response
       final response = await request(params, params.userToken);
-
+      log("refundPayment >> MissionId: ${params.model.missionId},MissionType: ${params.model.missionType}");
       log("refundPayment >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
@@ -2492,14 +2492,12 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         case 404:
           log("refundPayment >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.notFound,
-              message:
-                  "refundPayment Status Code >> ${response.statusCode}");
+              message: "refundPayment Status Code >> ${response.statusCode}");
         // unAuthorized
         case 401:
           log("refundPayment >> ResponseBody: ${response.body}");
           return AppError(AppErrorType.unauthorizedUser,
-              message:
-                  "refundPayment Status Code >> ${response.statusCode}");
+              message: "refundPayment Status Code >> ${response.statusCode}");
 
         // default
         default:

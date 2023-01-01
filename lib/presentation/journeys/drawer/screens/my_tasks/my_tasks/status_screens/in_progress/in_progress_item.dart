@@ -14,10 +14,12 @@ import '../../../../../../../widgets/text_with_icon.dart';
 
 class InProgressTaskItem extends StatefulWidget {
   final TaskEntity taskEntity;
+  final Function() onDeletePressed;
 
   const InProgressTaskItem({
     Key? key,
     required this.taskEntity,
+    required this.onDeletePressed,
   }) : super(key: key);
 
   @override
@@ -170,7 +172,7 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
                   top: Sizes.dimen_10.w,
                   left: Sizes.dimen_6.w,
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: widget.onDeletePressed,
                     child: Icon(
                       Icons.clear,
                       size: Sizes.dimen_20.w,

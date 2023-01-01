@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yamaiter/common/enum/payment_mission_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/refund_args.dart';
+import 'package:yamaiter/presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
@@ -36,11 +39,15 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
   /// GetMyTasksCubit
   late final GetMyTasksCubit _getMyTasksCubit;
 
+  /// RefundPaymentCubit
+  late final RefundPaymentCubit _refundPaymentCubit;
+
   @override
   void initState() {
     super.initState();
     _controller = ScrollController();
     _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
+    _refundPaymentCubit = getItInstance<RefundPaymentCubit>();
     _fetchInProgressTasksList();
     _listenerOnScrollController();
   }
@@ -49,6 +56,7 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
   void dispose() {
     _controller.dispose();
     _getMyTasksCubit.close();
+    _refundPaymentCubit.close();
     super.dispose();
   }
 
@@ -58,107 +66,122 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _getMyTasksCubit),
+        BlocProvider(create: (context) => _refundPaymentCubit),
       ],
-      child: BlocConsumer<GetMyTasksCubit, GetMyTasksState>(
-        listener: (_, state) {
-          //==> MyTasksListFetchedSuccessfully
-          if (state is MyTasksListFetchedSuccessfully) {
-            taskList.addAll(state.taskEntityList);
-          }
-          //==> lastPageFetched
-          if (state is LastPageMyTasksListFetched) {
-            taskList.addAll(state.taskEntityList);
+      child: BlocListener<RefundPaymentCubit, RefundPaymentState>(
+        listener: (context, state) {
+          if (state is RefundSuccess) {
+            taskList.clear();
+            _fetchInProgressTasksList();
           }
         },
-        builder: (context, state) {
-          //==> loading
-          if (state is LoadingGetMyTasksList) {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          }
+        child: BlocConsumer<GetMyTasksCubit, GetMyTasksState>(
+          listener: (_, state) {
+            //==> MyTasksListFetchedSuccessfully
+            if (state is MyTasksListFetchedSuccessfully) {
+              taskList.addAll(state.taskEntityList);
+            }
+            //==> lastPageFetched
+            if (state is LastPageMyTasksListFetched) {
+              taskList.addAll(state.taskEntityList);
+            }
+          },
+          builder: (context, state) {
+            //==> loading
+            if (state is LoadingGetMyTasksList) {
+              return const Center(
+                child: LoadingWidget(),
+              );
+            }
 
-          //==> unAuthorized
-          if (state is UnAuthorizedGetMyTasksList) {
-            return Center(
-              child: AppErrorWidget(
-                appTypeError: AppErrorType.unauthorizedUser,
-                buttonText: "تسجيل الدخول",
-                onPressedRetry: () => _navigateToLogin(),
-              ),
-            );
-          }
+            //==> unAuthorized
+            if (state is UnAuthorizedGetMyTasksList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.unauthorizedUser,
+                  buttonText: "تسجيل الدخول",
+                  onPressedRetry: () => _navigateToLogin(),
+                ),
+              );
+            }
 
-          //==> notActivatedUser
-          if (state is NotActivatedUserToGetMyTasksList) {
-            return Center(
-              child: AppErrorWidget(
-                appTypeError: AppErrorType.notActivatedUser,
-                buttonText: "تواصل معنا",
-                onPressedRetry: () => _navigateToContactUs(),
-              ),
-            );
-          }
+            //==> notActivatedUser
+            if (state is NotActivatedUserToGetMyTasksList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.notActivatedUser,
+                  buttonText: "تواصل معنا",
+                  onPressedRetry: () => _navigateToContactUs(),
+                ),
+              );
+            }
 
-          //==> notActivatedUser
-          if (state is ErrorWhileGettingMyTasksList) {
-            return Center(
-              child: AppErrorWidget(
-                appTypeError: state.appError.appErrorType,
-                onPressedRetry: () => _fetchInProgressTasksList(),
-              ),
-            );
-          }
+            //==> notActivatedUser
+            if (state is ErrorWhileGettingMyTasksList) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: state.appError.appErrorType,
+                  onPressedRetry: () => _fetchInProgressTasksList(),
+                ),
+              );
+            }
 
-          //==> empty
-          if (state is EmptyMyTasksList) {
-            return Center(
-              child: Text(
-                "ليس لديك مهمات قيد التنفيذ",
-                style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                      color: AppColor.primaryDarkColor,
-                    ),
-              ),
-            );
-          }
+            //==> empty
+            if (state is EmptyMyTasksList) {
+              return Center(
+                child: Text(
+                  "ليس لديك مهمات قيد التنفيذ",
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        color: AppColor.primaryDarkColor,
+                      ),
+                ),
+              );
+            }
 
-          return AppRefreshIndicator(
-            onRefresh: () async {
-              taskList.clear();
-              _fetchInProgressTasksList();
-            },
-            child: ListView.separated(
-              controller: _controller,
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-
-              // count
-              itemCount: taskList.length + 1,
-
-              // separatorBuilder
-              separatorBuilder: (BuildContext context, int index) {
-                return SizedBox(
-                  height: Sizes.dimen_10.h,
-                );
+            return AppRefreshIndicator(
+              onRefresh: () async {
+                taskList.clear();
+                _fetchInProgressTasksList();
               },
+              child: ListView.separated(
+                controller: _controller,
+                shrinkWrap: true,
+                physics: const BouncingScrollPhysics(),
 
-              // itemBuilder
-              itemBuilder: (BuildContext context, int index) {
-                /// TaskItem
-                if (index < taskList.length) {
-                  return InProgressTaskItem(
-                    taskEntity: taskList[index],
+                // count
+                itemCount: taskList.length + 1,
+
+                // separatorBuilder
+                separatorBuilder: (BuildContext context, int index) {
+                  return SizedBox(
+                    height: Sizes.dimen_10.h,
                   );
-                }
+                },
 
-                /// loading or end of list
-                return LoadingMoreMyTasksWidget(
-                  myTasksCubit: _getMyTasksCubit,
-                );
-              },
-            ),
-          );
-        },
+                // itemBuilder
+                itemBuilder: (BuildContext context, int index) {
+                  /// TaskItem
+                  if (index < taskList.length) {
+                    return InProgressTaskItem(
+                      taskEntity: taskList[index],
+                      onDeletePressed: () {
+                        _navigateToRefundScreen(
+                          taskId: taskList[index].id,
+                          refundFees: taskList[index].refundCommission,
+                        );
+                      },
+                    );
+                  }
+
+                  /// loading or end of list
+                  return LoadingMoreMyTasksWidget(
+                    myTasksCubit: _getMyTasksCubit,
+                  );
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -193,6 +216,30 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
         }
       }
     });
+  }
+
+  /// to navigate to refund screen
+  void _navigateToRefundScreen({
+    required int taskId,
+    required String refundFees,
+  }) {
+
+    // to reset before start new refund
+    _refundPaymentCubit.reset();
+
+    // init args
+    final refundArguments = RefundArguments(
+      refundPaymentCubit: _refundPaymentCubit,
+      paymentMissionType: PaymentMissionType.task,
+      missionId: taskId,
+      refundFees: refundFees,
+    );
+
+    // navigate
+    RouteHelper().refundScreen(
+      context,
+      refundArguments: refundArguments,
+    );
   }
 
   @override
