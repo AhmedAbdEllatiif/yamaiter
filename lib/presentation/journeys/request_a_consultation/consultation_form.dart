@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -24,13 +25,15 @@ import '../reigster_lawyer/upload_id_image.dart';
 
 class ConsultationForm extends StatefulWidget {
   final bool withWithCard;
-  final Function() onSuccess;
+  final Function(PayEntity) onSuccess;
   final CreateConsultationCubit? createConsultationCubit;
+  final double consultFees;
 
   const ConsultationForm({
     Key? key,
-    this.withWithCard = true,
+    required this.consultFees,
     required this.onSuccess,
+    this.withWithCard = true,
     this.createConsultationCubit,
   }) : super(key: key);
 
@@ -106,7 +109,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
 
               //==> on success navigate to my sos screen
               if (state is ConsultationCreatedSuccessfully) {
-                _navigateToMyConsultationsScreen();
+                _onSuccess(state.payEntity);
               }
             },
           )
@@ -217,18 +220,53 @@ class _ConsultationFormState extends State<ConsultationForm> {
 
           Padding(
             padding: EdgeInsets.only(top: Sizes.dimen_5.h),
-            child: Text(
-              "حتي تحصل على الخدمة بصورة صحيحة برجاء إرفاق المستندات الخاصة بطلبك حتى يتمكن فريقنا من الرد على استفسارك بصورة مهنية. \n"
-                  "قيمة الاستشارة 250 جنيه",
-              style: Theme.of(context).textTheme.caption!.copyWith(
-                height: 1.5,
-                fontWeight: FontWeight.bold,
-                fontSize: Sizes.dimen_10.sp,
-                color: widget.withWithCard
-                    ? AppColor.primaryDarkColor
-                    : AppColor.white,
+            child: Text.rich(TextSpan(children: [
+              TextSpan(
+                text:
+                    "حتي تحصل على الخدمة بصورة صحيحة برجاء إرفاق المستندات الخاصة بطلبك حتى يتمكن فريقنا من الرد على استفسارك بصورة مهنية. \n",
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      height: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Sizes.dimen_10.sp,
+                      color: widget.withWithCard
+                          ? AppColor.primaryDarkColor
+                          : AppColor.white,
+                    ),
               ),
-            ),
+              TextSpan(
+                text: "قيمة الاستشارة ",
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      height: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Sizes.dimen_10.sp,
+                      color: widget.withWithCard
+                          ? AppColor.primaryDarkColor
+                          : AppColor.white,
+                    ),
+              ),
+              TextSpan(
+                text: widget.consultFees.toString(),
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      height: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Sizes.dimen_14.sp,
+                      color: widget.withWithCard
+                          ? AppColor.primaryDarkColor
+                          : AppColor.white,
+                    ),
+              ),
+              TextSpan(
+                text: " جنيه",
+                style: Theme.of(context).textTheme.caption!.copyWith(
+                      height: 1.5,
+                      fontWeight: FontWeight.bold,
+                      fontSize: Sizes.dimen_10.sp,
+                      color: widget.withWithCard
+                          ? AppColor.primaryDarkColor
+                          : AppColor.white,
+                    ),
+              ),
+            ])),
           ),
 
           //==> space
@@ -271,9 +309,10 @@ class _ConsultationFormState extends State<ConsultationForm> {
     final description = descriptionController.value.text;
 
     // send create sos request
-    _createConsultationCubit.sendConsultation(
+    _createConsultationCubit.payForConsult(
       title: title,
       description: description,
+      consultFees: widget.consultFees,
       imagePaths: _imagesPicked,
       token: userToken,
     );
@@ -301,8 +340,8 @@ class _ConsultationFormState extends State<ConsultationForm> {
   }
 
   /// to navigate to my Consultations screen
-  void _navigateToMyConsultationsScreen() {
-    widget.onSuccess();
+  void _onSuccess(PayEntity payEntity) {
+    widget.onSuccess(payEntity);
   }
 
   /// navigate to login

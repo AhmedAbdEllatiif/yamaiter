@@ -171,14 +171,14 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// createConsultation
   @override
-  Future<Either<AppError, SuccessModel>> createConsultation(
-      CreateConsultationParams params) async {
+  Future<Either<AppError, PayEntity>> createConsultation(
+      PayForConsultationParams params) async {
     try {
       // send request
       final result = await remoteDataSource.createConsultation(params);
 
       // success
-      if (result is SuccessModel) {
+      if (result is PayResponseModel) {
         return Right(result);
       }
 

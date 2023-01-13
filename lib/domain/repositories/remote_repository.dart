@@ -82,8 +82,8 @@ abstract class RemoteRepository {
       GetMyConsultationParams params);
 
   /// create consultation
-  Future<Either<AppError, SuccessModel>> createConsultation(
-      CreateConsultationParams params);
+  Future<Either<AppError, PayEntity>> createConsultation(
+      PayForConsultationParams params);
 
   /// getConsultationDetails
   Future<Either<AppError, ConsultationEntity>> getConsultationDetails(

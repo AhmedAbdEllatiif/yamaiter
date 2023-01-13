@@ -23,7 +23,14 @@ class NotActivatedUserToCreateConsultation extends CreateConsultationState {}
 class UnAuthorizedCreateConsultation extends CreateConsultationState {}
 
 /// success
-class ConsultationCreatedSuccessfully extends CreateConsultationState {}
+class ConsultationCreatedSuccessfully extends CreateConsultationState {
+  final PayEntity payEntity;
+
+  const ConsultationCreatedSuccessfully({required this.payEntity});
+
+  @override
+  List<Object> get props => [payEntity];
+}
 
 /// error
 class ErrorWhileCreatingConsultation extends CreateConsultationState {

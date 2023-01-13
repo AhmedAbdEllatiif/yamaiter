@@ -47,7 +47,7 @@ class PayResponseModel extends PayEntity {
 
         // missionIdModel
         missionIdModel: json["data"] != null
-            ? int.parse(json["data"]["mission_id"]) ?? -1
+            ? json["data"]["mission_id"] ?? -1
             : -1,
       );
 }

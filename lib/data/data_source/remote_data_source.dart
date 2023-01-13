@@ -27,7 +27,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
-import 'package:yamaiter/data/api/requests/post_requests/client/create_consultation.dart';
+import 'package:yamaiter/data/api/requests/post_requests/client/pay_for_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/lawyers.dart';
@@ -138,7 +138,7 @@ abstract class RemoteDataSource {
   Future<dynamic> getMyConsultations(GetMyConsultationParams params);
 
   /// createConsultation
-  Future<dynamic> createConsultation(CreateConsultationParams params);
+  Future<dynamic> createConsultation(PayForConsultationParams params);
 
   /// getConsultationDetails
   Future<dynamic> getConsultationDetails(GetConsultationDetailsParams params);
@@ -460,40 +460,41 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// createConsultation
   @override
-  Future<dynamic> createConsultation(CreateConsultationParams params) async {
+  Future<dynamic> createConsultation(PayForConsultationParams params) async {
+    // init request
+    final createConsultationRequest = PayForConsultationRequest();
+    final request = await createConsultationRequest(params);
+
+    // send a request
+    final streamResponse = await request.send();
+
+    // retrieve a response from stream response
+    final response = await http.Response.fromStream(streamResponse);
+    log("createConsultation >> ResponseCode: ${response.statusCode}");
+    log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return payResponseFromJson(response.body);
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message:
+            "createConsultation Status Code >> ${response.statusCode}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message:
+            "createConsultation Status Code >> ${response.statusCode}");
+    // default
+      default:
+        log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "createConsultation Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
     try {
-      // init request
-      final createConsultationRequest = CreateConsultationRequest();
-      final request = await createConsultationRequest(params);
 
-      // send a request
-      final streamResponse = await request.send();
-
-      // retrieve a response from stream response
-      final response = await http.Response.fromStream(streamResponse);
-      log("createConsultation >> ResponseCode: ${response.statusCode}");
-      log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return SuccessModel();
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message:
-                  "createConsultation Status Code >> ${response.statusCode}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message:
-                  "createConsultation Status Code >> ${response.statusCode}");
-        // default
-        default:
-          log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "createConsultation Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
     } catch (e) {
       log("createConsultation >> Error: $e");
       return AppError(AppErrorType.unHandledError,

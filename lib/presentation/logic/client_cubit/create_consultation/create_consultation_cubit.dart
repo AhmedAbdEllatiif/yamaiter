@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/common/enum/payment_mission_type.dart';
+import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/models/consultations/create_consultation_request_model.dart';
@@ -14,8 +16,9 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
   CreateConsultationCubit() : super(CreateConsultationInitial());
 
   /// to create Consultation
-  void sendConsultation({
+  void payForConsult({
     required String title,
+    required double consultFees,
     required String description,
     required List<String> imagePaths,
     required String token,
@@ -27,8 +30,10 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
     final useCase = getItInstance<CreateConsultationCase>();
 
     //==> init params
-    final params = CreateConsultationParams(
+    final params = PayForConsultationParams(
       requestModel: CreateConsultationRequestModel(
+        paymentMissionType: PaymentMissionType.consultation,
+        consultFees: consultFees,
         title: title,
         description: description,
         imageList: imagePaths,
@@ -42,8 +47,10 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
     //==> receive result
     either.fold(
       (appError) => _emitError(appError),
-      (success) => _emitIfNotClosed(
-        ConsultationCreatedSuccessfully(),
+      (payEntity) => _emitIfNotClosed(
+        ConsultationCreatedSuccessfully(
+          payEntity: payEntity,
+        ),
       ),
     );
   }

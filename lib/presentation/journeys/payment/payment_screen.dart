@@ -32,12 +32,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onProgress: (int progress) {
             // Update loading bar.
           },
-          onPageStarted: (String url) {
-
-          },
+          onPageStarted: (String url) {},
           onPageFinished: (String url) {},
-          onWebResourceError: (WebResourceError error) {
-          },
+          onWebResourceError: (WebResourceError error) {},
           onNavigationRequest: (NavigationRequest request) {
             if (request.url.startsWith('https://www.youtube.com/')) {
               return NavigationDecision.prevent;
@@ -45,10 +42,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
             return NavigationDecision.navigate;
           },
         ),
-      )
-      ..loadRequest(Uri.dataFromString(
+      );
+    try{
+      controller.loadRequest(Uri.dataFromString(
           '<html><body><iframe src="${widget.paymentArguments.link}" " height=\'100%\' width=\'100%\' "></iframe></body></html>',
           mimeType: 'text/html'));
+    }catch (e){
+      print("Error: $e");
+    }
+
   }
 
   @override

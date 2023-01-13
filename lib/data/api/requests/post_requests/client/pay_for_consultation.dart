@@ -1,19 +1,22 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:yamaiter/common/enum/payment_mission_type.dart';
 import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 
-class CreateConsultationRequest
-    extends MultiPartPostRequest<CreateConsultationParams> {
+class PayForConsultationRequest
+    extends MultiPartPostRequest<PayForConsultationParams> {
   @override
-  Future<http.MultipartRequest> call(CreateConsultationParams params) async {
+  Future<http.MultipartRequest> call(PayForConsultationParams params) async {
     var request = initMultiPartPostRequest(
-        requestType: RequestType.createConsultation, token: params.token);
+        requestType: RequestType.payForConsultation, token: params.token);
 
-    request.fields["type"] = params.requestModel.title;
+    request.fields["mission_type"] = params.requestModel.paymentMissionType.toShortString();
+    request.fields["amount_cents"] = params.requestModel.consultFees.toString();
+    request.fields["name"] = params.requestModel.title;
     request.fields["description"] = params.requestModel.description;
 
     // create MultipartFile to add to files with request
@@ -35,7 +38,7 @@ class CreateConsultationRequest
     // to be uploaded
     for (var element in paths) {
       final imageToUpload = http.MultipartFile.fromBytes(
-        "con_files[]", // field name
+        "consultation_files[]", // field name
         File(element).readAsBytesSync(),
         filename: element,
       );

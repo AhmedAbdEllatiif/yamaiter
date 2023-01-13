@@ -23,9 +23,9 @@ class ApiConstants {
   static Uri _consultationDetails(String id) =>
       Uri.https(_baseUrl, "${EndPoints.consultationDetails}/$id");
 
-  /// _createConsultation
-  static Uri _createConsultation() =>
-      Uri.https(_baseUrl, EndPoints.createConsultation);
+  /// _payForConsultation
+  static Uri _payForConsultation() =>
+      Uri.https(_baseUrl, EndPoints.payForConsultation);
 
   /// _myTasksClient
   static Uri _myTasksClient({required Map<String, dynamic> queryParams}) =>
@@ -218,9 +218,9 @@ class ApiConstants {
       // myConsultations
       case RequestType.myConsultations:
         return _myConsultations(queryParams: queryParams);
-      // createTaskClient
-      case RequestType.createConsultation:
-        return _createConsultation();
+      // payForConsultation
+      case RequestType.payForConsultation:
+        return _payForConsultation();
       // myTasksClient
       case RequestType.myTasksClient:
         return _myTasksClient(queryParams: queryParams);
@@ -385,7 +385,7 @@ class EndPoints {
   static String myConsultations = "${_apiVersion}consultations";
 
   /// create consultation
-  static String createConsultation = "${_apiVersion}consultations";
+  static String payForConsultation = "${_apiVersion}pay";
 
   /// create tasks client
   static String myTasksClient = "${_apiVersion}client-posted-tasks";
@@ -535,7 +535,7 @@ enum RequestType {
   registerClient,
   createTaskClient,
   myConsultations,
-  createConsultation,
+  payForConsultation,
   myTasksClient,
   singleTaskClient,
   endTaskClient,
