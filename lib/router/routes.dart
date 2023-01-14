@@ -28,6 +28,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_arg
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
+import 'package:yamaiter/presentation/journeys/chat/chat_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
@@ -366,5 +367,8 @@ class Routes {
         RouteList.refundPayment: (context) => RefundScreen(
               refundArguments: settings.arguments as RefundArguments,
             ),
+
+    /// RefundScreen
+        RouteList.chat: (context) => ChatScreen(),
       };
 }

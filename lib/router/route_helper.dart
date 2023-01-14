@@ -498,6 +498,12 @@ class RouteHelper {
         .pushNamed(RouteList.refundPayment, arguments: refundArguments);
   }
 
+  /// To chat screen \\\
+  Future chatScreen(BuildContext context,) {
+    return Navigator.of(context)
+        .pushNamed(RouteList.chat);
+  }
+
   /// To contact us screen \\\
   void contactUsScreen(
     BuildContext context,

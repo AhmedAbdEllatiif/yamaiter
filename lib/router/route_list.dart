@@ -60,5 +60,6 @@ class RouteList {
   static const String consultationDetails = "/consultationDetails";
   static const String payment = "/payment";
   static const String refundPayment = "/refundPayment";
+  static const String chat = "/chat";
 
 }

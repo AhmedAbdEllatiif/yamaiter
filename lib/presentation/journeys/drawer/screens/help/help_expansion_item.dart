@@ -10,7 +10,7 @@ class HelpExpansionPanelRadio extends ExpansionPanelRadio {
     required String content,
   }) : super(
           canTapOnHeader: true,
-          hasIcon: false,
+          //hasIcon: false,
 
           /// title
           value: title,

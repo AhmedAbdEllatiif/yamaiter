@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 
 import '../../../common/constants/app_utils.dart';
@@ -82,6 +84,7 @@ class TaskEntity extends Equatable {
     required final DateTime? taskCreatedAt,
     required final DateTime? taskUpdatedAt,
   }) {
+    log("Fees >> costCommission: $costCommission , refundCommission: $refundCommission");
     /// init startingDate
     if (taskStartingDate != null) {
       startingDate =
