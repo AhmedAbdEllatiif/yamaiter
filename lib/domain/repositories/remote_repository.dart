@@ -51,6 +51,7 @@ import '../../data/models/success_model.dart';
 import '../../data/models/tasks/upload_task_params.dart';
 import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
+import '../../data/params/chat_room_by_id_params.dart';
 import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
@@ -63,7 +64,17 @@ import '../../data/params/update_task_params.dart';
 import '../entities/app_error.dart';
 import '../entities/data/article_entity.dart';
 
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
 abstract class RemoteRepository {
+  ///============================>  chat <==============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  Future<Either<AppError, List<types.Message>>> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams);
+
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\

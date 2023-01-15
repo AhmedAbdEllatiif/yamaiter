@@ -3,6 +3,7 @@ import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
@@ -499,9 +500,9 @@ class RouteHelper {
   }
 
   /// To chat screen \\\
-  Future chatScreen(BuildContext context,) {
+  Future chatScreen(BuildContext context,{required ChatRoomArguments chatRoomArguments}) {
     return Navigator.of(context)
-        .pushNamed(RouteList.chat);
+        .pushNamed(RouteList.chat,arguments: chatRoomArguments);
   }
 
   /// To contact us screen \\\

@@ -49,6 +49,7 @@ import 'package:yamaiter/data/models/app_settings_models/side_menu_response_mode
 import 'package:yamaiter/data/models/auth/register_client/register_client_request_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/chats/chat_room_by_id_request_model.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/client/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
@@ -61,6 +62,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_consultation_details.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
@@ -90,6 +92,7 @@ import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/get_requests/chat/get_chat_room.dart';
 import '../api/requests/get_requests/client/get_my_consultations.dart';
 import '../api/requests/get_requests/client/get_single_task_details.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
@@ -110,6 +113,7 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
+import '../models/chats/received_direct_chat_response_model.dart';
 import '../models/consultations/consultation_model.dart';
 import '../models/pay_response_model.dart';
 import '../models/sos/sos_model.dart';
@@ -125,6 +129,13 @@ import '../params/get_taxes_params.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
+  ///=============================>  chat <=============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  Future<dynamic> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams);
+
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -309,6 +320,57 @@ abstract class RemoteDataSource {
 class RemoteDataSourceImpl extends RemoteDataSource {
   RemoteDataSourceImpl();
 
+  ///============================>  Chat <==============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  @override
+  Future<dynamic> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams) async {
+    try {
+      log("createTaskClient >> Start request");
+      // init request
+      final request = GetChatRoom();
+
+      // response
+      final response =
+          await request(chatRoomByIdParams);
+
+      log("getChatRoomById >> ResponseCode: ${response.statusCode}");
+      log("getChatRoomById >> ResponseBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          final ff = receivedDirectChatResponseModelFromJson(response.body);
+          log("Chat >> ${ff.content[0].chatItemMessage}");
+          return ff;
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getChatRoomById body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "getChatRoomById body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getChatRoomById body >> ${response.body}");
+        // default
+        default:
+          log("getChatRoomById >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getChatRoomById body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getChatRoomById >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "createTaskClient UnHandledError >> $e");
+    }
+  }
+
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -473,29 +535,27 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("createConsultation >> ResponseCode: ${response.statusCode}");
     log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return payResponseFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message:
-            "createConsultation Status Code >> ${response.statusCode}");
-    // unAuthorized
+                "createConsultation Status Code >> ${response.statusCode}");
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message:
-            "createConsultation Status Code >> ${response.statusCode}");
-    // default
+                "createConsultation Status Code >> ${response.statusCode}");
+      // default
       default:
         log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "createConsultation Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
-    try {
-
-    } catch (e) {
+    try {} catch (e) {
       log("createConsultation >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "createConsultation UnHandledError >> $e");

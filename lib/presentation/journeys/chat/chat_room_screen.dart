@@ -1,7 +1,9 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 
 import 'package:flutter/services.dart' show rootBundle;
@@ -11,42 +13,90 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:uuid/uuid.dart';
-import 'package:yamaiter/presentation/themes/theme_color.dart';
+import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/presentation/logic/common/chat_room/chat_room_cubit.dart';
+import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
+import '../../../domain/entities/screen_arguments/chat_room_args.dart';
+import '../../logic/cubit/authorized_user/authorized_user_cubit.dart';
+import '../../logic/cubit/user_token/user_token_cubit.dart';
 import 'my_chat_theme.dart';
 
-class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+class ChatRoomScreen extends StatefulWidget {
+  final ChatRoomArguments chatRoomArguments;
+
+  const ChatRoomScreen({super.key, required this.chatRoomArguments});
 
   @override
-  State<ChatScreen> createState() => _ChatScreenState();
+  State<ChatRoomScreen> createState() => _ChatRoomScreenState();
 }
 
-class _ChatScreenState extends State<ChatScreen> {
+class _ChatRoomScreenState extends State<ChatRoomScreen> {
+  /// ChatRoomCubit
+  late final ChatRoomCubit _chatRoomCubit;
+
+  /// _currentUser
+  late final types.User _currentUser;
+
+  /// list of room messages
   List<types.Message> _messages = [];
-  final _user = const types.User(id: '82091008-a484-4a89-ae75-a22bf8d6f3ac',firstName: "Ahmed");
 
   @override
   void initState() {
     super.initState();
+    _initCurrentUser();
+    _chatRoomCubit = getItInstance<ChatRoomCubit>();
     _loadMessages();
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    body: Chat(
-      messages: _messages,
-      onAttachmentPressed: _handleAttachmentPressed,
-      onMessageTap: _handleMessageTap,
-      onPreviewDataFetched: _handlePreviewDataFetched,
-      onSendPressed: _handleSendPressed,
-      showUserAvatars: true,
-      showUserNames: true,
-      user: _user,
-      scrollPhysics: const BouncingScrollPhysics(),
-      theme: MyChatTheme(),
-    ),
-  );
+  void dispose() {
+    _chatRoomCubit.close();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => _chatRoomCubit,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Chat Room"),
+        ),
+        body: BlocConsumer<ChatRoomCubit, ChatRoomState>(
+            listener: (context, state) {
+          if (state is ChatRoomMessageFetched) {
+            _messages = state.messages;
+            // setState(() {
+            //
+            // });
+          }
+        }, builder: (context, state) {
+          if (state is LoadingChatRoomMessages && _messages.isEmpty) {
+            return const Center(
+              child: LoadingWidget(),
+            );
+          }
+          if (state is ChatRoomMessageFetched) {
+            return Chat(
+              messages: state.messages,
+              onAttachmentPressed: _handleAttachmentPressed,
+              onMessageTap: _handleMessageTap,
+              onPreviewDataFetched: _handlePreviewDataFetched,
+              onSendPressed: _handleSendPressed,
+              showUserAvatars: true,
+              showUserNames: true,
+              user: _currentUser,
+              scrollPhysics: const BouncingScrollPhysics(),
+              theme: const MyChatTheme(),
+            );
+          }
+
+          return const SizedBox.shrink();
+        }),
+      ),
+    );
+  }
 
   void _addMessage(types.Message message) {
     setState(() {
@@ -129,7 +179,7 @@ class _ChatScreenState extends State<ChatScreen> {
       final image = await decodeImageFromList(bytes);
 
       final message = types.ImageMessage(
-        author: _user,
+        author: _currentUser,
         createdAt: DateTime.now().millisecondsSinceEpoch,
         height: image.height.toDouble(),
         id: const Uuid().v4(),
@@ -189,9 +239,9 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _handlePreviewDataFetched(
-      types.TextMessage message,
-      types.PreviewData previewData,
-      ) {
+    types.TextMessage message,
+    types.PreviewData previewData,
+  ) {
     final index = _messages.indexWhere((element) => element.id == message.id);
     final updatedMessage = (_messages[index] as types.TextMessage).copyWith(
       previewData: previewData,
@@ -204,7 +254,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: _user,
+      author: _currentUser,
       createdAt: DateTime.now().millisecondsSinceEpoch,
       id: const Uuid().v4(),
       text: message.text,
@@ -214,13 +264,21 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   void _loadMessages() async {
-    final response = await rootBundle.loadString('assets/messages.json');
-    final messages = (jsonDecode(response) as List)
-        .map((e) => types.Message.fromJson(e as Map<String, dynamic>))
-        .toList();
+    // init userToken
+    final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    setState(() {
-      _messages = messages;
-    });
+    // init chat room
+    final chatRoomId = widget.chatRoomArguments.chatRoomId;
+
+    _chatRoomCubit.fetchChatRoomMessages(chatId: chatRoomId, token: userToken);
+  }
+
+  /// to init current user data
+  void _initCurrentUser() {
+    final currentUser = widget.chatRoomArguments.authorizedUserEntity;
+    _currentUser = types.User(
+      id: currentUser.id.toString(),
+      firstName: currentUser.firstName,
+    );
   }
 }

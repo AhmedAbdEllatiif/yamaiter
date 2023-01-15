@@ -9,6 +9,9 @@ class ApiConstants {
     {"offset": 1}
   ]);*/
 
+  static Uri _chatRoomById({required String id}) =>
+      Uri.https(_baseUrl, "${EndPoints.chatRoom}/$id");
+
   ///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
@@ -173,6 +176,8 @@ class ApiConstants {
     Map<String, String> queryParams = const {"": ""},
   }) {
     switch (requestType) {
+      case RequestType.chatRoom:
+        return _chatRoomById(id: id);
 
       ///============================>  Common <============================\\\\
       ///                                                                   \\\\
@@ -371,6 +376,12 @@ class ApiConstants {
 class EndPoints {
   static const String _apiVersion = "/api/";
 
+  ///===============================> Chat <================================\\\\
+
+  /// chatRoom
+  static String chatRoom = "${_apiVersion}chat";
+
+  ///===============================> end of  Chat <========================\\\\
   ///===============================> Client <==============================\\\\
   /// registerClient
   static String registerClient = "${_apiVersion}client-register";
@@ -531,6 +542,9 @@ class EndPoints {
 
 /// The api request type
 enum RequestType {
+  /// ===> chat
+  chatRoom,
+
   /// ===> Client
   registerClient,
   createTaskClient,

@@ -137,4 +137,84 @@ class UserLawyerModel extends LawyerEntity {
             ? json["userable"]["status"] ?? false
             : false,
       );
+
+/*"senderable": {
+                    "id": 3,
+                    "governorates": "cairo",
+                    "court_name": "helwan court",
+                    "id_photo": null,
+                    "description": null,
+                    "profile_image": null,
+                    "rate": 0,
+                    "tasks_count": 0,
+                    "status": true,
+                    "created_at": "2023-01-15T06:05:07.000000Z",
+                    "updated_at": "2023-01-15T06:05:28.000000Z",
+                    "user": {
+                        "id": 3,
+                        "first_name": "user2",
+                        "last_name": "lastName",
+                        "email": "user2@email.com",
+                        "phone": "01227382688",
+                        "accept_terms": 2,
+                        "userable_type": "App\\Models\\Lawyer",
+                        "userable_id": 3,
+                        "device_token": null,
+                        "created_at": "2023-01-15T06:05:08.000000Z",
+                        "updated_at": "2023-01-15T18:46:09.000000Z",
+                        "pusher_channel": "user2@email.com-3"
+                    }
+                }*/
+
+  factory UserLawyerModel.fromJsonSenderable(Map<String, dynamic> json) =>
+      UserLawyerModel(
+        lawyerId: json["id"] ?? -1,
+
+        // lawyerFirstName
+        lawyerFirstName: json["user"] != null
+            ? json["user"]["first_name"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // lawyerLastName
+        lawyerLastName: json["user"] != null
+            ? json["user"]["last_name"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // email
+        lawyerEmail: json["user"] != null
+            ? json["user"]["email"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // phone
+        lawyerPhoneNum: json["user"] != null
+            ? json["user"]['phone'] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        // const of the task
+        costByLawyer: 0,
+
+        // tasks count
+        lawyerTasksCount: json['tasks_count'] ?? 0,
+
+        // rating
+        lawyerRating: json["rate"] ?? 0,
+
+        // governorates
+        lawyerGovernorates: json["governorates"] ?? AppUtils.undefined,
+
+        // courtName
+        lawyerCourtName: json["court_name"] ?? AppUtils.undefined,
+
+        //idPhoto
+        lawyerIdPhoto: json["id_photo"] ?? AppUtils.undefined,
+
+        // description
+        lawyerDescription: json["description"] ?? "لا يوجد نبذة عن المحامى",
+
+        // profileImage
+        lawyerProfileImage: json["profile_image"] ?? AppUtils.undefined,
+
+        // status
+        lawyerStatus: json["status"] ?? false,
+      );
 }

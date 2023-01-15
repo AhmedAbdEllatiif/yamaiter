@@ -28,7 +28,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_arg
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
-import 'package:yamaiter/presentation/journeys/chat/chat_screen.dart';
+import 'package:yamaiter/presentation/journeys/chat/chat_room_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
@@ -71,6 +71,7 @@ import 'package:yamaiter/presentation/journeys/update_task_client/update_task_cl
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
+import '../domain/entities/screen_arguments/chat_room_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../domain/entities/screen_arguments/delete_task_client_args.dart';
 import '../domain/entities/screen_arguments/end_task_client_args.dart';
@@ -369,6 +370,8 @@ class Routes {
             ),
 
     /// RefundScreen
-        RouteList.chat: (context) => ChatScreen(),
+        RouteList.chat: (context) => ChatRoomScreen(
+          chatRoomArguments: settings.arguments as ChatRoomArguments,
+        ),
       };
 }

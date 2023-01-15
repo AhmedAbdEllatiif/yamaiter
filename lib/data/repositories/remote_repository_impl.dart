@@ -13,6 +13,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/chats/received_direct_chat_response_model.dart';
 import 'package:yamaiter/data/models/consultations/consultation_model.dart';
 import 'package:yamaiter/data/models/pay_response_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
@@ -58,11 +59,14 @@ import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
+import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
+
 import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../params/chat_room_by_id_params.dart';
 import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
 import '../params/client/create_task_params.dart';
@@ -86,6 +90,36 @@ class RemoteRepositoryImpl extends RemoteRepository {
   RemoteRepositoryImpl({
     required this.remoteDataSource,
   });
+
+  ///=============================>  chat <=============================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  @override
+  Future<Either<AppError, List<types.Message>>> getChatRoomById(
+      ChatRoomByIdParams chatRoomByIdParams) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getChatRoomById(chatRoomByIdParams);
+
+      // success
+      if (result is ReceivedDirectChatResponseModel) {
+        final List<types.Message> convertedMessages = result.content
+            .map((e) => types.Message.fromJson(e.toMessageJson()))
+            .toList();
+
+        return Right(convertedMessages);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\

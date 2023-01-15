@@ -6,6 +6,7 @@ import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
@@ -116,8 +117,13 @@ class DrawerScreen extends StatelessWidget {
   }
 
   void _navigateChatScreen(BuildContext context) =>
-      RouteHelper().chatScreen(context);
-  
+      RouteHelper().chatScreen(context,
+          chatRoomArguments: ChatRoomArguments(
+            authorizedUserEntity:
+                context.read<AuthorizedUserCubit>().state.userEntity,
+            chatRoomId: 2,
+          ));
+
   void _navigateMyTaxesScreen(BuildContext context) =>
       RouteHelper().myTaxesScreen(context, isReplacement: false);
 

@@ -29,6 +29,7 @@ import 'package:yamaiter/presentation/logic/client_cubit/end_task_client/end_tas
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
 import 'package:yamaiter/presentation/logic/client_cubit/get_single_task/get_single_task_client_cubit.dart';
+import 'package:yamaiter/presentation/logic/common/chat_room/chat_room_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
@@ -79,6 +80,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -436,6 +438,11 @@ Future init() async {
     () => RefundPaymentCubit(),
   );
 
+  //ChatRoomCubit
+  getItInstance.registerFactory<ChatRoomCubit>(
+    () => ChatRoomCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -764,5 +771,10 @@ Future init() async {
   //==> RefundPaymentCase
   getItInstance.registerFactory<RefundPaymentCase>(
     () => RefundPaymentCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetChatRoomByIdCase
+  getItInstance.registerFactory<GetChatRoomByIdCase>(
+    () => GetChatRoomByIdCase(remoteRepository: getItInstance()),
   );
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 @immutable
 class MyChatTheme extends ChatTheme {
@@ -80,9 +82,9 @@ class MyChatTheme extends ChatTheme {
     *
     *
     * */
-    super.inputBackgroundColor = neutral0,
+    super.inputBackgroundColor = AppColor.primaryDarkColor,
     super.inputBorderRadius = const BorderRadius.vertical(
-      top: Radius.circular(20),
+      top: Radius.circular(AppUtils.cornerRadius),
     ),
     super.inputContainerDecoration,
     super.inputMargin = EdgeInsets.zero,
