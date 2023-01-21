@@ -51,6 +51,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/chats/chat_room_by_id_request_model.dart';
+import 'package:yamaiter/data/models/chats/received_chat_list_model.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/client/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
@@ -63,6 +64,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/chat/fetch_chats_lists_params.dart';
 import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_consultation_details.dart';
@@ -94,6 +96,7 @@ import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/chat/get_chat_room.dart';
+import '../api/requests/get_requests/chat/get_chats_list.dart';
 import '../api/requests/get_requests/client/get_my_consultations.dart';
 import '../api/requests/get_requests/client/get_single_task_details.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
@@ -114,7 +117,7 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
-import '../models/chats/received_direct_chat_response_model.dart';
+import '../models/chats/received_chat_room_response_model.dart';
 import '../models/consultations/consultation_model.dart';
 import '../models/pay_response_model.dart';
 import '../models/sos/sos_model.dart';
@@ -127,11 +130,11 @@ import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
-import '../params/send_chat_message.dart';
+import '../params/chat/send_chat_message.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
-  ///=============================>  chat <=============================\\\\
+  ///=============================>  chat_room <=============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -140,6 +143,9 @@ abstract class RemoteDataSource {
 
   /// sendChatMessage
   Future<dynamic> sendChatMessage(SendChatMessageParams sendChatMessageParams);
+
+  /// fetchChatList
+  Future<dynamic> fetchChatList(FetchChatsListParams fetchChatsListParams);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
@@ -345,7 +351,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       switch (response.statusCode) {
         // success
         case 200:
-          return receivedDirectChatResponseModelFromJson(response.body);
+          return receivedChatRoomResponseModelFromJson(response.body);
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
@@ -416,6 +422,45 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("sendChatMessage >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "sendChatMessage UnHandledError >> $e");
+    }
+  }
+
+  @override
+  Future<dynamic> fetchChatList(
+      FetchChatsListParams fetchChatsListParams) async {
+    try {
+      log("fetchChatList >> Start request"); // init request
+
+      // init request
+      final request = GetChatListRequest();
+
+      // response
+      final response = await request(fetchChatsListParams);
+
+      log("fetchChatList >> ResponseCode: ${response.statusCode}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return receivedChatListResponseModelFromJson(response.body);
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "fetchChatList body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "fetchChatList body >> ${response.body}");
+        // default
+        default:
+          log("fetchChatList >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "fetchChatList body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("fetchChatList >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "fetchChatList UnHandledError >> $e");
     }
   }
 

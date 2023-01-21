@@ -5,7 +5,7 @@ import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 
-import '../../../../params/send_chat_message.dart';
+import '../../../../params/chat/send_chat_message.dart';
 
 class SendChatMessageRequest
     extends MultiPartPostRequest<SendChatMessageParams> {

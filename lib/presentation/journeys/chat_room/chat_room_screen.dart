@@ -14,12 +14,14 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/logic/common/chat_room/chat_room_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/pusher/pusher_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/send_chat_message/send_chat_message_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
+import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../data/models/chats/message_item_model.dart';
@@ -58,7 +60,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   /// ScrollController
   late final ScrollController _controller;
 
-  // init chat room
+  // init chat_room room
   late final int chatRoomId;
 
   /// listener on controller
@@ -130,47 +132,32 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
               _handleOtherPusherState(state);
             }
           },
-          child: BlocConsumer<ChatRoomCubit, ChatRoomState>(
-              listener: (context, state) {
-            if (state is ChatRoomMessageFetched) {
-              _messages = state.messages;
-              // setState(() {
-              //
-              // });
-            }
-          }, builder: (context, state) {
-            if (state is LoadingChatRoomMessages && _messages.isEmpty) {
-              return const Center(
-                child: LoadingWidget(),
-              );
-            }
-
-            if (state is LoadingChatRoomMessages && _messages.isNotEmpty) {
-              return Column(
-                children: [
-                  const LoadingWidget(),
-                  Expanded(
-                    child: Chat(
-                      messages: _messages,
-                      onAttachmentPressed: _handleAttachmentPressed,
-                      onMessageTap: _handleMessageTap,
-                      onPreviewDataFetched: _handlePreviewDataFetched,
-                      onSendPressed: _handleSendPressed,
-                      showUserAvatars: true,
-                      showUserNames: true,
-                      user: _currentUser,
-                      scrollPhysics: const BouncingScrollPhysics(),
-                      theme: const MyChatTheme(),
-                    ),
+          child: chatRoomId == -1
+              ? Center(
+                  child: AppErrorWidget(
+                    appTypeError: AppErrorType.unHandledError,
+                    onPressedRetry: () {
+                      _loadMessages();
+                    },
                   ),
-                ],
-              );
-            }
+                )
+              : BlocConsumer<ChatRoomCubit, ChatRoomState>(
+                  listener: (context, state) {
+                  if (state is ChatRoomMessageFetched) {
+                    _messages = state.messages;
+                    // setState(() {
+                    //
+                    // });
+                  }
+                }, builder: (context, state) {
+                  if (state is LoadingChatRoomMessages && _messages.isEmpty) {
+                    return const Center(
+                      child: LoadingWidget(),
+                    );
+                  }
 
-            if (state is ChatRoomMessageFetched) {
-              return BlocBuilder<SendChatMessageCubit, SendChatMessageState>(
-                builder: (context, sendMessageState) {
-                  /* if(sendMessageState is LoadingSendChatMessage){
+                  if (state is LoadingChatRoomMessages &&
+                      _messages.isNotEmpty) {
                     return Column(
                       children: [
                         const LoadingWidget(),
@@ -190,27 +177,31 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                         ),
                       ],
                     );
-                  }*/
+                  }
 
-                  return Chat(
-                    messages: _messages,
-                    onAttachmentPressed: _handleAttachmentPressed,
-                    onMessageTap: _handleMessageTap,
-                    onPreviewDataFetched: _handlePreviewDataFetched,
-                    onSendPressed: _handleSendPressed,
-                    showUserAvatars: true,
-                    showUserNames: true,
-                    user: _currentUser,
-                    scrollPhysics: const BouncingScrollPhysics(),
-                    //scrollController: _controller,
-                    theme: const MyChatTheme(),
-                  );
-                },
-              );
-            }
+                  if (state is ChatRoomMessageFetched) {
+                    return BlocBuilder<SendChatMessageCubit,
+                        SendChatMessageState>(
+                      builder: (context, sendMessageState) {
+                        return Chat(
+                          messages: _messages,
+                          onAttachmentPressed: _handleAttachmentPressed,
+                          onMessageTap: _handleMessageTap,
+                          onPreviewDataFetched: _handlePreviewDataFetched,
+                          onSendPressed: _handleSendPressed,
+                          showUserAvatars: true,
+                          showUserNames: true,
+                          user: _currentUser,
+                          scrollPhysics: const BouncingScrollPhysics(),
+                          //scrollController: _controller,
+                          theme: const MyChatTheme(),
+                        );
+                      },
+                    );
+                  }
 
-            return const SizedBox.shrink();
-          }),
+                  return const SizedBox.shrink();
+                }),
         ),
       ),
     );

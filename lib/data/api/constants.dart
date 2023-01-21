@@ -12,6 +12,9 @@ class ApiConstants {
   static Uri _chatRoomById({required String id}) =>
       Uri.https(_baseUrl, "${EndPoints.chatRoom}/$id");
 
+  ///==> _chatList
+  static Uri _chatList() => Uri.https(_baseUrl, EndPoints.chatList);
+
   ///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
@@ -178,6 +181,9 @@ class ApiConstants {
     switch (requestType) {
       case RequestType.chatRoom:
         return _chatRoomById(id: id);
+
+      case RequestType.chatList:
+        return _chatList();
 
       ///============================>  Common <============================\\\\
       ///                                                                   \\\\
@@ -380,6 +386,7 @@ class EndPoints {
 
   /// chatRoom
   static String chatRoom = "${_apiVersion}chat";
+  static String chatList = "${_apiVersion}chats";
 
   ///===============================> end of  Chat <========================\\\\
   ///===============================> Client <==============================\\\\
@@ -544,6 +551,7 @@ class EndPoints {
 enum RequestType {
   /// ===> chat
   chatRoom,
+  chatList,
 
   /// ===> Client
   registerClient,

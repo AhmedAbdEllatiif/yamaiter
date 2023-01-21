@@ -499,10 +499,18 @@ class RouteHelper {
         .pushNamed(RouteList.refundPayment, arguments: refundArguments);
   }
 
-  /// To chat screen \\\
-  Future chatScreen(BuildContext context,{required ChatRoomArguments chatRoomArguments}) {
+  /// To chat_room screen \\\
+  Future chatRoomScreen(BuildContext context,
+      {required ChatRoomArguments chatRoomArguments}) {
     return Navigator.of(context)
-        .pushNamed(RouteList.chat,arguments: chatRoomArguments);
+        .pushNamed(RouteList.chatRoom, arguments: chatRoomArguments);
+  }
+
+  /// To chat_list screen \\\
+  Future chatListScreen(BuildContext context) {
+    return Navigator.of(context).pushNamed(
+      RouteList.chatList,
+    );
   }
 
   /// To contact us screen \\\

@@ -1,4 +1,4 @@
-import '../models/chats/send_chat_message_model_request.dart';
+import '../../models/chats/send_chat_message_model_request.dart';
 
 class SendChatMessageParams {
   final String userToken;

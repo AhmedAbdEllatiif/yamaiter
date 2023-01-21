@@ -6,6 +6,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_respon
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/chat/fetch_chats_lists_params.dart';
 import 'package:yamaiter/data/params/client/assign_task_params_client.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/create_task_params.dart';
@@ -36,6 +37,7 @@ import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
+import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
@@ -59,7 +61,7 @@ import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_client_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
-import '../../data/params/send_chat_message.dart';
+import '../../data/params/chat/send_chat_message.dart';
 import '../../data/params/update_sos_params.dart';
 import '../../data/params/update_task_params.dart';
 import '../entities/app_error.dart';
@@ -80,6 +82,10 @@ abstract class RemoteRepository {
   /// sendChatMessage
   Future<Either<AppError, SuccessModel>> sendChatMessage(
       SendChatMessageParams sendChatMessageParams);
+
+  /// fetchChatList
+  Future<Either<AppError, List<ReceivedChatListEntity>>> fetchChatList(
+      FetchChatsListParams fetchChatsListParams);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\

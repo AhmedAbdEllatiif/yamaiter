@@ -217,7 +217,7 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
     final authorizedUserEntity =
         context.read<AuthorizedUserCubit>().state.userEntity;
 
-    RouteHelper().chatScreen(context,
+    RouteHelper().chatRoomScreen(context,
         chatRoomArguments: ChatRoomArguments(
           authorizedUserEntity: authorizedUserEntity,
           chatRoomId: chatId,

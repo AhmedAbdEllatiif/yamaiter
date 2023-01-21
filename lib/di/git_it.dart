@@ -42,6 +42,7 @@ import 'package:yamaiter/presentation/logic/cubit/delete_sos/delete_sos_cubit.da
 import 'package:yamaiter/presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/fetch_chat_list/fetch_chat_list_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/filter_tasks/filter_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/filter_tasks/filter_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_all_articles/get_all_articles_cubit.dart';
@@ -80,6 +81,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/chat/fetch_chat_list.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
@@ -435,19 +437,24 @@ Future init() async {
     () => CheckPaymentStatusCubit(),
   );
 
-  //RefundPaymentCubit
+  //==> RefundPaymentCubit
   getItInstance.registerFactory<RefundPaymentCubit>(
     () => RefundPaymentCubit(),
   );
 
-  //ChatRoomCubit
+  //==> ChatRoomCubit
   getItInstance.registerFactory<ChatRoomCubit>(
     () => ChatRoomCubit(),
   );
 
-  //SendChatMessageCubit
+  //==> SendChatMessageCubit
   getItInstance.registerFactory<SendChatMessageCubit>(
     () => SendChatMessageCubit(),
+  );
+
+  //==> FetchChatListCubit
+  getItInstance.registerFactory<FetchChatListCubit>(
+    () => FetchChatListCubit(),
   );
 
   //==> AutoLoginCubit
@@ -788,5 +795,10 @@ Future init() async {
   //==> SendChatMessageCase
   getItInstance.registerFactory<SendChatMessageCase>(
     () => SendChatMessageCase(remoteRepository: getItInstance()),
+  );
+
+  //==> FetchChatListCase
+  getItInstance.registerFactory<FetchChatListCase>(
+    () => FetchChatListCase(remoteRepository: getItInstance()),
   );
 }

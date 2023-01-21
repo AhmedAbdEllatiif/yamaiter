@@ -5,7 +5,7 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 @immutable
 class MyChatTheme extends ChatTheme {
-  /// Creates a default chat theme. Use this constructor if you want to
+  /// Creates a default chat_room theme. Use this constructor if you want to
   /// override only a couple of properties, otherwise create a new class
   /// which extends [ChatTheme]
   const MyChatTheme({

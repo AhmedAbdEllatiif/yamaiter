@@ -6,7 +6,10 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 List<MessageItemModel> listOfChatItemsFromJson(dynamic listOfContent) {
   final List<MessageItemModel> chatsItems = [];
 
-  if (listOfContent == null) throw Exception("The content list is null");
+  if (listOfContent == null) {
+    throw Exception(
+        "MessageItemModel >> listOfChatItemsFromJson >>The content list is null");
+  }
 
   if ((listOfContent as List).isEmpty) return chatsItems;
 
@@ -99,7 +102,6 @@ class MessageItemModel {
       // the sender a string "lawyer" or "client"
       sender: json['sender'] ?? AppUtils.undefined,
 
-
       // senderUser
       senderUser: senderData["user"] != null
           ? UserLawyerModel.fromJson(senderData["user"])
@@ -129,6 +131,24 @@ class MessageItemModel {
       "text": chatItemMessage,
       "type": "text"
     };
+  }
+
+  factory MessageItemModel.empty() {
+    return MessageItemModel(
+      messageId: -1,
+      chatId: -1,
+      chatItemMessage: AppUtils.undefined,
+      file: AppUtils.undefined,
+      senderUserType: AppUtils.undefined,
+      senderId: -1,
+      seen: -1,
+      messageCreatedAt: AppUtils.undefined,
+      messageUpdatedAt: AppUtils.undefined,
+      sender: AppUtils.undefined,
+      updateAtReadable: AppUtils.undefined,
+      isYou: false,
+      senderUser: UserLawyerModel.empty(),
+    );
   }
 
   @override

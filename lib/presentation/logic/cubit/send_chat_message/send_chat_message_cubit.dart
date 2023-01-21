@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:yamaiter/data/params/send_chat_message.dart';
+import 'package:yamaiter/data/params/chat/send_chat_message.dart';
 import 'package:yamaiter/domain/use_cases/chat/send_chat_message_case.dart';
 
 import '../../../../common/enum/app_error_type.dart';

@@ -13,7 +13,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
-import 'package:yamaiter/data/models/chats/received_direct_chat_response_model.dart';
+import 'package:yamaiter/data/models/chats/received_chat_room_response_model.dart';
 import 'package:yamaiter/data/models/consultations/consultation_model.dart';
 import 'package:yamaiter/data/models/pay_response_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
@@ -61,11 +61,13 @@ import 'package:yamaiter/domain/repositories/remote_repository.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
+import '../../domain/entities/chat/received_chat_list_entity.dart';
 import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../params/chat/fetch_chats_lists_params.dart';
 import '../params/chat_room_by_id_params.dart';
 import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
@@ -82,7 +84,7 @@ import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
-import '../params/send_chat_message.dart';
+import '../params/chat/send_chat_message.dart';
 import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
@@ -92,7 +94,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
     required this.remoteDataSource,
   });
 
-  ///=============================>  chat <=============================\\\\
+  ///=============================>  chat_room <=============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -105,7 +107,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
       final result = await remoteDataSource.getChatRoomById(chatRoomByIdParams);
 
       // success
-      if (result is ReceivedDirectChatResponseModel) {
+      if (result is ReceivedChatRoomResponseModel) {
         final List<types.Message> convertedMessages = result.content
             .map((e) => types.Message.fromJson(e.toChatMessageJson()))
             .toList();
@@ -122,7 +124,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// sendChatMessage
   @override
   Future<Either<AppError, SuccessModel>> sendChatMessage(
@@ -134,6 +135,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// fetchChatList
+  @override
+  Future<Either<AppError, List<ReceivedChatListEntity>>> fetchChatList(
+      FetchChatsListParams fetchChatsListParams) async {
+    try {
+      // send request
+      final result = await remoteDataSource.fetchChatList(fetchChatsListParams);
+
+      // success
+      if (result is List<ReceivedChatListEntity>) {
         return Right(result);
       }
 

@@ -117,13 +117,7 @@ class DrawerScreen extends StatelessWidget {
   }
 
   void _navigateChatScreen(BuildContext context) =>
-      RouteHelper().chatScreen(context,
-          chatRoomArguments: ChatRoomArguments(
-            authorizedUserEntity:
-                context.read<AuthorizedUserCubit>().state.userEntity,
-            chatRoomId: 2,
-            chatChannel: "chat-2",
-          ));
+      RouteHelper().chatListScreen(context);
 
   void _navigateMyTaxesScreen(BuildContext context) =>
       RouteHelper().myTaxesScreen(context, isReplacement: false);
