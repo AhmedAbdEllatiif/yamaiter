@@ -59,6 +59,7 @@ import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_client_params.dart';
 import '../../data/params/register_lawyer_request_params.dart';
+import '../../data/params/send_chat_message.dart';
 import '../../data/params/update_sos_params.dart';
 import '../../data/params/update_task_params.dart';
 import '../entities/app_error.dart';
@@ -73,7 +74,12 @@ abstract class RemoteRepository {
   ///                                                                   \\\\
   ///===================================================================\\\\
 
-  Future<Either<AppError, List<types.Message>>> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams);
+  Future<Either<AppError, List<types.Message>>> getChatRoomById(
+      ChatRoomByIdParams chatRoomByIdParams);
+
+  /// sendChatMessage
+  Future<Either<AppError, SuccessModel>> sendChatMessage(
+      SendChatMessageParams sendChatMessageParams);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\

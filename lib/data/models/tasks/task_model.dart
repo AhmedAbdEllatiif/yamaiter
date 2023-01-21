@@ -8,16 +8,19 @@ import '../user_lawyer_model.dart';
 List<TaskModel> listOfTasksFromJson(String str) {
   final List<TaskModel> taskList = [];
 
-  if (json.decode(str)["tasks"] != null) {
-    json.decode(str)["tasks"].forEach((v) {
-      taskList.add(
-        TaskModel.fromJson(
-          taskJson: v,
-          feesJson: json.decode(str)["fees"] ?? {},
-        ),
-      );
-    });
-  }
+  final tasksJson = json.decode(str)["tasks"];
+
+  if (tasksJson == null) return taskList;
+
+  tasksJson.forEach((taskJsonObject) {
+    taskList.add(
+      TaskModel.fromJson(
+        taskJson: taskJsonObject,
+        feesJson: taskJsonObject["fees"] ?? {},
+      ),
+    );
+  });
+
   return taskList;
 }
 
@@ -49,6 +52,8 @@ class TaskModel extends TaskEntity {
     required this.taskAssignedLawyers,
     required this.taskApplicantLawyers,
     required this.taskRecommenderLawyers,
+    required this.currentChatId,
+    required this.currentChatChannel,
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -68,6 +73,8 @@ class TaskModel extends TaskEntity {
           taskStartingDate: taskStartingDate,
           taskCreatedAt: taskCreatedAt,
           taskUpdatedAt: taskUpdatedAt,
+          chatId: currentChatId,
+          chatChannel: currentChatChannel,
         );
 
   final int taskId;
@@ -88,6 +95,9 @@ class TaskModel extends TaskEntity {
   final List<UserLawyerModel> taskAssignedLawyers;
   final List<UserLawyerModel> taskApplicantLawyers;
   final List<UserLawyerModel> taskRecommenderLawyers;
+
+  final int currentChatId;
+  final String currentChatChannel;
 
   factory TaskModel.fromJson(
           {required Map<String, dynamic> taskJson,
@@ -134,6 +144,14 @@ class TaskModel extends TaskEntity {
                 taskJson["user"].map((x) => UserLawyerModel.fromJson(x)),
               )
             : [UserLawyerModel.empty()],
+
+        currentChatId: taskJson["user"] != null
+            ? taskJson["user"][0]["chat"][0]["id"]
+            : -1,
+
+        currentChatChannel: taskJson["user"] != null
+            ? taskJson["user"][0]["chat"][0]["chat_channel"]
+            : AppUtils.undefined,
 
         // assigned lawyers
         taskAssignedLawyers: taskJson["assignedlawyers"] != null

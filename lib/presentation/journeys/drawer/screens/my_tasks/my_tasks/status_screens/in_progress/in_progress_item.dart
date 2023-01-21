@@ -1,13 +1,19 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
+import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
+import '../../../../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
@@ -141,7 +147,9 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
                                     child: RoundedText(
                                       text: "ابدأ المحادثة",
                                       rightIconData: Icons.chat_bubble_outline,
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        _navigateToChatRoomScreen();
+                                      },
                                     ),
                                   ),
                                 ],
@@ -200,5 +208,20 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
             },
           }),
     );
+  }
+
+  /// to navigate to ChatRoomScreen
+  void _navigateToChatRoomScreen() {
+    final chatId = widget.taskEntity.chatId;
+    final chatChannel = widget.taskEntity.chatChannel;
+    final authorizedUserEntity =
+        context.read<AuthorizedUserCubit>().state.userEntity;
+
+    RouteHelper().chatScreen(context,
+        chatRoomArguments: ChatRoomArguments(
+          authorizedUserEntity: authorizedUserEntity,
+          chatRoomId: chatId,
+          chatChannel: chatChannel,
+        ));
   }
 }

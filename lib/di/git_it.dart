@@ -81,6 +81,7 @@ import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
+import '../domain/use_cases/chat/send_chat_message_case.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -138,6 +139,7 @@ import '../presentation/logic/cubit/register_client/register_client_cubit.dart';
 import '../presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
 import '../presentation/logic/cubit/search_for_lawyers/search_for_lawyers_cubit.dart';
 import '../presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
+import '../presentation/logic/cubit/send_chat_message/send_chat_message_cubit.dart';
 import '../presentation/logic/cubit/update_task/update_task_cubit.dart';
 
 final getItInstance = GetIt.I;
@@ -441,6 +443,11 @@ Future init() async {
   //ChatRoomCubit
   getItInstance.registerFactory<ChatRoomCubit>(
     () => ChatRoomCubit(),
+  );
+
+  //SendChatMessageCubit
+  getItInstance.registerFactory<SendChatMessageCubit>(
+    () => SendChatMessageCubit(),
   );
 
   //==> AutoLoginCubit
@@ -776,5 +783,10 @@ Future init() async {
   //==> GetChatRoomByIdCase
   getItInstance.registerFactory<GetChatRoomByIdCase>(
     () => GetChatRoomByIdCase(remoteRepository: getItInstance()),
+  );
+
+  //==> SendChatMessageCase
+  getItInstance.registerFactory<SendChatMessageCase>(
+    () => SendChatMessageCase(remoteRepository: getItInstance()),
   );
 }

@@ -82,6 +82,7 @@ import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
+import '../params/send_chat_message.dart';
 import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
@@ -106,10 +107,34 @@ class RemoteRepositoryImpl extends RemoteRepository {
       // success
       if (result is ReceivedDirectChatResponseModel) {
         final List<types.Message> convertedMessages = result.content
-            .map((e) => types.Message.fromJson(e.toMessageJson()))
+            .map((e) => types.Message.fromJson(e.toChatMessageJson()))
             .toList();
 
         return Right(convertedMessages);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// sendChatMessage
+  @override
+  Future<Either<AppError, SuccessModel>> sendChatMessage(
+      SendChatMessageParams sendChatMessageParams) async {
+    try {
+      // send request
+      final result =
+          await remoteDataSource.sendChatMessage(sendChatMessageParams);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
       }
 
       // failed

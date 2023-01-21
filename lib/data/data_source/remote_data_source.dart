@@ -27,6 +27,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
+import 'package:yamaiter/data/api/requests/post_requests/chat/send_chat_message.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/pay_for_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
@@ -126,6 +127,7 @@ import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
+import '../params/send_chat_message.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
@@ -135,6 +137,9 @@ abstract class RemoteDataSource {
   ///                                                                   \\\\
   ///===================================================================\\\\
   Future<dynamic> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams);
+
+  /// sendChatMessage
+  Future<dynamic> sendChatMessage(SendChatMessageParams sendChatMessageParams);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
@@ -333,18 +338,14 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       final request = GetChatRoom();
 
       // response
-      final response =
-          await request(chatRoomByIdParams);
+      final response = await request(chatRoomByIdParams);
 
       log("getChatRoomById >> ResponseCode: ${response.statusCode}");
-      log("getChatRoomById >> ResponseBody: ${response.body}");
 
       switch (response.statusCode) {
         // success
         case 200:
-          final ff = receivedDirectChatResponseModelFromJson(response.body);
-          log("Chat >> ${ff.content[0].chatItemMessage}");
-          return ff;
+          return receivedDirectChatResponseModelFromJson(response.body);
         // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
@@ -368,6 +369,53 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("getChatRoomById >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "createTaskClient UnHandledError >> $e");
+    }
+  }
+
+  /// sendChatMessage
+  @override
+  Future<dynamic> sendChatMessage(
+      SendChatMessageParams sendChatMessageParams) async {
+    try {
+      log("sendChatMessage >> Start request"); // init request
+
+      // sendChatMessageRequest
+      final sendChatMessageRequest = SendChatMessageRequest();
+
+      // init request
+      final request = await sendChatMessageRequest(sendChatMessageParams);
+
+      // send a request
+      final streamResponse = await request.send();
+
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+
+      log("sendChatMessage >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "sendChatMessage body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "sendChatMessage body >> ${response.body}");
+        // default
+        default:
+          log("sendChatMessage >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "sendChatMessage body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("sendChatMessage >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "sendChatMessage UnHandledError >> $e");
     }
   }
 

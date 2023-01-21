@@ -26,11 +26,6 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final remoteData = getItInstance<RemoteDataSource>();
-    // init userToken
-    final userToken = context.read<UserTokenCubit>().state.userToken;
-    remoteData.getChatRoomById(ChatRoomByIdParams(userToken: userToken, chatId: 1));
-
     return BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
       builder: (context, state) {
         if (state.currentUserType == UserType.client) {

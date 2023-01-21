@@ -16,6 +16,8 @@ class TaskEntity extends Equatable {
   final String status;
   final String file;
   final int applicantsCount;
+  final int chatId;
+  final String chatChannel;
 
   //final List<UserLawyerModel> assignedLawyers;
   final List<UserLawyerModel> applicantLawyers;
@@ -50,6 +52,8 @@ class TaskEntity extends Equatable {
       price: 100,
       status: "status",
       file: "file",
+      chatId: -1,
+      chatChannel:"chatChannel not found",
       costCommission: AppUtils.undefined,
       refundCommission: AppUtils.undefined,
       applicantsCount: 10,
@@ -78,6 +82,8 @@ class TaskEntity extends Equatable {
     //required this.assignedLawyers,
     required this.applicantLawyers,
     required this.recommenderLawyers,
+    required this.chatId,
+    required this.chatChannel,
     required List<UserLawyerModel> assignedLawyers,
     required UserLawyerModel lawyerModel,
     required final DateTime? taskStartingDate,

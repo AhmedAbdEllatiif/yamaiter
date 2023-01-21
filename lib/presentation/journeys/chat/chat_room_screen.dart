@@ -12,11 +12,17 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/di/git_it.dart';
 import 'package:yamaiter/presentation/logic/common/chat_room/chat_room_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/pusher/pusher_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/send_chat_message/send_chat_message_cubit.dart';
+import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
+import '../../../data/models/chats/message_item_model.dart';
 import '../../../domain/entities/screen_arguments/chat_room_args.dart';
 import '../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
@@ -32,8 +38,16 @@ class ChatRoomScreen extends StatefulWidget {
 }
 
 class _ChatRoomScreenState extends State<ChatRoomScreen> {
+  PusherChannelsFlutter pusher = PusherChannelsFlutter.getInstance();
+
+  /// PusherCubit
+  final PusherCubit pusherCubit = PusherCubit();
+
   /// ChatRoomCubit
   late final ChatRoomCubit _chatRoomCubit;
+
+  /// SendChatMessageCubit
+  late final SendChatMessageCubit _sendChatMessageCubit;
 
   /// _currentUser
   late final types.User _currentUser;
@@ -41,65 +55,171 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   /// list of room messages
   List<types.Message> _messages = [];
 
+  /// ScrollController
+  late final ScrollController _controller;
+
+  // init chat room
+  late final int chatRoomId;
+
+  /// listener on controller
+  /// when last item reached fetch next page
+  /// when last item reached no action needed
+  void _listenerOnScrollController() {
+    _controller.addListener(() {
+      if (_controller.position.maxScrollExtent == _controller.offset) {
+        /*if (_filterTasksCubit.state is! LastPageFilterTasksFetched) {
+          _fetchTasks();
+        }*/
+        _loadMessages();
+      }
+    });
+  }
+
   @override
   void initState() {
     super.initState();
+
+    //==> init chatRoomId
+    chatRoomId = widget.chatRoomArguments.chatRoomId;
+
+    //==> init _controller
+    _controller = ScrollController();
+    _listenerOnScrollController();
+
+    //==> init currentUser
     _initCurrentUser();
+
+    //==> init cubits
     _chatRoomCubit = getItInstance<ChatRoomCubit>();
+    _sendChatMessageCubit = getItInstance<SendChatMessageCubit>();
+    pusherCubit.initPusher(chatChannel: widget.chatRoomArguments.chatChannel);
+
+    //==> load messages
     _loadMessages();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     _chatRoomCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _chatRoomCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _chatRoomCubit),
+        BlocProvider(create: (context) => _sendChatMessageCubit),
+        BlocProvider(create: (context) => pusherCubit),
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: Text("Chat Room"),
         ),
-        body: BlocConsumer<ChatRoomCubit, ChatRoomState>(
-            listener: (context, state) {
-          if (state is ChatRoomMessageFetched) {
-            _messages = state.messages;
-            // setState(() {
-            //
-            // });
-          }
-        }, builder: (context, state) {
-          if (state is LoadingChatRoomMessages && _messages.isEmpty) {
-            return const Center(
-              child: LoadingWidget(),
-            );
-          }
-          if (state is ChatRoomMessageFetched) {
-            return Chat(
-              messages: state.messages,
-              onAttachmentPressed: _handleAttachmentPressed,
-              onMessageTap: _handleMessageTap,
-              onPreviewDataFetched: _handlePreviewDataFetched,
-              onSendPressed: _handleSendPressed,
-              showUserAvatars: true,
-              showUserNames: true,
-              user: _currentUser,
-              scrollPhysics: const BouncingScrollPhysics(),
-              theme: const MyChatTheme(),
-            );
-          }
+        body: BlocListener<PusherCubit, PusherState>(
+          listener: (context, state) {
+            if (state is PusherNewMessageReceived) {
+              final messageUserId = state.message.author.id;
 
-          return const SizedBox.shrink();
-        }),
+              _addMessage(
+                state.message,
+                removeFirstMessage: messageUserId == _currentUser.id,
+              );
+            } else {
+              _handleOtherPusherState(state);
+            }
+          },
+          child: BlocConsumer<ChatRoomCubit, ChatRoomState>(
+              listener: (context, state) {
+            if (state is ChatRoomMessageFetched) {
+              _messages = state.messages;
+              // setState(() {
+              //
+              // });
+            }
+          }, builder: (context, state) {
+            if (state is LoadingChatRoomMessages && _messages.isEmpty) {
+              return const Center(
+                child: LoadingWidget(),
+              );
+            }
+
+            if (state is LoadingChatRoomMessages && _messages.isNotEmpty) {
+              return Column(
+                children: [
+                  const LoadingWidget(),
+                  Expanded(
+                    child: Chat(
+                      messages: _messages,
+                      onAttachmentPressed: _handleAttachmentPressed,
+                      onMessageTap: _handleMessageTap,
+                      onPreviewDataFetched: _handlePreviewDataFetched,
+                      onSendPressed: _handleSendPressed,
+                      showUserAvatars: true,
+                      showUserNames: true,
+                      user: _currentUser,
+                      scrollPhysics: const BouncingScrollPhysics(),
+                      theme: const MyChatTheme(),
+                    ),
+                  ),
+                ],
+              );
+            }
+
+            if (state is ChatRoomMessageFetched) {
+              return BlocBuilder<SendChatMessageCubit, SendChatMessageState>(
+                builder: (context, sendMessageState) {
+                  /* if(sendMessageState is LoadingSendChatMessage){
+                    return Column(
+                      children: [
+                        const LoadingWidget(),
+                        Expanded(
+                          child: Chat(
+                            messages: _messages,
+                            onAttachmentPressed: _handleAttachmentPressed,
+                            onMessageTap: _handleMessageTap,
+                            onPreviewDataFetched: _handlePreviewDataFetched,
+                            onSendPressed: _handleSendPressed,
+                            showUserAvatars: true,
+                            showUserNames: true,
+                            user: _currentUser,
+                            scrollPhysics: const BouncingScrollPhysics(),
+                            theme: const MyChatTheme(),
+                          ),
+                        ),
+                      ],
+                    );
+                  }*/
+
+                  return Chat(
+                    messages: _messages,
+                    onAttachmentPressed: _handleAttachmentPressed,
+                    onMessageTap: _handleMessageTap,
+                    onPreviewDataFetched: _handlePreviewDataFetched,
+                    onSendPressed: _handleSendPressed,
+                    showUserAvatars: true,
+                    showUserNames: true,
+                    user: _currentUser,
+                    scrollPhysics: const BouncingScrollPhysics(),
+                    //scrollController: _controller,
+                    theme: const MyChatTheme(),
+                  );
+                },
+              );
+            }
+
+            return const SizedBox.shrink();
+          }),
+        ),
       ),
     );
   }
 
-  void _addMessage(types.Message message) {
+  /// to append an new message to the list
+  void _addMessage(types.Message message, {bool removeFirstMessage = false}) {
     setState(() {
+      if (removeFirstMessage) _messages.removeAt(0);
       _messages.insert(0, message);
     });
   }
@@ -254,21 +374,18 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-      author: _currentUser,
-      createdAt: DateTime.now().millisecondsSinceEpoch,
-      id: const Uuid().v4(),
-      text: message.text,
-    );
-
+        author: _currentUser,
+        createdAt: DateTime.now().millisecondsSinceEpoch,
+        id: const Uuid().v4(),
+        text: message.text,
+        status: types.Status.sending);
     _addMessage(textMessage);
+    _sendMessage(message.text);
   }
 
   void _loadMessages() async {
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
-
-    // init chat room
-    final chatRoomId = widget.chatRoomArguments.chatRoomId;
 
     _chatRoomCubit.fetchChatRoomMessages(chatId: chatRoomId, token: userToken);
   }
@@ -280,5 +397,69 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
       id: currentUser.id.toString(),
       firstName: currentUser.firstName,
     );
+  }
+
+  void _sendMessage(String message) {
+    // init userToken
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    _sendChatMessageCubit.sendTextMessage(
+      chatId: chatRoomId,
+      userToken: userToken,
+      chatMessage: message,
+    );
+  }
+
+  /// to handle pusher state
+  void _handleOtherPusherState(PusherState state) {
+    /*
+    *
+    *
+    * error after receiving an event
+    *
+    *
+    * */
+    if (state is ErrorWhileReceivingNewMessageState) {
+      showSnackBar(
+        context,
+        message: "You have new message but something went wrong",
+        backgroundColor: AppColor.accentColor,
+        textColor: AppColor.primaryDarkColor,
+      );
+      _loadMessages();
+    }
+
+    /*
+    *
+    *
+    * subscription error
+    *
+    *
+    * */
+    if (state is PusherSubscriptionErrorOccurred) {
+      showSnackBar(
+        context,
+        message: "Error Occurred Chat will be saved",
+        backgroundColor: AppColor.accentColor,
+        textColor: AppColor.primaryDarkColor,
+      );
+    }
+
+    /*
+    *
+    *
+    * initialization error
+    *
+    *
+    * */
+    if (state is PusherInitializationErrorOccurred) {
+      showSnackBar(
+        context,
+        message:
+            "PusherInitializationErrorOccurred  Occurred Chat will be saved",
+        backgroundColor: AppColor.accentColor,
+        textColor: AppColor.primaryDarkColor,
+      );
+    }
   }
 }

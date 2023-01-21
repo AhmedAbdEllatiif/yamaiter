@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'chat_model.dart';
+import 'message_item_model.dart';
 
 ReceivedDirectChatResponseModel receivedDirectChatResponseModelFromJson(
     String jsonStr) {

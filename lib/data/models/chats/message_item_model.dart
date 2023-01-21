@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -29,7 +27,6 @@ class MessageItemModel {
   final int seen;
   final String sender;
   final String updateAtReadable;
-  final int typeChat;
   final bool isYou;
   final UserLawyerModel senderUser;
   final String messageCreatedAt;
@@ -47,7 +44,6 @@ class MessageItemModel {
     required this.messageUpdatedAt,
     required this.sender,
     required this.updateAtReadable,
-    required this.typeChat,
     required this.isYou,
     required this.senderUser,
   });
@@ -63,7 +59,6 @@ class MessageItemModel {
       seen: json['seen'] ?? -1,
       sender: json['sender'] ?? AppUtils.undefined,
       updateAtReadable: json['update_at_readable'] ?? AppUtils.undefined,
-      typeChat: json['type_chat'] ?? -1,
       isYou: json['is_you'] ?? false,
       senderUser: json['senderable'] != null
           ? UserLawyerModel.fromJsonSenderable(json['senderable'])
@@ -73,7 +68,50 @@ class MessageItemModel {
     );
   }
 
-  Map<String, dynamic> toMessageJson() {
+  factory MessageItemModel.fromReceivedPusherEventJson(dynamic json) {
+    //==> check tha data is null
+    final dataJson = json["data"];
+    if (dataJson == null) {
+      throw Exception("MessageItemModel >> fromReceivedPusherEventJson >> "
+          "Error: data object not found inside the json");
+    }
+
+    //==> check sender_data is null
+    final senderData = json["sender_data"];
+    if (senderData == null) {
+      throw Exception("MessageItemModel >> fromReceivedPusherEventJson >> "
+          "Error: sender_data object not found inside the json");
+    }
+
+    return MessageItemModel(
+      messageId: dataJson['id'] ?? -1,
+      chatId: dataJson['chat_id'] ?? -1,
+      chatItemMessage: dataJson['message'] ?? AppUtils.undefined,
+      file: json['file'] ?? AppUtils.undefined,
+      senderUserType: json['senderable_type'] ?? AppUtils.undefined,
+      seen: json['seen'] ?? -1,
+      updateAtReadable: json['update_at_readable'] ?? AppUtils.undefined,
+      isYou: json['is_you'] ?? false,
+
+      // the sender user id
+      senderId: dataJson['senderable_id'] ?? -1,
+
+      // the sender a string "lawyer" or "client"
+      sender: json['sender'] ?? AppUtils.undefined,
+
+
+      // senderUser
+      senderUser: senderData["user"] != null
+          ? UserLawyerModel.fromJson(senderData["user"])
+          : UserLawyerModel.empty(),
+
+      // date
+      messageCreatedAt: json['created_at'] ?? AppUtils.undefined,
+      messageUpdatedAt: json['updated_at'] ?? AppUtils.undefined,
+    );
+  }
+
+  Map<String, dynamic> toChatMessageJson() {
     final convertedCreatedAt = DateTime.tryParse(messageCreatedAt);
     final createdAt = convertedCreatedAt != null
         ? convertedCreatedAt.millisecondsSinceEpoch
@@ -87,7 +125,7 @@ class MessageItemModel {
       },
       "createdAt": createdAt,
       "id": messageId.toString(),
-      "status": "seen",
+      "status": types.Status.seen.name,
       "text": chatItemMessage,
       "type": "text"
     };

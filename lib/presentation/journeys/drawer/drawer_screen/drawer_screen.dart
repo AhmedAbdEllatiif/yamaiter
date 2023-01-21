@@ -122,6 +122,7 @@ class DrawerScreen extends StatelessWidget {
             authorizedUserEntity:
                 context.read<AuthorizedUserCubit>().state.userEntity,
             chatRoomId: 2,
+            chatChannel: "chat-2",
           ));
 
   void _navigateMyTaxesScreen(BuildContext context) =>
