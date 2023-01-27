@@ -47,7 +47,14 @@ class PayResponseModel extends PayEntity {
 
         // missionIdModel
         missionIdModel: json["data"] != null
-            ? json["data"]["mission_id"] ?? -1
+            ? json["data"]["mission_id"] != null
+                ? (json["data"]["mission_id"] is String)
+                    ? int.tryParse(json["data"]["mission_id"]) ??
+                        (throw Exception(
+                            "PayResponseModel >> fromJson mission_id String and cannot be parsed to int "))
+                    : json["data"]["mission_id"]
+                : throw Exception(
+                    "PayResponseModel >> fromJson mission_id is null")
             : -1,
       );
 }

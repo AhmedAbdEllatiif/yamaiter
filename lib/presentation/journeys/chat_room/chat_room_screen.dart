@@ -14,6 +14,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/di/git_it.dart';
@@ -116,9 +117,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         BlocProvider(create: (context) => pusherCubit),
       ],
       child: Scaffold(
+        /// appBar
         appBar: AppBar(
-          title: Text("Chat Room"),
+          title: const Text("محادثة"),
         ),
+
+        /// body
         body: BlocListener<PusherCubit, PusherState>(
           listener: (context, state) {
             if (state is PusherNewMessageReceived) {
@@ -126,7 +130,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
               _addMessage(
                 state.message,
-                removeFirstMessage: messageUserId == _currentUser.id,
+                sentByCurrentUser: messageUserId == _currentUser.id,
               );
             } else {
               _handleOtherPusherState(state);
@@ -208,10 +212,46 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
   }
 
   /// to append an new message to the list
-  void _addMessage(types.Message message, {bool removeFirstMessage = false}) {
+  void _addMessage(types.Message message, {bool sentByCurrentUser = false}) {
+    //==> ImageMessage
+    if (message is types.ImageMessage) {
+      log("Image Message >> ${message.uri}");
+      if (message.uri == AppUtils.undefined) {
+        _setErrorOnSendingMessage();
+      } else {
+        insertNewMessage(message, sentByCurrentUser);
+      }
+    }
+
+    //==> TextMessage
+    else if (message is types.TextMessage) {
+      log("Text Message >> ${message.text}");
+      if (message.text == AppUtils.undefined) {
+        _setErrorOnSendingMessage();
+      } else {
+        insertNewMessage(message, sentByCurrentUser);
+      }
+    }
+
+    //==> else insert new message
+    else {
+      insertNewMessage(message, sentByCurrentUser);
+    }
+  }
+
+  void _setErrorOnSendingMessage() {
     setState(() {
-      if (removeFirstMessage) _messages.removeAt(0);
-      _messages.insert(0, message);
+      _messages[0] = _messages[0].copyWith(status: types.Status.error);
+    });
+  }
+
+  void insertNewMessage(types.Message message, bool sentByCurrentUser) {
+    setState(() {
+      if (sentByCurrentUser) {
+        _messages[0] = _messages[0].copyWith(status: types.Status.seen);
+      } else {
+        _messages.insert(0, message);
+      }
     });
   }
 
@@ -298,9 +338,11 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
         size: bytes.length,
         uri: result.path,
         width: image.width.toDouble(),
+        status: types.Status.sending,
       );
 
       _addMessage(message);
+      _sendMessage(filePath: result.path);
     }
   }
 
@@ -363,17 +405,24 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     });
   }
 
+  /// to handle on send  message pressed
   void _handleSendPressed(types.PartialText message) {
     final textMessage = types.TextMessage(
-        author: _currentUser,
-        createdAt: DateTime.now().millisecondsSinceEpoch,
-        id: const Uuid().v4(),
-        text: message.text,
-        status: types.Status.sending);
+      author: _currentUser,
+      createdAt: DateTime.now().millisecondsSinceEpoch,
+      id: const Uuid().v4(),
+      text: message.text,
+      status: types.Status.sending,
+    );
+
+    //==> add message to ui
     _addMessage(textMessage);
-    _sendMessage(message.text);
+
+    //==> send message to server
+    _sendMessage(message: message.text);
   }
 
+  /// load messages from server
   void _loadMessages() async {
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
@@ -390,15 +439,16 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     );
   }
 
-  void _sendMessage(String message) {
-    // init userToken
+  /// send message to server
+  void _sendMessage({String message = "", String filePath = ""}) {
+    //==> init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
     _sendChatMessageCubit.sendTextMessage(
-      chatId: chatRoomId,
-      userToken: userToken,
-      chatMessage: message,
-    );
+        chatId: chatRoomId,
+        userToken: userToken,
+        chatMessage: message,
+        filePath: filePath);
   }
 
   /// to handle pusher state

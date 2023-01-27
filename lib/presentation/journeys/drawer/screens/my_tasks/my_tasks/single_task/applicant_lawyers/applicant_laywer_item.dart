@@ -35,8 +35,8 @@ class ApplicantLawyerItem extends StatelessWidget {
           if (state is ErrorWhilePaymentToAssignTask) {
             showSnackBar(
               context,
-              message: "Something went wrong, try again",
-              backgroundColor: AppColor.primaryDarkColor,
+              message: "حدث خطأ حاول مرة اخرى",
+              backgroundColor: AppColor.accentColor,
               textColor: AppColor.primaryDarkColor,
             );
           }

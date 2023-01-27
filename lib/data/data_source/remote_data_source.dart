@@ -2102,39 +2102,40 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   /// payToAssignTask
   @override
   Future payToAssignTask(PayForTaskParams params) async {
+    log("payToAssignTask >> Start request");
+    // init request
+    final request = PayToAssignTaskRequest();
+
+    // response
+    final response = await request(params, params.userToken);
+
+    log("payToAssignTask >> ResponseCode: ${response.statusCode}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return payResponseFromJson(response.body);
+    // notActivatedUser
+      case 403:
+        return AppError(AppErrorType.notActivatedUser,
+            message: "payToAssignTask body >> ${response.body}");
+    // not found
+      case 404:
+        return AppError(AppErrorType.notFound,
+            message: "payToAssignTask Status Code >> ${response.body}");
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message: "payToAssignTask body >> ${response.body}");
+    // default
+      default:
+        log("payToAssignTask >> body:${jsonDecode(response.body)}");
+        return AppError(AppErrorType.api,
+            message: "payToAssignTask Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
     try {
-      log("payToAssignTask >> Start request");
-      // init request
-      final request = PayToAssignTaskRequest();
 
-      // response
-      final response = await request(params, params.userToken);
-
-      log("payToAssignTask >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return payResponseFromJson(response.body);
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "payToAssignTask body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "payToAssignTask Status Code >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "payToAssignTask body >> ${response.body}");
-        // default
-        default:
-          log("payToAssignTask >> body:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "payToAssignTask Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
     } catch (e) {
       log("payToAssignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,

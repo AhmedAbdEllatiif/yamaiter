@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
@@ -63,7 +65,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
     required BuildContext context,
     required int lawyerId,
     required double value,
-  }) {
+  }) {log("Heeeeeeereeee");
     // user token
     final userToken = context.read<UserTokenCubit>().state.userToken;
 

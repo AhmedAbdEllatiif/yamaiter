@@ -13,6 +13,7 @@ import 'package:yamaiter/router/route_helper.dart';
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
+import '../../../../../../../../common/functions/common_functions.dart';
 import '../../../../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/rounded_text.dart';
@@ -217,11 +218,20 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
     final authorizedUserEntity =
         context.read<AuthorizedUserCubit>().state.userEntity;
 
-    RouteHelper().chatRoomScreen(context,
-        chatRoomArguments: ChatRoomArguments(
-          authorizedUserEntity: authorizedUserEntity,
-          chatRoomId: chatId,
-          chatChannel: chatChannel,
-        ));
+    if (chatId == -1 || chatChannel == AppUtils.undefined) {
+      showSnackBar(
+        context,
+        message: "حدث خطأ لا يمكن بدء المحادثة",
+        backgroundColor: AppColor.accentColor,
+        isFloating: false,
+      );
+    } else {
+      RouteHelper().chatRoomScreen(context,
+          chatRoomArguments: ChatRoomArguments(
+            authorizedUserEntity: authorizedUserEntity,
+            chatRoomId: chatId,
+            chatChannel: chatChannel,
+          ));
+    }
   }
 }

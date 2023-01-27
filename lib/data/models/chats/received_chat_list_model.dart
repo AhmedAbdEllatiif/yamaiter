@@ -39,21 +39,21 @@ class ReceivedChatListModel extends ReceivedChatListEntity {
   final String currentChatChannel;
   final int currentChatId;
   final UserLawyerModel currentLawyerModel;
-  final List<MessageItemModel> listOfMessageModel;
+  final MessageItemModel lastMessage;
 
-  ReceivedChatListModel({
+  const ReceivedChatListModel({
     required this.currentChatChannel,
     required this.currentChatId,
     required this.currentLawyerModel,
-    required this.listOfMessageModel,
+    required this.lastMessage,
   }) : super(
           chatId: currentChatId,
           chatChannel: currentChatChannel,
           lawyerEntity: currentLawyerModel,
-          messages: listOfMessageModel,
+          lastMessageToShow: lastMessage,
         );
 
-  factory ReceivedChatListModel.fromJson(Map<String, dynamic> json) {
+  factory ReceivedChatListModel.fromJson(dynamic json) {
     /// throw exception if the data is null from the json
     if (json["chat"] == null) {
       throw Exception(
@@ -70,7 +70,7 @@ class ReceivedChatListModel extends ReceivedChatListEntity {
     if (json["chat"]["user"] == null) {
       throw Exception(
           "ReceivedChatListModel >> fromJson >> User is null not found in chat object"
-              " while parsing ReceivedChatListModel");
+          " while parsing ReceivedChatListModel");
     }
 
     return ReceivedChatListModel(
@@ -85,7 +85,7 @@ class ReceivedChatListModel extends ReceivedChatListEntity {
           ? UserLawyerModel.fromJson(json["chat"]["user"])
           : UserLawyerModel.empty(),
 
-      listOfMessageModel: listOfChatItemsFromJson(json["chat"]["content"]),
+      lastMessage: MessageItemModel.fromJson(json["chat"]["content"]),
     );
   }
 }

@@ -8,23 +8,14 @@ class ReceivedChatListEntity extends Equatable {
   final String chatChannel;
   final int chatId;
   final LawyerEntity lawyerEntity;
+  final MessageItemModel lastMessageToShow;
 
-  late final MessageItemModel lastMessageToShow;
-
-  ReceivedChatListEntity({
+  const ReceivedChatListEntity({
     required this.chatChannel,
     required this.chatId,
     required this.lawyerEntity,
-    required final List<MessageItemModel> messages,
-  }) {
-    // init last message to show
-    if (messages.isNotEmpty) {
-      final lastMessage = messages.last;
-      lastMessageToShow = lastMessage;
-    } else {
-      lastMessageToShow = MessageItemModel.empty();
-    }
-  }
+    required  this.lastMessageToShow,
+  });
 
   @override
   List<Object?> get props => [

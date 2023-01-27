@@ -16,6 +16,7 @@ class SendChatMessageCubit extends Cubit<SendChatMessageState> {
     required int chatId,
     required String userToken,
     required String chatMessage,
+    required String filePath,
   }) async {
     //==> loading
     _emitIfNotClosed(LoadingSendChatMessage());
@@ -28,7 +29,7 @@ class SendChatMessageCubit extends Cubit<SendChatMessageState> {
       userToken: userToken,
       chatId: chatId,
       content: chatMessage,
-      filePath: "",
+      filePath: filePath,
     );
 
     //==> send request

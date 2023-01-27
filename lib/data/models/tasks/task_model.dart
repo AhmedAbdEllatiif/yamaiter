@@ -100,81 +100,94 @@ class TaskModel extends TaskEntity {
   final String currentChatChannel;
 
   factory TaskModel.fromJson(
-          {required Map<String, dynamic> taskJson,
-          required Map<String, dynamic> feesJson}) =>
-      TaskModel(
-        taskId: taskJson["id"] ?? -1,
-        taskTitle: taskJson["title"] ?? AppUtils.undefined,
-        taskCourt: taskJson["court"] ?? AppUtils.undefined,
-        taskGovernorates: taskJson["governorates"] ?? AppUtils.undefined,
-        taskDescription: taskJson["description"] ?? AppUtils.undefined,
-        taskStatus: taskJson["status"] ?? AppUtils.undefined,
-        taskFile: taskJson["task_file"] ?? AppUtils.undefined,
-        taskPrice: taskJson["price"] ?? 0.0,
-        taskApplicantsCount: taskJson["applicants_count"] ?? 0,
+      {required Map<String, dynamic> taskJson,
+      required Map<String, dynamic> feesJson}) {
+    // init chat json form user json
+    Map<String, dynamic> chatJson = {};
+    Map<String, dynamic> userJson = {};
 
-        // startingDate
-        taskStartingDate: taskJson["starting_date"] != null
-            ? DateTime.tryParse(taskJson["starting_date"])
-            : null,
+    userJson = taskJson["user"] != null
+        ? (taskJson["user"] as List).isNotEmpty
+            ? taskJson["user"][0]
+            : {}
+        : {};
 
-        // createdAt
-        taskCreatedAt: taskJson["created_at"] != null
-            ? DateTime.tryParse(taskJson["created_at"])
-            : null,
+    chatJson = userJson["chat"] != null
+        ? (userJson["chat"] as List).isNotEmpty
+            ? userJson["chat"][0]
+            : {}
+        : {};
 
-        // updatedAt
-        taskUpdatedAt: taskJson["updated_at"] != null
-            ? DateTime.tryParse(taskJson["updated_at"])
-            : null,
+    return TaskModel(
+      taskId: taskJson["id"] ?? -1,
+      taskTitle: taskJson["title"] ?? AppUtils.undefined,
+      taskCourt: taskJson["court"] ?? AppUtils.undefined,
+      taskGovernorates: taskJson["governorates"] ?? AppUtils.undefined,
+      taskDescription: taskJson["description"] ?? AppUtils.undefined,
+      taskStatus: taskJson["status"] ?? AppUtils.undefined,
+      taskFile: taskJson["task_file"] ?? AppUtils.undefined,
+      taskPrice: taskJson["price"] ?? 0.0,
+      taskApplicantsCount: taskJson["applicants_count"] ?? 0,
 
-        // costFees
-        costFees: feesJson["task_fees"] != null
-            ? feesJson["task_fees"] ?? AppUtils.undefined
-            : AppUtils.undefined,
+      // startingDate
+      taskStartingDate: taskJson["starting_date"] != null
+          ? DateTime.tryParse(taskJson["starting_date"])
+          : null,
 
-        // refundFees
-        refundFees: feesJson["refund_fees"] != null
-            ? feesJson["refund_fees"] ?? AppUtils.undefined
-            : AppUtils.undefined,
+      // createdAt
+      taskCreatedAt: taskJson["created_at"] != null
+          ? DateTime.tryParse(taskJson["created_at"])
+          : null,
 
-        // lawyer owner
-        userLawyerModel: taskJson["user"] != null
-            ? List<UserLawyerModel>.from(
-                taskJson["user"].map((x) => UserLawyerModel.fromJson(x)),
-              )
-            : [UserLawyerModel.empty()],
+      // updatedAt
+      taskUpdatedAt: taskJson["updated_at"] != null
+          ? DateTime.tryParse(taskJson["updated_at"])
+          : null,
 
-        currentChatId: taskJson["user"] != null
-            ? taskJson["user"][0]["chat"][0]["id"]
-            : -1,
+      // costFees
+      costFees: feesJson["task_fees"] != null
+          ? feesJson["task_fees"] ?? AppUtils.undefined
+          : AppUtils.undefined,
 
-        currentChatChannel: taskJson["user"] != null
-            ? taskJson["user"][0]["chat"][0]["chat_channel"]
-            : AppUtils.undefined,
+      // refundFees
+      refundFees: feesJson["refund_fees"] != null
+          ? feesJson["refund_fees"] ?? AppUtils.undefined
+          : AppUtils.undefined,
 
-        // assigned lawyers
-        taskAssignedLawyers: taskJson["assignedlawyers"] != null
-            ? List<UserLawyerModel>.from(
-                taskJson["assignedlawyers"]
-                    .map((x) => UserLawyerModel.fromJson(x)),
-              )
-            : [UserLawyerModel.empty()],
+      // lawyer owner
+      userLawyerModel: taskJson["user"] != null
+          ? List<UserLawyerModel>.from(
+              taskJson["user"].map((x) => UserLawyerModel.fromJson(x)),
+            )
+          : [UserLawyerModel.empty()],
 
-        // applicant lawyers
-        taskApplicantLawyers: taskJson["applicantlawyers"] != null
-            ? List<UserLawyerModel>.from(
-                taskJson["applicantlawyers"]
-                    .map((x) => UserLawyerModel.fromJson(x)),
-              )
-            : [UserLawyerModel.empty()],
+      currentChatId: chatJson["id"] ?? -1,
 
-        // recommender lawyers
-        taskRecommenderLawyers: taskJson["recommenderlawyers"] != null
-            ? List<UserLawyerModel>.from(
-                taskJson["recommenderlawyers"]
-                    .map((x) => UserLawyerModel.fromJson(x)),
-              )
-            : [UserLawyerModel.empty()],
-      );
+      currentChatChannel: chatJson["chat_channel"] ?? AppUtils.undefined,
+
+      // assigned lawyers
+      taskAssignedLawyers: taskJson["assignedlawyers"] != null
+          ? List<UserLawyerModel>.from(
+              taskJson["assignedlawyers"]
+                  .map((x) => UserLawyerModel.fromJson(x)),
+            )
+          : [UserLawyerModel.empty()],
+
+      // applicant lawyers
+      taskApplicantLawyers: taskJson["applicantlawyers"] != null
+          ? List<UserLawyerModel>.from(
+              taskJson["applicantlawyers"]
+                  .map((x) => UserLawyerModel.fromJson(x)),
+            )
+          : [UserLawyerModel.empty()],
+
+      // recommender lawyers
+      taskRecommenderLawyers: taskJson["recommenderlawyers"] != null
+          ? List<UserLawyerModel>.from(
+              taskJson["recommenderlawyers"]
+                  .map((x) => UserLawyerModel.fromJson(x)),
+            )
+          : [UserLawyerModel.empty()],
+    );
+  }
 }
