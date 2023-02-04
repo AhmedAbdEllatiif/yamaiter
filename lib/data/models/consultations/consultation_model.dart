@@ -32,6 +32,7 @@ class ConsultationModel extends ConsultationEntity {
   final String consultationType;
   final String consultationDescription;
   final num consultationPrice;
+  final String consultationFeedBack;
   final DateTime? consultationCreatedAt;
   final DateTime? consultationUpdatedAt;
   final List<ConsultationFile> consultationFiles;
@@ -41,6 +42,7 @@ class ConsultationModel extends ConsultationEntity {
     required this.consultationType,
     required this.consultationDescription,
     required this.consultationPrice,
+    required this.consultationFeedBack,
     required this.consultationCreatedAt,
     required this.consultationUpdatedAt,
     required this.consultationFiles,
@@ -48,6 +50,7 @@ class ConsultationModel extends ConsultationEntity {
           id: consultationId,
           type: consultationType,
           description: consultationDescription,
+          feedBack: consultationFeedBack,
           price: consultationPrice,
           consultationCreatedAt: consultationCreatedAt,
           consultationUpdatedAt: consultationUpdatedAt,
@@ -59,6 +62,7 @@ class ConsultationModel extends ConsultationEntity {
         consultationType: AppUtils.undefined,
         consultationDescription: AppUtils.undefined,
         consultationPrice: 0,
+        consultationFeedBack: AppUtils.undefined,
         consultationCreatedAt: null,
         consultationUpdatedAt: null,
         consultationFiles: const [],
@@ -77,6 +81,9 @@ class ConsultationModel extends ConsultationEntity {
 
         // price
         consultationPrice: json["price"] ?? 0,
+
+        // feedBack
+        consultationFeedBack: json["feedback"] ?? AppUtils.undefined,
 
         // createdAt
         consultationCreatedAt: json["created_at"] != null

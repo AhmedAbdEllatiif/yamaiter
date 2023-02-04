@@ -4,12 +4,12 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import '../../../../data/api/constants.dart';
 import '../../../../data/models/consultations/consultation_model.dart';
 
-
 class ConsultationEntity extends Equatable {
   final int id;
   final String type;
   final String description;
   final num price;
+  final String feedBack;
   late final String createdAt;
   late final String updatedAt;
   late final List<String> files;
@@ -19,6 +19,7 @@ class ConsultationEntity extends Equatable {
     required this.type,
     required this.description,
     required this.price,
+    required this.feedBack,
     required DateTime? consultationCreatedAt,
     required DateTime? consultationUpdatedAt,
     required List<ConsultationFile> receivedFiles,

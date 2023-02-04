@@ -53,32 +53,88 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
 
         body: Column(
           children: [
+            /// ads
             const AdsWidget(),
+
+            /// ScrollableAppCard
             Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
                 horizontal: AppUtils.mainPagesHorizontalPadding.w,
               ),
               child: ScrollableAppCard(
+                ///==> title of ScrollableAppCard
                 title: Column(
                   children: [
+                    //==> consultation title
                     AppContentTitleWidget(
                       title: _consultationEntity.type,
                       textSpace: 1.3,
                     ),
-                    SizedBox(height: Sizes.dimen_5.h,),
+
+                    // space
+                    SizedBox(height: Sizes.dimen_5.h),
+
+                    //==> date
                     TextWithIconWidget(
                       iconData: Icons.date_range_outlined,
                       text: _consultationEntity.createdAt,
                     ),
                   ],
                 ),
-                child: Text(
-                  _consultationEntity.description,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyText2!
-                      .copyWith(color: Colors.black, height: 1.4),
+
+                ///==> child of ScrollableAppCard
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    //==> consultation description
+                    Text(
+                      _consultationEntity.description,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyText2!
+                          .copyWith(color: Colors.black, height: 1.4),
+                    ),
+
+                    // space
+                    SizedBox(height: Sizes.dimen_20.h),
+
+                    //==> feedback title
+                    Text(
+                      "الرد على الاستشارة",
+                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          height: 1.4),
+                    ),
+
+                    // space
+                    SizedBox(height: Sizes.dimen_8.h),
+
+                    //==> feedback
+                    _consultationEntity.feedBack == AppUtils.undefined
+                        ? Center(
+                            child: Text(
+                              "مازالت الاسشارة قيد المراجعة",
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText2!
+                                  .copyWith(
+                                    color: Colors.black,
+                                    height: 1.4,
+                                  ),
+                            ),
+                          )
+                        : Text(
+                            _consultationEntity.feedBack,
+                            style:
+                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                      color: Colors.black,
+                                      height: 1.4,
+                                    ),
+                          ),
+                  ],
                 ),
               ),
             )
