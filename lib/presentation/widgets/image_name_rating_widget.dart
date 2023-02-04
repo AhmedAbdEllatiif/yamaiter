@@ -153,6 +153,8 @@ class ImageNameRatingWidget extends StatelessWidget {
                     .titleSmall!
                     .copyWith(color: nameColor),
               ),
+
+              if(showRating)
               RatingBar.builder(
                 initialRating: rating,
                 minRating: 0,

@@ -13,16 +13,18 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
 
   final UserType userableType;
   final int userableId;
+  final String profileImage;
   final String createdAt;
   final String updatedAt;
   final int userAcceptTerms;
 
-  const AuthorizedUserModel({
+  AuthorizedUserModel({
     required this.userId,
     required this.userFirstName,
     required this.userLastName,
     required this.userEmail,
     required this.userPhone,
+    required this.profileImage,
     required this.userableType,
     required this.userableId,
     required this.createdAt,
@@ -35,6 +37,7 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
           email: userEmail,
           phoneNum: userPhone,
           userType: userableType,
+          profileImage: profileImage,
           acceptTerms: userAcceptTerms == 1
               ? AcceptTerms.firstAccept
               : userAcceptTerms == 2
@@ -44,11 +47,27 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
 
   factory AuthorizedUserModel.fromJson(Map<String, dynamic> json) =>
       AuthorizedUserModel(
+        //==> userId
         userId: json["id"] ?? -1,
+
+        //==> userFirstName
         userFirstName: json["first_name"] ?? AppUtils.undefined,
+
+        //==> userLastName
         userLastName: json["last_name"] ?? AppUtils.undefined,
+
+        //==> userEmail
         userEmail: json["email"] ?? AppUtils.undefined,
+
+        //==> userPhone
         userPhone: json['phone'] ?? AppUtils.undefined,
+
+        //==> profileImage
+        profileImage: json['userable'] != null
+            ? json['userable']["profile_image"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        //==> userableType
         userableType: json['userable_type'] != null
             ? json['userable_type'].contains("Client")
                 ? UserType.client
@@ -56,9 +75,17 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
                     ? UserType.lawyer
                     : UserType.unDefined
             : UserType.unDefined,
+
+        //==> userableId
         userableId: json['userable_id'] ?? -1,
+
+        //==> createdAt
         createdAt: json['created_at'] ?? AppUtils.undefined,
+
+        //==> updatedAt
         updatedAt: json['updated_at'] ?? AppUtils.undefined,
+
+        //==> userAcceptTerms
         userAcceptTerms: json['accept_terms'] ?? -1,
       );
 }

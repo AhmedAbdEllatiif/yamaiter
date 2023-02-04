@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
@@ -16,8 +16,22 @@ import '../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../widgets/image_name_rating_widget.dart';
 
-class DrawerScreenClient extends StatelessWidget {
+class DrawerScreenClient extends StatefulWidget {
   const DrawerScreenClient({Key? key}) : super(key: key);
+
+  @override
+  State<DrawerScreenClient> createState() => _DrawerScreenClientState();
+}
+
+class _DrawerScreenClientState extends State<DrawerScreenClient> {
+  /// current authorized user
+  late final AuthorizedUserEntity _currentUser;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentUser = context.read<AuthorizedUserCubit>().state.userEntity;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -39,42 +53,14 @@ class DrawerScreenClient extends StatelessWidget {
               children: [
                 /// Avatar and rating
                 ImageNameRatingWidget(
-                  name: context
-                      .read<AuthorizedUserCubit>()
-                      .state
-                      .userEntity
-                      .firstName,
-                  imgUrl: AssetsImages.personAvatar,
+                  name: _currentUser.firstName,
+                  imgUrl: _currentUser.userAvatar,
+                  showRating: false,
                   rating: 3,
                   onPressed: () {
                     RouteHelper().editProfile(context);
                   },
                 ),
-
-                /// text balance
-                RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "الرصيد الحالى: ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: AppColor.white)),
-                    TextSpan(
-                        text: "1500",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppColor.white,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                    TextSpan(
-                        text: " نقطة",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: AppColor.white))
-                  ]),
-                )
               ],
             ),
           ),
