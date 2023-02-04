@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/sos_entity.dart';
 import '../../../../domain/use_cases/sos/get_all_sos.dart';

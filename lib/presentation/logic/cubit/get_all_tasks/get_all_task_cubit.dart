@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/get_all_task_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/task_entity.dart';
 import '../../../../domain/use_cases/my_tasks/get_all_tasks.dart';

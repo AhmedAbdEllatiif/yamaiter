@@ -8,7 +8,7 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/screen_utils/screen_util.dart';
-import '../../../di/git_it.dart';
+import '../../../di/git_it_instance.dart';
 import '../../../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/apply_for_task/apply_for_task_cubit.dart';

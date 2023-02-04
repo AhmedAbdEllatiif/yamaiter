@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/loading_more_my_tasks.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/status_screens/todo/todo_task_item.dart';
@@ -51,9 +51,6 @@ class _MyTasksTodoState extends State<MyTasksTodo>
   /// DeleteTaskCubit
   late final DeleteTaskCubit _deleteTaskCubit;
 
-  /// AssignTaskCubit
-  late final PaymentAssignTaskCubit _assignTaskCubit;
-
   /// CheckPaymentStatusCubit
   late final CheckPaymentStatusCubit _checkPaymentStatusCubit;
 
@@ -65,7 +62,6 @@ class _MyTasksTodoState extends State<MyTasksTodo>
     _updateTaskCubit = getItInstance<UpdateTaskCubit>();
     _deleteTaskCubit = getItInstance<DeleteTaskCubit>();
     _checkPaymentStatusCubit = getItInstance<CheckPaymentStatusCubit>();
-    _assignTaskCubit = widget.assignTaskCubit;
 
     _fetchMyTasksList();
     _listenerOnScrollController();

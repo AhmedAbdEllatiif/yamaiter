@@ -6,7 +6,7 @@ import 'package:yamaiter/domain/entities/app_error.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 
 part 'login_state.dart';
 

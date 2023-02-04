@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/help_question_entity.dart';
 import 'package:yamaiter/domain/use_cases/help.dart';
 

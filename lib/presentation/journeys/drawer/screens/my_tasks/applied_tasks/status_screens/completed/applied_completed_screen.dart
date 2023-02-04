@@ -7,7 +7,7 @@ import 'package:yamaiter/presentation/logic/cubit/get_applied_tasks/get_applied_
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../common/enum/task_status.dart';
-import '../../../../../../../../di/git_it.dart';
+import '../../../../../../../../di/git_it_instance.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../../router/route_helper.dart';
 import '../../../../../../../logic/cubit/user_token/user_token_cubit.dart';

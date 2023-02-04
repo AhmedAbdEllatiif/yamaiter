@@ -4,7 +4,7 @@ import 'package:equatable/equatable.dart';
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../common/enum/task_status.dart';
 import '../../../../data/params/get_applied_tasks_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/task_entity.dart';
 import '../../../../domain/use_cases/applied_tasks/get_applied_tasks.dart';

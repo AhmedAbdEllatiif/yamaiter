@@ -4,7 +4,7 @@ import 'package:yamaiter/data/params/chat/send_chat_message.dart';
 import 'package:yamaiter/domain/use_cases/chat/send_chat_message_case.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'send_chat_message_state.dart';

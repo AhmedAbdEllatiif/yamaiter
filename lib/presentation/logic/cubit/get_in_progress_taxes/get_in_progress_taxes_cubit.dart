@@ -5,7 +5,7 @@ import 'package:yamaiter/domain/entities/tax_entity.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'get_in_progress_taxes_state.dart';

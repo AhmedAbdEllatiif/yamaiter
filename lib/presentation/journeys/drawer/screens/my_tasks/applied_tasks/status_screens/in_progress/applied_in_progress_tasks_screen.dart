@@ -8,7 +8,7 @@ import 'package:yamaiter/presentation/logic/cubit/upload_task_file/upload_task_f
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../common/enum/task_status.dart';
-import '../../../../../../../../di/git_it.dart';
+import '../../../../../../../../di/git_it_instance.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../../domain/entities/screen_arguments/upload_file_args.dart';
 import '../../../../../../../../router/route_helper.dart';

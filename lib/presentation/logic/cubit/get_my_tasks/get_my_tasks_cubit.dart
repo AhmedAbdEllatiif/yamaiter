@@ -5,7 +5,7 @@ import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/get_my_tasks.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/task_entity.dart';
 

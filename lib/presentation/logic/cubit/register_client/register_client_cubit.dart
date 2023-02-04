@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/register_client_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/register_response_entity.dart';
 import '../../../../domain/use_cases/client_auth/register_client.dart';

@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
-import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/di/git_it.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/my_tasks_drop_down_client.dart';
-import 'package:yamaiter/presentation/logic/client_cubit/create_task/create_task_client_cubit.dart';
-import 'package:yamaiter/presentation/logic/client_cubit/get_my_tasks_client/get_my_tasks_client_cubit.dart';
-import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';
 
 import 'package:yamaiter/presentation/logic/cubit/invite_lawyer/invite_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
@@ -23,7 +19,9 @@ import 'package:yamaiter/router/route_helper.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../domain/entities/data/task_entity.dart';
+import '../../../domain/entities/screen_arguments/create_task_args.dart';
 import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
+import '../../logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../widgets/app_error_widget.dart';
 
@@ -42,8 +40,8 @@ class InviteLawyerByClientScreen extends StatefulWidget {
 
 class _InviteLawyerByClientScreenState
     extends State<InviteLawyerByClientScreen> {
-  late final GetMyTasksClientCubit _getMyTasksCubit;
-  late final CreateTaskClientCubit _createTaskCubit;
+  late final GetMyTasksCubit _getMyTasksCubit;
+  late final CreateTaskCubit _createTaskCubit;
   late final InviteLawyerCubit _inviteLawyerCubit;
 
   TaskEntity? chosenTask;
@@ -53,8 +51,8 @@ class _InviteLawyerByClientScreenState
   @override
   void initState() {
     super.initState();
-    _getMyTasksCubit = getItInstance<GetMyTasksClientCubit>();
-    _createTaskCubit = getItInstance<CreateTaskClientCubit>();
+    _getMyTasksCubit = getItInstance<GetMyTasksCubit>();
+    _createTaskCubit = getItInstance<CreateTaskCubit>();
     _inviteLawyerCubit = getItInstance<InviteLawyerCubit>();
 
     _fetchMyTaskTitle();
@@ -86,9 +84,9 @@ class _InviteLawyerByClientScreenState
         body: MultiBlocListener(
           listeners: [
             /// listener on CreateTaskCubit
-            BlocListener<CreateTaskClientCubit, CreateTaskClientState>(
+            BlocListener<CreateTaskCubit, CreateTaskState>(
               listener: (context, state) {
-                if (state is ClientTaskCreatedSuccessfully) {
+                if (state is TaskCreatedSuccessfully) {
                   _fetchMyTaskTitle();
                 }
               },
@@ -109,7 +107,7 @@ class _InviteLawyerByClientScreenState
               right: AppUtils.mainPagesHorizontalPadding.w,
               left: AppUtils.mainPagesHorizontalPadding.w,
             ),
-            child: BlocBuilder<GetMyTasksClientCubit, GetMyTasksClientState>(
+            child: BlocBuilder<GetMyTasksCubit, GetMyTasksState>(
               builder: (context, state) {
                 return Column(
                   children: [
@@ -123,7 +121,7 @@ class _InviteLawyerByClientScreenState
                     ),
 
                     /// space
-                    if (state is MyTasksClientListFetchedSuccessfully)
+                    if (state is MyTasksListFetchedSuccessfully)
                       if (state.taskEntityList.isNotEmpty)
                         SizedBox(
                           height: Sizes.dimen_10.h,
@@ -250,7 +248,7 @@ class _InviteLawyerByClientScreenState
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
-    _getMyTasksCubit.fetchMyTasksClientList(
+    _getMyTasksCubit.fetchMyTasksList(
         userToken: userToken,
         taskType: TaskType.todo,
         currentListLength: 0,
@@ -259,9 +257,9 @@ class _InviteLawyerByClientScreenState
 
   /// to navigate to create task client screen
   void _navigateToCreateTaskClient() {
-    RouteHelper().createTaskClient(context,
-        createTaskArgumentsClient: CreateTaskArgumentsClient(
-          createTaskClientCubit: _createTaskCubit,
+    RouteHelper().createTask(context,
+        createTaskArguments: CreateTaskArguments(
+          createTaskCubit: _createTaskCubit,
           goBackAfterSuccess: true,
         ));
   }
@@ -287,16 +285,7 @@ class _InviteLawyerByClientScreenState
 
   /// navigate to my tasks screen
   void _navigateToMyTaskScreen() {
-    // init userToken
-    final currentUser =
-        context.read<AuthorizedUserCubit>().state.currentUserType;
-
-    // navigate to my tasks according to current user type
-    if (currentUser == UserType.lawyer) {
-      RouteHelper().myTasks(context, isPushNamedAndRemoveUntil: true);
-    }else{
-      RouteHelper().myTasksClient(context, isPushNamedAndRemoveUntil: true);
-    }
+    RouteHelper().myTasks(context, isPushNamedAndRemoveUntil: true);
   }
 
   /// navigate to login

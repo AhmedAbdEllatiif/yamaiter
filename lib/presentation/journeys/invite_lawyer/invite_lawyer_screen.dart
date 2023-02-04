@@ -6,7 +6,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer/my_tasks_drop_down.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';

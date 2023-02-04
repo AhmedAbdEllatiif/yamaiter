@@ -6,7 +6,7 @@ import 'package:yamaiter/presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cu
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../router/route_helper.dart';
 import '../../../domain/entities/data/lawyer_entity.dart';
 import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';

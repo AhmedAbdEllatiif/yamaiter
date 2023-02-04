@@ -4,7 +4,7 @@ import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'register_lawyer_state.dart';

@@ -5,7 +5,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/data/data_source/remote_data_source.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';

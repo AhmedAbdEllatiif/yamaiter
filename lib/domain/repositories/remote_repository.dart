@@ -96,10 +96,6 @@ abstract class RemoteRepository {
   Future<Either<AppError, RegisterResponseEntity>> registerClient(
       RegisterClientParams params);
 
-  /// create task client
-  Future<Either<AppError, SuccessModel>> createTaskClient(
-      CreateTaskParamsClient params);
-
   /// getMyConsultations
   Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
       GetMyConsultationParams params);
@@ -111,30 +107,6 @@ abstract class RemoteRepository {
   /// getConsultationDetails
   Future<Either<AppError, ConsultationEntity>> getConsultationDetails(
       GetConsultationDetailsParams params);
-
-  /// get my tasks client
-  Future<Either<AppError, List<TaskEntity>>> getMyTasksClient(
-      GetMyTasksClientParams params);
-
-  /// get single task client
-  Future<Either<AppError, TaskEntity>> getSingleTaskClient(
-      GetSingleTaskParamsClient params);
-
-  /// end task client
-  Future<Either<AppError, SuccessModel>> endTaskClient(
-      EndTaskParamsClient params);
-
-  /// assign task client
-  Future<Either<AppError, SuccessModel>> assignTaskClient(
-      AssignTaskParamsClient params);
-
-  /// delete task client
-  Future<Either<AppError, SuccessModel>> deleteTaskClient(
-      DeleteTaskClientParams params);
-
-  /// updateTaskClient
-  Future<Either<AppError, SuccessModel>> updateTaskClient(
-      UpdateTaskClientParams params);
 
   /// fetch lawyers
   Future<Either<AppError, List<LawyerEntity>>> fetchLawyers(

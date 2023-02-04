@@ -11,7 +11,7 @@ import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
-import '../../../di/git_it.dart';
+import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../../logic/cubit/accept_terms/accept_terms_cubit.dart';

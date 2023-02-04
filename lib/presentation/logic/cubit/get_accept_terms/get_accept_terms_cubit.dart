@@ -4,7 +4,7 @@ import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.d
 import 'package:yamaiter/domain/use_cases/accept_terms/get_accept_terms.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'get_accept_terms_state.dart';

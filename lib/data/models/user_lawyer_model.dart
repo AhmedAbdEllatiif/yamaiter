@@ -57,7 +57,7 @@ class UserLawyerModel extends LawyerEntity {
           status: lawyerStatus,
           lawyerIdPhoto: lawyerIdPhoto,
           lawyerProfileImage: lawyerProfileImage,
-          costOfferedByLawyer: costByLawyer,
+          costOfferedByLawyer: costByLawyer.toDouble(),
         );
 
   final int lawyerId;

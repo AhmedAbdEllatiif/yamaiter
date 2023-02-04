@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/completed/applied_completed_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_progress/applied_in_progress_tasks_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/status_screens/in_review/applied_in_review_task_screen.dart';

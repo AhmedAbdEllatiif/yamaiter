@@ -4,7 +4,7 @@ import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/all_articles_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/article_entity.dart';
 

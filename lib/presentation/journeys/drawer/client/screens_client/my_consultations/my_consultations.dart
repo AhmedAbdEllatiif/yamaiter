@@ -7,7 +7,7 @@ import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import '../../../../../../common/constants/app_utils.dart';
 import '../../../../../../common/constants/sizes.dart';
 import '../../../../../../common/enum/app_error_type.dart';
-import '../../../../../../di/git_it.dart';
+import '../../../../../../di/git_it_instance.dart';
 import '../../../../../../domain/entities/data/client/consultation_entity.dart';
 import '../../../../../../router/route_helper.dart';
 import '../../../../../logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';

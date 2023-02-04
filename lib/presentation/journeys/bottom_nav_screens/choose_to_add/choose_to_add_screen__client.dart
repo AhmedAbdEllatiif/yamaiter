@@ -64,7 +64,7 @@ class ChooseToAddScreenClientUser extends StatelessWidget {
 
   /// to navigate to create task client
   void _navigateToCreateTaskClient(BuildContext context) =>
-      RouteHelper().createTaskClient(context, createTaskArgumentsClient: null);
+      RouteHelper().createTask(context, createTaskArguments: null);
 
   /// to navigate to request a consultation
   void _navigateToRequestAConsultation(BuildContext context) =>

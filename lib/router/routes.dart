@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
@@ -15,7 +13,6 @@ import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dar
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/refund_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/side_menu_page_args.dart';
@@ -24,7 +21,6 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
@@ -32,13 +28,10 @@ import 'package:yamaiter/presentation/journeys/chat_list/chat_list_screen.dart';
 import 'package:yamaiter/presentation/journeys/chat_room/chat_room_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
-import 'package:yamaiter/presentation/journeys/create_task/client_create_task/create_task__client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
-import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_tasks/my_tasks_client.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/invite_lawyer_by_client_screen.dart';
 import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/journeys/refund/refund_screen.dart';
-import 'package:yamaiter/presentation/journeys/single_task_details_client/single_task_details_screen_client.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
@@ -68,28 +61,22 @@ import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/create_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.dart';
-import 'package:yamaiter/presentation/journeys/update_task_client/update_task_client_screen.dart';
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
 import '../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../domain/entities/screen_arguments/chat_room_args.dart';
 import '../domain/entities/screen_arguments/delete_sos_args.dart';
-import '../domain/entities/screen_arguments/delete_task_client_args.dart';
-import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/search_result_args.dart';
-import '../domain/entities/screen_arguments/single_task_client_args.dart';
 import '../domain/entities/screen_arguments/update_article_args.dart';
 import '../presentation/journeys/ads/add_new_ad.dart';
 import '../presentation/journeys/article/create_article/add_article.dart';
 import '../presentation/journeys/article/create_article/create_article_screen.dart';
 import '../presentation/journeys/article/delete_article.dart';
 import '../presentation/journeys/article/single_article_screen.dart';
-import '../presentation/journeys/delete_task_client_screen/delete_task_client_screen.dart';
 import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
 import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
-import '../presentation/journeys/end_task_client/end_task_screen_client.dart';
 import '../presentation/journeys/filtered_tasks_result/filtered_tasks_result_screen.dart';
 import '../presentation/journeys/invite_lawyer/invite_lawyer_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
@@ -165,20 +152,6 @@ class Routes {
                   : null,
             ),
 
-        /// createTaskClient
-        RouteList.createTaskClient: (context) => CreateTaskClient(
-              createTaskArgumentsClient: settings.arguments != null
-                  ? settings.arguments as CreateTaskArgumentsClient
-                  : null,
-            ),
-
-        /// createTask
-        RouteList.myTasksClient: (context) => MyTasksScreenClient(
-              arguments: settings.arguments != null
-                  ? settings.arguments as MyTasksClientArguments
-                  : MyTasksClientArguments(taskType: TaskType.todo),
-            ),
-
         /// MyTasksScreen
         RouteList.myTasks: (context) => MyTasksScreen(
               myTasksArguments: settings.arguments as MyTasksArguments,
@@ -213,21 +186,9 @@ class Routes {
               editTaskArguments: settings.arguments as EditTaskArguments,
             ),
 
-        /// update task client
-        RouteList.updateTaskClient: (context) => UpdateTaskClientScreen(
-              updateTaskClientArguments:
-                  settings.arguments as UpdateTaskClientArguments,
-            ),
-
         /// delete task
         RouteList.deleteTask: (context) => DeleteTaskScreen(
               deleteTaskArguments: settings.arguments as DeleteTaskArguments,
-            ),
-
-        /// delete task client
-        RouteList.deleteTaskClient: (context) => DeleteTaskClientScreen(
-              deleteTaskClientArguments:
-                  settings.arguments as DeleteTaskClientArguments,
             ),
 
         /// single task
@@ -235,21 +196,11 @@ class Routes {
               singleTaskParams: settings.arguments as SingleTaskArguments,
             ),
 
-        /// single task client
-        RouteList.singleTaskClient: (context) => SingleTaskScreenClient(
-              arguments: settings.arguments as SingleTaskClientArguments,
-            ),
-
         /// end task
         RouteList.endTask: (context) => EndTaskScreen(
               endTaskArguments: settings.arguments as EndTaskArguments,
             ),
 
-        /// end task client
-        RouteList.endTaskClient: (context) => EndTaskScreenClient(
-              endTaskClientArguments:
-                  settings.arguments as EndTaskClientArguments,
-            ),
 
         /// tasks for other
         RouteList.tasksForOther: (context) => const TasksForOtherScreen(),

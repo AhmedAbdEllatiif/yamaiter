@@ -67,7 +67,7 @@ class MessageItemModel {
     return MessageItemModel(
       messageId: json['id'] ?? -1,
       chatId: json['chat_id'] ?? -1,
-      chatItemMessage: json['message'] ?? AppUtils.undefined,
+      chatItemMessage: json['message'] ?? "...",
       file: json['file'] ?? AppUtils.undefined,
       fileName: json['file_name'] ?? AppUtils.undefined,
       fileType: json['file_type'] ?? AppUtils.undefined,
@@ -105,8 +105,8 @@ class MessageItemModel {
       chatId: dataJson['chat_id'] ?? -1,
       chatItemMessage: dataJson['message'] ?? AppUtils.undefined,
       file: dataJson['file'] ?? AppUtils.undefined,
-      fileName: json['file_name'] ?? AppUtils.undefined,
-      fileType: json['file_type'] ?? AppUtils.undefined,
+      fileName: dataJson['file_name'] ?? AppUtils.undefined,
+      fileType: dataJson['file_type'] ?? AppUtils.undefined,
       senderUserType: dataJson['senderable_type'] ?? AppUtils.undefined,
       seen: dataJson['seen'] ?? -1,
       updateAtReadable: dataJson['update_at_readable'] ?? AppUtils.undefined,
@@ -116,7 +116,7 @@ class MessageItemModel {
       senderId: dataJson['senderable_id'] ?? -1,
 
       // the sender a string "lawyer" or "client"
-      sender: json['sender'] ?? AppUtils.undefined,
+      sender: dataJson['sender'] ?? AppUtils.undefined,
 
       // senderUser
       senderUser: senderData["user"] != null
@@ -124,8 +124,8 @@ class MessageItemModel {
           : UserLawyerModel.empty(),
 
       // date
-      messageCreatedAt: json['created_at'] ?? AppUtils.undefined,
-      messageUpdatedAt: json['updated_at'] ?? AppUtils.undefined,
+      messageCreatedAt: dataJson['created_at'] ?? AppUtils.undefined,
+      messageUpdatedAt: dataJson['updated_at'] ?? AppUtils.undefined,
     );
   }
 

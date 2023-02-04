@@ -5,7 +5,7 @@ import 'package:yamaiter/data/models/payment/refund_request_model.dart';
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../common/enum/payment_mission_type.dart';
 import '../../../../data/params/payment/refund_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/use_cases/payment/refund_payment.dart';
 

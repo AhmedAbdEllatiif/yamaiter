@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/use_cases/accept_terms/accept_terms.dart';
 

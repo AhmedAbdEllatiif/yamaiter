@@ -5,7 +5,7 @@ import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/use_cases/client/consultations/get_my_consultations.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'get_my_consultations_state.dart';

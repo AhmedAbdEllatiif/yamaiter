@@ -394,7 +394,7 @@ class EndPoints {
   static String registerClient = "${_apiVersion}client-register";
 
   /// create task client
-  static String createTaskClient = "${_apiVersion}client-tasks";
+  static String createTaskClient = "${_apiVersion}tasks";
 
   /// consultationDetails
   static String consultationDetails = "${_apiVersion}consultations";
@@ -406,16 +406,16 @@ class EndPoints {
   static String payForConsultation = "${_apiVersion}pay";
 
   /// create tasks client
-  static String myTasksClient = "${_apiVersion}client-posted-tasks";
+  static String myTasksClient = "${_apiVersion}my-tasks";
 
   /// single task client
-  static String singleTasksClient = "${_apiVersion}client-tasks";
+  static String singleTasksClient = "${_apiVersion}my-tasks";
 
   /// end task client
   static String endTaskClient = "${_apiVersion}client-complete-task";
 
   /// assign task client
-  static String assignTaskClient = "${_apiVersion}client-assign-task";
+  static String assignTaskClient = "${_apiVersion}assign-task";
 
   /// deleteTask
   static String deleteTaskClient = "${_apiVersion}client-tasks";

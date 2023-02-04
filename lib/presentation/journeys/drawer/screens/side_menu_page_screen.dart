@@ -5,7 +5,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_ite
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 
 import '../../../../common/constants/sizes.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../widgets/app_error_widget.dart';

@@ -8,7 +8,7 @@ import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/side_menu_page_entity.dart';
 

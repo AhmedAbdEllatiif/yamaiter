@@ -6,7 +6,7 @@ import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/use_cases/my_tasks/assign_task.dart';
 

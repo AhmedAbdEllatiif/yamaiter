@@ -79,11 +79,12 @@ class PusherDataSource {
         jsonDecode(event.data),
       );
 
-      // convert messageModelItem to types.Message json
-      final jsonMessage = messageModelItem.toChatMessageJson();
+      // convert messageModelItem to json that accepted by types.Message
+      final typesMessageAcceptedJson = messageModelItem.toChatMessageJson();
 
       // init types.Message from jsonMessage
-      final types.Message message = types.Message.fromJson(jsonMessage);
+      final types.Message message =
+          types.Message.fromJson(typesMessageAcceptedJson);
 
       // on message received
       onMessageReceived(message);

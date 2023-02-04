@@ -6,7 +6,7 @@ import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/loading_m
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/data/article_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';

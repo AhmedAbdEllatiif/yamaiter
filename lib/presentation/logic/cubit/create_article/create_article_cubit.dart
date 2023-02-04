@@ -5,7 +5,7 @@ import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/domain/use_cases/article/create_article.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'create_article_state.dart';

@@ -8,7 +8,7 @@ import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/common_functions.dart';
-import '../../../di/git_it.dart';
+import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';

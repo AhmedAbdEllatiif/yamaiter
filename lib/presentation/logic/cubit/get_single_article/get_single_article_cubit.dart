@@ -5,7 +5,7 @@ import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/use_cases/get_single_article.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'get_single_article_state.dart';

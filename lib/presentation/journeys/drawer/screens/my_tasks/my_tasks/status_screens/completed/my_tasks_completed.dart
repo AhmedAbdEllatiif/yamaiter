@@ -5,7 +5,7 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../../../common/enum/task_status.dart';
-import '../../../../../../../../di/git_it.dart';
+import '../../../../../../../../di/git_it_instance.dart';
 import '../../../../../../../../domain/entities/data/task_entity.dart';
 import '../../../../../../../../router/route_helper.dart';
 import '../../../../../../../logic/cubit/end_task/end_task_cubit.dart';

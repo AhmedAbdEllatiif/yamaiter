@@ -114,9 +114,12 @@ class DrawerScreenClient extends StatelessWidget {
     );
   }
 
+  void _navigateChatScreen(BuildContext context) =>
+      RouteHelper().chatListScreen(context);
+
   /// to MyTaskScreen
   void _navigateMyTasksScreen(BuildContext context) =>
-      RouteHelper().myTasksClient(context);
+      RouteHelper().myTasks(context);
 
   /// to MyConsultationsScreen
   void _navigateMyConsultationsScreen(BuildContext context) =>
@@ -175,7 +178,7 @@ class DrawerScreenClient extends StatelessWidget {
         DrawerItem(
           iconData: Icons.chat_outlined,
           title: "المحادثات",
-          onPressed: () {},
+          onPressed: () => _navigateChatScreen(context),
         ),
 
         DrawerItem(

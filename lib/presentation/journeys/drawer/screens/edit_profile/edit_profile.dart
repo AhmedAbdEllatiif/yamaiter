@@ -12,7 +12,7 @@ import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 
 import '../../../../../common/constants/sizes.dart';
-import '../../../../../di/git_it.dart';
+import '../../../../../di/git_it_instance.dart';
 import '../../../../logic/cubit/pick_images/pick_image_cubit.dart';
 import 'choose_profile_image.dart';
 

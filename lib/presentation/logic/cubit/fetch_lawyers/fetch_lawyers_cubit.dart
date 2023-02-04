@@ -6,7 +6,7 @@ import 'package:yamaiter/domain/use_cases/fetch_lawyers.dart';
 
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/data/lawyer_entity.dart';
 
 part 'fetch_lawyers_state.dart';

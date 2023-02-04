@@ -14,7 +14,7 @@ class LawyerEntity extends Equatable {
   final String courtName;
   final String description;
   final bool status;
-  final num costOfferedByLawyer;
+  final double costOfferedByLawyer;
   late final String idPhoto;
   late final String profileImage;
 

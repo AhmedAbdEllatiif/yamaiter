@@ -9,7 +9,7 @@ import 'package:yamaiter/presentation/journeys/request_a_consultation/consultati
 import '../../../common/constants/app_utils.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/common_functions.dart';
-import '../../../di/git_it.dart';
+import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../../logic/cubit/accept_terms/accept_terms_cubit.dart';

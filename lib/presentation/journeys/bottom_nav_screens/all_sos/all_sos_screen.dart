@@ -5,7 +5,7 @@ import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/data/sos_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_sos/get_all_soso_cubit.dart';

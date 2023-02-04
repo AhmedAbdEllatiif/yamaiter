@@ -5,7 +5,7 @@ import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
 import 'package:yamaiter/domain/use_cases/chat/get_chat_room_by_id.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'chat_room_state.dart';

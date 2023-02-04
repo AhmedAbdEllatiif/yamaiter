@@ -99,6 +99,16 @@ dependencies:
   # pusher_channels_flutter
   pusher_channels_flutter: ^2.1.0
 
+  # open_file
+  open_filex: ^4.3.2
+
+  # path_provider
+  path_provider: ^2.0.12
+
+  # fileSize
+  filesize: ^2.0.1
+
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

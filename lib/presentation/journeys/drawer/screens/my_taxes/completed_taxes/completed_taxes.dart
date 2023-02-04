@@ -5,7 +5,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../../../../../common/constants/sizes.dart';
 import '../../../../../../common/enum/app_error_type.dart';
-import '../../../../../../di/git_it.dart';
+import '../../../../../../di/git_it_instance.dart';
 import '../../../../../../domain/entities/tax_entity.dart';
 import '../../../../../../router/route_helper.dart';
 import '../../../../../logic/cubit/get_completed_taxes/get_completed_taxes_cubit.dart';

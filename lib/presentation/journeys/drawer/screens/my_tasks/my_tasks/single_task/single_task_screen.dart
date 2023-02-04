@@ -1,15 +1,12 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/applicant_lawyers/list_of_applicant_lawyers.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_single_task/get_my_single_task_cubit.dart';
-import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_content_title_widget.dart';
 
 import '../../../../../../../common/constants/app_utils.dart';
@@ -22,7 +19,6 @@ import '../../../../../../../domain/entities/screen_arguments/delete_task_args.d
 import '../../../../../../../domain/entities/screen_arguments/edit_task_args.dart';
 import '../../../../../../../domain/entities/screen_arguments/payment_args.dart';
 import '../../../../../../../router/route_helper.dart';
-import '../../../../../../logic/client_cubit/delete_task_client/delete_task_client_cubit.dart';
 import '../../../../../../logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../../../../../../logic/cubit/delete_task/delete_task_cubit.dart';
 import '../../../../../../logic/cubit/update_task/update_task_cubit.dart';
@@ -140,7 +136,7 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
             BlocListener<DeleteTaskCubit, DeleteTaskState>(
               bloc: _deleteTaskCubit,
               listener: (_, state) {
-                if (state is TaskClientDeletedSuccessfully) {
+                if (state is TaskDeletedSuccessfully) {
                   Navigator.pop(context);
                 }
               },

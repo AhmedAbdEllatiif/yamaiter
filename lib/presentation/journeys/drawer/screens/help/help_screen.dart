@@ -7,7 +7,7 @@ import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../../../common/constants/sizes.dart';
-import '../../../../../di/git_it.dart';
+import '../../../../../di/git_it_instance.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
 import '../../../../widgets/app_content_title_widget.dart';

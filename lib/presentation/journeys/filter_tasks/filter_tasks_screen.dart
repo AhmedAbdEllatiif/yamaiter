@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/data/params/filter_task_params.dart';
-import 'package:yamaiter/di/git_it.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/filter_tasks/filter_task_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';

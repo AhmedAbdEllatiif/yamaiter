@@ -6,7 +6,6 @@ import 'package:yamaiter/domain/entities/screen_arguments/apply_for_task_args.da
 import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/consultation_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_task_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/create_task_args_client.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/create_tax_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/decline_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
@@ -17,27 +16,20 @@ import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/my_tasks_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/refund_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/search_result_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_article_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/single_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/update_task_client_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/router/route_list.dart';
 
 import '../domain/entities/screen_arguments/add_article_args.dart';
 import '../domain/entities/screen_arguments/add_new_ad_args.dart';
-import '../domain/entities/screen_arguments/delete_task_client_args.dart';
-import '../domain/entities/screen_arguments/end_task_client_args.dart';
 import '../domain/entities/screen_arguments/my_task_args.dart';
 import '../domain/entities/screen_arguments/side_menu_page_args.dart';
 
@@ -247,51 +239,17 @@ class RouteHelper {
   }
 
   /// To create task client screen \\\
-  void createTaskClient(BuildContext context,
-      {required CreateTaskArgumentsClient? createTaskArgumentsClient}) {
-    Navigator.of(context).pushNamed(RouteList.createTaskClient,
-        arguments: createTaskArgumentsClient);
-  }
-
-  /// To  my_tasks_client screen \\\
-  void myTasksClient(
-    BuildContext context, {
-    bool isReplacement = false,
-    bool isPushNamedAndRemoveUntil = false,
-    TaskType taskType = TaskType.todo,
-  }) {
-    if (isReplacement) {
-      Navigator.of(context).pushReplacementNamed(RouteList.myTasksClient,
-          arguments: MyTasksClientArguments(taskType: taskType));
-    } else if (isPushNamedAndRemoveUntil) {
-      Navigator.of(context).pushNamedAndRemoveUntil(
-          RouteList.myTasksClient, (Route<dynamic> route) => route.isFirst,
-          arguments: MyTasksClientArguments(taskType: taskType));
-    } else {
-      Navigator.of(context).pushNamed(RouteList.myTasksClient,
-          arguments: MyTasksClientArguments(taskType: taskType));
-    }
-  }
-
-  /// To single task client screen \\\
-  void singleTaskClient(BuildContext context,
-      {required SingleTaskClientArguments singleTaskClientArguments}) {
-    Navigator.of(context).pushNamed(RouteList.singleTaskClient,
-        arguments: singleTaskClientArguments);
-  }
+  // void createTaskClient(BuildContext context,
+  //     {required CreateTaskArgumentsClient? createTaskArgumentsClient}) {
+  //   Navigator.of(context).pushNamed(RouteList.createTaskClient,
+  //       arguments: createTaskArgumentsClient);
+  // }
 
   /// To edit task screen \\\
   void editTask(BuildContext context,
       {required EditTaskArguments editTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.editTask, arguments: editTaskArguments);
-  }
-
-  /// To update task client screen \\\
-  void updateTaskClient(BuildContext context,
-      {required UpdateTaskClientArguments updateTaskClientArguments}) {
-    Navigator.of(context).pushNamed(RouteList.updateTaskClient,
-        arguments: updateTaskClientArguments);
   }
 
   /// To single task screen \\\
@@ -308,25 +266,11 @@ class RouteHelper {
         .pushNamed(RouteList.endTask, arguments: endTaskArguments);
   }
 
-  /// To end task screen client\\\
-  void endTaskClient(BuildContext context,
-      {required EndTaskClientArguments endTaskClientArguments}) {
-    Navigator.of(context)
-        .pushNamed(RouteList.endTaskClient, arguments: endTaskClientArguments);
-  }
-
   /// To delete task screen \\\
   void deleteTask(BuildContext context,
       {required DeleteTaskArguments deleteTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.deleteTask, arguments: deleteTaskArguments);
-  }
-
-  /// To delete task client screen \\\
-  void deleteTaskClient(BuildContext context,
-      {required DeleteTaskClientArguments deleteTaskClientArguments}) {
-    Navigator.of(context).pushNamed(RouteList.deleteTaskClient,
-        arguments: deleteTaskClientArguments);
   }
 
   /// To my my_tasks screen \\\

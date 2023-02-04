@@ -5,7 +5,7 @@ import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/params/all_sos_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
 part 'get_my_sos_state.dart';

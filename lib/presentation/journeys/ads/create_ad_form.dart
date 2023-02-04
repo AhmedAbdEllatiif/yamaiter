@@ -6,7 +6,7 @@ import '../../../common/constants/drop_down_list.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/common_functions.dart';
-import '../../../di/git_it.dart';
+import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/create_ad/create_ad_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';

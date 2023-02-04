@@ -11,16 +11,13 @@ class PusherInitial extends PusherState {}
 
 class LoadingPusherConnection extends PusherState {}
 
-
 /// PusherSubscriptionErrorOccurred
 class PusherSubscriptionErrorOccurred extends PusherState {}
-
 
 /// InitializationError
 class PusherInitializationErrorOccurred extends PusherState {}
 
-
-/// message received
+/// text message received
 class PusherNewMessageReceived extends PusherState {
   final types.Message message;
 
@@ -30,6 +27,24 @@ class PusherNewMessageReceived extends PusherState {
   List<Object> get props => [message.id];
 }
 
+/// file message received
+class PusherNewFileMessageReceived extends PusherState {
+  final types.FileMessage message;
 
+  const PusherNewFileMessageReceived(this.message);
+
+  @override
+  List<Object> get props => [message.id];
+}
+
+/// image message received
+class PusherNewImageMessageReceived extends PusherState {
+  final types.FileMessage message;
+
+  const PusherNewImageMessageReceived(this.message);
+
+  @override
+  List<Object> get props => [message.id];
+}
 
 class ErrorWhileReceivingNewMessageState extends PusherState {}

@@ -6,7 +6,7 @@ import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../data/models/consultations/create_consultation_request_model.dart';
 import '../../../../data/params/client/create_consultation_params.dart';
-import '../../../../di/git_it.dart';
+import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/use_cases/client/consultations/create_consultaion.dart';
 
