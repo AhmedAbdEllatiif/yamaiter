@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_authoried_user.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
@@ -108,13 +109,10 @@ class _ChatItemState extends State<ChatItem> {
   }
 
   void _navigateToChatRoom() {
-    // init authorizedUserEntity
-    final authorizedUserEntity =
-        context.read<AuthorizedUserCubit>().state.userEntity;
 
     RouteHelper().chatRoomScreen(context,
         chatRoomArguments: ChatRoomArguments(
-          authorizedUserEntity: authorizedUserEntity,
+          authorizedUserEntity: getAuthorizedUserEntity(context),
           chatRoomId: _chatId,
           chatChannel: _chatChannel,
         ));

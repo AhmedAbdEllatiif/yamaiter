@@ -17,6 +17,7 @@ import '../../../../../../../../common/functions/common_functions.dart';
 import '../../../../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../../../../themes/theme_color.dart';
 import '../../../../../../../widgets/rounded_text.dart';
+import '../../../../../../../widgets/start_chat_button.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
 
 class InProgressTaskItem extends StatefulWidget {
@@ -145,12 +146,9 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
 
                                   ///==> start chat
                                   Flexible(
-                                    child: RoundedText(
-                                      text: "ابدأ المحادثة",
-                                      rightIconData: Icons.chat_bubble_outline,
-                                      onPressed: () {
-                                        _navigateToChatRoomScreen();
-                                      },
+                                    child: StartChatButton(
+                                      chatChannel: widget.taskEntity.chatChannel,
+                                      chatRoomId: widget.taskEntity.chatId,
                                     ),
                                   ),
                                 ],
@@ -209,29 +207,5 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
             },
           }),
     );
-  }
-
-  /// to navigate to ChatRoomScreen
-  void _navigateToChatRoomScreen() {
-    final chatId = widget.taskEntity.chatId;
-    final chatChannel = widget.taskEntity.chatChannel;
-    final authorizedUserEntity =
-        context.read<AuthorizedUserCubit>().state.userEntity;
-
-    if (chatId == -1 || chatChannel == AppUtils.undefined) {
-      showSnackBar(
-        context,
-        message: "حدث خطأ لا يمكن بدء المحادثة",
-        backgroundColor: AppColor.accentColor,
-        isFloating: false,
-      );
-    } else {
-      RouteHelper().chatRoomScreen(context,
-          chatRoomArguments: ChatRoomArguments(
-            authorizedUserEntity: authorizedUserEntity,
-            chatRoomId: chatId,
-            chatChannel: chatChannel,
-          ));
-    }
   }
 }

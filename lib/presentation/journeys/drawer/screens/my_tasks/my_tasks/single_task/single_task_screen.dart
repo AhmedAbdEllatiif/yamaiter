@@ -81,7 +81,6 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _getMySingleTaskCubit),
-        BlocProvider(create: (context) => _checkPaymentStatusCubit),
         BlocProvider(create: (context) => _payToAssignTaskCubit)
       ],
       child: Scaffold(
@@ -154,6 +153,7 @@ class _SingleTaskScreenState extends State<SingleTaskScreen> {
 
             /// CheckPaymentStatus listener
             BlocListener<CheckPaymentStatusCubit, CheckPaymentStatusState>(
+              bloc: _checkPaymentStatusCubit,
                 listener: (_, state) {
               //==> loading
               if (state is LoadingCheckPaymentStatus) {

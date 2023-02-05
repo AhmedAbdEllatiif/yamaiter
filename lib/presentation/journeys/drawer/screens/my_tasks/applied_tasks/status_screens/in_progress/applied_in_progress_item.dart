@@ -4,6 +4,7 @@ import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
+import 'package:yamaiter/presentation/widgets/start_chat_button.dart';
 
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
@@ -154,10 +155,9 @@ class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
 
                       ///==> start chat
                       Flexible(
-                        child: RoundedText(
-                          text: "ابدأ المحادثة",
-                          rightIconData: Icons.chat_bubble_outline,
-                          onPressed: () {},
+                        child: StartChatButton(
+                          chatChannel: widget.taskEntity.chatChannel,
+                          chatRoomId: widget.taskEntity.chatId,
                         ),
                       ),
 
