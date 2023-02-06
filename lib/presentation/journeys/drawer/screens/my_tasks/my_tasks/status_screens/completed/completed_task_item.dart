@@ -9,6 +9,7 @@ import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
 import '../../../../../../../themes/theme_color.dart';
+import '../../../../../../../widgets/download_file_widget.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
 
@@ -146,11 +147,9 @@ class CompletedTaskItem extends StatelessWidget {
 
                       ///==> file
                       Flexible(
-                        child: RoundedText(
-                          text: "ملف المهمة",
-                          rightIconData: Icons.file_copy_rounded,
-                          textSize: Sizes.dimen_10,
-                          onPressed: () {},
+                        child: DownloadFileWidget(
+                          fileName: taskEntity.fileName,
+                          fileUrl: taskEntity.taskFileUrl,
                         ),
                       ),
 

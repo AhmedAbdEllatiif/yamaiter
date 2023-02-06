@@ -56,6 +56,7 @@ import '../domain/use_cases/my_tasks/update_task.dart';
 import '../domain/use_cases/taxes/pay_for_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
+import '../domain/use_cases/update_profile/update_client_profile_case.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import 'git_it_instance.dart';
 
@@ -350,6 +351,18 @@ Future init() async {
   //==> FetchChatListCase
   getItInstance.registerFactory<FetchChatListCase>(
         () => FetchChatListCase(remoteRepository: getItInstance()),
+  );
+
+
+
+  ///========================>  Update profile <========================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  //==> UpdateClientProfileCase
+  getItInstance.registerFactory<UpdateClientProfileCase>(
+        () => UpdateClientProfileCase(remoteRepository: getItInstance()),
   );
 
 }

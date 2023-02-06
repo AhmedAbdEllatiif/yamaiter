@@ -8,12 +8,12 @@ import '../themes/theme_color.dart';
 
 class LoadingWidget extends StatelessWidget {
   final double size;
-  final String text;
+  final String? text;
 
   const LoadingWidget({
     Key? key,
     this.size = 100,
-    this.text = "",
+    this.text,
   }) : super(key: key);
 
   @override
@@ -28,8 +28,9 @@ class LoadingWidget extends StatelessWidget {
         ),
 
         // text
+        if(text != null)
         Text(
-          text,
+          text ?? "",
           style: Theme.of(context)
               .textTheme
               .caption!

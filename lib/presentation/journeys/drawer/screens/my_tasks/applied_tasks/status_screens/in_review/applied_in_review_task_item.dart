@@ -8,6 +8,7 @@ import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
 import '../../../../../../../themes/theme_color.dart';
+import '../../../../../../../widgets/download_file_widget.dart';
 import '../../../../../../../widgets/image_name_rating_widget.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
@@ -147,10 +148,9 @@ class AppliedInReviewItem extends StatelessWidget {
 
                       ///==> start chat
                       Flexible(
-                        child: RoundedText(
-                          text: "ملف المهمة",
-                          rightIconData: Icons.file_copy_outlined,
-                          onPressed: () {},
+                        child: DownloadFileWidget(
+                          fileName: taskEntity.fileName,
+                          fileUrl: taskEntity.taskFileUrl,
                         ),
                       ),
                     ],

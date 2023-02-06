@@ -14,10 +14,11 @@ class TaskEntity extends Equatable {
   final String description;
   final int price;
   final String status;
-  final String file;
   final int applicantsCount;
   final int chatId;
   final String chatChannel;
+  late final String taskFileUrl;
+  late final String fileName;
 
   //final List<UserLawyerModel> assignedLawyers;
   final List<UserLawyerModel> applicantLawyers;
@@ -53,7 +54,7 @@ class TaskEntity extends Equatable {
       status: "status",
       file: "file",
       chatId: -1,
-      chatChannel:"chatChannel not found",
+      chatChannel: "chatChannel not found",
       costCommission: AppUtils.undefined,
       refundCommission: AppUtils.undefined,
       applicantsCount: 10,
@@ -75,7 +76,7 @@ class TaskEntity extends Equatable {
     required this.description,
     required this.price,
     required this.status,
-    required this.file,
+    required final String file,
     required this.costCommission,
     required this.refundCommission,
     required this.applicantsCount,
@@ -90,7 +91,18 @@ class TaskEntity extends Equatable {
     required final DateTime? taskCreatedAt,
     required final DateTime? taskUpdatedAt,
   }) {
+    /// init fileName
+    if (file != AppUtils.undefined) {
+      fileName = file;
+    } else {
+      fileName = AppUtils.undefined;
+    }
+
+    /// init fileUrl
+    taskFileUrl = ApiConstants.mediaUrl + file;
+
     log("Fees >> costCommission: $costCommission , refundCommission: $refundCommission");
+
     /// init startingDate
     if (taskStartingDate != null) {
       startingDate =

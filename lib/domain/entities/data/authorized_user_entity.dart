@@ -13,6 +13,8 @@ class AuthorizedUserEntity extends Equatable {
   final String lastName;
   final String email;
   final String phoneNum;
+  final String governorates;
+  final String courtName;
   late final String userAvatar;
   final UserType userType;
   final AcceptTerms acceptTerms;
@@ -23,6 +25,8 @@ class AuthorizedUserEntity extends Equatable {
     required this.lastName,
     required this.email,
     required this.phoneNum,
+    required this.governorates,
+    required this.courtName,
     required this.userType,
     required this.acceptTerms,
     required final String profileImage,
@@ -38,6 +42,8 @@ class AuthorizedUserEntity extends Equatable {
       lastName: AppUtils.undefined,
       email: AppUtils.undefined,
       profileImage: AppUtils.undefined,
+      governorates: AppUtils.undefined,
+      courtName: AppUtils.undefined,
       phoneNum: "01*********",
       userType: UserType.unDefined,
       acceptTerms: AcceptTerms.unKnown);

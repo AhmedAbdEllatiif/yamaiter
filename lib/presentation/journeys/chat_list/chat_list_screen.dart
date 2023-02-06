@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/journeys/chat_list/chat_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/fetch_chat_list/fetch_chat_list_cubit.dart';
@@ -163,7 +164,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
   /// to fetch the chat list
   void _fetchChatList() {
     // init userToken
-    final userToken = context.read<UserTokenCubit>().state.userToken;
+    final userToken = getUserToken(context);
 
     _fetchChatListCubit.fetchChatList(userToken: userToken);
   }

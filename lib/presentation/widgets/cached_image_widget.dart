@@ -13,6 +13,7 @@ class CachedImageWidget extends StatelessWidget {
   final bool isCircle;
   final BoxFit boxFit;
   final bool withBorderRadius;
+  final Widget? errorWidget;
 
   const CachedImageWidget({
     Key? key,
@@ -21,6 +22,7 @@ class CachedImageWidget extends StatelessWidget {
     required this.width,
     required this.progressBarScale,
     required this.isCircle,
+    this.errorWidget,
     this.withBorderRadius = false,
     this.boxFit = BoxFit.cover,
   }) : super(key: key);
@@ -61,7 +63,7 @@ class CachedImageWidget extends StatelessWidget {
       ),
 
       /// error widget
-      errorWidget: (context, url, error) => const Icon(
+      errorWidget: (context, url, error) => errorWidget ?? const Icon(
         Icons.error,
         color: AppColor.accentColor,
       ),

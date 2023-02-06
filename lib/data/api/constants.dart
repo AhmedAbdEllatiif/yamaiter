@@ -15,7 +15,9 @@ class ApiConstants {
   ///==> _chatList
   static Uri _chatList() => Uri.https(_baseUrl, EndPoints.chatList);
 
-  ///==> Client
+  ///==> updateClientProfile
+  static Uri _updateClientProfile() => Uri.https(_baseUrl, EndPoints.updateClientProfile);
+///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
   /// _createTaskClient
@@ -217,6 +219,9 @@ class ApiConstants {
       ///                                                                   \\\\
       ///===================================================================\\\\
 
+    // updateClientProfile
+      case RequestType.updateClientProfile:
+        return _updateClientProfile();
       // registerClient
       case RequestType.registerClient:
         return _registerClient();
@@ -390,6 +395,9 @@ class EndPoints {
 
   ///===============================> end of  Chat <========================\\\\
   ///===============================> Client <==============================\\\\
+  /// updateClientProfile
+  static String updateClientProfile = "${_apiVersion}update-client-profile";
+
   /// registerClient
   static String registerClient = "${_apiVersion}client-register";
 
@@ -554,6 +562,7 @@ enum RequestType {
   chatList,
 
   /// ===> Client
+  updateClientProfile,
   registerClient,
   createTaskClient,
   myConsultations,

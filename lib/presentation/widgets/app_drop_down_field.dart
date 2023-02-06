@@ -17,6 +17,7 @@ class AppDropDownField extends StatefulWidget {
   final EdgeInsets? margin;
   final bool isLastItemHighlighted;
   final bool disabled;
+  final bool validateOnSubmit;
 
   AppDropDownField({
     Key? key,
@@ -30,6 +31,7 @@ class AppDropDownField extends StatefulWidget {
     this.width,
     this.margin,
     this.disabled = false,
+    this.validateOnSubmit = true,
     this.isLastItemHighlighted = false,
   }) : super(key: key) {
     if (taskItems != null) {
@@ -59,7 +61,9 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
       child: DropdownButtonFormField<dynamic>(
         isExpanded: true,
         //value: "A",
-        value: widget.initialValue,
+        value: widget.itemsList.contains(widget.initialValue)
+            ? widget.initialValue
+            : null,
 
         // decoration
         decoration: InputDecoration(
@@ -120,12 +124,14 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
         // onChanged
         onChanged: widget.disabled ? null : widget.onChanged,
 
-        validator: (value) {
-          // if (value == null) return "* اختر المحافظة محل العمل";
-          // if (value.isEmpty) return "* اختر المحافظة محل العمل";
-          if (value == null) return "* مطلوب ادخاله";
-          if (value.isEmpty) return "* مطلوب ادخاله";
-        },
+        validator: widget.validateOnSubmit
+            ? (value) {
+                // if (value == null) return "* اختر المحافظة محل العمل";
+                // if (value.isEmpty) return "* اختر المحافظة محل العمل";
+                if (value == null) return "* مطلوب ادخاله";
+                if (value.isEmpty) return "* مطلوب ادخاله";
+              }
+            : null,
         // items
         items: widget.itemsList.isNotEmpty ? _items() : _taskItems(),
       ),

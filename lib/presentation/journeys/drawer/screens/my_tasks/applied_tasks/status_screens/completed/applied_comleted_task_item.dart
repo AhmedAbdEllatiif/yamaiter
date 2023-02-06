@@ -8,6 +8,7 @@ import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
 import '../../../../../../../themes/theme_color.dart';
+import '../../../../../../../widgets/download_file_widget.dart';
 import '../../../../../../../widgets/image_name_rating_widget.dart';
 import '../../../../../../../widgets/rounded_text.dart';
 import '../../../../../../../widgets/text_with_icon.dart';
@@ -67,9 +68,9 @@ class AppliedCompletedItem extends StatelessWidget {
                                     .textTheme
                                     .bodyText2!
                                     .copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  height: 1.5,
-                                ),
+                                      fontWeight: FontWeight.bold,
+                                      height: 1.5,
+                                    ),
                               ),
 
                               SizedBox(
@@ -86,9 +87,9 @@ class AppliedCompletedItem extends StatelessWidget {
                                     .textTheme
                                     .bodySmall!
                                     .copyWith(
-                                  fontWeight: FontWeight.normal,
-                                  height: 1.3,
-                                ),
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.3,
+                                    ),
                               ),
 
                               /// date, court, applicants
@@ -147,10 +148,9 @@ class AppliedCompletedItem extends StatelessWidget {
 
                       ///==> start chat
                       Flexible(
-                        child: RoundedText(
-                          text: "ملف المهمة",
-                          rightIconData: Icons.file_copy_outlined,
-                          onPressed: () {},
+                        child: DownloadFileWidget(
+                          fileName: taskEntity.fileName,
+                          fileUrl: taskEntity.taskFileUrl,
                         ),
                       ),
                     ],

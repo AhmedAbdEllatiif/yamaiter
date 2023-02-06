@@ -1,8 +1,27 @@
+import 'dart:convert';
+
 import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 import '../../common/constants/app_utils.dart';
+
+///  return AuthorizedUserModel
+AuthorizedUserModel authorizedUserModelFromJson(String body) {
+  final result = json.decode(body);
+
+  if (result == null) {
+    throw Exception(
+        "AuthorizedUserModel >>> authorizedUserModelFromJson >> result is null");
+  }
+
+  if (result["user"] == null) {
+    throw Exception(
+        "AuthorizedUserModel >>> authorizedUserModelFromJson >> user is null");
+  }
+
+  return AuthorizedUserModel.fromJson(result["user"]);
+}
 
 class AuthorizedUserModel extends AuthorizedUserEntity {
   final int userId;
@@ -17,6 +36,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
   final String createdAt;
   final String updatedAt;
   final int userAcceptTerms;
+  final String userGovernorate;
+  final String userCourtName;
 
   AuthorizedUserModel({
     required this.userId,
@@ -26,6 +47,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
     required this.userPhone,
     required this.profileImage,
     required this.userableType,
+    required this.userGovernorate,
+    required this.userCourtName,
     required this.userableId,
     required this.createdAt,
     required this.updatedAt,
@@ -38,6 +61,8 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
           phoneNum: userPhone,
           userType: userableType,
           profileImage: profileImage,
+          governorates: userGovernorate,
+          courtName: userCourtName,
           acceptTerms: userAcceptTerms == 1
               ? AcceptTerms.firstAccept
               : userAcceptTerms == 2
@@ -45,8 +70,7 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
                   : AcceptTerms.unKnown,
         );
 
-  factory AuthorizedUserModel.fromJson(Map<String, dynamic> json) =>
-      AuthorizedUserModel(
+  factory AuthorizedUserModel.fromJson(dynamic json) => AuthorizedUserModel(
         //==> userId
         userId: json["id"] ?? -1,
 
@@ -75,6 +99,16 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
                     ? UserType.lawyer
                     : UserType.unDefined
             : UserType.unDefined,
+
+        //==> governorates
+        userGovernorate: json['userable'] != null
+            ? json['userable']["governorates"] ?? AppUtils.undefined
+            : AppUtils.undefined,
+
+        //==> court_name
+        userCourtName: json['userable'] != null
+            ? json['userable']["court_name"] ?? AppUtils.undefined
+            : AppUtils.undefined,
 
         //==> userableId
         userableId: json['userable_id'] ?? -1,

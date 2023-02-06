@@ -1,10 +1,15 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
+import 'package:open_filex/open_filex.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/presentation/widgets/download_file_widget.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 
+import '../../../../../../../../common/classes/file_downloader.dart';
 import '../../../../../../../../common/constants/app_utils.dart';
 import '../../../../../../../../common/constants/sizes.dart';
 import '../../../../../../../../common/enum/animation_type.dart';
@@ -24,6 +29,8 @@ class InReviewItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log("TaskFile >> ${taskEntity.taskFileUrl}");
+    log("FileName >> ${taskEntity.fileName}");
     return Container(
       constraints: BoxConstraints(minHeight: ScreenUtil.screenHeight * 0.15),
       child: Card(
@@ -151,12 +158,18 @@ class InReviewItem extends StatelessWidget {
                       ),
 
                       ///==> file
-                      Flexible(
+                      /* Flexible(
                         child: RoundedText(
                           text: "ملف المهمة",
                           rightIconData: Icons.file_copy_rounded,
                           textSize: Sizes.dimen_10,
-                          onPressed: () {},
+                          onPressed: () => _openFile(),
+                        ),
+                      ),*/
+                      Flexible(
+                        child: DownloadFileWidget(
+                          fileName: taskEntity.fileName,
+                          fileUrl: taskEntity.taskFileUrl,
                         ),
                       ),
 
@@ -190,5 +203,38 @@ class InReviewItem extends StatelessWidget {
             },
           }),
     );
+  }
+
+  void _openFile() async {
+    var localPath = taskEntity.taskFileUrl;
+    //==> try to download the file
+    try {
+      // _showOrHideLoadingFileMessage(
+      //   messageId: message.id,
+      //   showLoading: true,
+      // );
+
+      final fileDownloader = FileDownloader(
+        fileUrl: taskEntity.taskFileUrl,
+        fileName: taskEntity.fileName,
+      );
+
+      localPath = await fileDownloader.getLocalFilePath();
+    }
+
+    //==> catch errors
+    catch (e) {
+      // _showErrorWithSnackBar("حدث خطأ اعد الحاولة لاحقا");
+      log("ChatRoom >> _handleMessageTap >> error: $e");
+    }
+
+    //==> finally hide loading
+     finally {
+      // _showOrHideLoadingFileMessage(
+      //     messageId: message.id, showLoading: false);
+    }
+
+    //==> open file
+    await OpenFilex.open(localPath);
   }
 }

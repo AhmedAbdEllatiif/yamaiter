@@ -13,6 +13,7 @@ import 'package:yamaiter/data/models/auth/register_client/register_client_reques
 import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
+import 'package:yamaiter/data/models/authorized_user_model.dart';
 import 'package:yamaiter/data/models/chats/received_chat_room_response_model.dart';
 import 'package:yamaiter/data/models/consultations/consultation_model.dart';
 import 'package:yamaiter/data/models/pay_response_model.dart';
@@ -63,6 +64,7 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import '../../domain/entities/chat/received_chat_list_entity.dart';
 import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
+import '../../domain/entities/data/authorized_user_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/auth/login/login_request.dart';
@@ -85,6 +87,7 @@ import '../params/payment/check_payment_status_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
 import '../params/chat/send_chat_message.dart';
+import '../params/update_profile/update_client_params.dart';
 import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
@@ -157,6 +160,33 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
       // success
       if (result is List<ReceivedChatListEntity>) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  ///========================>  Update profile <========================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  @override
+  Future<Either<AppError, AuthorizedUserEntity>> updateClientProfile(
+      UpdateClientParams updateClientParams) async {
+    try {
+      // send request
+      final result =
+          await remoteDataSource.updateClientProfile(updateClientParams);
+
+      // success
+      if (result is AuthorizedUserModel) {
         return Right(result);
       }
 

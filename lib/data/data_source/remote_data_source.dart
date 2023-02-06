@@ -40,6 +40,7 @@ import 'package:yamaiter/data/api/requests/post_requests/invite_to_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/search_for_lawyer.dart';
+import 'package:yamaiter/data/api/requests/post_requests/update_profile/update_client_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/upload_task_file.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
@@ -92,6 +93,7 @@ import 'package:yamaiter/data/params/no_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
+import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
@@ -117,6 +119,7 @@ import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
 import '../models/auth/register_client/register_client_response_model.dart';
+import '../models/authorized_user_model.dart';
 import '../models/chats/received_chat_room_response_model.dart';
 import '../models/consultations/consultation_model.dart';
 import '../models/pay_response_model.dart';
@@ -134,7 +137,7 @@ import '../params/chat/send_chat_message.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
-  ///=============================>  chat_room <=============================\\\\
+  ///=============================>  chat_room <========================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -146,6 +149,15 @@ abstract class RemoteDataSource {
 
   /// fetchChatList
   Future<dynamic> fetchChatList(FetchChatsListParams fetchChatsListParams);
+
+  ///===========================>  Update Profile  <==========================\\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///=========================================================================\\
+  Future<dynamic> updateClientProfile(UpdateClientParams params);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
@@ -461,6 +473,44 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("fetchChatList >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "fetchChatList UnHandledError >> $e");
+    }
+  }
+
+  ///===========================>  Update Profile  <==========================\\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///=========================================================================\\
+  @override
+  Future<dynamic> updateClientProfile(UpdateClientParams params) async {
+    try {
+      // init request
+      final updateClientRequest = UpdateClientRequest();
+      final request = await updateClientRequest(params);
+
+      // send a request
+      final streamResponse = await request.send();
+
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("updateClientProfile >> ResponseCode: ${response.statusCode}");
+      log("updateClientProfile >> ResponseBody: ${response.body}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return authorizedUserModelFromJson(response.body);
+        // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> updateClientProfile Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "updateClientProfile UnHandledError >> $e");
     }
   }
 
@@ -2112,31 +2162,29 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("payToAssignTask >> ResponseCode: ${response.statusCode}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return payResponseFromJson(response.body);
-    // notActivatedUser
+      // notActivatedUser
       case 403:
         return AppError(AppErrorType.notActivatedUser,
             message: "payToAssignTask body >> ${response.body}");
-    // not found
+      // not found
       case 404:
         return AppError(AppErrorType.notFound,
             message: "payToAssignTask Status Code >> ${response.body}");
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
             message: "payToAssignTask body >> ${response.body}");
-    // default
+      // default
       default:
         log("payToAssignTask >> body:${jsonDecode(response.body)}");
         return AppError(AppErrorType.api,
             message: "payToAssignTask Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
-    try {
-
-    } catch (e) {
+    try {} catch (e) {
       log("payToAssignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "payToAssignTask UnHandledError >> $e");

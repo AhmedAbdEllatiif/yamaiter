@@ -106,7 +106,9 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
             userType: userTypeFromString(data[3]),
             phoneNum: data[4],
             profileImage: data[5],
-            acceptTerms: acceptTermsFromString(data[6]))
+            governorates: data[6],
+            courtName: data[7],
+            acceptTerms: acceptTermsFromString(data[8]))
         : AuthorizedUserEntity.empty();
   }
 
@@ -122,6 +124,8 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
       userEntity.userType.toShortString(),
       userEntity.phoneNum,
       userEntity.userAvatar,
+      userEntity.governorates,
+      userEntity.courtName,
       userEntity.acceptTerms.toShortString(),
     ]);
   }

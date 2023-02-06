@@ -16,7 +16,7 @@ class FileDownloader {
   Future<String> getLocalFilePath() async {
     try {
       // if not starts http that means the file is locally file
-      if (!fileUrl.startsWith("http")) return fileUrl;
+      if (!fileUrl.startsWith("http")) return throw("File Url not Start with http");
 
       //==> init bodyBytes
       final bodyBytes = await _downloadFile();

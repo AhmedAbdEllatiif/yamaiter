@@ -49,6 +49,7 @@ import '../presentation/logic/cubit/register_lawyer/register_lawyer_cubit.dart';
 import '../presentation/logic/cubit/search_for_lawyers/search_for_lawyers_cubit.dart';
 import '../presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
 import '../presentation/logic/cubit/send_chat_message/send_chat_message_cubit.dart';
+import '../presentation/logic/cubit/update_client_profile/update_client_profile_cubit.dart';
 import '../presentation/logic/cubit/update_task/update_task_cubit.dart';
 import 'git_it_instance.dart';
 
@@ -296,6 +297,11 @@ Future init() async {
   //==> FetchChatListCubit
   getItInstance.registerFactory<FetchChatListCubit>(
     () => FetchChatListCubit(),
+  );
+
+  //==> UpdateClientProfileCubit
+  getItInstance.registerFactory<UpdateClientProfileCubit>(
+    () => UpdateClientProfileCubit(authorizedUserCubit: getItInstance()),
   );
 
   //==> AutoLoginCubit

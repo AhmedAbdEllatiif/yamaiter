@@ -37,9 +37,11 @@ import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
+import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
+import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
@@ -86,6 +88,14 @@ abstract class RemoteRepository {
   /// fetchChatList
   Future<Either<AppError, List<ReceivedChatListEntity>>> fetchChatList(
       FetchChatsListParams fetchChatsListParams);
+
+  ///========================>  Update profile <========================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  Future<Either<AppError, AuthorizedUserEntity>> updateClientProfile(
+      UpdateClientParams updateClientParams);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
