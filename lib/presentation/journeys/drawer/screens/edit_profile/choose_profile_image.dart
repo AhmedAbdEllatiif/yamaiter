@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -29,6 +30,7 @@ class _ChooseProfileImageWidgetState extends State<ChooseProfileImageWidget> {
   void initState() {
     super.initState();
     _currentUserImage = getAuthorizedUserEntity(context).userAvatar;
+    log("_currentUserImage $_currentUserImage");
   }
 
   /// the key board status

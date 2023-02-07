@@ -31,6 +31,7 @@ class AuthorizedUserEntity extends Equatable {
     required this.acceptTerms,
     required final String profileImage,
   }) {
+    log("AuthorizedUserEntity >> profileImage >> $profileImage");
     userAvatar = profileImage.startsWith("http")
         ? profileImage
         : ApiConstants.mediaUrl + profileImage;
@@ -57,5 +58,6 @@ class AuthorizedUserEntity extends Equatable {
         phoneNum,
         userType,
         acceptTerms,
+        userAvatar,
       ];
 }

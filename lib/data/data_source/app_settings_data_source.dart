@@ -82,6 +82,7 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
   @override
   Future<void> deleteCurrentUser() async {
     final SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setInt("userId", -1);
     preferences.setStringList("userData", []);
   }
 

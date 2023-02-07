@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 import '../../../../common/enum/user_type.dart';
@@ -12,15 +13,8 @@ import '../../../../domain/use_cases/authorized_user/authorized_user_data/save_u
 part 'authorized_user_state.dart';
 
 class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
-  final SaveUserDataCase saveUserDataCase;
-  final GetUserDataCase getUserDataCase;
-  final DeleteUserDataCase deleteUserDataCase;
 
-  AuthorizedUserCubit({
-    required this.saveUserDataCase,
-    required this.getUserDataCase,
-    required this.deleteUserDataCase,
-  }) : super(
+  AuthorizedUserCubit() : super(
           CurrentAuthorizedUserData(
             userEntity: AuthorizedUserEntity.empty(),
           ),
@@ -28,19 +22,23 @@ class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
 
   /// save current authorized user data
   Future<void> save(AuthorizedUserEntity userEntity) async {
-    await saveUserDataCase(userEntity);
+    await delete();
+    final useCase = getItInstance<SaveUserDataCase>();
+    await useCase(userEntity);
     await loadCurrentAuthorizedUserData();
   }
 
   /// delete current authorized user data
   Future<void> delete() async {
-    await deleteUserDataCase(NoParams());
+    final useCase = getItInstance<DeleteUserDataCase>();
+    await useCase(NoParams());
     await loadCurrentAuthorizedUserData();
   }
 
   /// save current authorized user data
   Future<void> loadCurrentAuthorizedUserData() async {
-    final either = await getUserDataCase(NoParams());
+    final useCase = getItInstance<GetUserDataCase>();
+    final either = await useCase(NoParams());
     either.fold(
       //==> error
       (appError) =>

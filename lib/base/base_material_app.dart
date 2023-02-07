@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -52,26 +54,29 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         //navigatorKey: navigatorKey,
 
         /// builder ==> build with ResponsiveWrapper and break points
-        builder: (context, widget) => Directionality(
-          textDirection: TextDirection.rtl,
-          child: ResponsiveWrapper.builder(
-            ClampingScrollWrapper.builder(context, widget!),
-            maxWidth: 1200,
-            defaultScale: true,
-            breakpoints: [
-              const ResponsiveBreakpoint.autoScale(220, name: "S"),
-              const ResponsiveBreakpoint.resize(350, name: MOBILE),
-              const ResponsiveBreakpoint.autoScale(600, name: TABLET),
-              const ResponsiveBreakpoint.resize(800, name: DESKTOP),
-              const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-            ],
-          ),
-        ),
+        builder: (context, widget) =>
+            Directionality(
+              textDirection: TextDirection.rtl,
+              child: ResponsiveWrapper.builder(
+                ClampingScrollWrapper.builder(context, widget!),
+                maxWidth: 1200,
+                defaultScale: true,
+                breakpoints: [
+                  const ResponsiveBreakpoint.autoScale(220, name: "S"),
+                  const ResponsiveBreakpoint.resize(350, name: MOBILE),
+                  const ResponsiveBreakpoint.autoScale(600, name: TABLET),
+                  const ResponsiveBreakpoint.resize(800, name: DESKTOP),
+                  const ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+                ],
+              ),
+            ),
 
         /// main theme
         theme: ThemeData(
             textTheme: GoogleFonts.cairoTextTheme(
-              Theme.of(context).textTheme,
+              Theme
+                  .of(context)
+                  .textTheme,
             ),
             primaryColor: AppColor.primaryDarkColor,
             primaryColorDark: AppColor.primaryDarkColor,
@@ -116,12 +121,17 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
               shadowColor: AppColor.black,
               shape: RoundedRectangleBorder(
                 borderRadius:
-                    BorderRadius.all(Radius.circular(AppUtils.cornerRadius)),
+                BorderRadius.all(Radius.circular(AppUtils.cornerRadius)),
               ),
             )),
 
         /// home
-        home: MainScreen(),
+        home: BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
+          builder: (context, state) {
+            log("Main: $state");
+            return MainScreen();
+          },
+        ),
         // home: BlocBuilder<UserTokenCubit, UserTokenState>(
         //   builder: (context, state) {
         //     if (state.userToken.isNotEmpty) {

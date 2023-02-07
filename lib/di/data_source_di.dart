@@ -10,7 +10,7 @@ Future init() async {
   );
 
   //==> AppSettingsDataSource
-  getItInstance.registerLazySingleton<AppSettingsDataSource>(
+  getItInstance.registerFactory<AppSettingsDataSource>(
     () => AppSettingsDataSourceImpl(),
   );
 }

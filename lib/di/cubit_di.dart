@@ -315,10 +315,6 @@ Future init() async {
 
   //==> AuthorizedUserCubit
   getItInstance.registerFactory<AuthorizedUserCubit>(
-    () => AuthorizedUserCubit(
-      saveUserDataCase: getItInstance(),
-      getUserDataCase: getItInstance(),
-      deleteUserDataCase: getItInstance(),
-    ),
+    () => AuthorizedUserCubit(),
   );
 }

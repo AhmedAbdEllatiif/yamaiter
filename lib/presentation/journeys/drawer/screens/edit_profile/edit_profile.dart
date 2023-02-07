@@ -136,6 +136,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _authorizedUserEntity = getAuthorizedUserEntity(context);
   }
 
+  void _updateAuthorizedUserEntity(){
+
+  }
+
   void _updateClientProfileOnSubmit({
     required String firstName,
     required String lastName,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
@@ -50,8 +52,9 @@ class UpdateClientProfileCubit extends Cubit<UpdateClientProfileState> {
     //==> receive result
     either.fold((appError) => _emitError(appError),
         (authorizedUserEntity) async {
+      log("UpdateClientProfileCubit >> $authorizedUserEntity");
       /// to update authorizedUserEntity in local preferences
-      authorizedUserCubit.saveUserDataCase(authorizedUserEntity);
+      authorizedUserCubit.save(authorizedUserEntity);
 
       _emitIfNotClosed(
         ClientProfileUpdatedSuccessfully(

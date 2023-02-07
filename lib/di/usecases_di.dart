@@ -82,18 +82,18 @@ Future init() async {
   ));
 
   //==> SaveUserDataCase
-  getItInstance.registerLazySingleton<SaveUserDataCase>(() => SaveUserDataCase(
+  getItInstance.registerFactory<SaveUserDataCase>(() => SaveUserDataCase(
     appSettingsRepository: getItInstance(),
   ));
 
   //==> GetUserDataCase
-  getItInstance.registerLazySingleton<GetUserDataCase>(() => GetUserDataCase(
+  getItInstance.registerFactory<GetUserDataCase>(() => GetUserDataCase(
     appSettingsRepository: getItInstance(),
   ));
 
   //==> DeleteUserDataCase
   getItInstance
-      .registerLazySingleton<DeleteUserDataCase>(() => DeleteUserDataCase(
+      .registerFactory<DeleteUserDataCase>(() => DeleteUserDataCase(
     appSettingsRepository: getItInstance(),
   ));
   /////////////////////////////////////////////////////////////////////////

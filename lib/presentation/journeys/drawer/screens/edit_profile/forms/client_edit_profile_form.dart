@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/get_authoried_user.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
+import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/update_client_profile/update_client_profile_cubit.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
@@ -16,7 +17,7 @@ import '../../../../../widgets/app_text_field.dart';
 
 class ClientEditProfileForm extends StatefulWidget {
   final UpdateClientProfileCubit updateClientProfileCubit;
-  
+
   final Function({
     required String firstName,
     required String lastName,

@@ -5,6 +5,7 @@ import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 
 AuthorizedUserEntity getAuthorizedUserEntity(BuildContext context) {
+  context.read<AuthorizedUserCubit>().loadCurrentAuthorizedUserData();
   return context.read<AuthorizedUserCubit>().state.userEntity;
 }
 
