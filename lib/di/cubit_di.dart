@@ -85,8 +85,8 @@ Future init() async {
   );
 
   //==> SideMenuPageCubit
-  getItInstance.registerFactory<SideMenuPageCubit>(
-    () => SideMenuPageCubit(),
+  getItInstance.registerFactory<AboutUsPageCubit>(
+    () => AboutUsPageCubit(),
   );
 
   //==> CreateSosCubit

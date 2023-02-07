@@ -1,70 +1,96 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_item.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
+import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
+import 'package:yamaiter/presentation/widgets/web_view_widget.dart';
 
-import '../../../../common/constants/sizes.dart';
+import '../../../../common/enum/app_error_type.dart';
+import '../../../../common/functions/navigate_to_login.dart';
 import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
-import '../../../logic/cubit/user_token/user_token_cubit.dart';
-import '../../../widgets/app_error_widget.dart';
 import '../../../widgets/loading_widget.dart';
 
-class SideMenuPageScreen extends StatefulWidget {
+class AboutUsScreen extends StatefulWidget {
   final SideMenuPageArguments sideMenuPageArguments;
 
-  const SideMenuPageScreen({Key? key, required this.sideMenuPageArguments})
+  const AboutUsScreen({Key? key, required this.sideMenuPageArguments})
       : super(key: key);
 
   @override
-  State<SideMenuPageScreen> createState() => _SideMenuPageScreenState();
+  State<AboutUsScreen> createState() => _AboutUsScreenState();
 }
 
-class _SideMenuPageScreenState extends State<SideMenuPageScreen> {
-  late final SideMenuPageCubit _sideMenuPageCubit;
+class _AboutUsScreenState extends State<AboutUsScreen> {
+  /// SideMenuPageCubit
+  late final AboutUsPageCubit _aboutUsPageCubit;
+
+  /// page title
+  late final String _pageTitle;
 
   @override
   void initState() {
     super.initState();
-    _sideMenuPageCubit = getItInstance<SideMenuPageCubit>();
+    _aboutUsPageCubit = getItInstance<AboutUsPageCubit>();
     _fetchAbout();
+
+    _pageTitle = widget.sideMenuPageArguments.pageTitle;
   }
 
   @override
   void dispose() {
-    _sideMenuPageCubit.close();
+    _aboutUsPageCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => _sideMenuPageCubit,
+      create: (context) => _aboutUsPageCubit,
       child: Scaffold(
         /// appBar
-        appBar: AppBar(
-          title:  Text(widget.sideMenuPageArguments.pageTitle),
-        ),
+        appBar: AppBar(title: Text(_pageTitle)),
 
-        body: BlocBuilder<SideMenuPageCubit, SideMenuPageState>(
-          builder: (_, state) {
-            /// loading
-            if (state is LoadingSideMenuPage) {
+        /// body
+        body: BlocBuilder<AboutUsPageCubit, AboutUsPageState>(
+          builder: (context, state) {
+            /*
+            *
+            *
+            * loading
+            *
+            *
+            * */
+            if (state is LoadingAboutUsPage) {
               return const Center(
                 child: LoadingWidget(),
               );
             }
 
-            /// unAuthorized
-            if (state is UnAuthorizedSideMenuPage) {
-              return const Center(
-                child: Text("User UnAuthorized"),
+            /*
+            *
+            *
+            * unAuthorized
+            *
+            *
+            * */
+            if (state is UnAuthorizedToFetchAboutUsPage) {
+              return Center(
+                child: AppErrorWidget(
+                  appTypeError: AppErrorType.unauthorizedUser,
+                  onPressedRetry: () => navigateToLogin(context),
+                ),
               );
             }
 
-            /// error
-            if (state is ErrorWhileGettingSideMenuPage) {
+            /*
+            *
+            *
+            * error
+            *
+            *
+            * */
+            if (state is ErrorWhileGettingAboutUsPage) {
               return Center(
                 child: AppErrorWidget(
                   appTypeError: state.appError.appErrorType,
@@ -73,25 +99,24 @@ class _SideMenuPageScreenState extends State<SideMenuPageScreen> {
               );
             }
 
-            /// fetched
-            if (state is SideMenuPageFetchedSuccess) {
-              final termsList = state.sideMenuPages;
-              return ListView.separated(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                separatorBuilder: (_, index) =>
-                    SizedBox(height: Sizes.dimen_10.h),
-                itemCount: termsList.length,
-                itemBuilder: (_, index) {
-                  return SideMenuPageItem(
-                    title: termsList[index].title,
-                    sections: termsList[index].sections,
-                  );
-                },
-              );
+            /*
+            *
+            *
+            * url fetched successfully
+            *
+            *
+            * */
+            if (state is AboutUsPageFetchedSuccess) {
+              return CustomWebViewWidget(url: state.sideMenuPages.url);
             }
 
-            /// nothing to show
+            /*
+            *
+            *
+            * else
+            *
+            *
+            * */
             return const SizedBox.shrink();
           },
         ),
@@ -101,10 +126,11 @@ class _SideMenuPageScreenState extends State<SideMenuPageScreen> {
 
   void _fetchAbout() {
     // init userToken
-    final userToken = context.read<UserTokenCubit>().state.userToken;
+    final userToken = getUserToken(context);
 
     // request about
-    _sideMenuPageCubit.getAppSideMenuData(
-        userToken: userToken, sideMenuPage: widget.sideMenuPageArguments.sideMenuPage);
+    _aboutUsPageCubit.getAppSideMenuData(
+        userToken: userToken,
+        sideMenuPage: widget.sideMenuPageArguments.sideMenuPage);
   }
 }

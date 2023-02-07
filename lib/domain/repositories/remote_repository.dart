@@ -136,15 +136,15 @@ abstract class RemoteRepository {
       RegisterLawyerRequestParams registerLawyerRequestParams);
 
   /// about
-  Future<Either<AppError, List<SideMenuPageResponseModel>>> getAboutApp(
+  Future<Either<AppError, SideMenuPageResponseModel>> getAboutApp(
       String userToken);
 
   /// terms and conditions
-  Future<Either<AppError, List<SideMenuPageResponseModel>>>
+  Future<Either<AppError, SideMenuPageResponseModel>>
       getTermsAndConditions(String userToken);
 
   /// privacy
-  Future<Either<AppError, List<SideMenuPageResponseModel>>> getPrivacy(
+  Future<Either<AppError, SideMenuPageResponseModel>> getPrivacy(
       String userToken);
 
   /// help

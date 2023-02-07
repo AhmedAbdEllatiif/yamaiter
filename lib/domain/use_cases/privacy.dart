@@ -5,13 +5,13 @@ import '../entities/app_error.dart';
 import '../entities/data/side_menu_page_entity.dart';
 import '../repositories/remote_repository.dart';
 
-class GetPrivacyCase extends UseCase<List<SideMenuPageEntity>, String> {
+class GetPrivacyCase extends UseCase<SideMenuPageEntity, String> {
   final RemoteRepository remoteRepository;
 
   GetPrivacyCase({required this.remoteRepository});
 
   @override
-  Future<Either<AppError, List<SideMenuPageEntity>>> call(
+  Future<Either<AppError, SideMenuPageEntity>> call(
           String params) async =>
       await remoteRepository.getPrivacy(params);
 }

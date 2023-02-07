@@ -550,14 +550,14 @@ class RemoteRepositoryImpl extends RemoteRepository {
   }
 
   @override
-  Future<Either<AppError, List<SideMenuPageResponseModel>>> getAboutApp(
+  Future<Either<AppError, SideMenuPageResponseModel>> getAboutApp(
       String userToken) async {
     try {
       // send get about request
       final result = await remoteDataSource.getAbout(userToken);
 
       // received about
-      if (result is List<SideMenuPageResponseModel>) {
+      if (result is SideMenuPageResponseModel) {
         return Right(result);
       }
 
@@ -572,14 +572,14 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// TermsAndConditionResponseModel
   @override
-  Future<Either<AppError, List<SideMenuPageResponseModel>>>
+  Future<Either<AppError, SideMenuPageResponseModel>>
       getTermsAndConditions(String userToken) async {
     try {
       // send get about request
       final result = await remoteDataSource.getTermsAndConditions(userToken);
 
       // received about
-      if (result is List<SideMenuPageResponseModel>) {
+      if (result is SideMenuPageResponseModel) {
         return Right(result);
       }
 
@@ -594,14 +594,14 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// privacy
   @override
-  Future<Either<AppError, List<SideMenuPageResponseModel>>> getPrivacy(
+  Future<Either<AppError, SideMenuPageResponseModel>> getPrivacy(
       String userToken) async {
     try {
       // send get privacy request
       final result = await remoteDataSource.getPrivacyAndPolicy(userToken);
 
       // received privacy
-      if (result is List<SideMenuPageResponseModel>) {
+      if (result is SideMenuPageResponseModel) {
         return Right(result);
       }
 

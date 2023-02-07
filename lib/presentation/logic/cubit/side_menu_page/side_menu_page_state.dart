@@ -1,36 +1,36 @@
 part of 'side_menu_page_cubit.dart';
 
-abstract class SideMenuPageState extends Equatable {
-  const SideMenuPageState();
+abstract class AboutUsPageState extends Equatable {
+  const AboutUsPageState();
 
   @override
   List<Object?> get props => [];
 }
 
 /// initial
-class SideMenuPageInitial extends SideMenuPageState {}
+class SideMenuPageInitial extends AboutUsPageState {}
 
 /// loading
-class LoadingSideMenuPage extends SideMenuPageState {}
+class LoadingAboutUsPage extends AboutUsPageState {}
 
 /// unAuthorized
-class UnAuthorizedSideMenuPage extends SideMenuPageState {}
+class UnAuthorizedToFetchAboutUsPage extends AboutUsPageState {}
 
 /// success
-class SideMenuPageFetchedSuccess extends SideMenuPageState {
-  final List<SideMenuPageEntity> sideMenuPages;
+class AboutUsPageFetchedSuccess extends AboutUsPageState {
+  final SideMenuPageEntity sideMenuPages;
 
-  const SideMenuPageFetchedSuccess({required this.sideMenuPages});
+  const AboutUsPageFetchedSuccess({required this.sideMenuPages});
 
   @override
   List<Object> get props => [sideMenuPages];
 }
 
 /// error
-class ErrorWhileGettingSideMenuPage extends SideMenuPageState {
+class ErrorWhileGettingAboutUsPage extends AboutUsPageState {
   final AppError appError;
 
-  const ErrorWhileGettingSideMenuPage({required this.appError});
+  const ErrorWhileGettingAboutUsPage({required this.appError});
 
   @override
   List<Object> get props => [appError];

@@ -14,8 +14,8 @@ import '../../../../domain/entities/data/side_menu_page_entity.dart';
 
 part 'side_menu_page_state.dart';
 
-class SideMenuPageCubit extends Cubit<SideMenuPageState> {
-  SideMenuPageCubit() : super(SideMenuPageInitial());
+class AboutUsPageCubit extends Cubit<AboutUsPageState> {
+  AboutUsPageCubit() : super(SideMenuPageInitial());
 
 
   UseCase _getUserCase(SideMenuPage sideMenuPage){
@@ -33,7 +33,7 @@ class SideMenuPageCubit extends Cubit<SideMenuPageState> {
   void getAppSideMenuData(
       {required String userToken, required SideMenuPage sideMenuPage}) async {
     // loading
-    _emitIfNotClosed(LoadingSideMenuPage());
+    _emitIfNotClosed(LoadingAboutUsPage());
 
     // init get case
     final useCase = _getUserCase(sideMenuPage);
@@ -47,7 +47,7 @@ class SideMenuPageCubit extends Cubit<SideMenuPageState> {
 
       //==> fetched
       (sideMenuPageEntity) => _emitIfNotClosed(
-        SideMenuPageFetchedSuccess(sideMenuPages: sideMenuPageEntity),
+        AboutUsPageFetchedSuccess(sideMenuPages: sideMenuPageEntity),
       ),
     );
   }
@@ -55,14 +55,14 @@ class SideMenuPageCubit extends Cubit<SideMenuPageState> {
   /// _emit an error according to AppError
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
-      _emitIfNotClosed(UnAuthorizedSideMenuPage());
+      _emitIfNotClosed(UnAuthorizedToFetchAboutUsPage());
     } else {
-      _emitIfNotClosed(ErrorWhileGettingSideMenuPage(appError: appError));
+      _emitIfNotClosed(ErrorWhileGettingAboutUsPage(appError: appError));
     }
   }
 
   /// emit if not close
-  void _emitIfNotClosed(SideMenuPageState state) {
+  void _emitIfNotClosed(AboutUsPageState state) {
     if (!isClosed) {
       emit(state);
     }

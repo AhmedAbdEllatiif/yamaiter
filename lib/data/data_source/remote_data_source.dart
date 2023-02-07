@@ -1152,7 +1152,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     switch (response.statusCode) {
       // success
       case 200:
-        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
+        return sideMenuPageModelFromJson(response.body);
       // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
@@ -1208,7 +1208,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     switch (response.statusCode) {
       // success
       case 200:
-        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
+        return sideMenuPageModelFromJson(response.body);
       // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
@@ -1237,7 +1237,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     switch (response.statusCode) {
       // success
       case 200:
-        return listOfSideMenuResponseModels(jsonDecode(response.body)["data"]);
+        return sideMenuPageModelFromJson(response.body);
       // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,

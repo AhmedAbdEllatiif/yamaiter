@@ -306,7 +306,7 @@ class Routes {
             ),
 
         /// SideMenuPageScreen
-        RouteList.sideMenuPage: (context) => SideMenuPageScreen(
+        RouteList.sideMenuPage: (context) => AboutUsScreen(
               sideMenuPageArguments:
                   settings.arguments as SideMenuPageArguments,
             ),

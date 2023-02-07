@@ -1,34 +1,12 @@
 import 'package:equatable/equatable.dart';
 
-class SideMenuPageEntity
-    extends Equatable {
-  final int id;
-  final String title;
-  final List<SideMenuPageSectionEntity> sections;
+class SideMenuPageEntity extends Equatable {
+  final String url;
 
-  const SideMenuPageEntity
-      ({
-    required this.id,
-    required this.title,
-    required this.sections,
-  });
-
-
-  @override
-  List<Object?> get props => [id];
-}
-
-
-
-class SideMenuPageSectionEntity extends Equatable {
-  final int id;
-  final String description;
-
-  const SideMenuPageSectionEntity({
-    required this.id,
-    required this.description,
+  const SideMenuPageEntity({
+    required this.url,
   });
 
   @override
-  List<Object?> get props => [id];
+  List<Object?> get props => [url];
 }
