@@ -21,7 +21,7 @@ List<ReceivedChatListModel> receivedChatListResponseModelFromJson(
   if (receivedJson["chats"] == null) {
     throw Exception(
         "ReceivedChatListModel >> receivedChatListResponseModelFromJson >> Chats is null not found in the received json"
-        " while parsing ReceivedChatListModel");
+            " while parsing ReceivedChatListModel");
   }
 
   // return empty list if chats list is empty
@@ -47,31 +47,46 @@ class ReceivedChatListModel extends ReceivedChatListEntity {
     required this.currentLawyerModel,
     required this.lastMessage,
   }) : super(
-          chatId: currentChatId,
-          chatChannel: currentChatChannel,
-          lawyerEntity: currentLawyerModel,
-          lastMessageToShow: lastMessage,
-        );
+    chatId: currentChatId,
+    chatChannel: currentChatChannel,
+    lawyerEntity: currentLawyerModel,
+    lastMessageToShow: lastMessage,
+  );
 
   factory ReceivedChatListModel.fromJson(dynamic json) {
     /// throw exception if the data is null from the json
     if (json["chat"] == null) {
       throw Exception(
           "ReceivedChatListModel >> fromJson >> Chat is null not found in the received json"
-          " while parsing ReceivedChatListModel");
+              " while parsing ReceivedChatListModel");
     }
 
     if (json["chat"]["content"] == null) {
       throw Exception(
           "ReceivedChatListModel >> fromJson >> Content is null not found in chat object"
-          " while parsing ReceivedChatListModel");
+              " while parsing ReceivedChatListModel");
     }
 
     if (json["chat"]["user"] == null) {
       throw Exception(
           "ReceivedChatListModel >> fromJson >> User is null not found in chat object"
-          " while parsing ReceivedChatListModel");
+              " while parsing ReceivedChatListModel");
     }
+
+
+    /*
+    *
+    * if json["chat"]["content"] is an empty array that means
+    * there is not messages between these two users
+    * */
+    final dynamic contentJson;
+    if ((json["chat"]["content"]) is List) {
+      contentJson =
+      (json["chat"]["content"] as List).isEmpty ? {} : json["chat"]["content"];
+    }else {
+      contentJson = json["chat"]["content"];
+    }
+
 
     return ReceivedChatListModel(
       //==> chatChannel
@@ -85,7 +100,7 @@ class ReceivedChatListModel extends ReceivedChatListEntity {
           ? UserLawyerModel.fromJson(json["chat"]["user"])
           : UserLawyerModel.empty(),
 
-      lastMessage: MessageItemModel.fromJson(json["chat"]["content"]),
+      lastMessage: MessageItemModel.fromJson(contentJson),
     );
   }
 }

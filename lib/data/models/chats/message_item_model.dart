@@ -63,11 +63,11 @@ class MessageItemModel {
     required this.senderUser,
   });
 
-  factory MessageItemModel.fromJson(Map<String, dynamic> json) {
+  factory MessageItemModel.fromJson(dynamic json) {
     return MessageItemModel(
       messageId: json['id'] ?? -1,
       chatId: json['chat_id'] ?? -1,
-      chatItemMessage: json['message'] ?? "...",
+      chatItemMessage: json['message'] ?? AppUtils.undefined,
       file: json['file'] ?? AppUtils.undefined,
       fileName: json['file_name'] ?? AppUtils.undefined,
       fileType: json['file_type'] ?? AppUtils.undefined,
@@ -144,7 +144,7 @@ class MessageItemModel {
       "createdAt": createdAt,
       "id": messageId.toString(),
       "status": types.Status.seen.name,
-      "text": chatItemMessage!= AppUtils.undefined ? chatItemMessage : "...",
+      "text": chatItemMessage != AppUtils.undefined ? chatItemMessage : "...",
       "name": fileName != AppUtils.undefined ? fileName : "file",
       "size": 0,
       "uri": file != AppUtils.undefined ? ApiConstants.mediaUrl + file : "",

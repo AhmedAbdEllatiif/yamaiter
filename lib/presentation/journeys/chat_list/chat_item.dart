@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/get_authoried_user.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
@@ -11,15 +10,16 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
-import '../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../widgets/text_with_icon.dart';
 
 class ChatItem extends StatefulWidget {
   final ReceivedChatListEntity receivedChatListEntity;
+  final Function() onItemPressed;
 
   const ChatItem({
     Key? key,
     required this.receivedChatListEntity,
+    required this.onItemPressed,
   }) : super(key: key);
 
   @override
@@ -59,7 +59,7 @@ class _ChatItemState extends State<ChatItem> {
     return Card(
       child: InkWell(
         borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
-        onTap: () => _navigateToChatRoom(),
+        onTap: widget.onItemPressed,
         child: Padding(
           padding: EdgeInsets.symmetric(
             horizontal: Sizes.dimen_8.w,
@@ -75,32 +75,46 @@ class _ChatItemState extends State<ChatItem> {
                 withRow: false,
                 showRating: false,
               ),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      _lastMessageToShow,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      softWrap: true,
-                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                            fontWeight: FontWeight.normal,
-                            height: 1.3,
+
+              // if no message show start chat
+              _lastMessageToShow == AppUtils.undefined &&
+                      _messageDate == AppUtils.undefined
+                  ? Expanded(
+                      child: Center(
+                        child: Text(
+                          "ابدء المحادثة الان",
+                          style: Theme.of(context).textTheme.bodyText2,
+                        ),
+                      ),
+                    )
+                  : Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            _lastMessageToShow,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            softWrap: true,
+                            style:
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
+                                      fontWeight: FontWeight.normal,
+                                      height: 1.3,
+                                    ),
                           ),
-                    ),
-                    TextWithIconWidget(
-                      iconData: Icons.date_range_outlined,
-                      iconSize: Sizes.dimen_16.w,
-                      text: _messageDate,
-                      textStyle: Theme.of(context).textTheme.caption!.copyWith(
-                            color: AppColor.accentColor,
-                            height: 1.3,
+                          TextWithIconWidget(
+                            iconData: Icons.date_range_outlined,
+                            iconSize: Sizes.dimen_16.w,
+                            text: _messageDate,
+                            textStyle:
+                                Theme.of(context).textTheme.caption!.copyWith(
+                                      color: AppColor.accentColor,
+                                      height: 1.3,
+                                    ),
                           ),
-                    ),
-                  ],
-                ),
-              )
+                        ],
+                      ),
+                    )
             ],
           ),
         ),
@@ -108,13 +122,5 @@ class _ChatItemState extends State<ChatItem> {
     );
   }
 
-  void _navigateToChatRoom() {
 
-    RouteHelper().chatRoomScreen(context,
-        chatRoomArguments: ChatRoomArguments(
-          authorizedUserEntity: getAuthorizedUserEntity(context),
-          chatRoomId: _chatId,
-          chatChannel: _chatChannel,
-        ));
-  }
 }

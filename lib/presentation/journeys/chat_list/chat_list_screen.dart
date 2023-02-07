@@ -6,6 +6,7 @@ import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
+import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/presentation/journeys/chat_list/chat_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/fetch_chat_list/fetch_chat_list_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
@@ -13,6 +14,9 @@ import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../common/constants/app_utils.dart';
+import '../../../common/functions/get_authoried_user.dart';
+import '../../../common/functions/navigate_to_login.dart';
+import '../../../domain/entities/screen_arguments/chat_room_args.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../widgets/ads_widget.dart';
@@ -103,7 +107,7 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       return Center(
                         child: AppErrorWidget(
                           appTypeError: AppErrorType.unauthorizedUser,
-                          onPressedRetry: () => _navigateToLogin(),
+                          onPressedRetry: () => navigateToLogin(context),
                         ),
                       );
                     }
@@ -147,6 +151,8 @@ class _ChatListScreenState extends State<ChatListScreen> {
                           return ChatItem(
                             receivedChatListEntity:
                                 state.receivedChatListEntity[index],
+                            onItemPressed: () => _navigateToChatRoom(
+                                state.receivedChatListEntity[index]),
                           );
                         },
                       );
@@ -169,7 +175,17 @@ class _ChatListScreenState extends State<ChatListScreen> {
     _fetchChatListCubit.fetchChatList(userToken: userToken);
   }
 
-  /// to navigate to login
-  void _navigateToLogin() =>
-      RouteHelper().loginScreen(context, isClearStack: true);
+  /// to navigate to chat room id
+  void _navigateToChatRoom(ReceivedChatListEntity chatEntity) async {
+    await RouteHelper().chatRoomScreen(context,
+        chatRoomArguments: ChatRoomArguments(
+          authorizedUserEntity: getAuthorizedUserEntity(context),
+          chatRoomId: chatEntity.chatId,
+          chatChannel: chatEntity.chatChannel,
+        ));
+
+    if (!mounted) return;
+
+    _fetchChatList();
+  }
 }
