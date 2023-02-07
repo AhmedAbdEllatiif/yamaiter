@@ -40,16 +40,16 @@ class DrawerScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// Avatar and rating
-                ImageNameRatingWidget(
-                  name: context
-                      .read<AuthorizedUserCubit>()
-                      .state
-                      .userEntity
-                      .firstName,
-                  imgUrl: AssetsImages.personAvatar,
-                  rating: 3,
-                  onPressed: () {
-                    RouteHelper().editProfile(context);
+                BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
+                  builder: (context, state) {
+                    return ImageNameRatingWidget(
+                      name: state.userEntity.firstName,
+                      imgUrl: state.userEntity.userAvatar,
+                      rating: 3,
+                      onPressed: () {
+                        RouteHelper().editProfile(context);
+                      },
+                    );
                   },
                 ),
 

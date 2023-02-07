@@ -52,13 +52,17 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 /// Avatar and rating
-                ImageNameRatingWidget(
-                  name: _currentUser.firstName,
-                  imgUrl: _currentUser.userAvatar,
-                  showRating: false,
-                  rating: 3,
-                  onPressed: () {
-                    RouteHelper().editProfile(context);
+                BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
+                  builder: (context, state) {
+                    return ImageNameRatingWidget(
+                      name: state.userEntity.firstName,
+                      imgUrl: state.userEntity.userAvatar,
+                      rating: 3,
+                      showRating: false,
+                      onPressed: () {
+                        RouteHelper().editProfile(context);
+                      },
+                    );
                   },
                 ),
               ],
