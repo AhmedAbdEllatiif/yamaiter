@@ -159,7 +159,7 @@ class _InProgressTaskItemState extends State<InProgressTaskItem> {
                       ),
 
                       ImageNameRatingWidget(
-                        imgUrl: widget.taskEntity.assignedLawyer.idPhoto,
+                        imgUrl: widget.taskEntity.assignedLawyer.profileImage,
                         name: widget.taskEntity.assignedLawyer.firstName,
                         rating:
                             widget.taskEntity.assignedLawyer.rating.toDouble(),

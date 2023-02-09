@@ -133,7 +133,7 @@ class InReviewItem extends StatelessWidget {
 
                       /// lawyer img
                       ImageNameRatingWidget(
-                        imgUrl: taskEntity.assignedLawyer.idPhoto,
+                        imgUrl: taskEntity.assignedLawyer.profileImage,
                         name: taskEntity.assignedLawyer.firstName,
                         rating: taskEntity.assignedLawyer.rating.toDouble(),
                         nameColor: AppColor.primaryDarkColor,
