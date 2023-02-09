@@ -11,6 +11,7 @@ import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/side_menu_page_entity.dart';
+import '../../../../domain/use_cases/contact_us.dart';
 
 part 'side_menu_page_state.dart';
 
@@ -27,6 +28,8 @@ class AboutUsPageCubit extends Cubit<AboutUsPageState> {
         return getItInstance<GetTermsAndConditionsCase>();
       case SideMenuPage.privacy:
         return getItInstance<GetPrivacyCase>();
+      case SideMenuPage.contactUs:
+        return getItInstance<GetContactUsCase>();
     }
   }
 

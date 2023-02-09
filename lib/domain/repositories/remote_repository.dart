@@ -147,6 +147,10 @@ abstract class RemoteRepository {
   Future<Either<AppError, SideMenuPageResponseModel>> getPrivacy(
       String userToken);
 
+  /// ContactUs
+  Future<Either<AppError, SideMenuPageResponseModel>> getContactUs(
+      String userToken);
+
   /// help
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(String userToken);
 

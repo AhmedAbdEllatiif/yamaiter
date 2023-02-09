@@ -32,6 +32,7 @@ import '../domain/use_cases/ads/create_ad.dart';
 import '../domain/use_cases/chat/fetch_chat_list.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
+import '../domain/use_cases/contact_us.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -131,6 +132,11 @@ Future init() async {
   //==> GetPrivacyCase
   getItInstance.registerFactory<GetPrivacyCase>(
         () => GetPrivacyCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetContactUsCase
+  getItInstance.registerFactory<GetContactUsCase>(
+        () => GetContactUsCase(remoteRepository: getItInstance()),
   );
 
   //==> RegisterLawyerCase

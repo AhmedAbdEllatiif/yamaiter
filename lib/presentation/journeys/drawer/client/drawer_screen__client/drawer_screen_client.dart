@@ -148,6 +148,14 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
             pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
 
+  /// to ContactUsScreen
+  void _navigateToContactUsScreen(BuildContext context) =>
+      RouteHelper().sideMenuPage(
+        context,
+        arguments: SideMenuPageArguments(
+            pageTitle: "تواصل معنا", sideMenuPage: SideMenuPage.contactUs),
+      );
+
   /// DrawerItems
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
@@ -198,7 +206,7 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
         DrawerItem(
           iconData: Icons.question_mark_outlined,
           title: "اتصل بنا",
-          onPressed: () {},
+          onPressed: () => _navigateToContactUsScreen(context),
         ),
         DrawerItem(
           iconData: Icons.logout_outlined,

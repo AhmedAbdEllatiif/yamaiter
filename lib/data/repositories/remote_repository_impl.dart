@@ -636,6 +636,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+
+  /// ContactUs
+  @override
+  Future<Either<AppError, SideMenuPageResponseModel>> getContactUs(
+      String userToken) async{
+    try {
+      // send get privacy request
+      final result = await remoteDataSource.getContactUs(userToken);
+
+      // received privacy
+      if (result is SideMenuPageResponseModel) {
+        return Right(result);
+      }
+
+      // failed to get about
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
   /// createSos
   @override
   Future<Either<AppError, SuccessModel>> createSos(

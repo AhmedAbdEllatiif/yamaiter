@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
@@ -125,6 +127,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
   }
 
   void _fetchAbout() {
+    log("sideMenuPage >> ${widget.sideMenuPageArguments.sideMenuPage}");
     // init userToken
     final userToken = getUserToken(context);
 

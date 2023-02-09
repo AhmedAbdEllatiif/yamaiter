@@ -16,8 +16,10 @@ class ApiConstants {
   static Uri _chatList() => Uri.https(_baseUrl, EndPoints.chatList);
 
   ///==> updateClientProfile
-  static Uri _updateClientProfile() => Uri.https(_baseUrl, EndPoints.updateClientProfile);
-///==> Client
+  static Uri _updateClientProfile() =>
+      Uri.https(_baseUrl, EndPoints.updateClientProfile);
+
+  ///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
 
   /// _createTaskClient
@@ -73,6 +75,8 @@ class ApiConstants {
       Uri.https(_baseUrl, EndPoints.privacyAndPolicy);
 
   static Uri _help() => Uri.https(_baseUrl, EndPoints.help);
+
+  static Uri _contactUs() => Uri.https(_baseUrl, EndPoints.contactUs);
 
   static Uri _termsAndConditions() =>
       Uri.https(_baseUrl, EndPoints.termsAndConditions);
@@ -206,6 +210,9 @@ class ApiConstants {
       // help
       case RequestType.help:
         return _help();
+      // help
+      case RequestType.contactUs:
+        return _contactUs();
 
       ///===================================================================\\\\
       ///                                                                   \\\\
@@ -219,7 +226,7 @@ class ApiConstants {
       ///                                                                   \\\\
       ///===================================================================\\\\
 
-    // updateClientProfile
+      // updateClientProfile
       case RequestType.updateClientProfile:
         return _updateClientProfile();
       // registerClient
@@ -455,6 +462,9 @@ class EndPoints {
   /// help
   static String help = "${_apiVersion}help";
 
+  /// contactUs
+  static String contactUs = "${_apiVersion}contact";
+
   /// distresses
   static String distresses = "${_apiVersion}distresses";
 
@@ -583,6 +593,7 @@ enum RequestType {
   termsAndConditions,
   privacyAndPolicy,
   help,
+  contactUs,
   distresses,
   mySosList,
   allSosList,

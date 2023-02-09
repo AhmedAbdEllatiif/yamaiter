@@ -104,6 +104,7 @@ import '../api/requests/get_requests/client/get_single_task_details.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
 import '../api/requests/get_requests/get_applied_tasks_for_other.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
+import '../api/requests/get_requests/get_contact_us.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/post_requests/client/assign_task_client.dart';
@@ -221,6 +222,9 @@ abstract class RemoteDataSource {
 
   /// privacyAndPolicy
   Future<dynamic> getPrivacyAndPolicy(String userToken);
+
+  /// contactUs
+  Future<dynamic> getContactUs(String userToken);
 
   /// help
   Future<dynamic> getHelp(String userToken);
@@ -1218,6 +1222,36 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       default:
         return AppError(AppErrorType.api,
             message: "getPrivacyAndPolicy Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
+    }
+  }
+
+  /// contactUs
+  @override
+  Future<dynamic> getContactUs(String userToken)async{
+    log("getContactUs >> Start request");
+    // init request
+    final request = GetContactUsRequest();
+
+    // response
+    final response = await request(userToken);
+
+    log("getContactUs >> ResponseCode: ${response.statusCode}");
+    log("getContactUs >> ResponseBody: ${response.body}");
+
+    switch (response.statusCode) {
+    // success
+      case 200:
+        return sideMenuPageModelFromJson(response.body);
+    // unAuthorized
+      case 401:
+        return AppError(AppErrorType.unauthorizedUser,
+            message:
+            "getContactUs Status Code >> ${response.statusCode}");
+    // default
+      default:
+        return AppError(AppErrorType.api,
+            message: "getContactUs Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
     }
   }
