@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -50,8 +52,14 @@ class _CustomWebViewWidgetState extends State<CustomWebViewWidget> {
     controller = initWebViewController(
       url: url,
       // url: "https://yamaitre.com/about-us",
-      onPageStarted: (_) => _toggleLoading(true),
-      onPageFinished: (_) => _toggleLoading(false),
+      onPageStarted: (_)  {
+        log("onPageStarted");
+        //_toggleLoading(true);
+        },
+      onPageFinished: (_) {
+        log("onPageStarted");
+        _toggleLoading(false);
+      },
       onError: (_) => _toggleLoading(false),
     );
   }

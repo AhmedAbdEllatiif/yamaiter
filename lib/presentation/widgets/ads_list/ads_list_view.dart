@@ -2,38 +2,49 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/assets_constants.dart';
+import 'package:yamaiter/common/enum/ad_status.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../domain/entities/data/ad_entity.dart';
 
 class AdsListViewWidget extends StatelessWidget {
-  final List<AdEntity> adsList = [AdEntity(
-      id: 0,
-      image: AssetsImages.adSample,
-      createdDateAt: DateTime.now(),
-      updatedDateAt: DateTime.now(),
-      pages: "",
-      period: 0,
-      price: 0.0),
+  final List<AdEntity> adsList = [
     AdEntity(
-        id: 1,
-        image: AssetsImages.adSample,
+        id: 0,
+        url: "",
+        adImage: AssetsImages.adSample,
         createdDateAt: DateTime.now(),
         updatedDateAt: DateTime.now(),
         pages: "",
         period: 0,
-        price: 0.0),
+        price: 0.0,
+        status: AdStatus.expired),
     AdEntity(
         id: 1,
-        image: AssetsImages.adSample,
+        url: "",
+        adImage: AssetsImages.adSample,
         createdDateAt: DateTime.now(),
         updatedDateAt: DateTime.now(),
         pages: "",
         period: 0,
-        price: 0.0),
+        price: 0.0,
+        status: AdStatus.published),
+    AdEntity(
+        id: 1,
+        url: "",
+        adImage: AssetsImages.adSample,
+        createdDateAt: DateTime.now(),
+        updatedDateAt: DateTime.now(),
+        pages: "",
+        period: 0,
+        price: 0.0,
+        status: AdStatus.inprogress),
   ];
-   AdsListViewWidget({Key? key, }) : super(key: key);
+
+  AdsListViewWidget({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

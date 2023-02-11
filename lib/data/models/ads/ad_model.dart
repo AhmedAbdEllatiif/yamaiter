@@ -5,19 +5,27 @@
 import 'dart:convert';
 
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/enum/ad_status.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 
 /// return a list of AdModel
 List<AdModel> listOfAdsFromJson(String str) {
   final List<AdModel> adList = [];
 
-  if (json.decode(str)["Announcement"] != null) {
-    json.decode(str)["Announcement"].forEach((v) {
-      adList.add(AdModel.fromJson(v));
-    });
-  } else {
-    throw Exception("Announcement does not exists while extracting json");
+  // decode str
+  final myJson = json.decode(str);
+
+  if (myJson == null) {
+    throw Exception("AdModel >> listOfAdsFromJson >> json is null");
   }
+
+  if (myJson["Announcement"] == null) {
+    throw Exception("AdModel >> listOfAdsFromJson >> Announcement is null");
+  }
+
+  myJson["Announcement"].forEach((v) {
+    adList.add(AdModel.fromJson(v));
+  });
 
   return adList.reversed.toList();
 }
@@ -28,28 +36,40 @@ AdModel adModelFromJson(String str) => AdModel.fromJson(json.decode(str));
 class AdModel extends AdEntity {
   AdModel({
     required this.adId,
+    required this.adUrl,
     required this.adPlace,
     required this.adPeriod,
     required this.adPrice,
     required this.adImage,
+    required this.adStatus,
     required this.createdDateAt,
     required this.updatedDateAt,
     required this.pivot,
   }) : super(
           id: adId,
-          image: adImage,
+          url: adUrl,
+          adImage: adImage,
           price: adPrice.toDouble(),
           period: adPeriod,
           createdDateAt: createdDateAt,
           updatedDateAt: updatedDateAt,
           pages: adPlace,
+          status: adStatus == 0
+              ? AdStatus.inprogress
+              : adStatus == 1
+                  ? AdStatus.published
+                  : adStatus == 2
+                      ? AdStatus.expired
+                      : AdStatus.unKnown,
         );
 
   final int adId;
   final String adPlace;
+  final String adUrl;
   final int adPeriod;
   final num adPrice;
   final String adImage;
+  final int adStatus;
   final DateTime? createdDateAt;
   final DateTime? updatedDateAt;
   final Pivot pivot;
@@ -57,9 +77,20 @@ class AdModel extends AdEntity {
   factory AdModel.fromJson(Map<String, dynamic> json) => AdModel(
         adId: json["id"] ?? -1,
         adPlace: json["place"] ?? AppUtils.undefined,
+        adUrl: json["url"] ?? AppUtils.undefined,
         adPeriod: json["period"] ?? 0,
         adPrice: json["price"] ?? 0.0,
-        adImage: json["image"] ?? AppUtils.undefined,
+
+
+        // adImage
+        adImage: json["mob_image"] == null
+            ? AppUtils.undefined
+            : (json["mob_image"] as String).isEmpty
+                ? AppUtils.undefined
+                : json["mob_image"],
+
+
+        adStatus: json["status"] ?? AppUtils.undefined,
         createdDateAt: json["created_at"] != null
             ? DateTime.tryParse(json["created_at"])
             : null,
