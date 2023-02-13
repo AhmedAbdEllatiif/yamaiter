@@ -108,6 +108,9 @@ dependencies:
   # fileSize
   filesize: ^2.0.1
 
+  # marquee for auto scroll news
+  marquee: ^2.2.3
+
 
 dev_dependencies:
   flutter_test:
