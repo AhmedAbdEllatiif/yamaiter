@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/data/api/constants.dart';
 
 import '../../common/constants/app_utils.dart';
 
@@ -6,8 +7,11 @@ class TaxEntity extends Equatable {
   final int id;
   final String name;
   final String password;
-  final String status ;
+  final String status;
+
   final double cost;
+  final String adminFileName;
+  late final String fileToDownload;
   late final String createdAt;
 
   TaxEntity(
@@ -16,6 +20,7 @@ class TaxEntity extends Equatable {
       required this.password,
       required this.status,
       required this.cost,
+      required  this.adminFileName,
       required DateTime? createdDate}) {
     /// init create at
     if (createdDate != null) {
@@ -25,6 +30,10 @@ class TaxEntity extends Equatable {
     } else {
       createdAt = AppUtils.undefined;
     }
+
+    fileToDownload = adminFileName == AppUtils.undefined
+        ? AppUtils.undefined
+        : ApiConstants.mediaUrl + adminFileName;
   }
 
   @override

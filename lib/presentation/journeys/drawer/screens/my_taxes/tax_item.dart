@@ -8,6 +8,7 @@ import '../../../../../common/constants/app_utils.dart';
 import '../../../../../common/constants/assets_constants.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../themes/theme_color.dart';
+import '../../../../widgets/download_file_widget.dart';
 
 class TaxItem extends StatelessWidget {
   final TaxEntity taxEntity;
@@ -66,23 +67,28 @@ class TaxItem extends StatelessWidget {
 
             /// button
             if(isCompleted)
-            GestureDetector(
-              onTap: () {},
-              child: Container(
-                decoration: BoxDecoration(
-                    color: AppColor.accentColor,
-                    borderRadius: BorderRadius.circular(AppUtils.cornerRadius)),
-                padding: EdgeInsets.symmetric(
-                    horizontal: Sizes.dimen_12.w, vertical: 2),
-                child: Text(
-                  "تحميل ملف الاقرار",
-                  style: Theme.of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(color: AppColor.primaryDarkColor),
-                ),
+              DownloadFileWidget(
+                text: "تحميل ملف الاقرار",
+                fileName: taxEntity.adminFileName,
+                fileUrl: taxEntity.fileToDownload,
               ),
-            ),
+            // GestureDetector(
+            //   onTap: () {},
+            //   child: Container(
+            //     decoration: BoxDecoration(
+            //         color: AppColor.accentColor,
+            //         borderRadius: BorderRadius.circular(AppUtils.cornerRadius)),
+            //     padding: EdgeInsets.symmetric(
+            //         horizontal: Sizes.dimen_12.w, vertical: 2),
+            //     child: Text(
+            //       "تحميل ملف الاقرار",
+            //       style: Theme.of(context)
+            //           .textTheme
+            //           .caption!
+            //           .copyWith(color: AppColor.primaryDarkColor),
+            //     ),
+            //   ),
+            // ),
 
 
             if(!isCompleted)const Padding(

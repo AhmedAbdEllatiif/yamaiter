@@ -34,11 +34,12 @@ List<TaxModel> listOfInProgressTaxesFromJson(String str) {
 
 TaxModel taxModelFromJson(String str) => TaxModel.fromJson(json.decode(str));
 
-class TaxModel extends TaxEntity{
+class TaxModel extends TaxEntity {
   TaxModel({
     required this.taxId,
     required this.taxStatus,
     required this.taxFile,
+    required this.adminFile,
     required this.taxName,
     required this.taxPassword,
     required this.serviceCost,
@@ -46,14 +47,15 @@ class TaxModel extends TaxEntity{
     required this.createdDate,
     required this.updatedDate,
     required this.pivot,
-  }):super(
-    id: taxId,
-    name: taxName,
-    password: taxPassword,
-    status: taxStatus,
-    cost: serviceCost.toDouble(),
-    createdDate: createdDate,
-  );
+  }) : super(
+          id: taxId,
+          name: taxName,
+          adminFileName: adminFile,
+          password: taxPassword,
+          status: taxStatus,
+          cost: serviceCost.toDouble(),
+          createdDate: createdDate,
+        );
 
   final int taxId;
   final String taxStatus;
@@ -62,6 +64,7 @@ class TaxModel extends TaxEntity{
   final String taxPassword;
   final num serviceCost;
   final String notes;
+  final String adminFile;
   final DateTime? createdDate;
   final DateTime? updatedDate;
   final Pivot pivot;
@@ -70,6 +73,7 @@ class TaxModel extends TaxEntity{
         taxId: json["id"] ?? -1,
         taxStatus: json["status"] ?? AppUtils.undefined,
         taxFile: json["tax_file"] ?? AppUtils.undefined,
+        adminFile: json["feedback"] ?? AppUtils.undefined,
         taxName: json["tax_name"] ?? AppUtils.undefined,
         taxPassword: json["tax_password"] ?? AppUtils.undefined,
         serviceCost: json["service_cost"] ?? 0.0,

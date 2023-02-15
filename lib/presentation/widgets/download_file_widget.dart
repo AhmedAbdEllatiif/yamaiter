@@ -11,11 +11,15 @@ import '../../common/functions/common_functions.dart';
 import '../themes/theme_color.dart';
 
 class DownloadFileWidget extends StatefulWidget {
+  final String text;
   final String fileName;
   final String fileUrl;
 
   const DownloadFileWidget(
-      {Key? key, required this.fileName, required this.fileUrl})
+      {Key? key,
+      this.text = "ملف المهمة",
+      required this.fileName,
+      required this.fileUrl})
       : super(key: key);
 
   @override
@@ -44,7 +48,7 @@ class _DownloadFileWidgetState extends State<DownloadFileWidget> {
             ),
           )
         : RoundedText(
-            text: "ملف المهمة",
+            text: widget.text,
             rightIconData: Icons.file_copy_rounded,
             textSize: Sizes.dimen_10,
             onPressed: () => _openFile(),
