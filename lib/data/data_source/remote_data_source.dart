@@ -90,6 +90,7 @@ import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
@@ -111,6 +112,7 @@ import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/client/update_task_client.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/pay_for_tax.dart';
+import '../api/requests/post_requests/payment/pay_out_request.dart';
 import '../api/requests/post_requests/payment/refund_request.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../api/requests/post_requests/update_sos.dart';
@@ -355,6 +357,9 @@ abstract class RemoteDataSource {
 
   /// refund
   Future<dynamic> refundPayment(RefundParams params);
+
+  /// payout
+  Future<dynamic> payout(PayoutParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -2808,6 +2813,55 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("refundPayment >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "refundPayment UnHandledError >> $e");
+    }
+  }
+
+  /// payout
+  @override
+  Future<dynamic> payout(PayoutParams params) async {
+    try {
+      log("dataSource >> payout >> Start request");
+      // init request
+      final request = PayoutRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("dataSource >> payout >> ResponseCode: ${response.statusCode}");
+      log("dataSource >> payout >> ResponseBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("dataSource >> payout >> ResponseBody: ${json.decode(response.body)}");
+          return SuccessModel();
+      case 422:
+        log("refundPayment >> ResponseBody: ${response.body}");
+        return AppError(AppErrorType.noWithdrawalAmount,
+            message:
+                "refundPayment Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          log("dataSource >> payout >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message: "refundPayment Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          log("dataSource >> payout >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "refundPayment Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("dataSource >> payout >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "refundPayment Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("dataSource >> payout >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "dataSource >> payout UnHandledError >> $e");
     }
   }
 }

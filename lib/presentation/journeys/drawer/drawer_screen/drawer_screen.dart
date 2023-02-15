@@ -162,6 +162,9 @@ class DrawerScreen extends StatelessWidget {
             pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
 
+  void _navigateToPayoutScreen(BuildContext context) =>
+      RouteHelper().payoutScreen(context);
+
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
           iconData: Icons.shopping_bag_outlined,
@@ -226,6 +229,10 @@ class DrawerScreen extends StatelessWidget {
           iconData: Icons.question_mark_outlined,
           title: "اتصل بنا",
           onPressed: () {},
+        ), DrawerItem(
+          iconData: Icons.question_mark_outlined,
+          title: "استلام النقود",
+          onPressed: () => _navigateToPayoutScreen(context),
         ),
         DrawerItem(
           iconData: Icons.logout_outlined,

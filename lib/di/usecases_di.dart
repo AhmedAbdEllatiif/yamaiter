@@ -43,6 +43,7 @@ import '../domain/use_cases/invited_tasks.dart';
 import '../domain/use_cases/my_tasks/end_task.dart';
 import '../domain/use_cases/my_tasks/get_my_single_task.dart';
 import '../domain/use_cases/my_tasks/invite_to_task.dart';
+import '../domain/use_cases/payment/payout_case.dart';
 import '../domain/use_cases/payment/refund_payment.dart';
 import '../domain/use_cases/search_for_lawyers.dart';
 import '../domain/use_cases/sos/create_sos.dart';
@@ -339,6 +340,11 @@ Future init() async {
   //==> RefundPaymentCase
   getItInstance.registerFactory<RefundPaymentCase>(
     () => RefundPaymentCase(remoteRepository: getItInstance()),
+  );
+
+  //==> PayoutCase
+  getItInstance.registerFactory<PayoutCase>(
+    () => PayoutCase(remoteRepository: getItInstance()),
   );
 
   //==> GetChatRoomByIdCase

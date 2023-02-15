@@ -87,6 +87,7 @@ import '../params/client/update_task_params.dart';
 import '../params/get_app_announcements.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
+import '../params/payment/pay_out_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
 import '../params/chat/send_chat_message.dart';
@@ -1465,6 +1466,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Left(result);
       }
     } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// to send payout request
+  @override
+  Future<Either<AppError, SuccessModel>> payout(PayoutParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.payout(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> payout >> error: $e");
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }

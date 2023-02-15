@@ -29,6 +29,7 @@ import '../presentation/logic/client_cubit/get_consultation_details/get_consulta
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../presentation/logic/common/app_announcements/get_app_announcements_cubit.dart';
 import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
+import '../presentation/logic/common/payout/payout_cubit.dart';
 import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
@@ -283,6 +284,12 @@ Future init() async {
   //==> RefundPaymentCubit
   getItInstance.registerFactory<RefundPaymentCubit>(
     () => RefundPaymentCubit(),
+  );
+
+
+ //==> PayoutCubit
+  getItInstance.registerFactory<PayoutCubit>(
+    () => PayoutCubit(),
   );
 
   //==> ChatRoomCubit

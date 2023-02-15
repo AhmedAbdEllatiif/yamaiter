@@ -22,6 +22,9 @@ enum AppErrorType {
   notAPaymentProcess,
   paymentFailed,
 
+  //payout
+  noWithdrawalAmount,
+
   // paymentError
   unDefined,
 }
