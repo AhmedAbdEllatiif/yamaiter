@@ -14,6 +14,7 @@ import 'package:yamaiter/data/api/requests/get_requests/filter_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_sos.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_app_announcements.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_in_progress_taxes.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_invited_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
@@ -44,8 +45,6 @@ import 'package:yamaiter/data/api/requests/post_requests/update_profile/update_c
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/upload_task_file.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_request_model.dart';
-import 'package:yamaiter/data/models/ads/ad_model.dart';
-import 'package:yamaiter/data/models/ads/create_ad_request_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/auth/register_client/register_client_request_model.dart';
@@ -116,6 +115,9 @@ import '../api/requests/post_requests/payment/refund_request.dart';
 import '../api/requests/post_requests/update_article.dart';
 import '../api/requests/post_requests/update_sos.dart';
 import '../models/accept_terms/accept_terms_response_model.dart';
+import '../models/announcements/ad_model.dart';
+import '../models/announcements/announcemnets_response_model.dart';
+import '../models/announcements/create_ad_request_model.dart';
 import '../models/article/article_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/auth/login/login_response.dart';
@@ -132,6 +134,7 @@ import '../params/client/delete_task_params.dart';
 import '../params/client/end_task_params_client.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
+import '../params/get_app_announcements.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/chat/send_chat_message.dart';
@@ -265,17 +268,27 @@ abstract class RemoteDataSource {
   /// delete article
   Future<dynamic> deleteArticle(DeleteArticleParams params);
 
-  /// create new ad
-  Future<dynamic> createAd(CreateAdParams params);
-
   /// fetchInProgressTaxes
   Future<dynamic> fetchInProgressTaxes(GetTaxesParams params);
 
   /// fetchCompletedTaxes
   Future<dynamic> fetchCompletedTaxes(GetTaxesParams params);
 
+  ///============================>  Announcements  <==========================\\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///=========================================================================\\
   /// get my ads
   Future<dynamic> getMyAds(String userToken);
+
+  /// create new ad
+  Future<dynamic> createAd(CreateAdParams params);
+
+  /// get app announcements
+  Future<dynamic> getAppAnnouncements(GetAnnouncementsParams params);
 
   /// create task
   Future<dynamic> createTask(CreateTaskParams params);
@@ -477,6 +490,55 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("fetchChatList >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "fetchChatList UnHandledError >> $e");
+    }
+  }
+
+  ///============================>  Announcements  <==========================\\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///                                                                         \\
+  ///=========================================================================\\
+  /// get app announcements
+  @override
+  Future<dynamic> getAppAnnouncements(GetAnnouncementsParams params) async {
+    try {
+      log("getAppAnnouncements >> Start request");
+      // init request
+      final request = GetAppAnnouncements();
+
+      // response
+      final response = await request(params);
+
+      log("getAppAnnouncements >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return announcementsResponseModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "getAppAnnouncements Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "getAppAnnouncements Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getAppAnnouncements >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message:
+                  "getAppAnnouncements Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> getAppAnnouncements Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getAppAnnouncements UnHandledError >> $e");
     }
   }
 
@@ -1228,7 +1290,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
 
   /// contactUs
   @override
-  Future<dynamic> getContactUs(String userToken)async{
+  Future<dynamic> getContactUs(String userToken) async {
     log("getContactUs >> Start request");
     // init request
     final request = GetContactUsRequest();
@@ -1240,15 +1302,14 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     log("getContactUs >> ResponseBody: ${response.body}");
 
     switch (response.statusCode) {
-    // success
+      // success
       case 200:
         return sideMenuPageModelFromJson(response.body);
-    // unAuthorized
+      // unAuthorized
       case 401:
         return AppError(AppErrorType.unauthorizedUser,
-            message:
-            "getContactUs Status Code >> ${response.statusCode}");
-    // default
+            message: "getContactUs Status Code >> ${response.statusCode}");
+      // default
       default:
         return AppError(AppErrorType.api,
             message: "getContactUs Status Code >> ${response.statusCode}"

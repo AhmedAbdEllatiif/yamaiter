@@ -27,6 +27,7 @@ import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.da
 
 import '../presentation/logic/client_cubit/get_consultation_details/get_consultation_details_cubit.dart';
 import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
+import '../presentation/logic/common/app_announcements/get_app_announcements_cubit.dart';
 import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
 import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
@@ -302,6 +303,11 @@ Future init() async {
   //==> UpdateClientProfileCubit
   getItInstance.registerFactory<UpdateClientProfileCubit>(
     () => UpdateClientProfileCubit(authorizedUserCubit: getItInstance()),
+  );
+
+  //==> GetAppAnnouncementsCubit
+  getItInstance.registerFactory<GetAppAnnouncementsCubit>(
+    () => GetAppAnnouncementsCubit(),
   );
 
   //==> AutoLoginCubit

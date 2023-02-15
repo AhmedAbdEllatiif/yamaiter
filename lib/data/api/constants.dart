@@ -123,6 +123,9 @@ class ApiConstants {
 
   static Uri _myAds() => Uri.https(_baseUrl, EndPoints.myAds);
 
+  static Uri _appAnnouncements({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.appAnnouncements, queryParams);
+
   static Uri _createTask() => Uri.https(_baseUrl, EndPoints.createTask);
 
   static Uri _myTasks({required Map<String, dynamic> queryParams}) =>
@@ -324,6 +327,9 @@ class ApiConstants {
       // myAds
       case RequestType.myAds:
         return _myAds();
+      // appAnnouncements
+      case RequestType.appAnnouncements:
+        return _appAnnouncements(queryParams: queryParams);
       // createTask
       case RequestType.createTask:
         return _createTask();
@@ -510,6 +516,9 @@ class EndPoints {
   /// myAds
   static String myAds = "${_apiVersion}show-announcements";
 
+  /// appAnnouncements
+  static String appAnnouncements = "${_apiVersion}announcements";
+
   /// createTask
   static String createTask = "${_apiVersion}tasks";
 
@@ -610,6 +619,7 @@ enum RequestType {
   inProgressTaxes,
   completedTaxes,
   myAds,
+  appAnnouncements,
   createTask,
   myTasks,
   mySingleTask,
@@ -638,4 +648,5 @@ class ApiParamsConstant {
   static String city = "city";
   static String orderBy = "order_by";
   static String applicantsCount = "count";
+  static String announcementPlace = "place";
 }

@@ -59,6 +59,7 @@ import '../../data/params/chat_room_by_id_params.dart';
 import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
+import '../../data/params/get_app_announcements.dart';
 import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
 import '../../data/params/register_client_params.dart';
@@ -67,6 +68,7 @@ import '../../data/params/chat/send_chat_message.dart';
 import '../../data/params/update_sos_params.dart';
 import '../../data/params/update_task_params.dart';
 import '../entities/app_error.dart';
+import '../entities/data/app_announcements_entity.dart';
 import '../entities/data/article_entity.dart';
 
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
@@ -140,8 +142,8 @@ abstract class RemoteRepository {
       String userToken);
 
   /// terms and conditions
-  Future<Either<AppError, SideMenuPageResponseModel>>
-      getTermsAndConditions(String userToken);
+  Future<Either<AppError, SideMenuPageResponseModel>> getTermsAndConditions(
+      String userToken);
 
   /// privacy
   Future<Either<AppError, SideMenuPageResponseModel>> getPrivacy(
@@ -212,6 +214,10 @@ abstract class RemoteRepository {
 
   /// return a list my  ads
   Future<Either<AppError, List<AdEntity>>> getMyAdsList(String userToken);
+
+  /// return [AppAnnouncementsEntity]
+  Future<Either<AppError, AppAnnouncementsEntity>> getAppAnnouncements(
+      GetAnnouncementsParams params);
 
   /// create task
   Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params);

@@ -4,7 +4,6 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/data/models/accept_terms/accept_terms_response_model.dart';
-import 'package:yamaiter/data/models/ads/ad_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
 import 'package:yamaiter/data/models/article/article_model.dart';
@@ -64,9 +63,12 @@ import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 import '../../domain/entities/chat/received_chat_list_entity.dart';
 import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
+import '../../domain/entities/data/app_announcements_entity.dart';
 import '../../domain/entities/data/authorized_user_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
+import '../models/announcements/ad_model.dart';
+import '../models/announcements/announcemnets_response_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
 import '../params/chat/fetch_chats_lists_params.dart';
@@ -82,6 +84,7 @@ import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
 import '../params/client/update_task_params.dart';
+import '../params/get_app_announcements.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
 import '../params/payment/refund_params.dart';
@@ -572,8 +575,8 @@ class RemoteRepositoryImpl extends RemoteRepository {
 
   /// TermsAndConditionResponseModel
   @override
-  Future<Either<AppError, SideMenuPageResponseModel>>
-      getTermsAndConditions(String userToken) async {
+  Future<Either<AppError, SideMenuPageResponseModel>> getTermsAndConditions(
+      String userToken) async {
     try {
       // send get about request
       final result = await remoteDataSource.getTermsAndConditions(userToken);
@@ -636,11 +639,10 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   /// ContactUs
   @override
   Future<Either<AppError, SideMenuPageResponseModel>> getContactUs(
-      String userToken) async{
+      String userToken) async {
     try {
       // send get privacy request
       final result = await remoteDataSource.getContactUs(userToken);
@@ -1463,6 +1465,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Left(result);
       }
     } on Exception catch (e) {
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// return [AppAnnouncementsEntity]
+  @override
+  Future<Either<AppError, AppAnnouncementsEntity>> getAppAnnouncements(
+      GetAnnouncementsParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getAppAnnouncements(params);
+
+      // received success
+      if (result is AnnouncementsResponseModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> getAppAnnouncements >> error: $e");
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }

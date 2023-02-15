@@ -1,4 +1,3 @@
-
 import 'package:yamaiter/domain/use_cases/applied_tasks/apply_for_task.dart';
 import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/delete_user_data.dart';
@@ -33,6 +32,7 @@ import '../domain/use_cases/chat/fetch_chat_list.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
 import '../domain/use_cases/contact_us.dart';
+import '../domain/use_cases/get_app_announcements_case.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -61,305 +61,305 @@ import '../domain/use_cases/update_profile/update_client_profile_case.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import 'git_it_instance.dart';
 
-
 Future init() async {
-
   //////////////////////////// Authorized user \\\\\\\\\\\\\\\\\\\\\\\\\\\\
   //==> GetAutoLogin
   getItInstance.registerLazySingleton<GetUserTokenCase>(() => GetUserTokenCase(
-    appSettingsRepository: getItInstance(),
-  ));
+        appSettingsRepository: getItInstance(),
+      ));
 
   //==> SaveAutoLogin
   getItInstance
       .registerLazySingleton<SaveUserTokenCase>(() => SaveUserTokenCase(
-    appSettingsRepository: getItInstance(),
-  ));
+            appSettingsRepository: getItInstance(),
+          ));
 
   //==> DeleteAutoLogin
   getItInstance
       .registerLazySingleton<DeleteUserTokenCase>(() => DeleteUserTokenCase(
-    appSettingsRepository: getItInstance(),
-  ));
+            appSettingsRepository: getItInstance(),
+          ));
 
   //==> SaveUserDataCase
   getItInstance.registerFactory<SaveUserDataCase>(() => SaveUserDataCase(
-    appSettingsRepository: getItInstance(),
-  ));
+        appSettingsRepository: getItInstance(),
+      ));
 
   //==> GetUserDataCase
   getItInstance.registerFactory<GetUserDataCase>(() => GetUserDataCase(
-    appSettingsRepository: getItInstance(),
-  ));
+        appSettingsRepository: getItInstance(),
+      ));
 
   //==> DeleteUserDataCase
-  getItInstance
-      .registerFactory<DeleteUserDataCase>(() => DeleteUserDataCase(
-    appSettingsRepository: getItInstance(),
-  ));
+  getItInstance.registerFactory<DeleteUserDataCase>(() => DeleteUserDataCase(
+        appSettingsRepository: getItInstance(),
+      ));
   /////////////////////////////////////////////////////////////////////////
 
   //==> RegisterClientCase
   getItInstance.registerFactory<RegisterClientCase>(
-        () => RegisterClientCase(remoteRepository: getItInstance()),
+    () => RegisterClientCase(remoteRepository: getItInstance()),
   );
 
   //==> LoginCase
   getItInstance.registerFactory<LoginCase>(
-        () => LoginCase(remoteRepository: getItInstance()),
+    () => LoginCase(remoteRepository: getItInstance()),
   );
 
   //==> TopRatedLawyersCase
   getItInstance.registerFactory<FetchLawyersCase>(
-        () => FetchLawyersCase(remoteRepository: getItInstance()),
+    () => FetchLawyersCase(remoteRepository: getItInstance()),
   );
 
   //==> GetTermsAndConditionCase
   getItInstance.registerFactory<GetTermsAndConditionsCase>(
-        () => GetTermsAndConditionsCase(remoteRepository: getItInstance()),
+    () => GetTermsAndConditionsCase(remoteRepository: getItInstance()),
   );
 
   //==> GetHelpCubit
   getItInstance.registerFactory<GetHelpCubit>(
-        () => GetHelpCubit(),
+    () => GetHelpCubit(),
   );
 
   //==> GetHelpCase
   getItInstance.registerFactory<GetHelpCase>(
-        () => GetHelpCase(remoteRepository: getItInstance()),
+    () => GetHelpCase(remoteRepository: getItInstance()),
   );
 
   //==> GetPrivacyCase
   getItInstance.registerFactory<GetPrivacyCase>(
-        () => GetPrivacyCase(remoteRepository: getItInstance()),
+    () => GetPrivacyCase(remoteRepository: getItInstance()),
   );
 
   //==> GetContactUsCase
   getItInstance.registerFactory<GetContactUsCase>(
-        () => GetContactUsCase(remoteRepository: getItInstance()),
+    () => GetContactUsCase(remoteRepository: getItInstance()),
   );
 
   //==> RegisterLawyerCase
   getItInstance.registerFactory<RegisterLawyerCase>(
-        () => RegisterLawyerCase(remoteRepository: getItInstance()),
+    () => RegisterLawyerCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateConsultationCase
   getItInstance.registerFactory<CreateConsultationCase>(
-        () => CreateConsultationCase(remoteRepository: getItInstance()),
+    () => CreateConsultationCase(remoteRepository: getItInstance()),
   );
 
   //==> GetConsultationDetailsCase
   getItInstance.registerFactory<GetConsultationDetailsCase>(
-        () => GetConsultationDetailsCase(remoteRepository: getItInstance()),
+    () => GetConsultationDetailsCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateSosCase
   getItInstance.registerFactory<CreateSosCase>(
-        () => CreateSosCase(remoteRepository: getItInstance()),
+    () => CreateSosCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAllSosListCase
   getItInstance.registerFactory<GetAllSosListCase>(
-        () => GetAllSosListCase(remoteRepository: getItInstance()),
+    () => GetAllSosListCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMySosListCase
   getItInstance.registerFactory<GetMySosListCase>(
-        () => GetMySosListCase(remoteRepository: getItInstance()),
+    () => GetMySosListCase(remoteRepository: getItInstance()),
   );
 
   //==> DeleteSosCase
   getItInstance.registerFactory<DeleteSosCase>(
-        () => DeleteSosCase(remoteRepository: getItInstance()),
+    () => DeleteSosCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateSosCase
   getItInstance.registerFactory<UpdateSosCase>(
-        () => UpdateSosCase(remoteRepository: getItInstance()),
+    () => UpdateSosCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateArticleCase
   getItInstance.registerFactory<CreateArticleCase>(
-        () => CreateArticleCase(remoteRepository: getItInstance()),
+    () => CreateArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAllArticlesCase
   getItInstance.registerFactory<GetAllArticlesCase>(
-        () => GetAllArticlesCase(remoteRepository: getItInstance()),
+    () => GetAllArticlesCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateArticleCase
   getItInstance.registerFactory<UpdateArticleCase>(
-        () => UpdateArticleCase(remoteRepository: getItInstance()),
+    () => UpdateArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> GetSingleArticleCase
   getItInstance.registerFactory<GetSingleArticleCase>(
-        () => GetSingleArticleCase(remoteRepository: getItInstance()),
+    () => GetSingleArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyArticlesCase
   getItInstance.registerFactory<GetMyArticlesCase>(
-        () => GetMyArticlesCase(remoteRepository: getItInstance()),
+    () => GetMyArticlesCase(remoteRepository: getItInstance()),
   );
 
   //==> DeleteArticleCase
   getItInstance.registerFactory<DeleteArticleCase>(
-        () => DeleteArticleCase(remoteRepository: getItInstance()),
+    () => DeleteArticleCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateAdCase
   getItInstance.registerFactory<CreateAdCase>(
-        () => CreateAdCase(remoteRepository: getItInstance()),
+    () => CreateAdCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateTaxCase
   getItInstance.registerFactory<PayForTaxCase>(
-        () => PayForTaxCase(remoteRepository: getItInstance()),
+    () => PayForTaxCase(remoteRepository: getItInstance()),
   );
 
   //==> GetCompletedTaxesCase
   getItInstance.registerFactory<GetCompletedTaxesCase>(
-        () => GetCompletedTaxesCase(remoteRepository: getItInstance()),
+    () => GetCompletedTaxesCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyAdsCase
   getItInstance.registerFactory<GetMyAdsCase>(
-        () => GetMyAdsCase(remoteRepository: getItInstance()),
+    () => GetMyAdsCase(remoteRepository: getItInstance()),
   );
 
   //==> GetInProgressTaxesCase
   getItInstance.registerFactory<GetInProgressTaxesCase>(
-        () => GetInProgressTaxesCase(remoteRepository: getItInstance()),
+    () => GetInProgressTaxesCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAboutCase
   getItInstance.registerFactory<GetAboutCase>(
-        () => GetAboutCase(remoteRepository: getItInstance()),
+    () => GetAboutCase(remoteRepository: getItInstance()),
   );
 
   //==> AcceptTermsCase
   getItInstance.registerFactory<AcceptTermsCase>(
-        () => AcceptTermsCase(remoteRepository: getItInstance()),
+    () => AcceptTermsCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateTaskCase
   getItInstance.registerFactory<CreateTaskCase>(
-        () => CreateTaskCase(remoteRepository: getItInstance()),
+    () => CreateTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyConsultationsCase
   getItInstance.registerFactory<GetMyConsultationsCase>(
-        () => GetMyConsultationsCase(remoteRepository: getItInstance()),
+    () => GetMyConsultationsCase(remoteRepository: getItInstance()),
   );
 
   //==> AssignTaskCase
   getItInstance.registerFactory<AssignTaskCase>(
-        () => AssignTaskCase(remoteRepository: getItInstance()),
+    () => AssignTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> ApplyForTaskCase
   getItInstance.registerFactory<ApplyForTaskCase>(
-        () => ApplyForTaskCase(remoteRepository: getItInstance()),
+    () => ApplyForTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMyTasksCase
   getItInstance.registerFactory<GetMyTasksCase>(
-        () => GetMyTasksCase(remoteRepository: getItInstance()),
+    () => GetMyTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> GetMySingleTaskCase
   getItInstance.registerFactory<GetMySingleTaskCase>(
-        () => GetMySingleTaskCase(remoteRepository: getItInstance()),
+    () => GetMySingleTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> UpdateTaskCase
   getItInstance.registerFactory<UpdateTaskCase>(
-        () => UpdateTaskCase(remoteRepository: getItInstance()),
+    () => UpdateTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> DeleteTaskCase
   getItInstance.registerFactory<DeleteTaskCase>(
-        () => DeleteTaskCase(remoteRepository: getItInstance()),
+    () => DeleteTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> EndTaskCase
   getItInstance.registerFactory<EndTaskCase>(
-        () => EndTaskCase(remoteRepository: getItInstance()),
+    () => EndTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAppliedTasksCase
   getItInstance.registerFactory<GetAppliedTasksCase>(
-        () => GetAppliedTasksCase(remoteRepository: getItInstance()),
+    () => GetAppliedTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> UploadTaskFileCase
   getItInstance.registerFactory<UploadTaskFileCase>(
-        () => UploadTaskFileCase(remoteRepository: getItInstance()),
+    () => UploadTaskFileCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAcceptTermsCase
   getItInstance.registerFactory<GetAcceptTermsCase>(
-        () => GetAcceptTermsCase(remoteRepository: getItInstance()),
+    () => GetAcceptTermsCase(remoteRepository: getItInstance()),
   );
 
   //==> GetAllTasksCase
   getItInstance.registerFactory<GetAllTasksCase>(
-        () => GetAllTasksCase(remoteRepository: getItInstance()),
+    () => GetAllTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> GetInvitedTasksCase
   getItInstance.registerFactory<GetInvitedTasksCase>(
-        () => GetInvitedTasksCase(remoteRepository: getItInstance()),
+    () => GetInvitedTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> DeclineInvitedTaskCase
   getItInstance.registerFactory<DeclineInvitedTaskCase>(
-        () => DeclineInvitedTaskCase(remoteRepository: getItInstance()),
+    () => DeclineInvitedTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> SearchForLawyerCase
   getItInstance.registerFactory<SearchForLawyerCase>(
-        () => SearchForLawyerCase(remoteRepository: getItInstance()),
+    () => SearchForLawyerCase(remoteRepository: getItInstance()),
   );
 
   //==> InviteToTaskCase
   getItInstance.registerFactory<InviteToTaskCase>(
-        () => InviteToTaskCase(remoteRepository: getItInstance()),
+    () => InviteToTaskCase(remoteRepository: getItInstance()),
   );
 
   //==> FilterTasksCase
   getItInstance.registerFactory<FilterTasksCase>(
-        () => FilterTasksCase(remoteRepository: getItInstance()),
+    () => FilterTasksCase(remoteRepository: getItInstance()),
   );
 
   //==> CheckPaymentStatusCase
   getItInstance.registerFactory<CheckPaymentStatusCase>(
-        () => CheckPaymentStatusCase(remoteRepository: getItInstance()),
+    () => CheckPaymentStatusCase(remoteRepository: getItInstance()),
   );
 
   //==> RefundPaymentCase
   getItInstance.registerFactory<RefundPaymentCase>(
-        () => RefundPaymentCase(remoteRepository: getItInstance()),
+    () => RefundPaymentCase(remoteRepository: getItInstance()),
   );
 
   //==> GetChatRoomByIdCase
   getItInstance.registerFactory<GetChatRoomByIdCase>(
-        () => GetChatRoomByIdCase(remoteRepository: getItInstance()),
+    () => GetChatRoomByIdCase(remoteRepository: getItInstance()),
   );
 
   //==> SendChatMessageCase
   getItInstance.registerFactory<SendChatMessageCase>(
-        () => SendChatMessageCase(remoteRepository: getItInstance()),
+    () => SendChatMessageCase(remoteRepository: getItInstance()),
   );
 
   //==> FetchChatListCase
   getItInstance.registerFactory<FetchChatListCase>(
-        () => FetchChatListCase(remoteRepository: getItInstance()),
+    () => FetchChatListCase(remoteRepository: getItInstance()),
   );
 
-
+  //==> GetAppAnnouncementsCase
+  getItInstance.registerFactory<GetAppAnnouncementsCase>(
+    () => GetAppAnnouncementsCase(remoteRepository: getItInstance()),
+  );
 
   ///========================>  Update profile <========================\\\\
   ///                                                                   \\\\
@@ -368,7 +368,6 @@ Future init() async {
   ///===================================================================\\\\
   //==> UpdateClientProfileCase
   getItInstance.registerFactory<UpdateClientProfileCase>(
-        () => UpdateClientProfileCase(remoteRepository: getItInstance()),
+    () => UpdateClientProfileCase(remoteRepository: getItInstance()),
   );
-
 }

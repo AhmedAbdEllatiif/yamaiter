@@ -30,8 +30,30 @@ List<AdModel> listOfAdsFromJson(String str) {
   return adList.reversed.toList();
 }
 
-/// return an AdModel
-AdModel adModelFromJson(String str) => AdModel.fromJson(json.decode(str));
+
+/// return a list of from [announcements]
+List<AdModel> listOfAdsFromAnnouncementsJson(String str) {
+  final List<AdModel> adList = [];
+
+  // decode str
+  final myJson = json.decode(str);
+
+  if (myJson == null) {
+    throw Exception("AdModel >> listOfAdsFromJson >> json is null");
+  }
+
+  if (myJson["announcements"] == null) {
+    throw Exception("AdModel >> listOfAdsFromJson >> announcements is null");
+  }
+
+  myJson["announcements"].forEach((v) {
+    adList.add(AdModel.fromJson(v));
+  });
+
+  return adList.reversed.toList();
+}
+
+
 
 class AdModel extends AdEntity {
   AdModel({
