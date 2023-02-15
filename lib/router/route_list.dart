@@ -62,5 +62,6 @@ class RouteList {
   static const String refundPayment = "/refundPayment";
   static const String chatRoom = "/chat_room";
   static const String chatList = "/chat_list";
+  static const String payoutScreen = "/payoutScreen";
 
 }

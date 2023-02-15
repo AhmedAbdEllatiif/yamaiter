@@ -443,6 +443,13 @@ class RouteHelper {
         .pushNamed(RouteList.refundPayment, arguments: refundArguments);
   }
 
+  /// To chat_list screen \\\
+  Future payoutScreen(BuildContext context) {
+    return Navigator.of(context).pushNamed(
+      RouteList.payoutScreen,
+    );
+  }
+
   /// To chat_room screen \\\
   Future chatRoomScreen(BuildContext context,
       {required ChatRoomArguments chatRoomArguments}) {

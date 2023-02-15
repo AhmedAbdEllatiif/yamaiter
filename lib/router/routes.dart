@@ -30,6 +30,7 @@ import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type
 import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/invite_lawyer_by_client_screen.dart';
+import 'package:yamaiter/presentation/journeys/pay_out/pay_out_screen.dart';
 import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/journeys/refund/refund_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_screen.dart';
@@ -201,7 +202,6 @@ class Routes {
               endTaskArguments: settings.arguments as EndTaskArguments,
             ),
 
-
         /// tasks for other
         RouteList.tasksForOther: (context) => const TasksForOtherScreen(),
 
@@ -320,6 +320,9 @@ class Routes {
         RouteList.refundPayment: (context) => RefundScreen(
               refundArguments: settings.arguments as RefundArguments,
             ),
+
+        /// payoutScreen
+        RouteList.payoutScreen: (context) => const PayoutScreen(),
 
         /// chatRoom
         RouteList.chatRoom: (context) => ChatRoomScreen(
