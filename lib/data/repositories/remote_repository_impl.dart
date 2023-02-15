@@ -16,6 +16,7 @@ import 'package:yamaiter/data/models/authorized_user_model.dart';
 import 'package:yamaiter/data/models/chats/received_chat_room_response_model.dart';
 import 'package:yamaiter/data/models/consultations/consultation_model.dart';
 import 'package:yamaiter/data/models/pay_response_model.dart';
+import 'package:yamaiter/data/models/payment/balance_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
@@ -65,6 +66,7 @@ import '../../domain/entities/chat/received_chat_list_entity.dart';
 import '../../domain/entities/data/accept_terms/accept_terms_entity.dart';
 import '../../domain/entities/data/app_announcements_entity.dart';
 import '../../domain/entities/data/authorized_user_entity.dart';
+import '../../domain/entities/data/balance_entity.dart';
 import '../../domain/entities/data/client/consultation_entity.dart';
 import '../data_source/remote_data_source.dart';
 import '../models/announcements/ad_model.dart';
@@ -87,6 +89,7 @@ import '../params/client/update_task_params.dart';
 import '../params/get_app_announcements.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
+import '../params/payment/get_balance_params.dart';
 import '../params/payment/pay_out_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
@@ -1489,6 +1492,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       log("RepoImpl >> payout >> error: $e");
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// to get user balance
+  @override
+  Future<Either<AppError, BalanceEntity>> getBalance(
+      GetBalanceParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getBalance(params);
+
+      // received success
+      if (result is BalanceModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> getBalance >> error: $e");
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }

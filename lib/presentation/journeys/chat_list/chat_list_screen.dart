@@ -14,6 +14,7 @@ import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../common/constants/app_utils.dart';
+import '../../../common/enum/ads_pages.dart';
 import '../../../common/functions/get_authoried_user.dart';
 import '../../../common/functions/navigate_to_login.dart';
 import '../../../domain/entities/screen_arguments/chat_room_args.dart';
@@ -59,7 +60,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
           body: Column(
             children: [
               //==> AdsWidget
-              const AdsWidget(),
+              const AdsWidget(
+                  adsPage: AdsPage.innerPage
+              ),
 
               //==> chat list
               Expanded(

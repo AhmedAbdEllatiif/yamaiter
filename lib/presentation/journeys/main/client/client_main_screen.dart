@@ -10,6 +10,7 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/sizes.dart';
+import '../../../../common/enum/ads_pages.dart';
 import '../../../../common/screen_utils/screen_util.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
@@ -58,7 +59,9 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Ads ListView
-          const AdsWidget(),
+          const AdsWidget(
+              adsPage: AdsPage.main
+          ),
 
           /// title with add new Tasks
           if (_selectedIndex != 2)

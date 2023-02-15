@@ -184,6 +184,8 @@ class ApiConstants {
 
   static Uri _payout() => Uri.https(_baseUrl, EndPoints.payout);
 
+  static Uri _getBalance() => Uri.https(_baseUrl, EndPoints.balance);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -395,10 +397,12 @@ class ApiConstants {
       // refund
       case RequestType.refund:
         return _refund();
-    // refund
+      // refund
       case RequestType.payout:
         return _payout();
-
+      // balance
+      case RequestType.balance:
+        return _getBalance();
     }
   }
 }
@@ -581,6 +585,9 @@ class EndPoints {
 
   /// payout
   static String payout = "${_apiVersion}pay-out";
+
+  /// balance
+  static String balance = "${_apiVersion}pay-out";
 }
 
 /// The api request type
@@ -649,6 +656,7 @@ enum RequestType {
   checkPaymentStatus,
   refund,
   payout,
+  balance,
 }
 
 class ApiParamsConstant {

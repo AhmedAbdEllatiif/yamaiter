@@ -4,6 +4,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/assets_constants.dart';
+import '../../../../common/enum/ads_pages.dart';
 import '../../../../domain/entities/data/ad_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../widgets/ads_list/ads_list_view.dart';
@@ -21,7 +22,7 @@ class CreateArticleScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          const AdsWidget(),
+          AdsWidget(adsPage: AdsPage.innerPage),
 
           //==> article form
           Expanded(

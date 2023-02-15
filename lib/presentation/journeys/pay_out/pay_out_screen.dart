@@ -5,6 +5,7 @@ import 'package:yamaiter/common/enum/pay_out_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
+import 'package:yamaiter/presentation/logic/common/get_balance/get_balance_cubit.dart';
 import 'package:yamaiter/presentation/logic/common/payout/payout_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_drop_down_field.dart';
@@ -46,24 +47,33 @@ class _PayoutScreenState extends State<PayoutScreen> {
   /// PayoutCubit
   late final PayoutCubit _payoutCubit;
 
+  /// GetBalanceCubit
+  late final GetBalanceCubit _balanceCubit;
+
   @override
   void initState() {
     super.initState();
     _payoutCubit = getItInstance<PayoutCubit>();
+    _balanceCubit = getItInstance<GetBalanceCubit>();
     _phoneController = TextEditingController();
+    _fetchCurrentBalance();
   }
 
   @override
   void dispose() {
     _payoutCubit.close();
+    _balanceCubit.close();
     _phoneController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => _payoutCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => _balanceCubit),
+        BlocProvider(create: (context) => _payoutCubit),
+      ],
       child: Scaffold(
           backgroundColor: AppColor.primaryDarkColor,
 
@@ -71,139 +81,243 @@ class _PayoutScreenState extends State<PayoutScreen> {
           appBar: AppBar(
             title: const Text("استلام النقود"),
           ),
+
+          /// body
           body: Padding(
             padding: EdgeInsets.only(
-              top: ScreenUtil.screenHeight * 0.10,
+              top: ScreenUtil.screenHeight * 0.05,
               right: AppUtils.mainPagesHorizontalPadding.w,
               left: AppUtils.mainPagesHorizontalPadding.w,
             ),
-            child: Column(
-              children: [
-                /// title
-                Text(
-                  "اختر طريقة استلام النقود",
-                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                        color: AppColor.accentColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
+            child: BlocBuilder<GetBalanceCubit, GetBalanceState>(
+              builder: (context, balanceState) {
+                /*
+                *
+                *
+                * loading balance
+                *
+                *
+                * */
+                if (balanceState is LoadingBalance) {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                }
 
-                /// space
-                SizedBox(height: Sizes.dimen_10.h),
+                /*
+                *
+                *
+                * UnAuthorized to get balance
+                *
+                *
+                * */
+                if (balanceState is UnAuthorizedGetBalance) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.unauthorizedUser,
+                      onPressedRetry: () => navigateToLogin(context),
+                    ),
+                  );
+                }
 
-                /// form
-                Form(
-                  key: _formKey,
-                  child: Column(
+                /*
+                *
+                *
+                * error while getting balance
+                *
+                *
+                * */
+                if (balanceState is ErrorWhileFetchingBalance) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: balanceState.appError.appErrorType,
+                      onPressedRetry: () => _fetchCurrentBalance(),
+                    ),
+                  );
+                }
+
+                /*
+                *
+                *
+                * no balance
+                *
+                *
+                * */
+                if (balanceState is UserHaveNoBalance) {
+                  return Center(
+                    child: Text(
+                      "0",
+                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                            color: AppColor.accentColor,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  );
+                }
+
+                /*
+                *
+                *
+                * balance fetched
+                *
+                *
+                * */
+                if (balanceState is BalanceFetchedSuccessfully) {
+                  return Column(
                     children: [
-                      //==> phone num
-                      AppTextField(
-                        label: "رقم الهاتف المحمول",
-                        textInputType: TextInputType.number,
-                        maxLength: 11,
-                        minLength: 11,
-                        controller: _phoneController,
+                      /// available balance
+                      Text(
+                        "الرصيد المتاح",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: AppColor.white,
+                              fontWeight: FontWeight.bold,
+                              height: 0.8,
+                            ),
                       ),
 
-                      //==> space
-                      SizedBox(height: Sizes.dimen_5.h),
-
-                      //==>  dropdown
-                      AppDropDownField(
-                        itemsList: payoutTypes.values.toList(),
-                        hintText: "طرق استلام النقود",
-                        errorText: errorText,
-                        onChanged: (value) {
-                          _payoutType = payoutTypes.keys.firstWhere(
-                            (k) => payoutTypes[k] == value,
-                            orElse: () => PayoutType.unKnown,
-                          );
-                          _validate();
-                        },
+                      /// title
+                      Text(
+                        "${balanceState.balanceEntity.currentBalance}",
+                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                              color: AppColor.accentColor,
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                    ],
-                  ),
-                ),
 
-                /// space
-                SizedBox(height: Sizes.dimen_10.h),
+                      /// space
+                      SizedBox(height: Sizes.dimen_20.h),
 
-                /// button
-                BlocBuilder<PayoutCubit, PayoutState>(
-                  builder: (context, state) {
-                    /*
+                      /// title
+                      Text(
+                        "اختر طريقة استلام النقود",
+                        style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                              color: AppColor.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                      ),
+
+                      /// space
+                      SizedBox(height: Sizes.dimen_10.h),
+
+                      /// form
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            //==> phone num
+                            AppTextField(
+                              label: "رقم الهاتف المحمول",
+                              textInputType: TextInputType.number,
+                              maxLength: 11,
+                              minLength: 11,
+                              controller: _phoneController,
+                            ),
+
+                            //==> space
+                            SizedBox(height: Sizes.dimen_5.h),
+
+                            //==>  dropdown
+                            AppDropDownField(
+                              itemsList: payoutTypes.values.toList(),
+                              hintText: "طرق استلام النقود",
+                              errorText: errorText,
+                              onChanged: (value) {
+                                _payoutType = payoutTypes.keys.firstWhere(
+                                  (k) => payoutTypes[k] == value,
+                                  orElse: () => PayoutType.unKnown,
+                                );
+                                _validate();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      /// space
+                      SizedBox(height: Sizes.dimen_10.h),
+
+                      /// button
+                      BlocBuilder<PayoutCubit, PayoutState>(
+                        builder: (context, state) {
+                          /*
                     *
                     *
                     * loading
                     *
                     *
                     * */
-                    if (state is LoadingPayout) {
-                      return const Center(
-                        child: LoadingWidget(),
-                      );
-                    }
+                          if (state is LoadingPayout) {
+                            return const Center(
+                              child: LoadingWidget(),
+                            );
+                          }
 
-                    /*
+                          /*
                     *
                     *
                     * unAuthorized
                     *
                     *
                     * */
-                    if (state is UnAuthorizedToSendPayout) {
-                      return AppErrorWidget(
-                        appTypeError: AppErrorType.unauthorizedUser,
-                        onPressedRetry: () => navigateToLogin(context),
-                      );
-                    }
+                          if (state is UnAuthorizedToSendPayout) {
+                            return AppErrorWidget(
+                              appTypeError: AppErrorType.unauthorizedUser,
+                              onPressedRetry: () => navigateToLogin(context),
+                            );
+                          }
 
-                    /*
+                          /*
                     *
                     *
                     * no amount
                     *
                     *
                     * */
-                    if (state is NoAmountToPayout) {
-                      return AppErrorWidget(
-                        appTypeError: AppErrorType.noWithdrawalAmount,
-                        message: "لا يوجد اى مستحقات",
-                        onPressedRetry: () => _tryToSendPayout(),
-                      );
-                    }
+                          if (state is NoAmountToPayout) {
+                            return AppErrorWidget(
+                              appTypeError: AppErrorType.noWithdrawalAmount,
+                              message: "لا يوجد اى مستحقات",
+                              onPressedRetry: () => _tryToSendPayout(),
+                            );
+                          }
 
-                    /*
+                          /*
                     *
                     *
                     * error
                     *
                     *
                     * */
-                    if (state is ErrorWhileSendingPayout) {
-                      return AppErrorWidget(
-                        appTypeError: state.appError.appErrorType,
-                        onPressedRetry: () => _tryToSendPayout(),
-                      );
-                    }
+                          if (state is ErrorWhileSendingPayout) {
+                            return AppErrorWidget(
+                              appTypeError: state.appError.appErrorType,
+                              onPressedRetry: () => _tryToSendPayout(),
+                            );
+                          }
 
-                    /// else
-                    return AppButton(
-                      text: "تأكيد",
-                      width: double.infinity,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: AppUtils.mainPagesHorizontalPadding.w),
-                      color: AppColor.accentColor,
-                      textColor: AppColor.white,
-                      onPressed: () {
-                        if (_validate()) {
-                          _tryToSendPayout();
-                        }
-                      },
-                    );
-                  },
-                ),
-              ],
+                          /// else
+                          return AppButton(
+                            text: "تأكيد",
+                            width: double.infinity,
+                            margin: EdgeInsets.symmetric(
+                                horizontal:
+                                    AppUtils.mainPagesHorizontalPadding.w),
+                            color: AppColor.accentColor,
+                            textColor: AppColor.white,
+                            onPressed: () {
+                              if (_validate()) {
+                                _tryToSendPayout();
+                              }
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                }
+
+                return const SizedBox.shrink();
+              },
             ),
           )),
     );
@@ -233,6 +347,11 @@ class _PayoutScreenState extends State<PayoutScreen> {
     }
 
     return false;
+  }
+
+  void _fetchCurrentBalance() {
+    final userToken = getUserToken(context);
+    _balanceCubit.tryToGetUserBalance(userToken: userToken);
   }
 
   /// to send request

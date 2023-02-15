@@ -7,6 +7,7 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/enum/ads_pages.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../domain/entities/data/ad_entity.dart';
 import '../../../domain/entities/screen_arguments/single_article_screen_args.dart';
@@ -64,7 +65,9 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
         body: Column(
           children: [
             /// Ads ListView
-            const AdsWidget(),
+             const AdsWidget(
+                 adsPage: AdsPage.innerPage
+             ),
 
             Expanded(
               child: Padding(

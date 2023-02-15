@@ -35,6 +35,7 @@ import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
@@ -43,6 +44,7 @@ import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
+import 'package:yamaiter/domain/entities/data/balance_entity.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
@@ -299,4 +301,7 @@ abstract class RemoteRepository {
 
   /// to send payout request
   Future<Either<AppError, SuccessModel>> payout(PayoutParams params);
+
+  /// to get user balance
+  Future<Either<AppError, BalanceEntity>> getBalance(GetBalanceParams params);
 }

@@ -9,6 +9,7 @@ import 'package:yamaiter/presentation/logic/client_cubit/get_consultation_detail
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 
 import '../../../common/constants/sizes.dart';
+import '../../../common/enum/ads_pages.dart';
 import '../../widgets/ads_widget.dart';
 import '../../widgets/app_content_title_widget.dart';
 import '../../widgets/text_with_icon.dart';
@@ -54,7 +55,9 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
         body: Column(
           children: [
             /// ads
-            const AdsWidget(),
+            const AdsWidget(
+                adsPage: AdsPage.innerPage
+            ),
 
             /// ScrollableAppCard
             Container(

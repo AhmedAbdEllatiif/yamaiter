@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/enum/ads_pages.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
@@ -22,7 +23,9 @@ class CreateAdScreen extends StatelessWidget {
       body: Column(
         children: [
           /// Ads
-           const AdsWidget(),
+           const AdsWidget(
+             adsPage: AdsPage.innerPage,
+           ),
 
           /// Card
           Expanded(

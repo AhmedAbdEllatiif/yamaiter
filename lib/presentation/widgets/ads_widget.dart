@@ -9,7 +9,7 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../common/constants/app_utils.dart';
-import '../../common/constants/assets_constants.dart';
+
 import '../../common/enum/ads_pages.dart';
 import '../../common/functions/get_user_token.dart';
 import '../../domain/entities/data/ad_entity.dart';
@@ -17,8 +17,13 @@ import 'ads_list/ads_list_view.dart';
 
 class AdsWidget extends StatefulWidget {
   final List<AdEntity>? adsList;
+  final AdsPage adsPage;
 
-  const AdsWidget({Key? key, this.adsList}) : super(key: key);
+  const AdsWidget({
+    Key? key,
+    this.adsList,
+    this.adsPage = AdsPage.innerPage,
+  }) : super(key: key);
 
   @override
   State<AdsWidget> createState() => _AdsWidgetState();
@@ -113,10 +118,10 @@ class _AdsWidgetState extends State<AdsWidget> {
   /// fetch app announcements
   void _fetchAppAnnouncements() {
     final userToken = getUserToken(context);
-    final adsPlace = AdsPage.main.toShortString();
+    final adsPlace = widget.adsPage.toShortString();
 
     _announcementsCubit.tryToGetAppAnnouncements(
-      adsPlace: "",
+      adsPlace: adsPlace,
       userToken: userToken,
     );
   }

@@ -90,6 +90,7 @@ import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
+import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
@@ -107,6 +108,7 @@ import '../api/requests/get_requests/get_completed_taxes.dart';
 import '../api/requests/get_requests/get_contact_us.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
+import '../api/requests/get_requests/paymeny/get_balance.dart';
 import '../api/requests/post_requests/client/assign_task_client.dart';
 import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/client/update_task_client.dart';
@@ -128,6 +130,7 @@ import '../models/authorized_user_model.dart';
 import '../models/chats/received_chat_room_response_model.dart';
 import '../models/consultations/consultation_model.dart';
 import '../models/pay_response_model.dart';
+import '../models/payment/balance_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
 import '../params/client/assign_task_params_client.dart';
@@ -360,6 +363,9 @@ abstract class RemoteDataSource {
 
   /// payout
   Future<dynamic> payout(PayoutParams params);
+
+  /// getBalance
+  Future<dynamic> getBalance(GetBalanceParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -2835,11 +2841,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         case 200:
           log("dataSource >> payout >> ResponseBody: ${json.decode(response.body)}");
           return SuccessModel();
-      case 422:
-        log("refundPayment >> ResponseBody: ${response.body}");
-        return AppError(AppErrorType.noWithdrawalAmount,
-            message:
-                "refundPayment Status Code >> ${response.statusCode}");
+        case 422:
+          log("refundPayment >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.noWithdrawalAmount,
+              message: "refundPayment Status Code >> ${response.statusCode}");
         // not found
         case 404:
           log("dataSource >> payout >> ResponseBody: ${response.body}");
@@ -2862,6 +2867,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("dataSource >> payout >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "dataSource >> payout UnHandledError >> $e");
+    }
+  }
+
+  /// getBalance
+  @override
+  Future<dynamic> getBalance(GetBalanceParams params) async {
+    try {
+      log("dataSource >> getBalance >> Start request");
+      // init request
+      final request = GetUserBalance();
+
+      // response
+      final response = await request(params);
+
+      log("dataSource >> getBalance >> ResponseCode: ${response.statusCode}");
+      log("dataSource >> getBalance >> ResponseBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("dataSource >> getBalance >> ResponseBody: ${json.decode(response.body)}");
+          return balanceModelFromJson(response.body);
+        // not found
+        case 404:
+          log("dataSource >> getBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message: "getBalance Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          log("dataSource >> getBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getBalance Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("dataSource >> getBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getBalance Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("dataSource >> getBalance >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "dataSource >> getBalance UnHandledError >> $e");
     }
   }
 }
