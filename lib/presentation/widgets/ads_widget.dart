@@ -74,12 +74,14 @@ class _AdsWidgetState extends State<AdsWidget> {
               return Column(
                 children: [
                   /// ads
+                  if(state.adsList.isNotEmpty)
                   AdsListViewWidget(adsList: state.adsList),
 
                   /// space
                   const SizedBox(height: 10),
 
                   /// news
+                  if(state.newsAsString.isNotEmpty)
                   Container(
                     height: ScreenUtil.screenHeight * 0.05,
                     width: double.infinity,
