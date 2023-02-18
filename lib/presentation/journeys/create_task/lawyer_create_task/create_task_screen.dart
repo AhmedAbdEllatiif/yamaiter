@@ -84,11 +84,11 @@ class _CreateTaskScreenState extends State<CreateTaskScreen> {
               const AdsWidget(),
 
               //==> Task form
-              Expanded(
+              Flexible(
                   child: Padding(
                 padding: EdgeInsets.symmetric(
                   horizontal: AppUtils.mainPagesHorizontalPadding.w,
-                  //vertical: AppUtils.mainPagesVerticalPadding.h,
+                  vertical: AppUtils.mainPagesVerticalPadding.h,
                 ),
                 child: BlocBuilder<GetAcceptTermsCubit, GetAcceptTermsState>(
                   builder: (context, state) {

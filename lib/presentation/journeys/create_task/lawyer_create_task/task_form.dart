@@ -84,73 +84,70 @@ class _TaskFormState extends State<TaskForm> {
             _navigateToMyTaskScreen();
           }
         },
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppUtils.mainPagesHorizontalPadding.w,
+            // vertical: AppUtils.mainPagesVerticalPadding.h,
+          ),
+
+          ///  card
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppUtils.mainPagesHorizontalPadding.w,
-              // vertical: AppUtils.mainPagesVerticalPadding.h,
-            ),
+            padding: const EdgeInsets.only(
+                // top: Sizes.dimen_10.h,
+                ),
+            child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
+              bloc: _createTaskCubit,
+              builder: (context, state) {
+                /// NotAcceptTermsToCreateTask
+                if (state is NotAcceptTermsToCreateTask) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.notAcceptedYet,
+                      buttonText: "الشروط",
+                      message: "مازلت لم توافق على شروط الخصوصية بعد",
+                      onPressedRetry: () {
+                        // _navigateToLogin();
+                      },
+                    ),
+                  );
+                }
 
-            ///  card
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  // top: Sizes.dimen_10.h,
-                  ),
-              child: BlocBuilder<CreateTaskCubit, CreateTaskState>(
-                bloc: _createTaskCubit,
-                builder: (context, state) {
-                  /// NotAcceptTermsToCreateTask
-                  if (state is NotAcceptTermsToCreateTask) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.notAcceptedYet,
-                        buttonText: "الشروط",
-                        message: "مازلت لم توافق على شروط الخصوصية بعد",
-                        onPressedRetry: () {
-                          // _navigateToLogin();
-                        },
-                      ),
-                    );
-                  }
+                /// UnAuthorizedCreateTask
+                if (state is UnAuthorizedCreateTask) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.unauthorizedUser,
+                      buttonText: "تسجيل الدخول",
+                      onPressedRetry: () {
+                        _navigateToLogin();
+                      },
+                    ),
+                  );
+                }
 
-                  /// UnAuthorizedCreateTask
-                  if (state is UnAuthorizedCreateTask) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.unauthorizedUser,
-                        buttonText: "تسجيل الدخول",
-                        onPressedRetry: () {
-                          _navigateToLogin();
-                        },
-                      ),
-                    );
-                  }
+                /// NotActivatedUserToCreateTask
+                if (state is NotActivatedUserToCreateTask) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.notActivatedUser,
+                      buttonText: "تواصل معنا",
+                      message:
+                          "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                      onPressedRetry: () {
+                        _navigateToContactUs();
+                      },
+                    ),
+                  );
+                }
 
-                  /// NotActivatedUserToCreateTask
-                  if (state is NotActivatedUserToCreateTask) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.notActivatedUser,
-                        buttonText: "تواصل معنا",
-                        message:
-                            "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
-                        onPressedRetry: () {
-                          _navigateToContactUs();
-                        },
-                      ),
-                    );
-                  }
+                if (widget.withWithCard) {
+                  return ScrollableAppCard(
+                    child: _form(state),
+                  );
+                }
 
-                  if (widget.withWithCard) {
-                    return ScrollableAppCard(
-                      child: _form(state),
-                    );
-                  }
-
-                  return _form(state);
-                },
-              ),
+                return _form(state);
+              },
             ),
           ),
         ),

@@ -20,7 +20,7 @@ class CreateSosScreen extends StatelessWidget {
           const AdsWidget(),
 
           //==> sos form
-          Expanded(
+          Flexible(
               child: Padding(
             padding: EdgeInsets.symmetric(
                 horizontal: AppUtils.mainPagesHorizontalPadding.w,

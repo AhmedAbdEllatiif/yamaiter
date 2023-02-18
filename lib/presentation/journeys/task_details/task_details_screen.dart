@@ -72,162 +72,164 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
               height: 10,
             ),
 
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: AppUtils.mainPagesHorizontalPadding.w,
-                  ),
-                  child: ScrollableAppCard(
-                    /// card title
-                    title: Row(
-                      children: [
-                        //==> title, date, court
-                        Flexible(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              /// title
-                              Row(
+            Flexible(
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: AppUtils.mainPagesHorizontalPadding.w,
+                ),
+                child: ScrollableAppCard(
+                  /// card title
+                  title: Row(
+                    children: [
+                      //==> title, date, court
+                      Flexible(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            /// title
+                            Row(
+                              children: [
+                                Expanded(
+                                    child: AppContentTitleWidget(
+                                  title: _taskEntity.title,
+                                  textSpace: 1.3,
+                                )),
+                              ],
+                            ),
+
+                            /// date, court, applicants
+                            Container(
+                              width: double.infinity,
+                              padding: const EdgeInsets.only(top: 3, right: 5),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
                                 children: [
-                                  Expanded(
-                                      child: AppContentTitleWidget(
-                                    title: _taskEntity.title,
-                                    textSpace: 1.3,
-                                  )),
+                                  /// governorates
+                                  Row(
+                                    children: [
+                                      Flexible(
+                                        child: TextWithIconWidget(
+                                          iconData: Icons.pin_drop_outlined,
+                                          text: _taskEntity.governorates,
+                                        ),
+                                      ),
+
+                                      SizedBox(width: Sizes.dimen_8.w),
+
+                                      /// date
+                                      Flexible(
+                                        child: TextWithIconWidget(
+                                          iconData: Icons.date_range_outlined,
+                                          text: _taskEntity.startingDate,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+
+                                  const SizedBox(height: 3),
+
+                                  /// court, applicantsCount
+                                  Row(
+                                    children: [
+                                      //==> court
+                                      Flexible(
+                                        child: TextWithIconWidget(
+                                          iconData: Icons.home_outlined,
+                                          text: _taskEntity.court,
+                                        ),
+                                      ),
+
+                                      SizedBox(width: Sizes.dimen_8.w),
+                                      //==> applicantsCount
+                                      TextWithIconWidget(
+                                        iconData: Icons.person_outline_outlined,
+                                        text: _taskEntity.applicantsCount
+                                            .toString(),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
+                            ),
+                          ],
+                        ),
+                      ),
 
-                              /// date, court, applicants
-                              Container(
-                                width: double.infinity,
-                                padding: const EdgeInsets.only(top: 3, right: 5),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    /// governorates
-                                    Row(
-                                      children: [
-                                        Flexible(
-                                          child: TextWithIconWidget(
-                                            iconData: Icons.pin_drop_outlined,
-                                            text: _taskEntity.governorates,
-                                          ),
-                                        ),
+                      /// img, rating
+                      ImageNameRatingWidget(
+                        imgUrl: _taskEntity.creatorImage,
+                        name: _taskEntity.creatorName,
+                        rating: _taskEntity.creatorRating.toDouble(),
+                        nameColor: AppColor.primaryDarkColor,
+                        ratedColor: AppColor.accentColor,
+                        unRatedColor: AppColor.primaryColor,
+                        minImageSize: Sizes.dimen_40,
+                        maxImageSize: Sizes.dimen_48,
+                        withRow: false,
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
 
-                                        SizedBox(width: Sizes.dimen_8.w),
-
-                                        /// date
-                                        Flexible(
-                                          child: TextWithIconWidget(
-                                            iconData: Icons.date_range_outlined,
-                                            text: _taskEntity.startingDate,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-
-                                    const SizedBox(height: 3),
-
-                                    /// court, applicantsCount
-                                    Row(
-                                      children: [
-                                        //==> court
-                                        Flexible(
-                                          child: TextWithIconWidget(
-                                            iconData: Icons.home_outlined,
-                                            text: _taskEntity.court,
-                                          ),
-                                        ),
-
-                                        SizedBox(width: Sizes.dimen_8.w),
-                                        //==> applicantsCount
-                                        TextWithIconWidget(
-                                          iconData: Icons.person_outline_outlined,
-                                          text: _taskEntity.applicantsCount
-                                              .toString(),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
+                  /// bottomChild
+                  bottomChild: Row(
+                    children: [
+                      Row(
+                        children: [
+                          //==> price
+                          RoundedText(
+                            text: "${_taskEntity.price} جنيه مصرى",
+                            background: AppColor.accentColor,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: Sizes.dimen_10,
+                              horizontal: Sizes.dimen_15,
+                            ),
                           ),
-                        ),
 
-                        /// img, rating
-                        ImageNameRatingWidget(
-                          imgUrl: _taskEntity.creatorImage,
-                          name: _taskEntity.creatorName,
-                          rating: _taskEntity.creatorRating.toDouble(),
-                          nameColor: AppColor.primaryDarkColor,
-                          ratedColor: AppColor.accentColor,
-                          unRatedColor: AppColor.primaryColor,
-                          minImageSize: Sizes.dimen_40,
-                          maxImageSize: Sizes.dimen_48,
-                          withRow: false,
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-
-                    /// bottomChild
-                    bottomChild: Row(
-                      children: [
-                        Row(
-                          children: [
-                            //==> price
+                          if (!widget.taskDetailsArguments.isAlreadyApplied)
+                            //==> apply for the task
                             RoundedText(
-                              text: "${_taskEntity.price} جنيه مصرى",
-                              background: AppColor.accentColor,
+                              text: "تقدم للمهمة",
+                              background: AppColor.primaryDarkColor,
                               padding: const EdgeInsets.symmetric(
                                 vertical: Sizes.dimen_10,
                                 horizontal: Sizes.dimen_15,
                               ),
+                              onPressed: () {
+                                _navigateToApplyForTask();
+                              },
                             ),
+                        ],
+                      ),
+                    ],
+                  ),
 
-                            if (!widget.taskDetailsArguments.isAlreadyApplied)
-                              //==> apply for the task
-                              RoundedText(
-                                text: "تقدم للمهمة",
-                                background: AppColor.primaryDarkColor,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: Sizes.dimen_10,
-                                  horizontal: Sizes.dimen_15,
-                                ),
-                                onPressed: () {
-                                  _navigateToApplyForTask();
-                                },
-                              ),
-                          ],
-                        ),
-                      ],
-                    ),
+                  /// child
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //==> description
+                      Text(
+                        _taskEntity.description,
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyText2!
+                            .copyWith(color: Colors.black, height: 1.4),
+                      ),
 
-                    /// child
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //==> description
-                        Text(
-                          _taskEntity.description,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyText2!
-                              .copyWith(color: Colors.black, height: 1.4),
-                        ),
-
-                        //==> space
-                        SizedBox(
-                          height: Sizes.dimen_10.h,
-                        ),
-                      ],
-                    ),
+                      //==> space
+                      SizedBox(
+                        height: Sizes.dimen_10.h,
+                      ),
+                    ],
                   ),
                 ),
               ),
+            ),
+
+            /// space
+            const SizedBox(
+              height: 10,
             ),
           ],
         ),

@@ -81,59 +81,56 @@ class _SosFormState extends State<SosForm> {
             _navigateToMySosScreen();
           }
         },
-        child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
+        child: Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppUtils.mainPagesHorizontalPadding.w,
+            vertical: AppUtils.mainPagesVerticalPadding.h,
+          ),
+
+          ///  card
           child: Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: AppUtils.mainPagesHorizontalPadding.w,
-              vertical: AppUtils.mainPagesVerticalPadding.h,
+            padding: EdgeInsets.only(
+              top: Sizes.dimen_10.h,
             ),
+            child: BlocBuilder<CreateSosCubit, CreateSosState>(
+              bloc: _createSosCubit,
+              builder: (context, state) {
+                /// UnAuthorizedCreateSos
+                if (state is UnAuthorizedCreateSos) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.unauthorizedUser,
+                      buttonText: "تسجيل الدخول",
+                      onPressedRetry: () {
+                        _navigateToLogin();
+                      },
+                    ),
+                  );
+                }
 
-            ///  card
-            child: Padding(
-              padding: EdgeInsets.only(
-                top: Sizes.dimen_10.h,
-              ),
-              child: BlocBuilder<CreateSosCubit, CreateSosState>(
-                bloc: _createSosCubit,
-                builder: (context, state) {
-                  /// UnAuthorizedCreateSos
-                  if (state is UnAuthorizedCreateSos) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.unauthorizedUser,
-                        buttonText: "تسجيل الدخول",
-                        onPressedRetry: () {
-                          _navigateToLogin();
-                        },
-                      ),
-                    );
-                  }
+                /// NotActivatedUserToCreateSos
+                if (state is NotActivatedUserToCreateSos) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.notActivatedUser,
+                      buttonText: "تواصل معنا",
+                      message:
+                          "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                      onPressedRetry: () {
+                        _navigateToContactUs();
+                      },
+                    ),
+                  );
+                }
 
-                  /// NotActivatedUserToCreateSos
-                  if (state is NotActivatedUserToCreateSos) {
-                    return Center(
-                      child: AppErrorWidget(
-                        appTypeError: AppErrorType.notActivatedUser,
-                        buttonText: "تواصل معنا",
-                        message:
-                            "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
-                        onPressedRetry: () {
-                          _navigateToContactUs();
-                        },
-                      ),
-                    );
-                  }
+                if (widget.withWithCard) {
+                  return ScrollableAppCard(
+                    child: _form(state),
+                  );
+                }
 
-                  if (widget.withWithCard) {
-                    return ScrollableAppCard(
-                      child: _form(state),
-                    );
-                  }
-
-                  return _form(state);
-                },
-              ),
+                return _form(state);
+              },
             ),
           ),
         ),
