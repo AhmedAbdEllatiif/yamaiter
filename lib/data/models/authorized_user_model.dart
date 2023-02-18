@@ -39,6 +39,7 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
   final int userAcceptTerms;
   final String userGovernorate;
   final String userCourtName;
+  final num rate;
 
   AuthorizedUserModel({
     required this.userId,
@@ -54,6 +55,7 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
     required this.createdAt,
     required this.updatedAt,
     required this.userAcceptTerms,
+    required this.rate,
   }) : super(
           id: userId,
           firstName: userFirstName,
@@ -64,6 +66,7 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
           profileImage: profileImage,
           governorates: userGovernorate,
           courtName: userCourtName,
+          rating: rate.toDouble(),
           acceptTerms: userAcceptTerms == 1
               ? AcceptTerms.firstAccept
               : userAcceptTerms == 2
@@ -110,6 +113,9 @@ class AuthorizedUserModel extends AuthorizedUserEntity {
         userCourtName: json['userable'] != null
             ? json['userable']["court_name"] ?? AppUtils.undefined
             : AppUtils.undefined,
+
+        //==> rate
+        rate: json['userable'] != null ? json['userable']["rate"] ?? 0 : 0,
 
         //==> userableId
         userableId: json['userable_id'] ?? -1,

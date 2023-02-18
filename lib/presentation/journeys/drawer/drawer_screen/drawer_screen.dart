@@ -46,7 +46,7 @@ class DrawerScreen extends StatelessWidget {
                     return ImageNameRatingWidget(
                       name: state.userEntity.firstName,
                       imgUrl: state.userEntity.userAvatar,
-                      rating: 3,
+                      rating: state.userEntity.rating,
                       onPressed: () {
                         RouteHelper().editProfile(context);
                       },

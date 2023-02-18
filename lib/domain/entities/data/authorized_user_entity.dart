@@ -15,6 +15,7 @@ class AuthorizedUserEntity extends Equatable {
   final String phoneNum;
   final String governorates;
   final String courtName;
+  final double rating;
   late final String userAvatar;
   final UserType userType;
   final AcceptTerms acceptTerms;
@@ -29,6 +30,7 @@ class AuthorizedUserEntity extends Equatable {
     required this.courtName,
     required this.userType,
     required this.acceptTerms,
+    required this.rating,
     required final String profileImage,
   }) {
     log("AuthorizedUserEntity >> profileImage >> $profileImage");
@@ -47,6 +49,7 @@ class AuthorizedUserEntity extends Equatable {
       courtName: AppUtils.undefined,
       phoneNum: "01*********",
       userType: UserType.unDefined,
+      rating: 0,
       acceptTerms: AcceptTerms.unKnown);
 
   @override
@@ -59,5 +62,6 @@ class AuthorizedUserEntity extends Equatable {
         userType,
         acceptTerms,
         userAvatar,
+        rating,
       ];
 }
