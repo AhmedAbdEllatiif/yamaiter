@@ -141,6 +141,14 @@ class DrawerScreen extends StatelessWidget {
             pageTitle: "سياسة الخصوصية", sideMenuPage: SideMenuPage.privacy),
       );
 
+  /// to ContactUsScreen
+  void _navigateToContactUsScreen(BuildContext context) =>
+      RouteHelper().sideMenuPage(
+        context,
+        arguments: SideMenuPageArguments(
+            pageTitle: "تواصل معنا", sideMenuPage: SideMenuPage.contactUs),
+      );
+
   void _navigateToPayoutScreen(BuildContext context) =>
       RouteHelper().payoutScreen(context);
 
@@ -207,7 +215,7 @@ class DrawerScreen extends StatelessWidget {
         DrawerItem(
           iconData: Icons.question_mark_outlined,
           title: "اتصل بنا",
-          onPressed: () {},
+          onPressed: () => _navigateToContactUsScreen(context),
         ),
         DrawerItem(
           iconData: Icons.question_mark_outlined,
