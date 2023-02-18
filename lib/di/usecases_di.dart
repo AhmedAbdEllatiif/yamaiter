@@ -28,6 +28,7 @@ import '../domain/use_cases/article/create_article.dart';
 import '../domain/use_cases/article/my_articles.dart';
 import '../domain/use_cases/article/update_article.dart';
 import '../domain/use_cases/ads/create_ad.dart';
+import '../domain/use_cases/change_password.dart';
 import '../domain/use_cases/chat/fetch_chat_list.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
@@ -381,5 +382,10 @@ Future init() async {
   //==> UpdateClientProfileCase
   getItInstance.registerFactory<UpdateClientProfileCase>(
     () => UpdateClientProfileCase(remoteRepository: getItInstance()),
+  );
+
+  //==> ChangePasswordCase
+  getItInstance.registerFactory<ChangePasswordCase>(
+    () => ChangePasswordCase(remoteRepository: getItInstance()),
   );
 }

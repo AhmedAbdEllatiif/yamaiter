@@ -28,6 +28,7 @@ import 'package:yamaiter/data/api/requests/get_requests/terms_and_conditions.dar
 import 'package:yamaiter/data/api/requests/post_requests/accept_terms.dart';
 import 'package:yamaiter/data/api/requests/post_requests/apply_for_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dart';
+import 'package:yamaiter/data/api/requests/post_requests/auth/change_password_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/chat/send_chat_message.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/pay_for_consultation.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
@@ -64,6 +65,7 @@ import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/all_sos_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
+import 'package:yamaiter/data/params/change_password_params.dart';
 import 'package:yamaiter/data/params/chat/fetch_chats_lists_params.dart';
 import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
@@ -221,6 +223,9 @@ abstract class RemoteDataSource {
 
   /// registerLawyer
   Future<dynamic> registerLawyer(RegisterRequestModel registerRequestModel);
+
+  /// changePassword
+  Future<dynamic> changePassword(ChangePasswordParams params);
 
   /// about
   Future<dynamic> getAbout(String userToken);
@@ -1211,6 +1216,54 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         return AppError(AppErrorType.api,
             message: "Status Code >> ${response.statusCode}"
                 " \n Body: ${response.body}");
+    }
+  }
+
+  /// changePassword
+  @override
+  Future<dynamic> changePassword(ChangePasswordParams params) async {
+    try {
+      log("RemoteData >> changePassword >> Start request");
+      // init request
+      final request = ChangePasswordRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("RemoteData >> changePassword >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 422:
+          if (response.body.contains("incorrectUserPassword")) {
+            return AppError(AppErrorType.wrongPassword,
+                message:
+                    "RemoteData >> changePassword Status Body >> ${response.body}");
+          }
+          return AppError(AppErrorType.unHandledError,
+              message:
+                  "RemoteData >> changePassword Status Body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "RemoteData >> changePassword Status Body >> ${response.body}");
+        // default
+        default:
+          log("RemoteData >> changePassword >> ResponseCode: ${response.statusCode} "
+              "\n Body: ${response.body}");
+          return AppError(AppErrorType.api,
+              message:
+                  "RemoteData >> changePassword Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> changePassword >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "RemoteData >> changePassword UnHandledError >> $e");
     }
   }
 

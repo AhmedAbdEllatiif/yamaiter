@@ -73,6 +73,7 @@ import '../models/announcements/ad_model.dart';
 import '../models/announcements/announcemnets_response_model.dart';
 import '../models/auth/login/login_request.dart';
 import '../models/success_model.dart';
+import '../params/change_password_params.dart';
 import '../params/chat/fetch_chats_lists_params.dart';
 import '../params/chat_room_by_id_params.dart';
 import '../params/client/assign_task_params_client.dart';
@@ -202,6 +203,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Left(result);
       }
     } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+  /// changePassword
+  @override
+  Future<Either<AppError, SuccessModel>> changePassword(
+      ChangePasswordParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.changePassword(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> changePassword >> error: $e");
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }

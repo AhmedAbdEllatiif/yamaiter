@@ -69,6 +69,8 @@ class ApiConstants {
 
   static Uri _registerUrl() => Uri.https(_baseUrl, EndPoints.registerLawyer);
 
+  static Uri _changePassword() => Uri.https(_baseUrl, EndPoints.changePassword);
+
   static Uri _about() => Uri.https(_baseUrl, EndPoints.about);
 
   static Uri _privacyAndPolicy() =>
@@ -283,6 +285,10 @@ class ApiConstants {
       case RequestType.registerLawyer:
         return _registerUrl();
 
+      // changePassword
+      case RequestType.changePassword:
+        return _changePassword();
+
       // distresses
       case RequestType.distresses:
         return _distresses();
@@ -466,6 +472,9 @@ class EndPoints {
   /// registerLawyer
   static String registerLawyer = "${_apiVersion}lawyer-register";
 
+  /// changePassword
+  static String changePassword = "${_apiVersion}change-password";
+
   /// about
   static String about = "${_apiVersion}about";
 
@@ -596,9 +605,14 @@ enum RequestType {
   chatRoom,
   chatList,
 
-  /// ===> Client
+  /// ===> auth
   updateClientProfile,
   registerClient,
+  login,
+  registerLawyer,
+  changePassword,
+
+  /// ===> Client
   createTaskClient,
   myConsultations,
   payForConsultation,
@@ -612,8 +626,6 @@ enum RequestType {
   consultationDetails,
 
   ///==> Lawyer
-  login,
-  registerLawyer,
   about,
   termsAndConditions,
   privacyAndPolicy,

@@ -58,6 +58,7 @@ import '../../data/models/success_model.dart';
 import '../../data/models/tasks/upload_task_params.dart';
 import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
+import '../../data/params/change_password_params.dart';
 import '../../data/params/chat_room_by_id_params.dart';
 import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
@@ -101,6 +102,10 @@ abstract class RemoteRepository {
   ///===================================================================\\\\
   Future<Either<AppError, AuthorizedUserEntity>> updateClientProfile(
       UpdateClientParams updateClientParams);
+
+  /// changePassword
+  Future<Either<AppError, SuccessModel>> changePassword(
+      ChangePasswordParams params);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
