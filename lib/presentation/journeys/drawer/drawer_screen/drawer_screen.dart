@@ -16,6 +16,7 @@ import '../../../../common/enum/animation_type.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../widgets/balance_widget.dart';
 import '../../../widgets/image_name_rating_widget.dart';
 
 class DrawerScreen extends StatelessWidget {
@@ -53,30 +54,8 @@ class DrawerScreen extends StatelessWidget {
                   },
                 ),
 
-                /// text balance
-                RichText(
-                  text: TextSpan(children: [
-                    TextSpan(
-                        text: "الرصيد الحالى: ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: AppColor.white)),
-                    TextSpan(
-                        text: "1500",
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  color: AppColor.white,
-                                  fontWeight: FontWeight.bold,
-                                )),
-                    TextSpan(
-                        text: " نقطة",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleSmall!
-                            .copyWith(color: AppColor.white))
-                  ]),
-                )
+                /// BalanceWidget
+                const BalanceWidget(),
               ],
             ),
           ),
@@ -229,7 +208,8 @@ class DrawerScreen extends StatelessWidget {
           iconData: Icons.question_mark_outlined,
           title: "اتصل بنا",
           onPressed: () {},
-        ), DrawerItem(
+        ),
+        DrawerItem(
           iconData: Icons.question_mark_outlined,
           title: "استلام النقود",
           onPressed: () => _navigateToPayoutScreen(context),
