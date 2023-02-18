@@ -22,7 +22,9 @@ class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
 
   /// save current authorized user data
   Future<void> save(AuthorizedUserEntity userEntity) async {
-    await delete();
+    // final deleteCase = getItInstance<DeleteUserDataCase>();
+    // await deleteCase(NoParams());
+
     final useCase = getItInstance<SaveUserDataCase>();
     await useCase(userEntity);
     await loadCurrentAuthorizedUserData();
@@ -30,8 +32,7 @@ class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
 
   /// delete current authorized user data
   Future<void> delete() async {
-    final useCase = getItInstance<DeleteUserDataCase>();
-    await useCase(NoParams());
+
     await loadCurrentAuthorizedUserData();
   }
 

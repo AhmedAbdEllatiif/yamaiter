@@ -9,6 +9,10 @@ AuthorizedUserEntity getAuthorizedUserEntity(BuildContext context) {
   return context.read<AuthorizedUserCubit>().state.userEntity;
 }
 
+void reloadAuthorizedUserEntity(BuildContext context){
+  context.read<AuthorizedUserCubit>().loadCurrentAuthorizedUserData();
+}
+
 bool isCurrentUserLawyer(BuildContext context) {
   final userType = getAuthorizedUserEntity(context).userType;
   return userType == UserType.lawyer;

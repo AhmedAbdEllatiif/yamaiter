@@ -121,6 +121,7 @@ import '../api/requests/post_requests/pay_for_tax.dart';
 import '../api/requests/post_requests/payment/pay_out_request.dart';
 import '../api/requests/post_requests/payment/refund_request.dart';
 import '../api/requests/post_requests/update_article.dart';
+import '../api/requests/post_requests/update_profile/update_lawyer_request.dart';
 import '../api/requests/post_requests/update_sos.dart';
 import '../models/accept_terms/accept_terms_response_model.dart';
 import '../models/announcements/ad_model.dart';
@@ -147,6 +148,7 @@ import '../params/get_app_announcements.dart';
 import '../params/get_applied_tasks_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/chat/send_chat_message.dart';
+import '../params/update_profile/update_lawyer_profile.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
@@ -171,6 +173,9 @@ abstract class RemoteDataSource {
   ///                                                                         \\
   ///=========================================================================\\
   Future<dynamic> updateClientProfile(UpdateClientParams params);
+
+  /// updateLawyerProfile
+  Future<dynamic> updateLawyerProfile(UpdateLawyerParams params);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\
@@ -598,6 +603,39 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("RemoteData >> updateClientProfile Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "updateClientProfile UnHandledError >> $e");
+    }
+  }
+
+
+  /// updateLawyerProfile
+  @override
+  Future<dynamic> updateLawyerProfile(UpdateLawyerParams params) async{
+    try {
+      // init request
+      final updateLawyerRequest = UpdateLawyerRequest();
+      final request = await updateLawyerRequest(params);
+
+      // send a request
+      final streamResponse = await request.send();
+
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("updateLawyerProfile >> ResponseCode: ${response.statusCode}");
+      log("updateLawyerProfile >> ResponseBody: ${response.body}");
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return authorizedUserModelFromJson(response.body);
+      // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> updateLawyerProfile Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "updateLawyerProfile UnHandledError >> $e");
     }
   }
 

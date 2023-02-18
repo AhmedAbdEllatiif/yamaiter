@@ -62,6 +62,7 @@ import '../domain/use_cases/taxes/pay_for_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
 import '../domain/use_cases/update_profile/update_client_profile_case.dart';
+import '../domain/use_cases/update_profile/update_lawyer_profile_case.dart';
 import '../presentation/logic/cubit/help/get_help_cubit.dart';
 import 'git_it_instance.dart';
 
@@ -383,6 +384,11 @@ Future init() async {
   //==> UpdateClientProfileCase
   getItInstance.registerFactory<UpdateClientProfileCase>(
     () => UpdateClientProfileCase(remoteRepository: getItInstance()),
+  );
+
+  //==> UpdateLawyerProfileCase
+  getItInstance.registerFactory<UpdateLawyerProfileCase>(
+    () => UpdateLawyerProfileCase(remoteRepository: getItInstance()),
   );
 
   //==> ChangePasswordCase

@@ -11,8 +11,10 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/functions/get_user_token.dart';
 import '../../../../../di/git_it_instance.dart';
+import '../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../../../logic/cubit/update_client_profile/update_client_profile_cubit.dart';
+import '../../../../logic/cubit/update_lawyer_profile/update_lawyer_profile_cubit.dart';
 import 'choose_profile_image.dart';
 
 class EditProfileScreen extends StatefulWidget {
@@ -28,6 +30,9 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   /// UpdateClientProfileCubit
   late final UpdateClientProfileCubit _updateClientCubit;
+
+  /// UpdateLawyerProfileCubit
+  late final UpdateLawyerProfileCubit _updateLawyerCubit;
 
   /// AuthorizedUserEntity
   late final AuthorizedUserEntity _authorizedUserEntity;
@@ -45,12 +50,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
     // init _updateClientCubit
     _updateClientCubit = getItInstance<UpdateClientProfileCubit>();
+
+    // init _updateLawyerCubit
+    _updateLawyerCubit = getItInstance<UpdateLawyerProfileCubit>();
   }
 
   @override
   void dispose() {
     _pickImageCubit.close();
     _updateClientCubit.close();
+    _updateLawyerCubit.close();
     super.dispose();
   }
 
@@ -60,72 +69,115 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       providers: [
         BlocProvider(create: (context) => _pickImageCubit),
         BlocProvider(create: (context) => _updateClientCubit),
+        BlocProvider(create: (context) => _updateLawyerCubit),
       ],
-      child: BlocListener<UpdateClientProfileCubit, UpdateClientProfileState>(
-        listener: (context, state) {
-          if (state is ErrorWhileUpdatingClientProfile) {
-            showSnackBar(context, message: "حدث خطأ، اعد المحاولة",
-            backgroundColor: AppColor.accentColor);
-          }
-        },
-        child: BlocListener<PickImageCubit, PickImageState>(
-          listener: (context, state) {
+      child: MultiBlocListener(
+        listeners: [
+          /// UpdateClientProfileCubit listener
+          BlocListener<UpdateClientProfileCubit, UpdateClientProfileState>(
+              listener: (context, state) {
+            if (state is ErrorWhileUpdatingClientProfile) {
+              showSnackBar(context,
+                  message: "حدث خطأ، اعد المحاولة",
+                  backgroundColor: AppColor.accentColor);
+            }
+            if (state is ClientProfileUpdatedSuccessfully) {
+              reloadAuthorizedUserEntity(context);
+            }
+          }),
+
+          /// UpdateLawyerProfileCubit listener
+          BlocListener<UpdateLawyerProfileCubit, UpdateLawyerProfileState>(
+              listener: (context, state) {
+            if (state is ErrorWhileUpdatingLawyerProfile) {
+              showSnackBar(context,
+                  message: "حدث خطأ، اعد المحاولة",
+                  backgroundColor: AppColor.accentColor);
+            }
+
+            if (state is LawyerProfileUpdatedSuccessfully) {
+              reloadAuthorizedUserEntity(context);
+            }
+          }),
+
+          /// PickImageCubit listener
+          BlocListener<PickImageCubit, PickImageState>(
+              listener: (context, state) {
             if (state is ImagePicked) {
               _profileImagePath = state.image.path;
             }
-          },
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
+          }),
+        ],
+        child: Scaffold(
+          resizeToAvoidBottomInset: false,
 
-            /// appBar
-            appBar: AppBar(
-              title: const Text("الملف الشخصى"),
-            ),
+          /// appBar
+          appBar: AppBar(
+            title: const Text("الملف الشخصى"),
+          ),
 
-            /// body
-            body:
-                BlocBuilder<UpdateClientProfileCubit, UpdateClientProfileState>(
-              builder: (context, state) {
-                return Column(
-                  children: [
-                    /// image
-                    const ChooseProfileImageWidget(),
+          /// body
+          body: Column(
+            children: [
+              /// image
+              const ChooseProfileImageWidget(),
 
-                    /// form
-                    Expanded(
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                          horizontal: Sizes.dimen_20.w,
-                          vertical: Sizes.dimen_10.h,
+              /// form
+              Expanded(
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    horizontal: Sizes.dimen_20.w,
+                    vertical: Sizes.dimen_10.h,
+                  ),
+                  child: isCurrentUserLawyer(context)
+                      ? LawyerEditProfileForm(
+                          updateLawyerProfileCubit: _updateLawyerCubit,
+                          onSubmit: ({
+                            required String firstName,
+                            required String lastName,
+                            required String mobile,
+                            required String email,
+                            required String governorate,
+                            required String court,
+                            required String description,
+                          }) {
+                            _updateLawyerProfileOnSubmit(
+                              firstName: firstName,
+                              lastName: lastName,
+                              mobile: mobile,
+                              email: email,
+                              governorate: governorate,
+                              court: court,
+                              description: description,
+                            );
+                          },
+                        )
+                      : BlocBuilder<UpdateClientProfileCubit,
+                          UpdateClientProfileState>(
+                          builder: (context, state) {
+                            return ClientEditProfileForm(
+                              updateClientProfileCubit: _updateClientCubit,
+                              onSubmit: ({
+                                required String firstName,
+                                required String lastName,
+                                required String mobile,
+                                required String email,
+                                required String governorate,
+                              }) {
+                                _updateClientProfileOnSubmit(
+                                  firstName: firstName,
+                                  lastName: lastName,
+                                  mobile: mobile,
+                                  email: email,
+                                  governorate: governorate,
+                                );
+                              },
+                            );
+                          },
                         ),
-                        child: isCurrentUserLawyer(context)
-                            ? LawyerEditProfileForm(
-                                authorizedUserEntity: _authorizedUserEntity,
-                              )
-                            : ClientEditProfileForm(
-                                updateClientProfileCubit: _updateClientCubit,
-                                onSubmit: ({
-                                  required String firstName,
-                                  required String lastName,
-                                  required String mobile,
-                                  required String email,
-                                  required String governorate,
-                                }) {
-                                  _updateClientProfileOnSubmit(
-                                    firstName: firstName,
-                                    lastName: lastName,
-                                    mobile: mobile,
-                                    email: email,
-                                    governorate: governorate,
-                                  );
-                                },
-                              ),
-                      ),
-                    ),
-                  ],
-                );
-              },
-            ),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -136,8 +188,28 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     _authorizedUserEntity = getAuthorizedUserEntity(context);
   }
 
-  void _updateAuthorizedUserEntity(){
+  void _updateLawyerProfileOnSubmit({
+    required String firstName,
+    required String lastName,
+    required String mobile,
+    required String email,
+    required String governorate,
+    required String court,
+    required String description,
+  }) {
+    final userToken = getUserToken(context);
 
+    _updateLawyerCubit.tryUpdatingLawyerProfile(
+      userToken: userToken,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      mobile: mobile,
+      image: _profileImagePath,
+      governorate: governorate,
+      court: court,
+      description: description,
+    );
   }
 
   void _updateClientProfileOnSubmit({

@@ -40,6 +40,7 @@ import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
+import 'package:yamaiter/data/params/update_profile/update_lawyer_profile.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
@@ -103,6 +104,10 @@ abstract class RemoteRepository {
   ///===================================================================\\\\
   Future<Either<AppError, AuthorizedUserEntity>> updateClientProfile(
       UpdateClientParams updateClientParams);
+
+  /// updateLawyerProfile
+  Future<Either<AppError, AuthorizedUserEntity>> updateLawyerProfile(
+      UpdateLawyerParams updateLawyerParams);
 
   /// changePassword
   Future<Either<AppError, SuccessModel>> changePassword(

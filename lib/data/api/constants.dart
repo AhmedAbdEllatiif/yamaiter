@@ -18,6 +18,9 @@ class ApiConstants {
   ///==> updateClientProfile
   static Uri _updateClientProfile() =>
       Uri.https(_baseUrl, EndPoints.updateClientProfile);
+  ///==> updateLawyerProfile
+  static Uri _updateLawyerProfile() =>
+      Uri.https(_baseUrl, EndPoints.updateLawyerProfile);
 
   ///==> Client
   static Uri _registerClient() => Uri.https(_baseUrl, EndPoints.registerClient);
@@ -240,6 +243,10 @@ class ApiConstants {
       // updateClientProfile
       case RequestType.updateClientProfile:
         return _updateClientProfile();
+
+        // updateLawyerProfile
+        case RequestType.updateLawyerProfile:
+        return _updateLawyerProfile();
       // registerClient
       case RequestType.registerClient:
         return _registerClient();
@@ -432,6 +439,9 @@ class EndPoints {
   /// updateClientProfile
   static String updateClientProfile = "${_apiVersion}update-client-profile";
 
+  /// updateLawyerProfile
+  static String updateLawyerProfile = "${_apiVersion}update-lawyer-profile";
+
   /// registerClient
   static String registerClient = "${_apiVersion}client-register";
 
@@ -615,6 +625,7 @@ enum RequestType {
 
   /// ===> auth
   updateClientProfile,
+  updateLawyerProfile,
   registerClient,
   login,
   registerLawyer,

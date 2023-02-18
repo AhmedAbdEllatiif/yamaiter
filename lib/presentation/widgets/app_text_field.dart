@@ -80,8 +80,8 @@ class _AppTextFieldState extends State<AppTextField> {
       width: widget.width,
       margin: widget.margin,
       child: TextFormField(
-        textDirection: widget.textInputType == TextInputType.emailAddress
-            ? TextDirection.ltr
+        textDirection: widget.textInputType == TextInputType.emailAddress ||
+            widget.textInputType == TextInputType.number? TextDirection.ltr
             : null,
         // controller
         controller: widget.controller,

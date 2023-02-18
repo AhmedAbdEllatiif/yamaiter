@@ -97,6 +97,7 @@ import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
 import '../params/chat/send_chat_message.dart';
 import '../params/update_profile/update_client_params.dart';
+import '../params/update_profile/update_lawyer_profile.dart';
 import '../params/update_task_params.dart';
 
 class RemoteRepositoryImpl extends RemoteRepository {
@@ -208,6 +209,28 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
+  @override
+  Future<Either<AppError, AuthorizedUserEntity>> updateLawyerProfile(
+      UpdateLawyerParams updateLawyerParams) async {
+    try {
+      // send request
+      final result =
+          await remoteDataSource.updateLawyerProfile(updateLawyerParams);
+
+      // success
+      if (result is AuthorizedUserModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
   /// changePassword
   @override
   Future<Either<AppError, SuccessModel>> changePassword(
@@ -230,7 +253,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
-
 
   /// forgetPassword
   @override

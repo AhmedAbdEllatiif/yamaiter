@@ -9,13 +9,33 @@ abstract class AuthorizedUserState extends Equatable {
   }
 
   @override
-  List<Object?> get props => [userEntity];
+  List<Object?> get props => [
+    userEntity.id,
+    userEntity.firstName,
+    userEntity.lastName,
+    userEntity.email,
+    userEntity.phoneNum,
+    userEntity.userType,
+    userEntity.acceptTerms,
+    userEntity.userAvatar,
+  ];
 }
 
 /// current data of the current authorized user
 class CurrentAuthorizedUserData extends AuthorizedUserState {
   CurrentAuthorizedUserData({required AuthorizedUserEntity userEntity})
       : super(userEntity);
+  @override
+  List<Object?> get props => [
+    userEntity.id,
+    userEntity.firstName,
+    userEntity.lastName,
+    userEntity.email,
+    userEntity.phoneNum,
+    userEntity.userType,
+    userEntity.acceptTerms,
+    userEntity.userAvatar,
+  ];
 }
 
 /// error
