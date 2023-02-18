@@ -3,6 +3,7 @@ import 'package:yamaiter/domain/use_cases/article/get_all_articles.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/delete_user_data.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/get_user_data.dart';
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/save_user_data.dart';
+import 'package:yamaiter/domain/use_cases/forget_password.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
@@ -387,5 +388,10 @@ Future init() async {
   //==> ChangePasswordCase
   getItInstance.registerFactory<ChangePasswordCase>(
     () => ChangePasswordCase(remoteRepository: getItInstance()),
+  );
+
+  //==> ForgetPasswordCase
+  getItInstance.registerFactory<ForgetPasswordCase>(
+    () => ForgetPasswordCase(remoteRepository: getItInstance()),
   );
 }

@@ -142,7 +142,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
 
                   BlocBuilder<ChangePasswordCubit, ChangePasswordState>(
                     builder: (context, state) {
-                      log("state >> $state");
+
                       /*
                         *
                         *

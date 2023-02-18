@@ -14,6 +14,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart'
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/forget_password_arguments.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/payment_args.dart';
@@ -95,8 +96,8 @@ class RouteHelper {
   }
 
   /// To forget password screen \\\
-  void forgetPassword(BuildContext context) {
-    Navigator.of(context).pushNamed(RouteList.forgetPassword);
+  void forgetPassword(BuildContext context,{required ForgetPasswordArguments arguments}) {
+    Navigator.of(context).pushNamed(RouteList.forgetPassword,arguments: arguments);
   }
 
   /// To about screen \\\

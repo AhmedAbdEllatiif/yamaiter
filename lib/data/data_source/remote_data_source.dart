@@ -84,6 +84,7 @@ import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/filter_task_params.dart';
+import 'package:yamaiter/data/params/forget_password_params.dart';
 import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
@@ -111,6 +112,7 @@ import '../api/requests/get_requests/get_contact_us.dart';
 import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/get_requests/paymeny/get_balance.dart';
+import '../api/requests/post_requests/auth/forget_password_request.dart';
 import '../api/requests/post_requests/client/assign_task_client.dart';
 import '../api/requests/post_requests/client/end_task_client.dart';
 import '../api/requests/post_requests/client/update_task_client.dart';
@@ -226,6 +228,9 @@ abstract class RemoteDataSource {
 
   /// changePassword
   Future<dynamic> changePassword(ChangePasswordParams params);
+
+  /// forgetPassword
+  Future<dynamic> forgetPassword(ForgetPasswordParams params);
 
   /// about
   Future<dynamic> getAbout(String userToken);
@@ -1264,6 +1269,54 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("RemoteData >> changePassword >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "RemoteData >> changePassword UnHandledError >> $e");
+    }
+  }
+
+  /// forgetPassword
+  @override
+  Future<dynamic> forgetPassword(ForgetPasswordParams params) async {
+    try {
+      log("RemoteData >> forgetPassword >> Start request");
+      // init request
+      final request = ForgetPasswordRequest();
+
+      // response
+      final response = await request(params, "");
+
+      log("RemoteData >> forgetPassword >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 422:
+          if (response.body.contains("userNotExist")) {
+            return AppError(AppErrorType.wrongEmail,
+                message:
+                    "RemoteData >> forgetPassword Status Body >> ${response.body}");
+          }
+          return AppError(AppErrorType.unHandledError,
+              message:
+                  "RemoteData >> forgetPassword Status Body >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "RemoteData >> forgetPassword Status Body >> ${response.body}");
+        // default
+        default:
+          log("RemoteData >> forgetPassword >> ResponseCode: ${response.statusCode} "
+              "\n Body: ${response.body}");
+          return AppError(AppErrorType.api,
+              message:
+                  "RemoteData >> forgetPassword Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> forgetPassword >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "RemoteData >> forgetPassword UnHandledError >> $e");
     }
   }
 

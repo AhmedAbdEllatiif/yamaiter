@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/forget_password_arguments.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
@@ -192,7 +193,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
   /// to forget password screen
   void _navigateToForgetPasswordScreen(BuildContext context) =>
-      RouteHelper().forgetPassword(context);
+      RouteHelper().forgetPassword(context,
+          arguments: ForgetPasswordArguments(
+            email: emailController.value.text,
+          ));
 
   /// to choose user type screen
   void _navigateToChooserUserTypeScreen(BuildContext context) =>

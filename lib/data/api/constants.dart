@@ -71,6 +71,8 @@ class ApiConstants {
 
   static Uri _changePassword() => Uri.https(_baseUrl, EndPoints.changePassword);
 
+  static Uri _forgetPassword() => Uri.https(_baseUrl, EndPoints.forgetPassword);
+
   static Uri _about() => Uri.https(_baseUrl, EndPoints.about);
 
   static Uri _privacyAndPolicy() =>
@@ -288,6 +290,9 @@ class ApiConstants {
       // changePassword
       case RequestType.changePassword:
         return _changePassword();
+   // forgetPassword
+      case RequestType.forgetPassword:
+        return _forgetPassword();
 
       // distresses
       case RequestType.distresses:
@@ -475,6 +480,9 @@ class EndPoints {
   /// changePassword
   static String changePassword = "${_apiVersion}change-password";
 
+  /// forgetPassword
+  static String forgetPassword = "${_apiVersion}forget-password";
+
   /// about
   static String about = "${_apiVersion}about";
 
@@ -611,6 +619,7 @@ enum RequestType {
   login,
   registerLawyer,
   changePassword,
+  forgetPassword,
 
   /// ===> Client
   createTaskClient,

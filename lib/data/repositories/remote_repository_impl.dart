@@ -87,6 +87,7 @@ import '../params/client/get_my_consultations_params.dart';
 import '../params/client/get_my_task_params_client.dart';
 import '../params/client/get_single_task_params_client.dart';
 import '../params/client/update_task_params.dart';
+import '../params/forget_password_params.dart';
 import '../params/get_app_announcements.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/check_payment_status_params.dart';
@@ -226,6 +227,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       log("RepoImpl >> changePassword >> error: $e");
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// forgetPassword
+  @override
+  Future<Either<AppError, SuccessModel>> forgetPassword(
+      ForgetPasswordParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.forgetPassword(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> forgetPassword >> error: $e");
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }

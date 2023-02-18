@@ -63,6 +63,7 @@ import '../../data/params/chat_room_by_id_params.dart';
 import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
+import '../../data/params/forget_password_params.dart';
 import '../../data/params/get_app_announcements.dart';
 import '../../data/params/get_invited_task_params.dart';
 import '../../data/params/get_taxes_params.dart';
@@ -106,6 +107,10 @@ abstract class RemoteRepository {
   /// changePassword
   Future<Either<AppError, SuccessModel>> changePassword(
       ChangePasswordParams params);
+
+  /// forgetPassword
+  Future<Either<AppError, SuccessModel>> forgetPassword(
+      ForgetPasswordParams params);
 
   ///============================>  Client <============================\\\\
   ///                                                                   \\\\

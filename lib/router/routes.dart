@@ -10,6 +10,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/delete_task_args.dart'
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/end_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/filterd_tasks_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/forget_password_arguments.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_lawyer_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/invite_task_details_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
@@ -123,7 +124,9 @@ class Routes {
         RouteList.loginScreen: (context) => const LoginScreen(),
 
         /// forgetPassword
-        RouteList.forgetPassword: (context) => const ForgetPasswordScreen(),
+        RouteList.forgetPassword: (context) =>  ForgetPasswordScreen(
+          arguments: settings.arguments as ForgetPasswordArguments,
+        ),
 
         /// chooseUserType
         RouteList.chooseUserType: (context) => const ChooseUserTypeScreen(),
