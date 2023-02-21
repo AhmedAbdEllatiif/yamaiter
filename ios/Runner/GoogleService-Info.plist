@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCY8_tgIPAdn9SBwIUEZ49oWUWtLtarJ_0</string>
+	<key>GCM_SENDER_ID</key>
+	<string>609550492956</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.primax.yamaiter.yamaiter</string>
+	<key>PROJECT_ID</key>
+	<string>yamaitre-fc7ea</string>
+	<key>STORAGE_BUCKET</key>
+	<string>yamaitre-fc7ea.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:609550492956:ios:317b48d8f8979d51c146d9</string>
+	<key>DATABASE_URL</key>
+	<string>https://yamaitre-fc7ea-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>
