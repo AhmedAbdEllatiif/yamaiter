@@ -9,6 +9,9 @@ class ApiConstants {
     {"offset": 1}
   ]);*/
 
+  ///==> _firebaseToken
+  static Uri _firebaseToken() => Uri.https(_baseUrl, EndPoints.firebaseToken);
+
   static Uri _chatRoomById({required String id}) =>
       Uri.https(_baseUrl, "${EndPoints.chatRoom}/$id");
 
@@ -18,6 +21,7 @@ class ApiConstants {
   ///==> updateClientProfile
   static Uri _updateClientProfile() =>
       Uri.https(_baseUrl, EndPoints.updateClientProfile);
+
   ///==> updateLawyerProfile
   static Uri _updateLawyerProfile() =>
       Uri.https(_baseUrl, EndPoints.updateLawyerProfile);
@@ -199,6 +203,9 @@ class ApiConstants {
     Map<String, String> queryParams = const {"": ""},
   }) {
     switch (requestType) {
+      case RequestType.firebaseToken:
+        return _firebaseToken();
+
       case RequestType.chatRoom:
         return _chatRoomById(id: id);
 
@@ -244,8 +251,8 @@ class ApiConstants {
       case RequestType.updateClientProfile:
         return _updateClientProfile();
 
-        // updateLawyerProfile
-        case RequestType.updateLawyerProfile:
+      // updateLawyerProfile
+      case RequestType.updateLawyerProfile:
         return _updateLawyerProfile();
       // registerClient
       case RequestType.registerClient:
@@ -297,7 +304,7 @@ class ApiConstants {
       // changePassword
       case RequestType.changePassword:
         return _changePassword();
-   // forgetPassword
+      // forgetPassword
       case RequestType.forgetPassword:
         return _forgetPassword();
 
@@ -427,6 +434,9 @@ class ApiConstants {
 
 class EndPoints {
   static const String _apiVersion = "/api/";
+
+  /// firebaseToken
+  static String firebaseToken = "${_apiVersion}fcm-token";
 
   ///===============================> Chat <================================\\\\
 
@@ -619,6 +629,9 @@ class EndPoints {
 
 /// The api request type
 enum RequestType {
+  ///==> firebase token,
+  firebaseToken,
+
   /// ===> chat
   chatRoom,
   chatList,

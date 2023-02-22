@@ -211,5 +211,5 @@ class _MyTasksCompletedState extends State<MyTasksCompleted>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

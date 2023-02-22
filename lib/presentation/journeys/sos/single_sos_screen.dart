@@ -11,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/functions/call_someone.dart';
 import '../../../domain/entities/data/ad_entity.dart';
 import '../../widgets/ads_list/ads_list_view.dart';
 
@@ -97,7 +98,7 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                       ImageNameRatingWidget(
                         name: sosEntity.creatorName,
                         imgUrl: sosEntity.creatorImage,
-                        rating: 3,
+                        rating: sosEntity.creatorRating.toDouble(),
                         unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                         withRow: false,
                         nameSize: Sizes.dimen_12.sp,
@@ -124,7 +125,8 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                             color: AppColor.accentColor,
                             size: Sizes.dimen_16.w,
                           ),
-                          onPressed: () {})
+                          onPressed: () => callSomeone(
+                              phoneNunm: sosEntity.creatorPhoneNum),)
                       : null,
 
 

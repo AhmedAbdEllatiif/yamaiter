@@ -32,8 +32,10 @@ import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultat
 import '../presentation/logic/common/app_announcements/get_app_announcements_cubit.dart';
 import '../presentation/logic/common/change_password/change_password_cubit.dart';
 import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
+import '../presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
 import '../presentation/logic/common/payout/payout_cubit.dart';
 import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
+import '../presentation/logic/common/store_fb_token/store_firebase_token_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
@@ -330,6 +332,11 @@ Future init() async {
     () => GetAppAnnouncementsCubit(),
   );
 
+  //==> StoreFirebaseTokenCubit
+  getItInstance.registerFactory<StoreFirebaseTokenCubit>(
+    () => StoreFirebaseTokenCubit(),
+  );
+
   //==> AutoLoginCubit
   getItInstance.registerFactory<UserTokenCubit>(
     () => UserTokenCubit(
@@ -347,5 +354,10 @@ Future init() async {
   //==> ChangePasswordCubit
   getItInstance.registerFactory<ChangePasswordCubit>(
     () => ChangePasswordCubit(),
+  );
+
+  //==> NotificationsListenersCubit
+  getItInstance.registerSingleton<NotificationsListenersCubit>(
+    NotificationsListenersCubit(),
   );
 }

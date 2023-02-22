@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
@@ -77,6 +80,48 @@ class AppSettingsRepositoryImpl extends AppSettingsRepository {
           await appSettingsDataSource.saveCurrentUser(userEntity);
       return Right(saveCurrentUser);
     } on Exception {
+      return const Left(AppError(AppErrorType.sharedPreferences));
+    }
+  }
+
+  //=======================>  Notifications Settings   <======================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+
+  /// getNotificationsListener
+  @override
+  Future<Either<AppError, Map<String, bool>>> getNotificationsListener() async {
+    final value = await appSettingsDataSource.getNotificationsListener();
+    log("value >> $value");
+    return Right(value);
+    // try {
+    //   final value = await appSettingsDataSource.getNotificationsListener();
+    //   log("value >> $value");
+    //   final json =
+    //       value.isEmpty ? ({} as Map<String, bool>) : jsonDecode(value);
+    //   log("Json >> $json");
+    //   return Right(json as Map<String, bool>);
+    // } catch (e) {
+    //   log("AppSettingsRepoImpl >> getNotificationsListener >> error: $e");
+    //   return const Left(AppError(AppErrorType.sharedPreferences));
+    // }
+  }
+
+  /// updateNotificationsListener
+  @override
+  Future<Either<AppError, void>> updateNotificationsListener(
+      Map<String, bool> value) async {
+    try {
+      final str = jsonEncode(value);
+      final updateValue =
+          await appSettingsDataSource.updateNotificationsListener(str);
+      return Right(updateValue);
+    } on Exception catch (e) {
+      log("AppSettingsRepoImpl >> updateNotificationsListener >> error: $e");
       return const Left(AppError(AppErrorType.sharedPreferences));
     }
   }

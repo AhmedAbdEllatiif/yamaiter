@@ -225,5 +225,5 @@ class _AppliedInProgressScreenState extends State<AppliedInProgressScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

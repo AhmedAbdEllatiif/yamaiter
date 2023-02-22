@@ -113,11 +113,13 @@ List<String> governoratesListWithSelectAll = [
   "انشر على كل الزملاء فى اى مكان",
 ];
 
-List<String> adPages = [
-  "الصفحة الرئيسية",
-  "الصفحات الداخلية",
-  "كل الصفحات",
-];
+
+
+Map<String, String> adPages = {
+  "home": "الصفحة الرئيسية",
+  "pages": "الصفحات الداخلية",
+  "all": "كل الصفحات",
+};
 
 Map<String, String> sortTasksBy = {
   "newest": "الاحدث",

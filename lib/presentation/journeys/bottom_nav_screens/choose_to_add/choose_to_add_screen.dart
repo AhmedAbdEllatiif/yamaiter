@@ -14,6 +14,7 @@ class ChooseToAddScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.only(top: 10,bottom: 10),
       child: Column(
         children: [
           /// first row

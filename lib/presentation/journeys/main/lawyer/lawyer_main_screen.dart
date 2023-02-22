@@ -65,6 +65,7 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
             Padding(
               padding: EdgeInsets.only(
                   //bottom: AppUtils.mainPagesVerticalPadding.h,
+                top: 10,
                   right: AppUtils.mainPagesHorizontalPadding.w,
                   left: AppUtils.mainPagesVerticalPadding.h),
               child: MainPageTitle(
@@ -94,9 +95,7 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
                   ChooseToAddScreen(),
 
                   /// unKnown
-                  Center(
-                    child: Text("Unknown"),
-                  ),
+                  AllArticlesScreen(),
 
                   /// AllTasksScreen
                   AllTasksScreen(),
@@ -128,7 +127,7 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
     "احدث المنشورات",
     "نداءات الاستغاثة",
     "",
-    "Unknown",
+    "كل المنشورات",
     "مهام مطلوبة التنفيذ",
   ];
 

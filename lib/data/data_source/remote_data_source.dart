@@ -42,6 +42,7 @@ import 'package:yamaiter/data/api/requests/post_requests/invite_to_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/search_for_lawyer.dart';
+import 'package:yamaiter/data/api/requests/post_requests/store_fb_token_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_profile/update_client_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/update_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/upload_task_file.dart';
@@ -97,6 +98,7 @@ import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
+import 'package:yamaiter/data/params/store_fb_token.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
@@ -152,6 +154,13 @@ import '../params/update_profile/update_lawyer_profile.dart';
 import '../params/update_task_params.dart';
 
 abstract class RemoteDataSource {
+  ///=============================>  Fb_Token <=========+===============\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  Future<dynamic> storeFirebaseToken(StoreFirebaseTokenParams params);
+
   ///=============================>  chat_room <========================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -386,6 +395,54 @@ abstract class RemoteDataSource {
 class RemoteDataSourceImpl extends RemoteDataSource {
   RemoteDataSourceImpl();
 
+  ///=============================>  Fb_Token <=========+===============\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  @override
+  Future<dynamic> storeFirebaseToken(StoreFirebaseTokenParams params) async {
+    try {
+      log("RemoteData >> storeFirebaseToken >> Start request");
+      // init request
+      final request = StoreFirebaseTokenRequest();
+
+      // response
+      final response = await request(params,params.userToken);
+
+      log("RemoteData >> storeFirebaseToken >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+      // success
+        case 200:
+          return SuccessModel();
+      // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
+      // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
+      // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
+      // default
+        default:
+          log("RemoteData >> storeFirebaseToken >> ResponseCode: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "getChatRoomById body >> ${response.body}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("RemoteData >> storeFirebaseToken >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "RemoteData >> storeFirebaseToken UnHandledError >> $e");
+    }
+  }
+
   ///============================>  Chat <==============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -394,7 +451,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   @override
   Future<dynamic> getChatRoomById(ChatRoomByIdParams chatRoomByIdParams) async {
     try {
-      log("createTaskClient >> Start request");
+      log("getChatRoomById >> Start request");
       // init request
       final request = GetChatRoom();
 
@@ -606,10 +663,9 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-
   /// updateLawyerProfile
   @override
-  Future<dynamic> updateLawyerProfile(UpdateLawyerParams params) async{
+  Future<dynamic> updateLawyerProfile(UpdateLawyerParams params) async {
     try {
       // init request
       final updateLawyerRequest = UpdateLawyerRequest();
@@ -623,10 +679,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("updateLawyerProfile >> ResponseCode: ${response.statusCode}");
       log("updateLawyerProfile >> ResponseBody: ${response.body}");
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return authorizedUserModelFromJson(response.body);
-      // default
+        // default
         default:
           return AppError(AppErrorType.api,
               message: "Status Code >> ${response.statusCode}"

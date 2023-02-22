@@ -5,6 +5,7 @@ import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/g
 import 'package:yamaiter/domain/use_cases/authorized_user/authorized_user_data/save_user_data.dart';
 import 'package:yamaiter/domain/use_cases/forget_password.dart';
 import 'package:yamaiter/domain/use_cases/my_tasks/assign_task.dart';
+import 'package:yamaiter/domain/use_cases/notifications_listeners/get_notifications_listener.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_all_sos.dart';
 import 'package:yamaiter/domain/use_cases/sos/get_my_sos_list.dart';
 import 'package:yamaiter/domain/use_cases/help.dart';
@@ -35,6 +36,7 @@ import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
 import '../domain/use_cases/contact_us.dart';
 import '../domain/use_cases/get_app_announcements_case.dart';
+import '../domain/use_cases/notifications_listeners/update_notificaitons_listener.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -58,6 +60,7 @@ import '../domain/use_cases/my_tasks/delete_task.dart';
 import '../domain/use_cases/my_tasks/get_all_tasks.dart';
 import '../domain/use_cases/my_tasks/get_my_tasks.dart';
 import '../domain/use_cases/my_tasks/update_task.dart';
+import '../domain/use_cases/store_firebase_token_case.dart';
 import '../domain/use_cases/taxes/pay_for_tax.dart';
 import '../domain/use_cases/get_single_article.dart';
 import '../domain/use_cases/taxes/get_completed_taxes.dart';
@@ -376,6 +379,11 @@ Future init() async {
     () => GetAppAnnouncementsCase(remoteRepository: getItInstance()),
   );
 
+  //==> StoreFirebaseTokenCase
+  getItInstance.registerFactory<StoreFirebaseTokenCase>(
+    () => StoreFirebaseTokenCase(remoteRepository: getItInstance()),
+  );
+
   ///========================>  Update profile <========================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\
@@ -399,5 +407,21 @@ Future init() async {
   //==> ForgetPasswordCase
   getItInstance.registerFactory<ForgetPasswordCase>(
     () => ForgetPasswordCase(remoteRepository: getItInstance()),
+  );
+
+  ///===================>  Notifications Listeners <====================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  //==> GetNotificationsListenersCase
+  getItInstance.registerFactory<GetNotificationsListenersCase>(
+    () => GetNotificationsListenersCase(appSettingsRepository: getItInstance()),
+  );
+
+  //==> GetNotificationsListenersCase
+  getItInstance.registerFactory<UpdateNotificationsListenersCase>(
+    () => UpdateNotificationsListenersCase(
+        appSettingsRepository: getItInstance()),
   );
 }

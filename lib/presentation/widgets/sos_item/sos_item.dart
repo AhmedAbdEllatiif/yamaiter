@@ -11,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/card_menu_item.dart';
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/animation_type.dart';
+import '../../../common/functions/call_someone.dart';
 import '../../../router/route_helper.dart';
 import '../image_name_rating_widget.dart';
 
@@ -55,7 +56,7 @@ class _SosItemState extends State<SosItem> {
                     ImageNameRatingWidget(
                       name: widget.sosEntity.creatorName,
                       imgUrl: widget.sosEntity.creatorImage,
-                      rating: 3,
+                      rating: widget.sosEntity.creatorRating.toDouble(),
                       unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                       withRow: false,
                       nameSize: Sizes.dimen_12.sp,
@@ -180,16 +181,8 @@ class _SosItemState extends State<SosItem> {
                             splashColor: AppColor.accentColor,
                             borderRadius:
                                 BorderRadius.circular(AppUtils.cornerRadius.w),
-                            onTap: () async {
-                              //_navigateToSingleSosScreen();
-                              await launchUrl(Uri(
-                                scheme: 'tel',
-                                path: '01124466700',
-                                // queryParameters: <String, String>{
-                                //   'body': Uri.encodeComponent('Example Subject & Symbols are allowed!'),
-                                // },
-                              ));
-                            },
+                            onTap: () => callSomeone(
+                                phoneNunm: widget.sosEntity.creatorPhoneNum),
                             child: Padding(
                               padding:
                                   const EdgeInsets.symmetric(horizontal: 5),

@@ -96,6 +96,7 @@ import '../params/payment/pay_out_params.dart';
 import '../params/payment/refund_params.dart';
 import '../params/register_client_params.dart';
 import '../params/chat/send_chat_message.dart';
+import '../params/store_fb_token.dart';
 import '../params/update_profile/update_client_params.dart';
 import '../params/update_profile/update_lawyer_profile.dart';
 import '../params/update_task_params.dart';
@@ -106,6 +107,32 @@ class RemoteRepositoryImpl extends RemoteRepository {
   RemoteRepositoryImpl({
     required this.remoteDataSource,
   });
+
+  ///=============================>  Fb_Token <=========+===============\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  @override
+  Future<Either<AppError, SuccessModel>> storeFirebaseToken(
+      StoreFirebaseTokenParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.storeFirebaseToken(params);
+
+      // success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
 
   ///=============================>  chat_room <=============================\\\\
   ///                                                                   \\\\

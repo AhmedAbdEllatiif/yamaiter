@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "609550492956",
+    "firebase_url": "https://yamaitre-fc7ea-default-rtdb.firebaseio.com",
+    "project_id": "yamaitre-fc7ea",
+    "storage_bucket": "yamaitre-fc7ea.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609550492956:android:6bbc7e0dd792c15dc146d9",
+        "android_client_info": {
+          "package_name": "com.primax.yamaiter.yamaiter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609550492956-o0bc3kqg3cjba53cmjfku3cqvoq6tvls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFPKyC2GTRcn1L2NH9KcHhDtIv-SNUjG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609550492956-o0bc3kqg3cjba53cmjfku3cqvoq6tvls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -198,5 +198,5 @@ class _AppliedInReviewState extends State<AppliedCompletedScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

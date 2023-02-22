@@ -111,6 +111,15 @@ dependencies:
   # marquee for auto scroll news
   marquee: ^2.2.3
 
+  # firebase
+  firebase_core: ^2.4.1
+  firebase_messaging: ^14.2.1
+  firebase_analytics: ^10.0.7
+
+
+  # flutter_local_notifications
+  flutter_local_notifications: ^9.5.0
+
 
 dev_dependencies:
   flutter_test:

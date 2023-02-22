@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yamaiter/common/enum/accept_terms.dart';
@@ -39,6 +40,19 @@ abstract class AppSettingsDataSource {
 
   /// to remove current user data
   Future<void> deleteCurrentUser();
+
+  //=======================>  Notifications Settings   <======================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+  /// update notifications listener
+  Future<void> updateNotificationsListener(String value);
+
+  /// get notifications listener
+  Future<Map<String, bool>> getNotificationsListener();
 }
 
 class AppSettingsDataSourceImpl extends AppSettingsDataSource {
@@ -131,5 +145,39 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
       userEntity.rating.toString(),
       userEntity.acceptTerms.toShortString(),
     ]);
+  }
+
+  //=======================>  Notifications Settings   <======================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+  /// update notifications listeners
+  @override
+  Future<void> updateNotificationsListener(String value) async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setString("notificationsListener", value);
+  }
+
+  /// get notifications listeners
+  @override
+  Future<Map<String, bool>> getNotificationsListener() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final str = preferences.getString("notificationsListener") ?? "";
+
+    /// return empty
+    if (str.isEmpty) return <String, bool>{};
+
+    final json = jsonDecode(str) as Map<String, dynamic>;
+
+    /// build map to return
+    final Map<String, bool> mapOfStrAndBool = {};
+    json.forEach((key, value) {
+      mapOfStrAndBool.addAll({key: value ?? false});
+    });
+
+    return mapOfStrAndBool;
   }
 }

@@ -158,7 +158,7 @@ class _ArticleItemState extends State<ArticleItem> {
                     ImageNameRatingWidget(
                       name: widget.articleEntity.authorName,
                       imgUrl: widget.articleEntity.creatorImage,
-                      rating: 3,
+                      rating: widget.articleEntity.creatorRating.toDouble(),
                       isAdmin: widget.articleEntity.authorName == "admin",
                       unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                       withRow: false,

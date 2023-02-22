@@ -24,4 +24,11 @@ abstract class AppSettingsRepository {
 
   /// return CurrentUserData
   Future<Either<AppError, AuthorizedUserEntity>> getCurrentUserData();
+
+  /// updateNotificationsListener
+  Future<Either<AppError, void>> updateNotificationsListener(
+      Map<String, bool> value);
+
+  /// getNotificationsListener
+  Future<Either<AppError, Map<String, bool>>> getNotificationsListener();
 }

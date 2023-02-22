@@ -11,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
+import '../../../common/functions/open_url.dart';
 import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/common/check_payment_status/check_payment_status_cubit.dart';
@@ -299,11 +300,14 @@ class _CreateTaxScreenState extends State<CreateTaxScreen> {
     required PaymentMissionType paymentMissionType,
     required int missionId,
   }) async {
-    // await to check payment status onBack from payment screen
+   // await to check payment status onBack from payment screen
     await RouteHelper().paymentScreen(
       context,
       paymentArguments: PaymentArguments(link: paymentLink),
     );
+
+    //openUrl(url: paymentLink);
+
 
     // if not mounted return
     if (!mounted) return;

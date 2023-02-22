@@ -286,5 +286,5 @@ class _AppliedTaskTodoState extends State<AppliedTaskTodo>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

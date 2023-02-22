@@ -210,5 +210,5 @@ class _AppliedInReviewState extends State<AppliedInReviewScreen>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

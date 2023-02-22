@@ -39,6 +39,7 @@ import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
 import 'package:yamaiter/data/params/payment/refund_params.dart';
 import 'package:yamaiter/data/params/search_for_lawyer_params.dart';
+import 'package:yamaiter/data/params/store_fb_token.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/data/params/update_profile/update_lawyer_profile.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
@@ -80,6 +81,14 @@ import '../entities/data/article_entity.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
 abstract class RemoteRepository {
+  ///=============================>  Fb_Token <=========+===============\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+  Future<Either<AppError, SuccessModel>> storeFirebaseToken(
+      StoreFirebaseTokenParams params);
+
   ///============================>  chat <==============================\\\\
   ///                                                                   \\\\
   ///                                                                   \\\\

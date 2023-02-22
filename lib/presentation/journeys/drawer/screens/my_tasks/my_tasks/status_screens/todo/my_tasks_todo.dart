@@ -311,5 +311,5 @@ class _MyTasksTodoState extends State<MyTasksTodo>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

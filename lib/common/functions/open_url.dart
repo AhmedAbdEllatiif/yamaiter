@@ -13,8 +13,9 @@ void openUrl({required String url}) async {
       if (canLaunchNatively) {
         launchUrl(fbBundleUri);
       } else {
-        await launchUrl(Uri.parse(fallbackUrl),
-            mode: LaunchMode.externalApplication);
+        await launchUrl(
+          Uri.parse(fallbackUrl),
+        );
       }
     } catch (e) {
       log("openUrl >> onTap >> error: $e");

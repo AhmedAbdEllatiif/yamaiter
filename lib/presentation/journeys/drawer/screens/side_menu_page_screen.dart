@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
@@ -9,6 +10,7 @@ import 'package:yamaiter/presentation/widgets/web_view_widget.dart';
 
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../common/functions/navigate_to_login.dart';
+import '../../../../common/functions/open_url.dart';
 import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../widgets/loading_widget.dart';
@@ -109,7 +111,9 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             *
             * */
             if (state is AboutUsPageFetchedSuccess) {
-              return CustomWebViewWidget(url: state.sideMenuPages.url);
+              launcjjj(state.sideMenuPages.url);
+              //return CustomWebViewWidget(url: state.sideMenuPages.url);
+            return const SizedBox.shrink();
             }
 
             /*
@@ -124,6 +128,11 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
         ),
       ),
     );
+  }
+
+  void launcjjj(String url)async {
+    openUrl(url: url);
+
   }
 
   void _fetchAbout() {

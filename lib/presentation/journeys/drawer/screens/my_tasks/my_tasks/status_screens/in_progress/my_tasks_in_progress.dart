@@ -243,5 +243,5 @@ class _MyTasksInProgressState extends State<MyTasksInProgress>
   }
 
   @override
-  bool get wantKeepAlive => true;
+  bool get wantKeepAlive => false;
 }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
@@ -135,12 +137,15 @@ class _CreateAdFormState extends State<CreateAdForm> {
           key: _formKey,
           child: AppDropDownField(
             hintText: "صفحة الاعلان",
-            itemsList: adPages,
+            itemsList: adPages.values.toList(),
             //height: Sizes.dimen_22.h,
             margin: EdgeInsets.only(bottom: Sizes.dimen_4.h),
             onChanged: (value) {
               if (value != null) {
-                _adPage = value;
+                _adPage = adPages.keys.firstWhere(
+                  (key) => adPages[key] == value,
+                  orElse: () => "all",
+                );
               }
             },
           ),
