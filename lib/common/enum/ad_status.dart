@@ -16,9 +16,9 @@ extension ToString on AdStatus {
       case AdStatus.inprogress:
         return "قيد المراجعة";
       case AdStatus.published:
-        return "تم نشره";
+        return "مفعل";
       case AdStatus.expired:
-        return "منتهى";
+        return "منتهي";
     }
   }
 

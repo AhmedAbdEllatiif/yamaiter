@@ -75,7 +75,7 @@ class AdModel extends AdEntity {
           period: adPeriod,
           createdDateAt: createdDateAt,
           updatedDateAt: updatedDateAt,
-          pages: adPlace,
+          adPages: adPlace,
           status: adStatus == 0
               ? AdStatus.inprogress
               : adStatus == 1

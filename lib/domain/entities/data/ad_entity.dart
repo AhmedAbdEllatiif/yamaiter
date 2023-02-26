@@ -6,11 +6,12 @@ import '../../../common/enum/ad_status.dart';
 
 class AdEntity extends Equatable {
   final int id;
-  final String pages;
   final String url;
   final int period;
   final double price;
   final AdStatus status;
+
+  late final String pages;
 
   late final String image;
   late final String createdAt;
@@ -20,9 +21,9 @@ class AdEntity extends Equatable {
     required DateTime? createdDateAt,
     required DateTime? updatedDateAt,
     required final String adImage,
+    required final String adPages,
     required this.id,
     required this.url,
-    required this.pages,
     required this.period,
     required this.price,
     required this.status,
@@ -48,6 +49,17 @@ class AdEntity extends Equatable {
           "${updatedDateAt.day.toString().padLeft(2, '0')} ";
     } else {
       updatedAt = AppUtils.undefined;
+    }
+
+    /// init Pages
+    if (adPages == "all") {
+      pages = "كل الصفحات";
+    } else if (adPages == "home") {
+      pages = "الرئيسية";
+    } else if (adPages == "pages") {
+      pages = "الصفحات الداخلية";
+    }else{
+      pages = adPages;
     }
   }
 

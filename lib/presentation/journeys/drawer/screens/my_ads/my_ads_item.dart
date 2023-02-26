@@ -9,6 +9,7 @@ import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import '../../../../../common/screen_utils/screen_util.dart';
 import '../../../../themes/theme_color.dart';
 import '../../../../widgets/cached_image_widget.dart';
+import 'ad_status_widget.dart';
 import 'ad_text_data_widget.dart';
 
 class MyAdItem extends StatelessWidget {
@@ -31,7 +32,7 @@ class MyAdItem extends StatelessWidget {
             children: [
               // status , price
               Row(
-               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   // //==> status
                   // Expanded(
@@ -60,16 +61,15 @@ class MyAdItem extends StatelessWidget {
                   //==> price
                   Expanded(
                     child: AddTextData(
-                      text:"", //"الصفحة",
+                      text: "", //"الصفحة",
                       value: adEntity.pages,
                     ),
                   ),
 
-
                   //==> date
                   Expanded(
                     child: AddTextData(
-                      text: "",//"التاريخ:",
+                      text: "", //"التاريخ:",
                       value: adEntity.createdAt,
                     ),
                   ),
@@ -122,19 +122,28 @@ class MyAdItem extends StatelessWidget {
 
         /// image
         //if (adEntity.image != AppUtils.undefined)
-          ClipRRect(
-            // borderRadius: BorderRadius.only(
-            //   topRight: Radius.circular(AppUtils.cornerRadius.w),
-            //   topLeft: Radius.circular(AppUtils.cornerRadius.w),
-            // ),
-            child: CachedImageWidget(
-              imageUrl: adEntity.image,
-              height: ScreenUtil.screenHeight * 0.15,
-              width: double.infinity,
-              isCircle: false,
-              progressBarScale: 0.2,
-            ),
+        ClipRRect(
+          // borderRadius: BorderRadius.only(
+          //   topRight: Radius.circular(AppUtils.cornerRadius.w),
+          //   topLeft: Radius.circular(AppUtils.cornerRadius.w),
+          // ),
+          child: Stack(
+            children: [
+              CachedImageWidget(
+                imageUrl: adEntity.image,
+                height: ScreenUtil.screenHeight * 0.15,
+                width: double.infinity,
+                isCircle: false,
+                progressBarScale: 0.2,
+              ),
+
+              /// AdStatusWidget
+              AdStatusWidget(
+                adStatus: adEntity.status,
+              ),
+            ],
           ),
+        ),
       ],
     );
   }

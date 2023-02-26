@@ -35,12 +35,14 @@ class FetchChatListCubit extends Cubit<FetchChatListState> {
     //==> receive result
     either.fold(
       (appError) => _emitError(appError),
-      (receivedChatListEntity) => {
-        _emitIfNotClosed(
-          ChatsListFetched(
-            receivedChatListEntity: receivedChatListEntity,
-          ),
-        )
+      (receivedChatListEntity) {
+        receivedChatListEntity.isEmpty
+            ? _emitIfNotClosed(EmptyChatsList())
+            : _emitIfNotClosed(
+                ChatsListFetched(
+                  receivedChatListEntity: receivedChatListEntity,
+                ),
+              );
       },
     );
   }

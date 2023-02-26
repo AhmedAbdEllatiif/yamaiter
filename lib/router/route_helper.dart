@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/add_tax_args.dart';
@@ -96,8 +97,10 @@ class RouteHelper {
   }
 
   /// To forget password screen \\\
-  void forgetPassword(BuildContext context,{required ForgetPasswordArguments arguments}) {
-    Navigator.of(context).pushNamed(RouteList.forgetPassword,arguments: arguments);
+  void forgetPassword(BuildContext context,
+      {required ForgetPasswordArguments arguments}) {
+    Navigator.of(context)
+        .pushNamed(RouteList.forgetPassword, arguments: arguments);
   }
 
   /// To about screen \\\
@@ -469,6 +472,8 @@ class RouteHelper {
   void contactUsScreen(
     BuildContext context,
   ) {
-    throw (UnimplementedError("Create Contact us screen"));
+    Navigator.of(context).pushNamed(RouteList.sideMenuPage,
+        arguments: SideMenuPageArguments(
+            pageTitle: "تواصل معنا", sideMenuPage: SideMenuPage.contactUs));
   }
 }

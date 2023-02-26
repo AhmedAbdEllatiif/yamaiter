@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
@@ -136,48 +137,114 @@ class _AcceptTermsWidgetState extends State<AcceptTermsWidget> {
               );
             }
 
-            return ListView.separated(
-              shrinkWrap: true,
-              physics: const BouncingScrollPhysics(),
-              separatorBuilder: (_, index) =>
-                  SizedBox(height: Sizes.dimen_10.h),
-              itemCount: widget.acceptTermsEntity.pages[0].sections.length,
-              itemBuilder: (_, index) {
-                return Column(
-                  children: [
-                    Text(
-                      widget.acceptTermsEntity.pages[0].sections[index]
-                          .description,
-                      overflow: TextOverflow.clip,
-                      //maxLines: 500,
-                      textAlign: TextAlign.start,
-                      style: Theme.of(context).textTheme.bodyText1!.copyWith(
-                            color: AppColor.primaryDarkColor,
-                          ),
-                    ),
+            return Column(
+              children: [
+                HtmlWidget(
+                  // the first parameter (`html`) is required
+                  '''
+${widget.acceptTermsEntity.pages[0].sections[0].description}
+  
+  ''',
 
-                    //==> space
-                    SizedBox(height: Sizes.dimen_8.h),
+                  // all other parameters are optional, a few notable params:
 
-                    // checkBox
-                    AppCheckBoxTile(
-                      onChanged: (isChecked) {
-                        final currentValue = isChecked ?? false;
-                        if (currentValue) {
-                          setState(() {
-                            _showCheckBoxError = false;
-                          });
-                        }
-                        _isTermsAccepted = currentValue;
-                      },
-                      hasError: _showCheckBoxError,
-                      text:
-                          "اوافق على شروط الاتفاقية و اتحمل كامل المسؤولية القانونية",
-                    ),
-                  ],
-                );
-              },
+                  // specify custom styling for an element
+                  // see supported inline styling below
+                  customStylesBuilder: (element) {
+                    if (element.classes.contains('foo')) {
+                      return {'color': 'red'};
+                    }
+
+                    return null;
+                  },
+
+                  // render a custom widget
+                  // customWidgetBuilder: (element) {
+                  //   if (element.attributes['foo'] == 'bar') {
+                  //     return FooBarWidget();
+                  //   }
+                  //
+                  //   return null;
+                  // },
+
+                  // these callbacks are called when a complicated element is loading
+                  // or failed to render allowing the app to render progress indicator
+                  // and fallback widget
+                  onErrorBuilder: (context, element, error) =>
+                      Text('$element error: $error'),
+                  onLoadingBuilder: (context, element, loadingProgress) =>
+                      CircularProgressIndicator(),
+
+                  // this callback will be triggered when user taps a link
+                  //onTapUrl: (url) => print('tapped $url'),
+
+                  // select the render mode for HTML body
+                  // by default, a simple `Column` is rendered
+                  // consider using `ListView` or `SliverList` for better performance
+                  renderMode: RenderMode.column,
+
+                  // set the default styling for text
+                  textStyle: TextStyle(fontSize: 14),
+                ),
+                AppCheckBoxTile(
+                  onChanged: (isChecked) {
+                    final currentValue = isChecked ?? false;
+                    if (currentValue) {
+                      setState(() {
+                        _showCheckBoxError = false;
+                      });
+                    }
+                    _isTermsAccepted = currentValue;
+                  },
+                  hasError: _showCheckBoxError,
+                  text:
+                      "اوافق على شروط الاتفاقية و اتحمل كامل المسؤولية القانونية",
+                ),
+              ],
             );
+
+            // return ListView.separated(
+            //   shrinkWrap: true,
+            //   physics: const BouncingScrollPhysics(),
+            //   separatorBuilder: (_, index) =>
+            //       SizedBox(height: Sizes.dimen_10.h),
+            //   itemCount: widget.acceptTermsEntity.pages[0].sections.length,
+            //   itemBuilder: (_, index) {
+            //     return Column(
+            //       children: [
+            //         Text(
+            //           widget.acceptTermsEntity.pages[0].sections[index]
+            //               .description,
+            //           overflow: TextOverflow.clip,
+            //           //maxLines: 500,
+            //           textAlign: TextAlign.start,
+            //           style: Theme.of(context).textTheme.bodyText1!.copyWith(
+            //                 color: AppColor.primaryDarkColor,
+            //               ),
+            //         ),
+            //
+            //         //==> space
+            //         SizedBox(height: Sizes.dimen_8.h),
+            //
+            //         // checkBox
+            //         AppCheckBoxTile(
+            //           onChanged: (isChecked) {
+            //             final currentValue = isChecked ?? false;
+            //             if (currentValue) {
+            //               setState(() {
+            //                 _showCheckBoxError = false;
+            //               });
+            //             }
+            //             _isTermsAccepted = currentValue;
+            //           },
+            //           hasError: _showCheckBoxError,
+            //           text:
+            //               "اوافق على شروط الاتفاقية و اتحمل كامل المسؤولية القانونية",
+            //         ),
+            //       ],
+            //     );
+            //   },
+            // );
           },
         ),
       ),
