@@ -190,6 +190,7 @@ class _ArticleFormState extends State<ArticleForm> {
                 AppTextField(
                   controller: titleController,
                   label: "ضع عنوان المنشور هنا",
+                  minLength: 5,
                 ),
 
                 /// upload images
@@ -203,6 +204,7 @@ class _ArticleFormState extends State<ArticleForm> {
                     controller: descriptionController,
                     label: "اكتب ما تفكر به هنا",
                     maxLines: 20,
+                    minLength: 5,
                     validateOnSubmit: true,
                     withFocusedBorder: false,
                     textInputType: TextInputType.multiline,

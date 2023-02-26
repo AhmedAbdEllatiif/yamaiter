@@ -13,6 +13,7 @@ import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/app_error_widget.dart';
+import '../../../widgets/app_refersh_indicator.dart';
 import '../../../widgets/article_item.dart';
 import '../../../widgets/loading_widget.dart';
 
@@ -127,28 +128,34 @@ class _AllArticlesScreenState extends State<AllArticlesScreen> {
             }
 
             //==> fetched
-            return ListView.separated(
-              controller: _controller,
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: allArticlesList.length + 1,
-              // controller: _controller,
-              separatorBuilder: (context, index) => SizedBox(
-                height: Sizes.dimen_2.h,
-              ),
-              itemBuilder: (context, index) {
-                if (index < allArticlesList.length) {
-                  return ArticleItem(
-                    articleEntity: allArticlesList[index],
-                    withMenu: false,
-                  );
-                }
-
-                /// loading or end of list
-                return LoadingMoreAllArticlesWidget(
-                  allArticlesCubit: _getAllArticlesCubit,
-                );
+            return AppRefreshIndicator(
+              onRefresh: () async {
+                allArticlesList.clear();
+                _fetchMyArticlesList();
               },
+              child: ListView.separated(
+                controller: _controller,
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: allArticlesList.length + 1,
+                // controller: _controller,
+                separatorBuilder: (context, index) => SizedBox(
+                  height: Sizes.dimen_2.h,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < allArticlesList.length) {
+                    return ArticleItem(
+                      articleEntity: allArticlesList[index],
+                      withMenu: false,
+                    );
+                  }
+
+                  /// loading or end of list
+                  return LoadingMoreAllArticlesWidget(
+                    allArticlesCubit: _getAllArticlesCubit,
+                  );
+                },
+              ),
             );
           }),
         ),

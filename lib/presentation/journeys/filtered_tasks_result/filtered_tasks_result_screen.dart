@@ -46,17 +46,20 @@ class _FilteredTasksResultScreenState extends State<FilteredTasksResultScreen> {
 
     //==> init _filterTasksCubit
     _filterTasksCubit = getItInstance<FilterTasksCubit>();
-    ;
+
 
     //==> init filter params
     _filterTasksParams = widget.filteredTaskArguments.filterTasksParams;
 
     //==> init the list of TaskEntity
-    tasksList = widget.filteredTaskArguments.fetchedTasks;
+    //tasksList = widget.filteredTaskArguments.fetchedTasks;
+    tasksList = [];
 
     //==> init _controller
     _controller = ScrollController();
     _listenerOnScrollController();
+
+    _fetchTasks();
   }
 
   @override
@@ -87,6 +90,7 @@ class _FilteredTasksResultScreenState extends State<FilteredTasksResultScreen> {
           child: BlocConsumer<FilterTasksCubit, FilterTasksState>(
             bloc: _filterTasksCubit,
             listener: (context, state) {
+              log("FilteredTasksResultScreen >> state >> $state");
               /// lastPage
               if (state is LastPageFilterTasksFetched) {
                 tasksList.addAll(state.taskEntityList);

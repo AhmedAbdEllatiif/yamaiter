@@ -111,8 +111,8 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             *
             * */
             if (state is AboutUsPageFetchedSuccess) {
-              launcjjj(state.sideMenuPages.url);
-              //return CustomWebViewWidget(url: state.sideMenuPages.url);
+              //launcjjj(state.sideMenuPages.url);
+              return CustomWebViewWidget(url: state.sideMenuPages.url);
             return const SizedBox.shrink();
             }
 

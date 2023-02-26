@@ -21,6 +21,7 @@ import '../../../../../common/constants/sizes.dart';
 import '../../../../../domain/entities/data/sos_entity.dart';
 import '../../../../../domain/entities/screen_arguments/delete_sos_args.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../../widgets/app_refersh_indicator.dart';
 import '../../../../widgets/title_with_add_new_item.dart';
 import 'loading_more_my_sos.dart';
 
@@ -202,36 +203,42 @@ class _MySosScreenState extends State<MySosScreen> {
                                 );
                               }
 
-                              return ListView.separated(
-                                physics: const BouncingScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: sosList.length + 1,
-                                separatorBuilder: (context, index) => SizedBox(
-                                  height: Sizes.dimen_2.h,
-                                ),
-                                itemBuilder: (context, index) {
-
-                                  /// sos item
-                                  if (index < sosList.length) {
-                                    return SosItem(
-                                      sosEntity: sosList[index],
-                                      withCallLawyer: false,
-                                      onUpdatePressed: () {
-                                        _navigateToUpdateSosScreen(
-                                            sosList[index]);
-                                      },
-                                      onDeletePressed: () =>
-                                          _navigateToDeleteSosScreen(
-                                        sosList[index].id,
-                                      ),
-                                    );
-                                  }
-
-                                  /// loading or end of list
-                                  return LoadingMoreMySosWidget(
-                                    allSosCubit: _getMySosCubit,
-                                  );
+                              return AppRefreshIndicator(
+                                onRefresh: ()async{
+                                  sosList.clear();
+                                  _fetchMySosList();
                                 },
+                                child: ListView.separated(
+                                  physics: const BouncingScrollPhysics(),
+                                  shrinkWrap: true,
+                                  itemCount: sosList.length + 1,
+                                  separatorBuilder: (context, index) => SizedBox(
+                                    height: Sizes.dimen_2.h,
+                                  ),
+                                  itemBuilder: (context, index) {
+
+                                    /// sos item
+                                    if (index < sosList.length) {
+                                      return SosItem(
+                                        sosEntity: sosList[index],
+                                        withCallLawyer: false,
+                                        onUpdatePressed: () {
+                                          _navigateToUpdateSosScreen(
+                                              sosList[index]);
+                                        },
+                                        onDeletePressed: () =>
+                                            _navigateToDeleteSosScreen(
+                                          sosList[index].id,
+                                        ),
+                                      );
+                                    }
+
+                                    /// loading or end of list
+                                    return LoadingMoreMySosWidget(
+                                      allSosCubit: _getMySosCubit,
+                                    );
+                                  },
+                                ),
                               );
                             }),
                           ),

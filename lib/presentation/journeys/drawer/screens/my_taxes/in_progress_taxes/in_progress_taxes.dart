@@ -13,6 +13,7 @@ import '../../../../../../common/enum/app_error_type.dart';
 import '../../../../../../router/route_helper.dart';
 import '../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../widgets/app_error_widget.dart';
+import '../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../widgets/loading_widget.dart';
 import 'loading_more_in_progress_taxes.dart';
 
@@ -140,27 +141,33 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
               return Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: Sizes.dimen_5.h, horizontal: Sizes.dimen_10.w),
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: taxesList.length + 1,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: Sizes.dimen_2.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    /// tax item
-                    if (index < taxesList.length) {
-                      return TaxItem(
-                        taxEntity: taxesList[index],
-                        isCompleted: false,
-                      );
-                    }
-
-                    /// loading or end of list
-                    return LoadingMoreInProgressTaxesWidget(
-                      inProgressTaxesCubit: _inProgressTaxesCubit,
-                    );
+                child: AppRefreshIndicator(
+                  onRefresh: ()async{
+                    taxesList.clear();
+                    _fetchInProgressTaxes();
                   },
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: taxesList.length + 1,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: Sizes.dimen_2.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      /// tax item
+                      if (index < taxesList.length) {
+                        return TaxItem(
+                          taxEntity: taxesList[index],
+                          isCompleted: false,
+                        );
+                      }
+
+                      /// loading or end of list
+                      return LoadingMoreInProgressTaxesWidget(
+                        inProgressTaxesCubit: _inProgressTaxesCubit,
+                      );
+                    },
+                  ),
                 ),
               );
             },

@@ -74,6 +74,11 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
               _navigateToFilteredTaskResultScreen(
                   taskList: state.taskEntityList);
             }
+
+            if (state is LastPageFilterTasksFetched) {
+              _navigateToFilteredTaskResultScreen(
+                  taskList: state.taskEntityList);
+            }
           },
           builder: (context, state) {
             return Container(

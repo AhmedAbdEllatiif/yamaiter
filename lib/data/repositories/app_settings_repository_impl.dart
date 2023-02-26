@@ -125,4 +125,32 @@ class AppSettingsRepositoryImpl extends AppSettingsRepository {
       return const Left(AppError(AppErrorType.sharedPreferences));
     }
   }
+
+  //===========================>  First launch  <=============================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+  @override
+  Future<Either<AppError, void>> changeFirstLaunch() async {
+    try {
+      final changeStatus =
+          await appSettingsDataSource.changeAppFirstLaunchStatus();
+      return Right(changeStatus);
+    } on Exception {
+      return const Left(AppError(AppErrorType.sharedPreferences));
+    }
+  }
+
+  @override
+  Future<Either<AppError, bool>> getFirstLaunchStatus() async {
+    try {
+      final firstLaunchStatus = await appSettingsDataSource.isAppFirstLaunch();
+      return Right(firstLaunchStatus);
+    } on Exception {
+      return const Left(AppError(AppErrorType.sharedPreferences));
+    }
+  }
 }

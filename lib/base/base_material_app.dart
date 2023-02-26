@@ -10,6 +10,7 @@ import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
+import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
 import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
@@ -20,6 +21,7 @@ import '../common/functions/firebase.dart';
 import '../main.dart';
 import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
 import '../presentation/journeys/sos/delete_sos.dart';
+import '../presentation/logic/cubit/first_launch/first_launch_cubit.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
 
@@ -37,6 +39,9 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
   late final AuthorizedUserCubit authorizedUserCubit;
   late final NotificationsListenersCubit notificationsListenersCubit;
 
+  /// FirstLaunchStatusCubit
+  late final FirstLaunchStatusCubit firstLaunchCubit;
+
   @override
   void initState() {
     //==> current user token
@@ -51,6 +56,10 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     notificationsListenersCubit = getItInstance<NotificationsListenersCubit>();
     notificationsListenersCubit.loadListeners();
 
+    //==> firstLaunchCubit
+    firstLaunchCubit = getItInstance<FirstLaunchStatusCubit>();
+    firstLaunchCubit.loadFirstLaunchStatus();
+
     _interactedMessageWhenAppIsOpenedInBackground();
     _interactedMessageWhenAppIsTerminated();
     _showReceivedNotification();
@@ -64,6 +73,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         BlocProvider(create: (context) => userToken),
         BlocProvider(create: (context) => authorizedUserCubit),
         BlocProvider(create: (context) => notificationsListenersCubit),
+        BlocProvider(create: (context) => firstLaunchCubit),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -150,20 +160,24 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
               )),
 
           /// home
-          home: BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
-            builder: (context, state) {
-              log("Main: $state");
-              return MainScreen();
-            },
-          ),
-          // home: BlocBuilder<UserTokenCubit, UserTokenState>(
+          // home: BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
           //   builder: (context, state) {
-          //     if (state.userToken.isNotEmpty) {
-          //       return const MainScreen();
-          //     }
-          //     return const OnBoardingScreen();
+          //     log("Main: $state");
+          //     return MainScreen();
           //   },
           // ),
+          home: BlocBuilder<UserTokenCubit, UserTokenState>(
+            builder: (context, state) {
+              if (state.userToken.isNotEmpty) {
+                return const MainScreen();
+              }
+              return BlocBuilder<FirstLaunchStatusCubit, bool>(
+                builder: (context, state) {
+                  return state ? const OnBoardingScreen() : const LoginScreen();
+                },
+              );
+            },
+          ),
           onGenerateRoute: (RouteSettings settings) {
             final routes = Routes.getRoutes(settings);
             final WidgetBuilder? builder = routes[settings.name];

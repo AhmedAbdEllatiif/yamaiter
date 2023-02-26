@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
@@ -14,6 +15,7 @@ import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
+import '../../logic/cubit/first_launch/first_launch_cubit.dart';
 import 'on_boarding_page_item.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -155,7 +157,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                       textColor: AppColor.primaryDarkColor,
                       color: AppColor.accentColor,
                       withAnimation: true,
-                      onPressed: () => _navigateToChooseUserTypeScreen(),
+                      onPressed: () {
+                        // change first launch state
+                        _changeAppFirstLaunchStatus();
+
+                        // navigate to choose user type
+                        _navigateToChooseUserTypeScreen();
+                      },
                     ),
                   )),
                 ],
@@ -168,6 +176,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   void _navigateToChooseUserTypeScreen() =>
       RouteHelper().chooseUserType(context);
+
+  void _changeAppFirstLaunchStatus() async {
+    await context.read<FirstLaunchStatusCubit>().changeFirstLaunchStatus();
+  }
 
   /// to ensure init ScreenUtil
   void _initScreenUtil() {

@@ -186,6 +186,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
               AppTextField(
                 controller: nameController,
                 label: "اسم المستخدم الضريبى",
+                minLength: 5,
               ),
 
               /// tax password
@@ -198,6 +199,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                 appTextField: AppTextField(
                   controller: notesController,
                   label: "ملاحظات اضافية",
+                  minLength: 5,
                   maxLines: 20,
                   validateOnSubmit: true,
                   withFocusedBorder: false,

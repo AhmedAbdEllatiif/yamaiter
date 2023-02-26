@@ -12,6 +12,7 @@ import '../../../../../logic/cubit/get_completed_taxes/get_completed_taxes_cubit
 import '../../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../../themes/theme_color.dart';
 import '../../../../../widgets/app_error_widget.dart';
+import '../../../../../widgets/app_refersh_indicator.dart';
 import '../../../../../widgets/loading_widget.dart';
 import '../tax_item.dart';
 import 'loading_more_completed_taxes.dart';
@@ -133,27 +134,33 @@ class _CompletedTaxesListState extends State<CompletedTaxesList>
               return Padding(
                 padding: EdgeInsets.symmetric(
                     vertical: Sizes.dimen_5.h, horizontal: Sizes.dimen_10.w),
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: taxesList.length + 1,
-                  separatorBuilder: (context, index) => SizedBox(
-                    height: Sizes.dimen_2.h,
-                  ),
-                  itemBuilder: (context, index) {
-                    /// tax item
-                    if (index < taxesList.length) {
-                      return TaxItem(
-                        taxEntity: taxesList[index],
-                        isCompleted: true,
-                      );
-                    }
-
-                    /// loading or end of list
-                    return LoadingMoreCompletedTaxesWidget(
-                      completedTaxesCubit: _completedTaxesCubit,
-                    );
+                child: AppRefreshIndicator(
+                  onRefresh: ()async{
+                    taxesList.clear();
+                    _fetchCompletedTaxes();
                   },
+                  child: ListView.separated(
+                    physics: const BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: taxesList.length + 1,
+                    separatorBuilder: (context, index) => SizedBox(
+                      height: Sizes.dimen_2.h,
+                    ),
+                    itemBuilder: (context, index) {
+                      /// tax item
+                      if (index < taxesList.length) {
+                        return TaxItem(
+                          taxEntity: taxesList[index],
+                          isCompleted: true,
+                        );
+                      }
+
+                      /// loading or end of list
+                      return LoadingMoreCompletedTaxesWidget(
+                        completedTaxesCubit: _completedTaxesCubit,
+                      );
+                    },
+                  ),
                 ),
               );
             },

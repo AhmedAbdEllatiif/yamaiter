@@ -6,6 +6,7 @@ import 'package:yamaiter/common/extensions/widgetExtension.dart';
 
 import '../../common/constants/sizes.dart';
 import '../../common/enum/animation_type.dart';
+import '../../common/functions/hide_keyboard.dart';
 import '../themes/theme_color.dart';
 
 class AppButton extends StatelessWidget {
@@ -22,11 +23,13 @@ class AppButton extends StatelessWidget {
   final double? width;
   final double? fontSize;
   final EdgeInsets? padding;
+  final bool closeKeyboard;
 
   const AppButton({
     Key? key,
     required this.text,
     required this.onPressed,
+    this.closeKeyboard = true,
     this.margin = EdgeInsets.zero,
     this.color = AppColor.primaryColor,
     this.textStyle,
@@ -147,7 +150,13 @@ class AppButton extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_30.w)),
             // side: BorderSide(color: Colors.red)
           ))),
-      onPressed: onPressed,
+      onPressed: () {
+        if (closeKeyboard) {
+          hideKeyboard();
+        }
+
+        onPressed();
+      },
       child: Container(
         padding: padding ?? EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
         child: Row(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
@@ -30,6 +32,8 @@ class AppliedInProgressItem extends StatefulWidget {
 class _AppliedInProgressItemState extends State<AppliedInProgressItem> {
   @override
   Widget build(BuildContext context) {
+    log("ChatId >> ${widget.taskEntity.chatId}");
+    log("ChatId >> ${widget.taskEntity.chatChannel}");
     return Container(
       constraints: BoxConstraints(minHeight: ScreenUtil.screenHeight * 0.15),
       child: Card(

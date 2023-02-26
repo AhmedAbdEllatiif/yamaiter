@@ -33,21 +33,25 @@ class EditTaskScreen extends StatefulWidget {
 }
 
 class _EditTaskScreenState extends State<EditTaskScreen> {
+  /// UpdateTaskCubit
   late final UpdateTaskCubit _updateTaskCubit;
 
+  /// task entity
   late final TaskEntity _taskEntity;
 
+  /// form key
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController descriptionController = TextEditingController();
-  final TextEditingController priceController = TextEditingController();
+
+  /// controllers
+  late final TextEditingController descriptionController;
+  late final TextEditingController priceController;
+  late final TextEditingController titleController;
 
   /// values to send
-  late String taskTitle;
   late String governorate;
   late String subGovernorate;
 
   /// Initial values
-  late final String? initialTitle;
   late final String? initialGovernorate;
   late final String? initialCourt;
 
@@ -61,11 +65,21 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     _updateTaskCubit = widget.editTaskArguments.updateTaskCubit ??
         getItInstance<UpdateTaskCubit>();
     _taskEntity = widget.editTaskArguments.taskEntity;
+
+    descriptionController = TextEditingController();
+    priceController = TextEditingController();
+    titleController = TextEditingController();
+
     _setInitialText();
   }
 
   @override
   void dispose() {
+    // dispose controllers
+    descriptionController.dispose();
+    priceController.dispose();
+    titleController.dispose();
+
     // close only if the cubit argument is null
     if (widget.editTaskArguments.updateTaskCubit == null) {
       _updateTaskCubit.close();
@@ -75,11 +89,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
 
   /// To init text with value of current task
   void _setInitialText() {
+    titleController.text = _taskEntity.title;
     priceController.text = _taskEntity.price.toString();
     descriptionController.text = _taskEntity.description;
+
     _selectedDate = _taskEntity.startingDate;
-    initialTitle =
-        taskTypeList.contains(_taskEntity.title) ? _taskEntity.title : null;
 
     initialGovernorate = governoratesList.contains(_taskEntity.governorates)
         ? _taskEntity.governorates
@@ -89,7 +103,6 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
         ? _taskEntity.court
         : null;
 
-    taskTitle = initialTitle ?? "";
     governorate = initialGovernorate ?? "";
     subGovernorate = initialCourt ?? "";
   }
@@ -185,15 +198,11 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            AppDropDownField(
-                                hintText: "موضوع المهمة",
-                                initialValue: initialTitle,
-                                itemsList: taskTypeList,
-                                onChanged: (value) {
-                                  if (value != null) {
-                                    taskTitle = value;
-                                  }
-                                }),
+                            AppTextField(
+                              controller: titleController,
+                              label: "موضوع المهمة",
+                              minLength: 5,
+                            ),
 
                             //==> space
                             SizedBox(height: Sizes.dimen_5.h),
@@ -306,6 +315,9 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
     // init description
+    final title = titleController.value.text;
+
+    // init description
     final description = descriptionController.value.text;
 
     // init price
@@ -315,7 +327,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
     _updateTaskCubit.updateTask(
       id: _taskEntity.id,
       token: userToken,
-      title: taskTitle,
+      title: title,
       governorates: governorate,
       description: description.isNotEmpty ? description : "لا يوجد",
       price: price,

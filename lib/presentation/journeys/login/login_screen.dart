@@ -96,7 +96,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   //_navigateToMainScreen(context);
 
                   // storeFirebaseToken(
-                  _storeFirebaseToken(userToken: state.loginResponseEntity.token);
+                  _storeFirebaseToken(
+                      userToken: state.loginResponseEntity.token);
                 }
               },
             ),
@@ -104,8 +105,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ///==> store firebase token listener
             BlocListener<StoreFirebaseTokenCubit, StoreFirebaseTokenState>(
               listener: (_, state) {
-
-
                 // error
                 if (state is ErrorWhileStoringFbToken) {
                   // show snackBar
@@ -117,18 +116,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   // navigate to main screen
                   log("LoginScreen >> FbTokenStoredSuccessfully >> ");
                 }
-
-                else if (state is UnAuthorizedToStoreFbToken) {
+                if (state is UnAuthorizedToStoreFbToken) {
                   // show snackBar
                   //showSnackBar(context, message: "حدث خطأ ما حاول مرة أخرى");
                   log("LoginScreen >> UnAuthorizedToStoreFbToken >>");
                 }
 
-                else if(state is! StoreFirebaseTokenInitial) {
+                if (state is! StoreFirebaseTokenInitial &&
+                    state is! LoadingToStoreFbToken) {
                   log("LoginScreen >> StoreFirebaseTokenInitial >>");
-                  //_navigateToMainScreen(context);
+                  _navigateToMainScreen(context);
                 }
-
               },
             ),
           ],

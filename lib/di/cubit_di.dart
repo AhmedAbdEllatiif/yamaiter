@@ -38,6 +38,7 @@ import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import '../presentation/logic/common/store_fb_token/store_firebase_token_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
+import '../presentation/logic/cubit/first_launch/first_launch_cubit.dart';
 import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 import '../presentation/logic/cubit/decline_invited_task/decline_task_cubit.dart';
 import '../presentation/logic/cubit/delete_article/delete_article_cubit.dart';
@@ -359,5 +360,9 @@ Future init() async {
   //==> NotificationsListenersCubit
   getItInstance.registerSingleton<NotificationsListenersCubit>(
     NotificationsListenersCubit(),
+  );
+
+  getItInstance.registerFactory<FirstLaunchStatusCubit>(
+        () => FirstLaunchStatusCubit(),
   );
 }

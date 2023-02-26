@@ -53,6 +53,20 @@ abstract class AppSettingsDataSource {
 
   /// get notifications listener
   Future<Map<String, bool>> getNotificationsListener();
+
+
+  //==========================>  First App launch <===========================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+  /// return bool
+  Future<bool> isAppFirstLaunch();
+
+  /// return save LoginStatus
+  Future<void> changeAppFirstLaunchStatus();
 }
 
 class AppSettingsDataSourceImpl extends AppSettingsDataSource {
@@ -179,5 +193,26 @@ class AppSettingsDataSourceImpl extends AppSettingsDataSource {
     });
 
     return mapOfStrAndBool;
+  }
+
+
+  //==========================>  First App launch <===========================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+  @override
+  Future<void> changeAppFirstLaunchStatus() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    preferences.setBool("isFirstLaunch", false);
+  }
+
+  @override
+  Future<bool> isAppFirstLaunch() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    final firstLaunchStatus = preferences.getBool("isFirstLaunch") ?? true;
+    return firstLaunchStatus;
   }
 }

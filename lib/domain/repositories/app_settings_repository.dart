@@ -31,4 +31,18 @@ abstract class AppSettingsRepository {
 
   /// getNotificationsListener
   Future<Either<AppError, Map<String, bool>>> getNotificationsListener();
+
+  //===========================>  First launch  <=============================\\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //                                                                          \\
+  //==========================================================================\\
+
+  /// changeFirstLaunch
+  Future<Either<AppError, void>> changeFirstLaunch();
+
+  /// getFirstLaunchStatus
+  Future<Either<AppError, bool>> getFirstLaunchStatus();
 }
