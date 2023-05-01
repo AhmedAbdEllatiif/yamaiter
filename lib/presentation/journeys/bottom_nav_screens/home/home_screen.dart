@@ -18,8 +18,11 @@ import '../../../widgets/article_item.dart';
 import '../../../widgets/loading_widget.dart';
 
 class AllArticlesScreen extends StatefulWidget {
+  final GetAllArticlesCubit getAllArticlesCubit;
+
   const AllArticlesScreen({
     Key? key,
+    required this.getAllArticlesCubit,
   }) : super(key: key);
 
   @override
@@ -39,8 +42,9 @@ class _AllArticlesScreenState extends State<AllArticlesScreen> {
   @override
   void initState() {
     super.initState();
-    _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
-    _fetchMyArticlesList();
+    _getAllArticlesCubit =
+        widget.getAllArticlesCubit; //getItInstance<GetAllArticlesCubit>();
+    //_fetchMyArticlesList();
     _controller = ScrollController();
     _listenerOnScrollController();
   }

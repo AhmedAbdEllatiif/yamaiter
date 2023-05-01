@@ -152,10 +152,24 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
                         ),
                   ),
 
-                  SizedBox(
-                    height: Sizes.dimen_8.h,
+
+                  /// space
+                  SizedBox(height: Sizes.dimen_12.h),
+
+
+                  /// original price
+                  Text(
+                    "المبلغ المعروض " + "${_taskEntity.price}" + " جنيه",
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          color: AppColor.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                   ),
 
+                  /// space
+                  SizedBox(height: Sizes.dimen_8.h),
+
+                  ///  form
                   Form(
                     key: _formKey,
                     child: AppTextField(

@@ -14,7 +14,7 @@ class GetAllSosCubit extends Cubit<GetAllSosState> {
   GetAllSosCubit() : super(GetAllSosInitial());
 
   /// to fetch all sos list
-  void fetchAllSosList({
+  Future fetchAllSosList({
     required String userToken,
     required int currentListLength,
     int offset = 0,

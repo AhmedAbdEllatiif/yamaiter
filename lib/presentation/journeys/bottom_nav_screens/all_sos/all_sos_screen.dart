@@ -38,7 +38,7 @@ class _AllSosScreenState extends State<AllSosScreen> {
   void initState() {
     super.initState();
     _getAllSosCubit = getItInstance<GetAllSosCubit>();
-    _fetchMySosList();
+    //_fetchMySosList();
     _controller = ScrollController();
     _listenerOnScrollController();
   }

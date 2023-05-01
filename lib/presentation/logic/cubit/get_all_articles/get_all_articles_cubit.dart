@@ -14,7 +14,7 @@ class GetAllArticlesCubit extends Cubit<GetAllArticlesState> {
   GetAllArticlesCubit() : super(GetAllArticlesInitial());
 
   /// to fetch all articles list
-  void fetchAllArticlesList({
+  Future fetchAllArticlesList({
     required String userToken,
     required int currentListLength,
     int offset = 0,

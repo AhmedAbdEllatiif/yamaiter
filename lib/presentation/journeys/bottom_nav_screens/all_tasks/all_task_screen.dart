@@ -17,8 +17,11 @@ import '../../../widgets/loading_widget.dart';
 import '../../../widgets/task_item.dart';
 
 class AllTasksScreen extends StatefulWidget {
+  final GetAllTasksCubit getAllTasksCubit;
+
   const AllTasksScreen({
     Key? key,
+    required this.getAllTasksCubit,
   }) : super(key: key);
 
   @override
@@ -38,8 +41,9 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
   @override
   void initState() {
     super.initState();
-    _getAllTasksCubit = getItInstance<GetAllTasksCubit>();
-    _fetchMyTasksList();
+    _getAllTasksCubit =
+        widget.getAllTasksCubit; //getItInstance<GetAllTasksCubit>();
+    //_fetchMyTasksList();
     _listenerOnScrollController();
   }
 
@@ -49,6 +53,9 @@ class _AllTasksScreenState extends State<AllTasksScreen> {
     _controller.dispose();
     super.dispose();
   }
+
+
+
 
   @override
   Widget build(BuildContext context) {

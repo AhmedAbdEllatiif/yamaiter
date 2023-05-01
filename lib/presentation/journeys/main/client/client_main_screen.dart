@@ -12,6 +12,8 @@ import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/ads_pages.dart';
 import '../../../../common/screen_utils/screen_util.dart';
+import '../../../../di/git_it_instance.dart';
+import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
 import '../../../widgets/icon_with_badge.dart';
@@ -32,10 +34,19 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   final ScrollController allArticlesController = ScrollController();
   final ScrollController allTasksController = ScrollController();
 
+  late final GetAllArticlesCubit _getAllArticlesCubit;
+
   @override
   void initState() {
     super.initState();
+    _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
     _initScreenUtil();
+  }
+
+  @override
+  void dispose() {
+    _getAllArticlesCubit.close();
+    super.dispose();
   }
 
   @override
@@ -59,9 +70,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Ads ListView
-          const AdsWidget(
-              adsPage: AdsPage.main
-          ),
+          const AdsWidget(adsPage: AdsPage.main),
 
           /// title with add new Tasks
           if (_selectedIndex != 2)
@@ -87,20 +96,22 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
               ),
               child: IndexedStack(
                 index: _selectedIndex,
-                children: const [
+                children: [
                   /*Center(
                     child: Text("Client Home"),
                   ),*/
-                  HomePageClient(),
+                  const HomePageClient(),
 
                   /// AllArticles
-                  AllArticlesScreen(),
+                  AllArticlesScreen(
+                    getAllArticlesCubit: _getAllArticlesCubit,
+                  ),
 
                   /// ChooseToAddScreenClientUser
-                  ChooseToAddScreenClientUser(),
+                  const ChooseToAddScreenClientUser(),
 
                   /// AllLawyers
-                  AllLawyerList(),
+                  const AllLawyerList(),
                 ],
               ),
             ),

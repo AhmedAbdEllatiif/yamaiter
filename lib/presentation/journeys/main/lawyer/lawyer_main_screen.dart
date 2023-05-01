@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/all_task_screen.dart';
@@ -10,6 +11,11 @@ import 'package:yamaiter/router/route_helper.dart';
 import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/ads_pages.dart';
+import '../../../../di/git_it_instance.dart';
+import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
+import '../../../logic/cubit/get_all_sos/get_all_soso_cubit.dart';
+import '../../../logic/cubit/get_all_tasks/get_all_task_cubit.dart';
+import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
 import '../../../widgets/icon_with_badge.dart';
@@ -30,9 +36,49 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
   /// current selected index
   int _selectedIndex = 0;
 
+  late final GetAllTasksCubit _getAllTasksCubit;
+  late final GetAllArticlesCubit _getAllArticlesCubit;
+  late final GetAllSosCubit _getAllSosCubit;
+
   @override
   void initState() {
+    _getAllTasksCubit = getItInstance<GetAllTasksCubit>();
+    _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
+    _getAllSosCubit = getItInstance<GetAllSosCubit>();
+
+    _handleApiCalls();
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _getAllTasksCubit.close();
+    _getAllArticlesCubit.close();
+    _getAllSosCubit.close();
+    super.dispose();
+  }
+
+  /// to fetch Tasks list
+  void _handleApiCalls() async {
+    final userToken = context.read<UserTokenCubit>().state.userToken;
+
+    await _getAllTasksCubit.fetchAllTasksList(
+      userToken: userToken,
+      currentListLength: 0,
+      offset: 0,
+    );
+
+    await _getAllArticlesCubit.fetchAllArticlesList(
+      userToken: userToken,
+      currentListLength: 0,
+      offset: 0,
+    );
+
+    await _getAllSosCubit.fetchAllSosList(
+      userToken: userToken,
+      currentListLength: 0,
+      offset: 0,
+    );
   }
 
   @override
@@ -56,16 +102,14 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           /// Ads ListView
-          const AdsWidget(
-              adsPage: AdsPage.main
-          ),
+          const AdsWidget(adsPage: AdsPage.main),
 
           /// title with add new Tasks
           if (_selectedIndex != 2)
             Padding(
               padding: EdgeInsets.only(
                   //bottom: AppUtils.mainPagesVerticalPadding.h,
-                top: 10,
+                  top: 10,
                   right: AppUtils.mainPagesHorizontalPadding.w,
                   left: AppUtils.mainPagesVerticalPadding.h),
               child: MainPageTitle(
@@ -84,21 +128,23 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
                   left: AppUtils.mainPagesVerticalPadding.h),
               child: IndexedStack(
                 index: _selectedIndex,
-                children: const [
+                children: [
                   /// Home >> allArticles
-                  AllArticlesScreen(),
+                  AllArticlesScreen(
+                    getAllArticlesCubit: _getAllArticlesCubit,
+                  ),
 
                   /// AllSosScreen
                   AllSosScreen(),
 
                   /// ChooseToAddScreen
-                  ChooseToAddScreen(),
+                  const ChooseToAddScreen(),
 
                   /// unKnown
-                  AllArticlesScreen(),
+                  AllArticlesScreen(getAllArticlesCubit: _getAllArticlesCubit),
 
                   /// AllTasksScreen
-                  AllTasksScreen(),
+                  AllTasksScreen(getAllTasksCubit: _getAllTasksCubit),
                 ],
               ),
             ),

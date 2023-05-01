@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -13,11 +15,13 @@ part 'get_all_task_state.dart';
 class GetAllTasksCubit extends Cubit<GetAllTasksState> {
   GetAllTasksCubit() : super(GetAllTasksInitial());
 
-  void fetchAllTasksList({
+  Future fetchAllTasksList({
     required String userToken,
     required int currentListLength,
     int offset = 0,
-  }) async {
+  })  async{
+
+    log("GetAllTasksCubit >> fetchAllTasksList");
     //==> loading
     if (currentListLength == 0) {
       _emitIfNotClosed(LoadingGetAllTasksList());
