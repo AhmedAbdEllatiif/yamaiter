@@ -55,30 +55,27 @@ class ImageNameRatingWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-
           /// admin image
-          if(isAdmin)
-          CircleAvatar(
-            minRadius: minImageSize.w / 1.7,
-            maxRadius: maxImageSize.w / 1.7,
-            backgroundColor: AppColor.primaryDarkColor,
-            child:  Image.asset(AssetsImages.logo),
-          ),
+          if (isAdmin)
+            CircleAvatar(
+              minRadius: minImageSize.w / 1.7,
+              maxRadius: maxImageSize.w / 1.7,
+              backgroundColor: AppColor.primaryDarkColor,
+              child: Image.asset(AssetsImages.logo),
+            ),
 
           /// not admin image
-          if(!isAdmin)
-          GestureDetector(
-            onTap: onPressed,
-            child: CachedImageWidget(
-              imageUrl: imgUrl == AppUtils.undefined
-                  ? AssetsImages.personAvatar
-                  : imgUrl,
-              isCircle: true,
-              height: maxImageSize.w,
-              width: maxImageSize.w,
-              progressBarScale: 0.5,
+          if (!isAdmin)
+            GestureDetector(
+              onTap: onPressed,
+              child: CachedImageWidget(
+                imageUrl: imgUrl,
+                isCircle: true,
+                height: maxImageSize.w,
+                width: maxImageSize.w,
+                progressBarScale: 0.5,
+              ),
             ),
-          ),
           Text(
             name,
             style: Theme.of(context)
@@ -87,26 +84,25 @@ class ImageNameRatingWidget extends StatelessWidget {
                 .copyWith(color: nameColor, fontSize: nameSize),
           ),
 
-          if(showRating)
-          RatingBar.builder(
-            initialRating: rating,
-            minRating: 0.5,
-            itemSize: iconRateSize.w,
-            direction: Axis.horizontal,
-            allowHalfRating: true,
-            itemCount: 5,
-            itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-            unratedColor: unRatedColor,
-            ignoreGestures: true,
-            itemBuilder: (context, _) => Icon(
-              Icons.star,
-              color: ratedColor,
-            ),
-
-            onRatingUpdate: (rating) {
-              print(rating);
-            },
-          )
+          if (showRating)
+            RatingBar.builder(
+              initialRating: rating,
+              minRating: 0.5,
+              itemSize: iconRateSize.w,
+              direction: Axis.horizontal,
+              allowHalfRating: true,
+              itemCount: 5,
+              itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+              unratedColor: unRatedColor,
+              ignoreGestures: true,
+              itemBuilder: (context, _) => Icon(
+                Icons.star,
+                color: ratedColor,
+              ),
+              onRatingUpdate: (rating) {
+                print(rating);
+              },
+            )
         ],
       ),
     );
@@ -116,24 +112,21 @@ class ImageNameRatingWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         /// admin image
-        if(isAdmin)
+        if (isAdmin)
           CircleAvatar(
             minRadius: minImageSize.w / 1.7,
             maxRadius: maxImageSize.w / 1.7,
             backgroundColor: AppColor.primaryDarkColor,
-            child:  Image.asset(AssetsImages.logo),
+            child: Image.asset(AssetsImages.logo),
           ),
 
         /// not admin image
-        if(!isAdmin)
+        if (!isAdmin)
           GestureDetector(
             onTap: onPressed,
             child: CachedImageWidget(
-              imageUrl: imgUrl == AppUtils.undefined
-                  ? AssetsImages.personAvatar
-                  : imgUrl,
+              imageUrl: imgUrl,
               isCircle: true,
               height: maxImageSize.w,
               width: maxImageSize.w,
@@ -153,26 +146,25 @@ class ImageNameRatingWidget extends StatelessWidget {
                     .titleSmall!
                     .copyWith(color: nameColor),
               ),
-
-              if(showRating)
-              RatingBar.builder(
-                initialRating: rating,
-                minRating: 0,
-                itemSize: Sizes.dimen_16.w,
-                direction: Axis.horizontal,
-                allowHalfRating: true,
-                itemCount: 5,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                unratedColor: unRatedColor,
-                ignoreGestures: true,
-                itemBuilder: (context, _) => Icon(
-                  Icons.star,
-                  color: ratedColor,
+              if (showRating)
+                RatingBar.builder(
+                  initialRating: rating,
+                  minRating: 0,
+                  itemSize: Sizes.dimen_16.w,
+                  direction: Axis.horizontal,
+                  allowHalfRating: true,
+                  itemCount: 5,
+                  itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                  unratedColor: unRatedColor,
+                  ignoreGestures: true,
+                  itemBuilder: (context, _) => Icon(
+                    Icons.star,
+                    color: ratedColor,
+                  ),
+                  onRatingUpdate: (rating) {
+                    print(rating);
+                  },
                 ),
-                onRatingUpdate: (rating) {
-                  print(rating);
-                },
-              ),
             ],
           ),
         )

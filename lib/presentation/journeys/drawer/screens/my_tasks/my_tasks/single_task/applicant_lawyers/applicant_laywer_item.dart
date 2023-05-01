@@ -57,10 +57,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                     children: [
                       /// image
                       CachedImageWidget(
-                        imageUrl:
-                            lawyerEntity.profileImage == AppUtils.undefined
-                                ? AssetsImages.personAvatar
-                                : lawyerEntity.profileImage,
+                        imageUrl:lawyerEntity.profileImage,
                         isCircle: true,
                         height: Sizes.dimen_40.w,
                         width: Sizes.dimen_40.w,
