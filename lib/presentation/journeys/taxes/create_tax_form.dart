@@ -10,6 +10,7 @@ import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/common_functions.dart';
 import '../../../common/functions/show_choose_payment_method_dialog.dart';
+import '../../../common/functions/show_insufficent_wallet_fund_dialog.dart';
 import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
@@ -109,6 +110,11 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                   /// success with wallet
                   if (state is TaxPayedSuccessfullyWithWallet) {
                     _navigateToMyTaxes();
+                  }
+
+                  /// insufficient wallet fund
+                  if (state is InsufficientWalletFundToPayForTax) {
+                    showInsufficientWalletFundDialog(context);
                   }
                 })
           ],

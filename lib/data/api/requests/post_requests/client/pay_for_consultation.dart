@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/common/enum/payment_mission_type.dart';
 import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
@@ -14,6 +15,7 @@ class PayForConsultationRequest
     var request = initMultiPartPostRequest(
         requestType: RequestType.payForConsultation, token: params.token);
 
+    request.fields["method"] = params.requestModel.paymentMethod.toShortString();
     request.fields["mission_type"] = params.requestModel.paymentMissionType.toShortString();
     request.fields["amount_cents"] = params.requestModel.consultFees.toString();
     request.fields["name"] = params.requestModel.title;

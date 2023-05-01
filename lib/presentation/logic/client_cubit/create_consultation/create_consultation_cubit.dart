@@ -4,6 +4,7 @@ import 'package:yamaiter/common/enum/payment_mission_type.dart';
 import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 
 import '../../../../common/enum/app_error_type.dart';
+import '../../../../common/enum/payment_method.dart';
 import '../../../../data/models/consultations/create_consultation_request_model.dart';
 import '../../../../data/params/client/create_consultation_params.dart';
 import '../../../../di/git_it_instance.dart';
@@ -17,6 +18,7 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
 
   /// to create Consultation
   void payForConsult({
+    required PaymentMethod paymentMethod,
     required String title,
     required double consultFees,
     required String description,
@@ -32,6 +34,7 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
     //==> init params
     final params = PayForConsultationParams(
       requestModel: CreateConsultationRequestModel(
+        paymentMethod: paymentMethod,
         paymentMissionType: PaymentMissionType.consultation,
         consultFees: consultFees,
         title: title,
@@ -46,12 +49,18 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
 
     //==> receive result
     either.fold(
-      (appError) => _emitError(appError),
-      (payEntity) => _emitIfNotClosed(
-        ConsultationCreatedSuccessfully(
-          payEntity: payEntity,
-        ),
-      ),
+            (appError) => _emitError(appError),
+            (payEntity) {
+          if (paymentMethod == PaymentMethod.kiosk) {
+              _emitIfNotClosed(ConsultationPayedSuccessfullyWithWallet());
+          } else {
+            _emitIfNotClosed(
+                ConsultationPaymentLinkIsReady(
+                  payEntity: payEntity,
+                )
+            );
+          }
+        }
     );
   }
 
@@ -59,6 +68,8 @@ class CreateConsultationCubit extends Cubit<CreateConsultationState> {
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedCreateConsultation());
+    } else if (appError.appErrorType == AppErrorType.insufficientWalletFund) {
+      _emitIfNotClosed(InsufficientWalletFundToCreateConsultation());
     } else if (appError.appErrorType == AppErrorType.notAcceptedYet) {
       _emitIfNotClosed(NotAcceptTermsToCreateConsultation());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/pay_entity.dart';
@@ -11,6 +12,8 @@ import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
 import '../../../../common/functions/common_functions.dart';
+import '../../../common/functions/show_choose_payment_method_dialog.dart';
+import '../../../common/functions/show_insufficent_wallet_fund_dialog.dart';
 import '../../logic/client_cubit/create_consultation/create_consultation_cubit.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
@@ -108,8 +111,18 @@ class _ConsultationFormState extends State<ConsultationForm> {
               }
 
               //==> on success navigate to my sos screen
-              if (state is ConsultationCreatedSuccessfully) {
+              if (state is ConsultationPaymentLinkIsReady) {
                 _onSuccess(state.payEntity);
+              }
+
+              //==> on payed with wallet
+              if (state is ConsultationPayedSuccessfullyWithWallet) {
+                _navigateToMyConsultations();
+              }
+
+              //==> insufficient wallet fund
+              if (state is InsufficientWalletFundToCreateConsultation) {
+                showInsufficientWalletFundDialog(context);
               }
             },
           )
@@ -285,7 +298,10 @@ class _ConsultationFormState extends State<ConsultationForm> {
                   width: double.infinity,
                   onPressed: () {
                     if (_isFormValid()) {
-                      _sendConsultation();
+                      showChoosePaymentMethodDialog(context,
+                          onPaymentMethodSelected: (paymentMethod) {
+                        _sendConsultation(paymentMethod: paymentMethod);
+                      });
                     }
                   },
                 ),
@@ -298,7 +314,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
   }
 
   /// send Consultation
-  void _sendConsultation() {
+  void _sendConsultation({required PaymentMethod paymentMethod}) {
     // init userToken
     final userToken = context.read<UserTokenCubit>().state.userToken;
 
@@ -310,6 +326,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
 
     // send create sos request
     _createConsultationCubit.payForConsult(
+      paymentMethod: paymentMethod,
       title: title,
       description: description,
       consultFees: widget.consultFees,
@@ -350,4 +367,10 @@ class _ConsultationFormState extends State<ConsultationForm> {
 
   /// navigate to contact us
   void _navigateToContactUs() => RouteHelper().contactUsScreen(context);
+
+  /// navigate to MyConsultations
+  void _navigateToMyConsultations() => RouteHelper().myConsultations(
+        context,
+        isReplacement: true,
+      );
 }

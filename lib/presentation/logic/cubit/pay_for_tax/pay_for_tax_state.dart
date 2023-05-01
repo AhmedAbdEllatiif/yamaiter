@@ -34,6 +34,9 @@ class TaxPaymentLinkIsReady extends PayForTaxState {
 /// success
 class TaxPayedSuccessfullyWithWallet extends PayForTaxState {}
 
+/// Insufficient fund in the wallet
+class InsufficientWalletFundToPayForTax extends PayForTaxState {}
+
 /// error
 class ErrorWhileCreatingTax extends PayForTaxState {
   final AppError appError;

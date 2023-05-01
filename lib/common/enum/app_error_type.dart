@@ -21,6 +21,7 @@ enum AppErrorType {
   //paymentError
   notAPaymentProcess,
   paymentFailed,
+  insufficientWalletFund,
 
   //payout
   noWithdrawalAmount,

@@ -881,6 +881,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         return AppError(AppErrorType.unauthorizedUser,
             message:
                 "createConsultation Status Code >> ${response.statusCode}");
+      // insufficientWalletFund
+      case 422:
+        if (response.body.contains("noEnoughBalance")) {
+          return AppError(AppErrorType.insufficientWalletFund,
+              message: "createConsultation Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+        }
+        return AppError(AppErrorType.api,
+            message: "createConsultation Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
       // default
       default:
         log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
@@ -1971,6 +1981,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
               message: "payForTax Status Code >> ${response.statusCode}");
+        // insufficientWalletFund
+        case 422:
+          if (response.body.contains("noEnoughBalance")) {
+            return AppError(AppErrorType.insufficientWalletFund,
+                message: "createConsultation Code >> ${response.statusCode}"
+                    " \n Body: ${response.body}");
+          }
+          return AppError(AppErrorType.api,
+              message: "createConsultation Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
         // default
         default:
           log("payForTax >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");

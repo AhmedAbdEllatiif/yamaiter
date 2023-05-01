@@ -22,15 +22,22 @@ class NotActivatedUserToCreateConsultation extends CreateConsultationState {}
 /// unAuthorized
 class UnAuthorizedCreateConsultation extends CreateConsultationState {}
 
-/// success
-class ConsultationCreatedSuccessfully extends CreateConsultationState {
+/// payment link is ready to pay with credit card
+class ConsultationPaymentLinkIsReady extends CreateConsultationState {
   final PayEntity payEntity;
 
-  const ConsultationCreatedSuccessfully({required this.payEntity});
+  const ConsultationPaymentLinkIsReady({required this.payEntity});
 
   @override
   List<Object> get props => [payEntity];
 }
+
+/// success
+class ConsultationPayedSuccessfullyWithWallet extends CreateConsultationState {}
+
+/// Insufficient fund in the wallet
+class InsufficientWalletFundToCreateConsultation extends CreateConsultationState {}
+
 
 /// error
 class ErrorWhileCreatingConsultation extends CreateConsultationState {
