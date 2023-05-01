@@ -65,7 +65,7 @@ class _InProgressTaxesListState extends State<InProgressTaxesList>
           /// CreateTaxCubit
           BlocListener<PayForTaxCubit, PayForTaxState>(
               listener: (context, state) {
-            if (state is TaxCreatedSuccessfully) {
+            if (state is TaxPayedSuccessfullyWithWallet) {
               _fetchInProgressTaxes();
             }
           }),

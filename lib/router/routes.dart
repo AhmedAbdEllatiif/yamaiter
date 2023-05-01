@@ -25,6 +25,7 @@ import 'package:yamaiter/domain/entities/screen_arguments/update_sos_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/upload_file_args.dart';
 import 'package:yamaiter/presentation/journeys/ads/create_ad_screen.dart';
 import 'package:yamaiter/presentation/journeys/article/update_article/update_article_screen.dart';
+import 'package:yamaiter/presentation/journeys/charge_balance/charge_balance_screen.dart';
 import 'package:yamaiter/presentation/journeys/chat_list/chat_list_screen.dart';
 import 'package:yamaiter/presentation/journeys/chat_room/chat_room_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
@@ -326,6 +327,10 @@ class Routes {
 
         /// payoutScreen
         RouteList.payoutScreen: (context) => const PayoutScreen(),
+
+
+        /// chargeBalanceScreen
+        RouteList.chargeBalanceScreen: (context) => const ChargeBalanceScreen(),
 
         /// chatRoom
         RouteList.chatRoom: (context) => ChatRoomScreen(

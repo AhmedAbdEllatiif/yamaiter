@@ -25,7 +25,7 @@ class AddNewTaxScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_20.w),
           child: CreateTaxForm(
-            payForTaskCubit: addTaxArguments.payForTaskCubit,
+            payForTaxCubit: addTaxArguments.payForTaskCubit,
             withWhiteCard: false,
             taxValue: -1,
             costCommission: "",

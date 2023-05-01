@@ -40,6 +40,7 @@ import 'package:yamaiter/data/api/requests/post_requests/create_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/end_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/invite_to_task.dart';
 import 'package:yamaiter/data/api/requests/post_requests/loginRequest.dart';
+import 'package:yamaiter/data/api/requests/post_requests/payment/charge_balance_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/registerLawyerRequest.dart';
 import 'package:yamaiter/data/api/requests/post_requests/search_for_lawyer.dart';
 import 'package:yamaiter/data/api/requests/post_requests/store_fb_token_request.dart';
@@ -54,6 +55,7 @@ import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_reques
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
 import 'package:yamaiter/data/models/chats/chat_room_by_id_request_model.dart';
 import 'package:yamaiter/data/models/chats/received_chat_list_model.dart';
+import 'package:yamaiter/data/models/payment/charge_balance/charge_balance_response_model.dart';
 import 'package:yamaiter/data/models/success_model.dart';
 import 'package:yamaiter/data/models/tasks/client/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
@@ -93,6 +95,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
+import 'package:yamaiter/data/params/payment/charge_balance_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
@@ -390,6 +393,9 @@ abstract class RemoteDataSource {
 
   /// getBalance
   Future<dynamic> getBalance(GetBalanceParams params);
+
+  /// chargeBalance
+  Future<dynamic> chargeBalance(ChargeBalanceParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -409,27 +415,30 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       final request = StoreFirebaseTokenRequest();
 
       // response
-      final response = await request(params,params.userToken);
+      final response = await request(params, params.userToken);
 
       log("RemoteData >> storeFirebaseToken >> ResponseCode: ${response.statusCode}");
 
       switch (response.statusCode) {
-      // success
+        // success
         case 200:
           return SuccessModel();
-      // notActivatedUser
+        // notActivatedUser
         case 403:
           return AppError(AppErrorType.notActivatedUser,
-              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
-      // not found
+              message:
+                  "RemoteData >> storeFirebaseToken body >> ${response.body}");
+        // not found
         case 404:
           return AppError(AppErrorType.notFound,
-              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
-      // unAuthorized
+              message:
+                  "RemoteData >> storeFirebaseToken body >> ${response.body}");
+        // unAuthorized
         case 401:
           return AppError(AppErrorType.unauthorizedUser,
-              message: "RemoteData >> storeFirebaseToken body >> ${response.body}");
-      // default
+              message:
+                  "RemoteData >> storeFirebaseToken body >> ${response.body}");
+        // default
         default:
           log("RemoteData >> storeFirebaseToken >> ResponseCode: ${response.body}");
           return AppError(AppErrorType.api,
@@ -3111,6 +3120,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("dataSource >> getBalance >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "dataSource >> getBalance UnHandledError >> $e");
+    }
+  }
+
+  /// chargeBalance
+  @override
+  Future<dynamic> chargeBalance(ChargeBalanceParams params) async {
+    try {
+      log("dataSource >> chargeBalance >> Start request");
+      // init request
+      final request = ChargeBalanceRequest();
+
+      // response
+      final response = await request(params, params.userToken);
+
+      log("dataSource >> chargeBalance >> ResponseCode: ${response.statusCode}");
+      // log("dataSource >> chargeBalance >> ResponseBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("dataSource >> chargeBalance >> ResponseBody: ${json.decode(response.body)}");
+          return chargeBalanceModelFromJson(response.body);
+        // not found
+        case 404:
+          log("dataSource >> chargeBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.notFound,
+              message: "chargeBalance Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          log("dataSource >> chargeBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "chargeBalance Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("dataSource >> chargeBalance >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "chargeBalance Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("dataSource >> chargeBalance >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "dataSource >> chargeBalance UnHandledError >> $e");
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/presentation/journeys/reigster_lawyer/upload_id_image.dart';
@@ -8,6 +9,7 @@ import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/common_functions.dart';
+import '../../../common/functions/show_choose_payment_method_dialog.dart';
 import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/pick_images/pick_image_cubit.dart';
@@ -24,7 +26,7 @@ import '../../widgets/text_field_large_container.dart';
 class CreateTaxForm extends StatefulWidget {
   final Function(PayEntity) onSuccess;
   final bool withWhiteCard;
-  final PayForTaxCubit? payForTaskCubit;
+  final PayForTaxCubit? payForTaxCubit;
   final double taxValue;
   final String costCommission;
 
@@ -33,7 +35,7 @@ class CreateTaxForm extends StatefulWidget {
     required this.onSuccess,
     required this.withWhiteCard,
     required this.costCommission,
-    this.payForTaskCubit,
+    this.payForTaxCubit,
     required this.taxValue,
   }) : super(key: key);
 
@@ -42,7 +44,7 @@ class CreateTaxForm extends StatefulWidget {
 }
 
 class _CreateTaxFormState extends State<CreateTaxForm> {
-  late final PayForTaxCubit _createTaxCubit;
+  late final PayForTaxCubit _payForTaxCubit;
 
   /// imagerPicker cubit
   late final PickImageCubit _pickImageCubit;
@@ -56,14 +58,14 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   @override
   void initState() {
     super.initState();
-    _createTaxCubit = widget.payForTaskCubit ?? getItInstance<PayForTaxCubit>();
+    _payForTaxCubit = widget.payForTaxCubit ?? getItInstance<PayForTaxCubit>();
     _pickImageCubit = getItInstance<PickImageCubit>();
   }
 
   @override
   void dispose() {
-    if (widget.payForTaskCubit == null) {
-      _createTaxCubit.close();
+    if (widget.payForTaxCubit == null) {
+      _payForTaxCubit.close();
     }
     _pickImageCubit.close();
     super.dispose();
@@ -73,12 +75,11 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => _createTaxCubit),
+        BlocProvider(create: (_) => _payForTaxCubit),
         BlocProvider(create: (_) => _pickImageCubit),
       ],
       child: MultiBlocListener(
           listeners: [
-
             /// PickImageCubit
             BlocListener<PickImageCubit, PickImageState>(
               listener: (context, state) {
@@ -89,7 +90,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
             ),
 
             BlocListener<PayForTaxCubit, PayForTaxState>(
-                bloc: _createTaxCubit,
+                bloc: _payForTaxCubit,
                 listener: (_, state) {
                   /// show snackBar on bTaxInternetConnection
                   if (state is ErrorWhileCreatingTax) {
@@ -100,73 +101,71 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                         message: "تحقق من اتصال الإنترنت");
                   }
 
-                  /// success
-                  if (state is TaxCreatedSuccessfully) {
+                  /// payment link is ready
+                  if (state is TaxPaymentLinkIsReady) {
                     _navigateToPayment(state.payEntity);
+                  }
+
+                  /// success with wallet
+                  if (state is TaxPayedSuccessfullyWithWallet) {
+                    _navigateToMyTaxes();
                   }
                 })
           ],
           child: widget.withWhiteCard
               ? ScrollableAppCard(
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
+                  child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: Sizes.dimen_10.w),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      /// title
+                      const AppContentTitleWidget(
+                          title: "طلب خدمة الاقرار الضريبى"),
 
-                    /// title
-                    const AppContentTitleWidget(
-                        title: "طلب خدمة الاقرار الضريبى"),
-
-                    /// form
-                    Padding(
-                      padding: EdgeInsets.only(top: Sizes.dimen_5.h),
-                      child: _form(),
-                    ),
-                  ],
-                ),
-              ))
+                      /// form
+                      Padding(
+                        padding: EdgeInsets.only(top: Sizes.dimen_5.h),
+                        child: _form(),
+                      ),
+                    ],
+                  ),
+                ))
               : SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      /// title
+                      AppContentTitleWidget(
+                        title: "طلب اقرار ضريبى",
+                        textStyle: widget.withWhiteCard
+                            ? null
+                            : Theme.of(context).textTheme.titleLarge!.copyWith(
+                                color: AppColor.white,
+                                fontWeight: FontWeight.bold),
+                        textColor: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
 
-                /// title
-                AppContentTitleWidget(
-                  title: "طلب اقرار ضريبى",
-                  textStyle: widget.withWhiteCard
-                      ? null
-                      : Theme
-                      .of(context)
-                      .textTheme
-                      .titleLarge!
-                      .copyWith(
-                      color: AppColor.white,
-                      fontWeight: FontWeight.bold),
-                  textColor: widget.withWhiteCard
-                      ? AppColor.primaryDarkColor
-                      : AppColor.white,
-                ),
-
-                /// form
-                Padding(
-                  padding: EdgeInsets.only(
-                      top: widget.withWhiteCard
-                          ? Sizes.dimen_5.h
-                          : Sizes.dimen_14.h),
-                  child: _form(),
-                ),
-              ],
-            ),
-          )),
+                      /// form
+                      Padding(
+                        padding: EdgeInsets.only(
+                            top: widget.withWhiteCard
+                                ? Sizes.dimen_5.h
+                                : Sizes.dimen_14.h),
+                        child: _form(),
+                      ),
+                    ],
+                  ),
+                )),
     );
   }
 
   Widget _form() {
     return Column(
       children: [
-
         /// Tax pages
         Form(
           key: _formKey,
@@ -175,7 +174,6 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
             //spacing: 20, // to apply margin in the main axis of the wrap
             runSpacing: Sizes.dimen_4.h,
             children: [
-
               /// upload
               UploadIdImageWidget(
                 text: "صورة البطاقة الضريبية",
@@ -215,99 +213,78 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
           padding: EdgeInsets.only(top: Sizes.dimen_5.h),
           child: Text.rich(
             TextSpan(
-
               children: [
-                TextSpan(text: 'تكلفة خدمة الاقرار الضريبي  ',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(
-                    height: 1.5,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.dimen_10.sp,
-                    color: widget.withWhiteCard
-                        ? AppColor.primaryDarkColor
-                        : AppColor.white,
-                  ),),
                 TextSpan(
-                    text: '${widget.taxValue}',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .bodyText2!
-                        .copyWith(
-                      height: 1.5,
-                      fontWeight: FontWeight.bold,
-                      fontSize: Sizes.dimen_14.sp,
-                      color: widget.withWhiteCard
-                          ? AppColor.primaryDarkColor
-                          : AppColor.white,
-                    ),
+                  text: 'تكلفة خدمة الاقرار الضريبي  ',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_10.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
                 ),
-
-                TextSpan(text: ' جنيه +  ',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(
-                    height: 1.5,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.dimen_10.sp,
-                    color: widget.withWhiteCard
-                        ? AppColor.primaryDarkColor
-                        : AppColor.white,
-                  ),),
                 TextSpan(
-                  text: '${widget.costCommission}',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(
-                    height: 1.5,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.dimen_14.sp,
-                    color: widget.withWhiteCard
-                        ? AppColor.primaryDarkColor
-                        : AppColor.white,
-                  ),
+                  text: '${widget.taxValue}',
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_14.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
                 ),
-                TextSpan(text: ' عمولة',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(
-                    height: 1.5,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.dimen_10.sp,
-                    color: widget.withWhiteCard
-                        ? AppColor.primaryDarkColor
-                        : AppColor.white,
-                  ),),
-
+                TextSpan(
+                  text: ' جنيه +  ',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_10.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
+                ),
+                TextSpan(
+                  text: widget.costCommission,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_14.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
+                ),
+                TextSpan(
+                  text: ' عمولة',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_10.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
+                ),
                 TextSpan(
                   text:
-                  '\n قم بإرفاق الملف الضريبى و سيعمل فريق عملنا علي انجازه و تقديمه فى مدة لا تتعدى 3 ايام',
-                  style: Theme
-                      .of(context)
-                      .textTheme
-                      .caption!
-                      .copyWith(
-                    height: 1.5,
-                    fontWeight: FontWeight.bold,
-                    fontSize: Sizes.dimen_10.sp,
-                    color: widget.withWhiteCard
-                        ? AppColor.primaryDarkColor
-                        : AppColor.white,
-                  ),),
+                      '\n قم بإرفاق الملف الضريبى و سيعمل فريق عملنا علي انجازه و تقديمه فى مدة لا تتعدى 3 ايام',
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        height: 1.5,
+                        fontWeight: FontWeight.bold,
+                        fontSize: Sizes.dimen_10.sp,
+                        color: widget.withWhiteCard
+                            ? AppColor.primaryDarkColor
+                            : AppColor.white,
+                      ),
+                ),
               ],
             ),
           ),
         ),
-
 
         /// space
         SizedBox(height: Sizes.dimen_5.h),
@@ -316,7 +293,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
         SizedBox(
           width: double.infinity,
           child: BlocBuilder<PayForTaxCubit, PayForTaxState>(
-            bloc: _createTaxCubit,
+            bloc: _payForTaxCubit,
             builder: (context, state) {
               if (state is LoadingCreateTax) {
                 return const Center(
@@ -344,7 +321,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                     appTypeError: AppErrorType.notActivatedUser,
                     buttonText: "تواصل معنا",
                     message:
-                    "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                        "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
                     onPressedRetry: () {
                       _navigateToContactUs();
                     },
@@ -358,7 +335,10 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                 textColor: AppColor.primaryDarkColor,
                 onPressed: () {
                   if (_isFormValid()) {
-                    _sendCreateTaxRequest();
+                    showChoosePaymentMethodDialog(context,
+                        onPaymentMethodSelected: (paymentMethod) {
+                      _sendCreateTaxRequest(paymentMethod: paymentMethod);
+                    });
                   }
                 },
               );
@@ -370,12 +350,9 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   }
 
   /// to send create Tax request
-  void _sendCreateTaxRequest() {
+  void _sendCreateTaxRequest({required PaymentMethod paymentMethod}) {
     // init userToken
-    final userToken = context
-        .read<UserTokenCubit>()
-        .state
-        .userToken;
+    final userToken = context.read<UserTokenCubit>().state.userToken;
 
     // init params
     final taxImage = _taxImage;
@@ -385,13 +362,15 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
     final value = widget.taxValue;
 
     // send a request
-    _createTaxCubit.createTax(
-        taxName: taxName,
-        taxPassword: taxPassword,
-        taxFile: taxImage,
-        note: note,
-        value: value,
-        token: userToken);
+    _payForTaxCubit.tryToPayForTax(
+      taxName: taxName,
+      taxPassword: taxPassword,
+      taxFile: taxImage,
+      note: note,
+      value: value,
+      token: userToken,
+      paymentMethod: paymentMethod,
+    );
   }
 
   /// navigate to login
@@ -401,6 +380,11 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
   /// navigate on success
   void _navigateToPayment(PayEntity paymentLink) {
     widget.onSuccess(paymentLink);
+  }
+
+  /// to navigate to my taxes screen
+  void _navigateToMyTaxes() {
+    RouteHelper().myTaxesScreen(context, isReplacement: true);
   }
 
   /// navigate to contact us

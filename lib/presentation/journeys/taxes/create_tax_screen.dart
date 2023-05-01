@@ -11,7 +11,6 @@ import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/app_error_type.dart';
-import '../../../common/functions/open_url.dart';
 import '../../../di/git_it_instance.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/common/check_payment_status/check_payment_status_cubit.dart';
@@ -254,7 +253,7 @@ class _CreateTaxScreenState extends State<CreateTaxScreen> {
                           taxValue: state.acceptTermsEntity.taxCost.value,
                           costCommission:
                               state.acceptTermsEntity.costCommission,
-                          payForTaskCubit:
+                          payForTaxCubit:
                               widget.createTaxArguments.payForTaxCubit,
                           onSuccess: (payEntity) => _navigateToPaymentScreen(
                             paymentLink: payEntity.link,

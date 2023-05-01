@@ -34,6 +34,7 @@ import 'package:yamaiter/data/params/get_single_article_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
+import 'package:yamaiter/data/params/payment/charge_balance_params.dart';
 import 'package:yamaiter/data/params/payment/check_payment_status_params.dart';
 import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 import 'package:yamaiter/data/params/payment/pay_out_params.dart';
@@ -47,6 +48,7 @@ import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.d
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/domain/entities/data/balance_entity.dart';
+import 'package:yamaiter/domain/entities/data/charge_balance_entity.dart';
 import 'package:yamaiter/domain/entities/data/client/consultation_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
@@ -328,4 +330,8 @@ abstract class RemoteRepository {
 
   /// to get user balance
   Future<Either<AppError, BalanceEntity>> getBalance(GetBalanceParams params);
+
+  /// to charge user balance
+  Future<Either<AppError, ChargeBalanceEntity>> chargeBalance(
+      ChargeBalanceParams params);
 }

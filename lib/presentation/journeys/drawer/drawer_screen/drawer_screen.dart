@@ -149,8 +149,13 @@ class DrawerScreen extends StatelessWidget {
             pageTitle: "تواصل معنا", sideMenuPage: SideMenuPage.contactUs),
       );
 
+  /// to payout screen
   void _navigateToPayoutScreen(BuildContext context) =>
       RouteHelper().payoutScreen(context);
+
+  /// to charge balance screen
+  void _navigateToChargeBalance(BuildContext context) =>
+      RouteHelper().chargeBalanceScreen(context);
 
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
@@ -218,10 +223,17 @@ class DrawerScreen extends StatelessWidget {
           onPressed: () => _navigateToContactUsScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.question_mark_outlined,
+          iconData: Icons.account_balance_wallet_outlined,
+          title: "شحن المحفظة",
+          onPressed: () => _navigateToChargeBalance(context),
+        ),
+
+        DrawerItem(
+          iconData: Icons.account_balance_outlined,
           title: "استلام النقود",
           onPressed: () => _navigateToPayoutScreen(context),
         ),
+
         DrawerItem(
           iconData: Icons.logout_outlined,
           title: "تسجيل الخروج",

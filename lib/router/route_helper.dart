@@ -447,10 +447,17 @@ class RouteHelper {
         .pushNamed(RouteList.refundPayment, arguments: refundArguments);
   }
 
-  /// To chat_list screen \\\
+  /// To payout screen \\\
   Future payoutScreen(BuildContext context) {
     return Navigator.of(context).pushNamed(
       RouteList.payoutScreen,
+    );
+  }
+
+  /// To chargeBalance screen \\\
+  Future chargeBalanceScreen(BuildContext context) {
+    return Navigator.of(context).pushNamed(
+      RouteList.chargeBalanceScreen,
     );
   }
 

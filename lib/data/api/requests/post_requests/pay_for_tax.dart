@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import '../../../params/create_tax_params.dart';
 import '../../constants.dart';
@@ -11,6 +12,8 @@ class CreateTaxRequest extends MultiPartPostRequest<CreateTaxParams> {
   Future<http.MultipartRequest> call(CreateTaxParams params) async {
     var request = initMultiPartPostRequest(
         requestType: RequestType.payForTax, token: params.userToken);
+    request.fields["method"] =
+        params.createTaxRequestModel.paymentMethod.toShortString();
     request.fields["mission_type"] = "tax";
     request.fields["name"] = params.createTaxRequestModel.taxName;
     request.fields["amount_cents"] =

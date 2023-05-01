@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/data/models/tax/tax_request_model.dart';
 import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 
@@ -15,13 +16,15 @@ class PayForTaxCubit extends Cubit<PayForTaxState> {
   PayForTaxCubit() : super(CreateTaxInitial());
 
   /// to create Tax
-  void createTax(
-      {required String taxName,
-      required String taxPassword,
-      required String taxFile,
-      required String note,
-      required double value,
-      required String token}) async {
+  void tryToPayForTax({
+    required String taxName,
+    required String taxPassword,
+    required String taxFile,
+    required String note,
+    required double value,
+    required String token,
+    required PaymentMethod paymentMethod,
+  }) async {
     //==> loTaxing
     _emitIfNotClosed(LoadingCreateTax());
 
@@ -31,6 +34,7 @@ class PayForTaxCubit extends Cubit<PayForTaxState> {
     //==> init params
     final params = CreateTaxParams(
       createTaxRequestModel: CreateTaxRequestModel(
+        paymentMethod: paymentMethod,
         taxName: taxName,
         taxPassword: taxPassword,
         value: value,
@@ -45,10 +49,15 @@ class PayForTaxCubit extends Cubit<PayForTaxState> {
 
     //==> receive result
     either.fold(
-        (appError) => _emitError(appError),
-        (payEntity) => _emitIfNotClosed(
-              TaxCreatedSuccessfully(payEntity: payEntity),
-            ));
+      (appError) => _emitError(appError),
+      (payEntity) {
+        if (paymentMethod == PaymentMethod.card) {
+          _emitIfNotClosed(TaxPaymentLinkIsReady(payEntity: payEntity));
+        } else {
+          _emitIfNotClosed(TaxPayedSuccessfullyWithWallet());
+        }
+      },
+    );
   }
 
   /// _emit an error according to AppError

@@ -19,15 +19,20 @@ class NotActivatedUserToCreateTax extends PayForTaxState {}
 /// unAuthorized
 class UnAuthorizedCreateTax extends PayForTaxState {}
 
-/// success
-class TaxCreatedSuccessfully extends PayForTaxState {
+/// payment link is ready to pay with credit card
+class TaxPaymentLinkIsReady extends PayForTaxState {
   final PayEntity payEntity;
 
-  const TaxCreatedSuccessfully({required this.payEntity});
+  const TaxPaymentLinkIsReady({
+    required this.payEntity,
+  });
 
   @override
   List<Object> get props => [payEntity];
 }
+
+/// success
+class TaxPayedSuccessfullyWithWallet extends PayForTaxState {}
 
 /// error
 class ErrorWhileCreatingTax extends PayForTaxState {

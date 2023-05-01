@@ -197,6 +197,9 @@ class ApiConstants {
 
   static Uri _getBalance() => Uri.https(_baseUrl, EndPoints.balance);
 
+  static Uri _chargeBalance({required Map<String, dynamic> queryParams}) =>
+      Uri.https(_baseUrl, EndPoints.chargeBalance, queryParams);
+
   static Uri buildUrl(
     RequestType requestType, {
     String id = "",
@@ -428,6 +431,9 @@ class ApiConstants {
       // balance
       case RequestType.balance:
         return _getBalance();
+      // chargeBalance
+      case RequestType.chargeBalance:
+        return _chargeBalance(queryParams: queryParams);
     }
   }
 }
@@ -625,6 +631,9 @@ class EndPoints {
 
   /// balance
   static String balance = "${_apiVersion}transaction-data";
+
+  /// charge balance
+  static String chargeBalance = "${_apiVersion}charge-balance";
 }
 
 /// The api request type
@@ -702,6 +711,7 @@ enum RequestType {
   refund,
   payout,
   balance,
+  chargeBalance,
 }
 
 class ApiParamsConstant {

@@ -37,6 +37,7 @@ import '../presentation/logic/common/payout/payout_cubit.dart';
 import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import '../presentation/logic/common/store_fb_token/store_firebase_token_cubit.dart';
 import '../presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
+import '../presentation/logic/cubit/charge_balance_cubit/charge_balance_cubit.dart';
 import '../presentation/logic/cubit/create_ad/create_ad_cubit.dart';
 import '../presentation/logic/cubit/first_launch/first_launch_cubit.dart';
 import '../presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
@@ -301,6 +302,11 @@ Future init() async {
   //==> GetBalanceCubit
   getItInstance.registerFactory<GetBalanceCubit>(
     () => GetBalanceCubit(),
+  );
+
+  //==> ChargeBalanceCubit
+  getItInstance.registerFactory<ChargeBalanceCubit>(
+    () => ChargeBalanceCubit(),
   );
 
   //==> ChatRoomCubit

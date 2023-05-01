@@ -39,6 +39,7 @@ import '../domain/use_cases/first_launch/change_first_launch_case.dart';
 import '../domain/use_cases/first_launch/get_first_launch_case.dart';
 import '../domain/use_cases/get_app_announcements_case.dart';
 import '../domain/use_cases/notifications_listeners/update_notificaitons_listener.dart';
+import '../domain/use_cases/payment/charge_balance_case.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
 import '../domain/use_cases/client/consultations/create_consultaion.dart';
 import '../domain/use_cases/client/consultations/get_consultation_details_case.dart';
@@ -359,6 +360,11 @@ Future init() async {
   //==> GetBalanceCase
   getItInstance.registerFactory<GetBalanceCase>(
     () => GetBalanceCase(remoteRepository: getItInstance()),
+  );
+
+  //==> ChargeBalanceCase
+  getItInstance.registerFactory<ChargeBalanceCase>(
+    () => ChargeBalanceCase(remoteRepository: getItInstance()),
   );
 
   //==> GetChatRoomByIdCase
