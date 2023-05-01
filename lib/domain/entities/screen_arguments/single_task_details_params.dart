@@ -5,13 +5,13 @@ import '../../../presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import '../../../presentation/logic/cubit/delete_task/delete_task_cubit.dart';
 import '../../../presentation/logic/cubit/update_task/update_task_cubit.dart';
 
-class SingleTaskArguments {
+class MySingleTaskArguments {
   final TaskEntity taskEntity;
   final CheckPaymentStatusCubit checkPaymentStatusCubit;
   final UpdateTaskCubit updateTaskCubit;
   final DeleteTaskCubit deleteTaskCubit;
 
-  SingleTaskArguments({
+  MySingleTaskArguments({
     required this.taskEntity,
     required this.checkPaymentStatusCubit,
     required this.updateTaskCubit,

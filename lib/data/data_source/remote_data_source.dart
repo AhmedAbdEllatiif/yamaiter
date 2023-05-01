@@ -2,14 +2,12 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/app_error_type.dart';
-import 'package:yamaiter/data/api/requests/delete_requests/client/delete_task.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/decline_task.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_article.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_sos.dart';
 import 'package:yamaiter/data/api/requests/delete_requests/delete_task.dart';
 import 'package:yamaiter/data/api/requests/get_requests/about_app.dart';
 import 'package:yamaiter/data/api/requests/get_requests/client/get_consultation_details.dart';
-import 'package:yamaiter/data/api/requests/get_requests/client/get_my_tasks_client.dart';
 import 'package:yamaiter/data/api/requests/get_requests/filter_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_accept_terms.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_all_articles.dart';
@@ -31,7 +29,6 @@ import 'package:yamaiter/data/api/requests/post_requests/assign_task_request.dar
 import 'package:yamaiter/data/api/requests/post_requests/auth/change_password_request.dart';
 import 'package:yamaiter/data/api/requests/post_requests/chat/send_chat_message.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/pay_for_consultation.dart';
-import 'package:yamaiter/data/api/requests/post_requests/client/create_task_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/register_client.dart';
 import 'package:yamaiter/data/api/requests/post_requests/client/lawyers.dart';
 import 'package:yamaiter/data/api/requests/post_requests/create_ad.dart';
@@ -53,11 +50,9 @@ import 'package:yamaiter/data/models/app_settings_models/side_menu_response_mode
 import 'package:yamaiter/data/models/auth/register_client/register_client_request_model.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_request.dart';
 import 'package:yamaiter/data/models/auth/register_lawyer/register_lawyer_response.dart';
-import 'package:yamaiter/data/models/chats/chat_room_by_id_request_model.dart';
 import 'package:yamaiter/data/models/chats/received_chat_list_model.dart';
 import 'package:yamaiter/data/models/payment/charge_balance/charge_balance_response_model.dart';
 import 'package:yamaiter/data/models/success_model.dart';
-import 'package:yamaiter/data/models/tasks/client/update_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/create_task_request_model.dart';
 import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/update_task_request_model.dart';
@@ -74,9 +69,6 @@ import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
 import 'package:yamaiter/data/params/client/get_consultation_details.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
-import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
-import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
-import 'package:yamaiter/data/params/client/update_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -109,7 +101,6 @@ import '../../domain/entities/app_error.dart';
 import '../api/requests/get_requests/chat/get_chat_room.dart';
 import '../api/requests/get_requests/chat/get_chats_list.dart';
 import '../api/requests/get_requests/client/get_my_consultations.dart';
-import '../api/requests/get_requests/client/get_single_task_details.dart';
 import '../api/requests/get_requests/get_all_tasks.dart';
 import '../api/requests/get_requests/get_applied_tasks_for_other.dart';
 import '../api/requests/get_requests/get_completed_taxes.dart';
@@ -118,9 +109,6 @@ import '../api/requests/get_requests/get_my_ads.dart';
 import '../api/requests/get_requests/get_single_article.dart';
 import '../api/requests/get_requests/paymeny/get_balance.dart';
 import '../api/requests/post_requests/auth/forget_password_request.dart';
-import '../api/requests/post_requests/client/assign_task_client.dart';
-import '../api/requests/post_requests/client/end_task_client.dart';
-import '../api/requests/post_requests/client/update_task_client.dart';
 import '../api/requests/post_requests/create_sos.dart';
 import '../api/requests/post_requests/pay_for_tax.dart';
 import '../api/requests/post_requests/payment/pay_out_request.dart';
@@ -143,10 +131,6 @@ import '../models/pay_response_model.dart';
 import '../models/payment/balance_model.dart';
 import '../models/sos/sos_model.dart';
 import '../models/user_lawyer_model.dart';
-import '../params/client/assign_task_params_client.dart';
-import '../params/client/create_task_params.dart';
-import '../params/client/delete_task_params.dart';
-import '../params/client/end_task_params_client.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/delete_sos_params.dart';
 import '../params/get_app_announcements.dart';
@@ -206,27 +190,6 @@ abstract class RemoteDataSource {
 
   /// getConsultationDetails
   Future<dynamic> getConsultationDetails(GetConsultationDetailsParams params);
-
-  /// createTaskClient
-  Future<dynamic> createTaskClient(CreateTaskParamsClient params);
-
-  /// getMyTaskClient
-  Future<dynamic> getMyTaskClient(GetMyTasksClientParams params);
-
-  /// get  single task client
-  Future<dynamic> getSingleTaskClient(GetSingleTaskParamsClient params);
-
-  /// end task client
-  Future<dynamic> endTaskClient(EndTaskParamsClient params);
-
-  /// assign task client
-  Future<dynamic> assignTaskClient(AssignTaskParamsClient params);
-
-  /// delete task client
-  Future<dynamic> deleteTaskClient(DeleteTaskClientParams params);
-
-  /// update task client
-  Future<dynamic> updateTaskClient(UpdateTaskClientParams params);
 
   /// fetch lawyers
   Future<dynamic> fetchLawyers(GetLawyersParams params);
@@ -328,10 +291,10 @@ abstract class RemoteDataSource {
   /// pay to assign task
   Future<dynamic> payToAssignTask(PayForTaskParams params);
 
-  /// get my my_tasks
+  /// get my posted_tasks
   Future<dynamic> getMyTasks(GetMyTasksParams params);
 
-  /// get my single my_tasks
+  /// get my single posted_tasks
   Future<dynamic> getMySingleTasks(GetSingleTaskParams params);
 
   /// update task
@@ -343,7 +306,7 @@ abstract class RemoteDataSource {
   /// update task
   Future<dynamic> endTask(EndTaskParams params);
 
-  /// get my my_tasks
+  /// get my posted_tasks
   Future<dynamic> getAppliedTasks(GetAppliedTasksParams params);
 
   /// get single task
@@ -358,7 +321,7 @@ abstract class RemoteDataSource {
   /// accept terms
   Future<dynamic> acceptTerms(AcceptTermsParams params);
 
-  /// get all my_tasks
+  /// get all posted_tasks
   Future<dynamic> getAllTasks(GetAllTasksParams params);
 
   /// get invited tasks
@@ -495,7 +458,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     } catch (e) {
       log("getChatRoomById >> Error: $e");
       return AppError(AppErrorType.unHandledError,
-          message: "createTaskClient UnHandledError >> $e");
+          message: "getChatRoomById UnHandledError >> $e");
     }
   }
 
@@ -766,50 +729,6 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
-  /// createTaskClient
-  @override
-  Future<dynamic> createTaskClient(CreateTaskParamsClient params) async {
-    try {
-      log("createTaskClient >> Start request");
-      // init request
-      final request = CreateTaskClientRequest();
-
-      // response
-      final response =
-          await request(params.createTaskRequestModelClient, params.userToken);
-
-      log("createTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return SuccessModel();
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "createTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "createTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "createTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("createTaskClient >> ResponseCode: ${response.body}");
-          return AppError(AppErrorType.api,
-              message: "createTaskClient body >> ${response.body}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("createTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "createTaskClient UnHandledError >> $e");
-    }
-  }
-
   /// getMyConsultations
   @override
   Future<dynamic> getMyConsultations(GetMyConsultationParams params) async {
@@ -856,331 +775,53 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   /// createConsultation
   @override
   Future<dynamic> createConsultation(PayForConsultationParams params) async {
-    // init request
-    final createConsultationRequest = PayForConsultationRequest();
-    final request = await createConsultationRequest(params);
+    try {
+      // init request
+      final createConsultationRequest = PayForConsultationRequest();
+      final request = await createConsultationRequest(params);
 
-    // send a request
-    final streamResponse = await request.send();
+      // send a request
+      final streamResponse = await request.send();
 
-    // retrieve a response from stream response
-    final response = await http.Response.fromStream(streamResponse);
-    log("createConsultation >> ResponseCode: ${response.statusCode}");
-    log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return payResponseFromJson(response.body);
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message:
-                "createConsultation Status Code >> ${response.statusCode}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message:
-                "createConsultation Status Code >> ${response.statusCode}");
-      // insufficientWalletFund
-      case 422:
-        if (response.body.contains("noEnoughBalance")) {
-          return AppError(AppErrorType.insufficientWalletFund,
+      // retrieve a response from stream response
+      final response = await http.Response.fromStream(streamResponse);
+      log("createConsultation >> ResponseCode: ${response.statusCode}");
+      log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return payResponseFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "createConsultation Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "createConsultation Status Code >> ${response.statusCode}");
+        // insufficientWalletFund
+        case 422:
+          if (response.body.contains("noEnoughBalance")) {
+            return AppError(AppErrorType.insufficientWalletFund,
+                message: "createConsultation Code >> ${response.statusCode}"
+                    " \n Body: ${response.body}");
+          }
+          return AppError(AppErrorType.api,
               message: "createConsultation Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
-        }
-        return AppError(AppErrorType.api,
-            message: "createConsultation Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-      // default
-      default:
-        log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
-        return AppError(AppErrorType.api,
-            message: "createConsultation Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-    }
-    try {} catch (e) {
+        // default
+        default:
+          log("createConsultation >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "createConsultation Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
       log("createConsultation >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "createConsultation UnHandledError >> $e");
-    }
-  }
-
-  /// getMyTaskClient
-  @override
-  Future<dynamic> getMyTaskClient(GetMyTasksClientParams params) async {
-    try {
-      // init request
-      final request = GetMyTasksClientRequest();
-
-      // response
-      final response = await request(params);
-
-      log("getMyTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return listOfTasksFromJson(response.body);
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "getMyTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "getMyTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "getMyTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("getMyTaskClient >> ResponseCode: ${response.body}");
-          return AppError(AppErrorType.api,
-              message: "getMyTaskClient body >> ${response.body}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("getMyTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "getMyTaskClient UnHandledError >> $e");
-    }
-  }
-
-  /// get  single task client
-  @override
-  Future<dynamic> getSingleTaskClient(GetSingleTaskParamsClient params) async {
-    try {
-      log("getSingleTaskClient >> Start request");
-      // init request
-      final request = GetSingleTaskClientRequest();
-
-      // response
-      final response = await request(params);
-
-      log("getSingleTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return taskModelFromJson(response.body);
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "getSingleTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "getSingleTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "getSingleTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("getSingleTaskClient body >> ${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message:
-                  "getSingleTaskClient Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("getSingleTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "getSingleTaskClient UnHandledError >> $e");
-    }
-  }
-
-  /// endTaskClient
-  @override
-  Future<dynamic> endTaskClient(EndTaskParamsClient params) async {
-    try {
-      log("endTaskClient >> Start request");
-      // init request
-      final request = EndTaskClientRequest();
-
-      // response
-      final response = await request(params, params.userToken);
-
-      log("endTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          {
-            if (response.body.contains("notAllowedToCompleted")) {
-              return const AppError(AppErrorType.idNotFound,
-                  message: "The task is not found");
-            } else {
-              return SuccessModel();
-            }
-          }
-
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "endTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "endTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "endTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("endTaskClient >> body:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "endTaskClient Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("endTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "endTaskClient UnHandledError >> $e");
-    }
-  }
-
-  /// assignTaskClient
-  @override
-  Future<dynamic> assignTaskClient(AssignTaskParamsClient params) async {
-    try {
-      log("assignTaskClient >> Start request");
-      // init request
-      final request = AssignTaskClientRequest();
-
-      // response
-      final response = await request(params, params.userToken);
-
-      log("assignTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          {
-            if (response.body.contains("notAllowedToCompleted")) {
-              return const AppError(AppErrorType.idNotFound,
-                  message: "The task is not found");
-            } else {
-              return SuccessModel();
-            }
-          }
-
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "assignTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "assignTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "assignTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("assignTaskClient >> body:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "assignTaskClient Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("assignTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "assignTaskClient UnHandledError >> $e");
-    }
-  }
-
-  /// deleteTaskClient
-  @override
-  Future<dynamic> deleteTaskClient(DeleteTaskClientParams params) async {
-    try {
-      log("deleteTaskClient >> Start request");
-      // init request
-      final request = DeleteTaskClientRequest();
-
-      // response
-      final response = await request(params);
-
-      log("deleteTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return SuccessModel();
-
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "deleteTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "deleteTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "deleteTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("deleteTaskClient >> body:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "deleteTaskClient Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("deleteTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "deleteTaskClient UnHandledError >> $e");
-    }
-  }
-
-  /// updateTaskClient
-  @override
-  Future<dynamic> updateTaskClient(UpdateTaskClientParams params) async {
-    try {
-      log("updateTaskClient >> Start request");
-      // init request
-      final request = UpdateTaskClientRequest();
-
-      // response
-      final response = await request(
-        UpdateTaskClientRequestModel.fromParams(params: params),
-        params.userToken,
-      );
-
-      log("updateTaskClient >> ResponseCode: ${response.statusCode}");
-
-      switch (response.statusCode) {
-        // success
-        case 200:
-          return SuccessModel();
-
-        // notActivatedUser
-        case 403:
-          return AppError(AppErrorType.notActivatedUser,
-              message: "updateTaskClient body >> ${response.body}");
-        // not found
-        case 404:
-          return AppError(AppErrorType.notFound,
-              message: "updateTaskClient body >> ${response.body}");
-        // unAuthorized
-        case 401:
-          return AppError(AppErrorType.unauthorizedUser,
-              message: "updateTaskClient body >> ${response.body}");
-        // default
-        default:
-          log("updateTaskClient >> body:${jsonDecode(response.body)}");
-          return AppError(AppErrorType.api,
-              message: "updateTaskClient Status Code >> ${response.statusCode}"
-                  " \n Body: ${response.body}");
-      }
-    } catch (e) {
-      log("updateTaskClient >> Error: $e");
-      return AppError(AppErrorType.unHandledError,
-          message: "updateTaskClient UnHandledError >> $e");
     }
   }
 
@@ -1670,8 +1311,10 @@ class RemoteDataSourceImpl extends RemoteDataSource {
               message: "getMySos Status Code >> ${response.statusCode}"
                   " \n Body: ${response.body}");
       }
-    } on Exception catch (ze) {
-      rethrow;
+    } on Exception catch (e) {
+      log("getMySos >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getMySos UnHandledError >> $e");
     }
   }
 
@@ -2487,39 +2130,50 @@ class RemoteDataSourceImpl extends RemoteDataSource {
   /// payToAssignTask
   @override
   Future payToAssignTask(PayForTaskParams params) async {
-    log("payToAssignTask >> Start request");
-    // init request
-    final request = PayToAssignTaskRequest();
+    try {
+      log("payToAssignTask >> Start request");
+      // init request
+      final request = PayToAssignTaskRequest();
 
-    // response
-    final response = await request(params, params.userToken);
+      // response
+      final response = await request(params, params.userToken);
 
-    log("payToAssignTask >> ResponseCode: ${response.statusCode}");
+      log("payToAssignTask >> ResponseCode: ${response.statusCode}");
 
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return payResponseFromJson(response.body);
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "payToAssignTask body >> ${response.body}");
-      // not found
-      case 404:
-        return AppError(AppErrorType.notFound,
-            message: "payToAssignTask Status Code >> ${response.body}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "payToAssignTask body >> ${response.body}");
-      // default
-      default:
-        log("payToAssignTask >> body:${jsonDecode(response.body)}");
-        return AppError(AppErrorType.api,
-            message: "payToAssignTask Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
-    }
-    try {} catch (e) {
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return payResponseFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "payToAssignTask body >> ${response.body}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message: "payToAssignTask Status Code >> ${response.body}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "payToAssignTask body >> ${response.body}");
+        // insufficientWalletFund
+        case 422:
+          if (response.body.contains("noEnoughBalance")) {
+            return AppError(AppErrorType.insufficientWalletFund,
+                message: "payToAssignTask Code >> ${response.statusCode}"
+                    " \n Body: ${response.body}");
+          }
+          return AppError(AppErrorType.api,
+              message: "payToAssignTask Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+        // default
+        default:
+          log("payToAssignTask >> body:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message: "payToAssignTask Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
       log("payToAssignTask >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "payToAssignTask UnHandledError >> $e");

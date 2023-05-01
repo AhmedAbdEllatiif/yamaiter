@@ -9,6 +9,7 @@ import 'package:yamaiter/presentation/logic/cubit/delete_article/delete_article_
 import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 
 import '../../common/constants/app_utils.dart';
+import '../../common/constants/assets_constants.dart';
 import '../../common/constants/sizes.dart';
 import '../../common/enum/animation_type.dart';
 import '../../router/route_helper.dart';
@@ -38,6 +39,13 @@ class ArticleItem extends StatefulWidget {
 
 class _ArticleItemState extends State<ArticleItem> {
   bool _isMenuOpened = false;
+  bool _isArticleByAdmin = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _isArticleByAdmin = widget.articleEntity.authorName == "admin";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +108,7 @@ class _ArticleItemState extends State<ArticleItem> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
                                     height: 3,
@@ -140,7 +148,7 @@ class _ArticleItemState extends State<ArticleItem> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .caption!
+                                        .bodySmall!
                                         .copyWith(
                                           color: AppColor.accentColor,
                                           fontWeight: FontWeight.bold,
@@ -159,7 +167,8 @@ class _ArticleItemState extends State<ArticleItem> {
                       name: widget.articleEntity.authorName,
                       imgUrl: widget.articleEntity.creatorImage,
                       rating: widget.articleEntity.creatorRating.toDouble(),
-                      isAdmin: widget.articleEntity.authorName == "admin",
+                      isAdmin: widget.articleEntity.authorName == "admin" ||
+                          widget.articleEntity.authorName == "يامتر",
                       unRatedColor: AppColor.primaryColor.withOpacity(0.6),
                       withRow: false,
                       nameSize: Sizes.dimen_12.sp,
@@ -176,25 +185,25 @@ class _ArticleItemState extends State<ArticleItem> {
               ),
 
               /// menu dots
-              if(widget.withMenu)
-              Positioned(
-                top: 0.0,
-                left: Sizes.dimen_10.w,
-                child: GestureDetector(
-                  onTap: () {
-                    setState(() {
-                      _isMenuOpened = !_isMenuOpened;
-                    });
-                  },
-                  child: Text(
-                    "...",
-                    style: TextStyle(
-                        fontSize: Sizes.dimen_20.sp,
-                        color: AppColor.primaryDarkColor,
-                        fontWeight: FontWeight.bold),
+              if (widget.withMenu)
+                Positioned(
+                  top: 0.0,
+                  left: Sizes.dimen_10.w,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isMenuOpened = !_isMenuOpened;
+                      });
+                    },
+                    child: Text(
+                      "...",
+                      style: TextStyle(
+                          fontSize: Sizes.dimen_20.sp,
+                          color: AppColor.primaryDarkColor,
+                          fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
-              ),
 
               /// menu
               if (_isMenuOpened && widget.withMenu)

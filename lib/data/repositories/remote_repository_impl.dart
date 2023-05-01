@@ -78,17 +78,10 @@ import '../models/success_model.dart';
 import '../params/change_password_params.dart';
 import '../params/chat/fetch_chats_lists_params.dart';
 import '../params/chat_room_by_id_params.dart';
-import '../params/client/assign_task_params_client.dart';
 import '../params/client/create_consultation_params.dart';
-import '../params/client/create_task_params.dart';
-import '../params/client/delete_task_params.dart';
-import '../params/client/end_task_params_client.dart';
 import '../params/client/get_consultation_details.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
-import '../params/client/get_my_task_params_client.dart';
-import '../params/client/get_single_task_params_client.dart';
-import '../params/client/update_task_params.dart';
 import '../params/forget_password_params.dart';
 import '../params/get_app_announcements.dart';
 import '../params/get_taxes_params.dart';
@@ -346,27 +339,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-  /// createTaskClient
-  @override
-  Future<Either<AppError, SuccessModel>> createTaskClient(
-      CreateTaskParamsClient params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.createTaskClient(params);
-
-      // success
-      if (result is SuccessModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
 
   @override
   Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
@@ -433,137 +405,9 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-  /// get my tasks client
-  @override
-  Future<Either<AppError, List<TaskEntity>>> getMyTasksClient(
-      GetMyTasksClientParams params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.getMyTaskClient(params);
 
-      // success
-      if (result is List<TaskModel>) {
-        return Right(result);
-      }
 
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
 
-  /// get single task client
-  @override
-  Future<Either<AppError, TaskEntity>> getSingleTaskClient(
-      GetSingleTaskParamsClient params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.getSingleTaskClient(params);
-
-      // success
-      if (result is TaskModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
-
-  /// endTaskClient
-  @override
-  Future<Either<AppError, SuccessModel>> endTaskClient(
-      EndTaskParamsClient params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.endTaskClient(params);
-
-      // success
-      if (result is SuccessModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
-
-  /// assignTaskClient
-  @override
-  Future<Either<AppError, SuccessModel>> assignTaskClient(
-      AssignTaskParamsClient params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.assignTaskClient(params);
-
-      // success
-      if (result is SuccessModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
-
-  /// deleteTaskClient
-  @override
-  Future<Either<AppError, SuccessModel>> deleteTaskClient(
-      DeleteTaskClientParams params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.deleteTaskClient(params);
-
-      // success
-      if (result is SuccessModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
-
-  /// updateTaskClient
-  @override
-  Future<Either<AppError, SuccessModel>> updateTaskClient(
-      UpdateTaskClientParams params) async {
-    try {
-      // send request
-      final result = await remoteDataSource.updateTaskClient(params);
-
-      // success
-      if (result is SuccessModel) {
-        return Right(result);
-      }
-
-      // failed
-      else {
-        return Left(result);
-      }
-    } on Exception catch (e) {
-      return Left(AppError(AppErrorType.api, message: "Message: $e"));
-    }
-  }
 
   /// fetchLawyers
   @override
@@ -1188,7 +1032,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, List<TaskEntity>>> getMyTasks(
       GetMyTasksParams params) async {
     try {
-      // send get my_tasks request
+      // send get posted_tasks request
       final result = await remoteDataSource.getMyTasks(params);
 
       // received success
@@ -1196,7 +1040,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get my my_tasks
+      // failed to get my posted_tasks
       else {
         return Left(result);
       }
@@ -1253,7 +1097,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, List<TaskEntity>>> getAllTasks(
       GetAllTasksParams params) async {
     try {
-      // send get my_tasks request
+      // send get posted_tasks request
       final result = await remoteDataSource.getAllTasks(params);
 
       // received success
@@ -1261,7 +1105,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get all my_tasks
+      // failed to get all posted_tasks
       else {
         return Left(result);
       }
@@ -1276,7 +1120,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, TaskEntity>> getMySingleTask(
       GetSingleTaskParams params) async {
     try {
-      // send get my_tasks request
+      // send get posted_tasks request
       final result = await remoteDataSource.getMySingleTasks(params);
 
       // received success
@@ -1284,7 +1128,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get all my_tasks
+      // failed to get all posted_tasks
       else {
         return Left(result);
       }
@@ -1299,7 +1143,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
   Future<Either<AppError, PayEntity>> assignTask(
       PayForTaskParams params) async {
     try {
-      // send get my_tasks request
+      // send get posted_tasks request
       final result = await remoteDataSource.payToAssignTask(params);
 
       // received success
@@ -1307,7 +1151,7 @@ class RemoteRepositoryImpl extends RemoteRepository {
         return Right(result);
       }
 
-      // failed to get all my_tasks
+      // failed to get all posted_tasks
       else {
         return Left(result);
       }

@@ -50,8 +50,8 @@ class _ChoosePaymentMethodDialogState extends State<ChoosePaymentMethodDialog> {
         listener: (context, state) {
           /// balance updated successfully
           if (state is BalanceFetchedSuccessfully) {
-            widget.onPaymentMethodSelected(_selectedOption);
             Navigator.pop(context);
+            widget.onPaymentMethodSelected(_selectedOption);
           }
 
           /// error while updating balance

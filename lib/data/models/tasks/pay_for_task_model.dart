@@ -1,4 +1,7 @@
+import 'package:yamaiter/common/enum/payment_method.dart';
+
 class PayForTaskModel {
+  final PaymentMethod paymentMethod;
   final String missionType;
   final String title;
   final num value;
@@ -7,6 +10,7 @@ class PayForTaskModel {
   final int taskId;
 
   PayForTaskModel({
+    required this.paymentMethod,
     required this.missionType,
     required this.title,
     required this.value,
@@ -17,6 +21,7 @@ class PayForTaskModel {
 
   Map<String, dynamic> toJson() {
     return {
+      "method": paymentMethod.toShortString(),
       "mission_type": "task",
       "mission_id": taskId.toString(),
       "name": title,

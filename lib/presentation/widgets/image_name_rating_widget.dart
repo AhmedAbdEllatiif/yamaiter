@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -77,13 +79,14 @@ class ImageNameRatingWidget extends StatelessWidget {
               ),
             ),
           Text(
-            name,
+            isAdmin ? "يامتر" : name,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!
                 .copyWith(color: nameColor, fontSize: nameSize),
           ),
 
+          if(!isAdmin)
           if (showRating)
             RatingBar.builder(
               initialRating: rating,
@@ -140,12 +143,13 @@ class ImageNameRatingWidget extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                name,
+                isAdmin ? "يامتر" : name,
                 style: Theme.of(context)
                     .textTheme
                     .titleSmall!
                     .copyWith(color: nameColor),
               ),
+              if(!isAdmin)
               if (showRating)
                 RatingBar.builder(
                   initialRating: rating,

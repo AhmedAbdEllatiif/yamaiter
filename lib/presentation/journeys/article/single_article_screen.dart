@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
@@ -9,6 +10,7 @@ import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/ads_pages.dart';
 import '../../../common/enum/app_error_type.dart';
+import '../../../common/functions/open_url.dart';
 import '../../../domain/entities/data/ad_entity.dart';
 import '../../../domain/entities/screen_arguments/single_article_screen_args.dart';
 import '../../../router/route_helper.dart';
@@ -65,9 +67,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
         body: Column(
           children: [
             /// Ads ListView
-             const AdsWidget(
-                 adsPage: AdsPage.innerPage
-             ),
+            const AdsWidget(adsPage: AdsPage.innerPage),
 
             Expanded(
               child: Padding(
@@ -176,7 +176,8 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                             ImageNameRatingWidget(
                               name: articleEntity.authorName,
                               imgUrl: articleEntity.creatorImage,
-                              isAdmin: articleEntity.authorName == "admin",
+                              isAdmin: articleEntity.authorName == "admin" ||
+                                  articleEntity.authorName == "يامتر",
                               rating: articleEntity.creatorRating.toDouble(),
                               unRatedColor:
                                   AppColor.primaryColor.withOpacity(0.6),
@@ -206,13 +207,38 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                               height: Sizes.dimen_8.h,
                             ),
 
-                            Text(
+                            HtmlWidget(
                               articleEntity.description,
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyText2!
-                                  .copyWith(color: Colors.black, height: 1.4),
+
+                              // and fallback widget
+                              onErrorBuilder: (context, element, error) =>
+                                  Text('$element error: $error'),
+                              onLoadingBuilder:
+                                  (context, element, loadingProgress) =>
+                                      const CircularProgressIndicator(),
+
+                              // this callback will be triggered when user taps a link
+                              onTapUrl: (url) {
+                                openUrl(url: url);
+                                return true;
+                              },
+
+                              // select the render mode for HTML body
+                              // by default, a simple `Column` is rendered
+                              // consider using `ListView` or `SliverList` for better performance
+                              renderMode: RenderMode.column,
+
+                              // set the default styling for text
+                              textStyle: const TextStyle(fontSize: 14),
                             ),
+
+                            // Text(
+                            //   articleEntity.description,
+                            //   style: Theme.of(context)
+                            //       .textTheme
+                            //       .bodyText2!
+                            //       .copyWith(color: Colors.black, height: 1.4),
+                            // ),
                           ],
                         ),
                       );

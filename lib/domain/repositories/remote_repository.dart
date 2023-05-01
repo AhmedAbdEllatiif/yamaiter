@@ -1,21 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:yamaiter/data/models/app_settings_models/help_response_model.dart';
 import 'package:yamaiter/data/models/app_settings_models/side_menu_response_model.dart';
-import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
-import 'package:yamaiter/data/models/auth/register_client/register_client_response_model.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 import 'package:yamaiter/data/params/apply_for_task.dart';
 import 'package:yamaiter/data/params/assign_task_params.dart';
 import 'package:yamaiter/data/params/chat/fetch_chats_lists_params.dart';
-import 'package:yamaiter/data/params/client/assign_task_params_client.dart';
 import 'package:yamaiter/data/params/client/create_consultation_params.dart';
-import 'package:yamaiter/data/params/client/create_task_params.dart';
-import 'package:yamaiter/data/params/client/end_task_params_client.dart';
 import 'package:yamaiter/data/params/client/get_consultation_details.dart';
 import 'package:yamaiter/data/params/client/get_my_consultations_params.dart';
-import 'package:yamaiter/data/params/client/get_my_task_params_client.dart';
-import 'package:yamaiter/data/params/client/get_single_task_params_client.dart';
-import 'package:yamaiter/data/params/client/update_task_params.dart';
 import 'package:yamaiter/data/params/create_ad_params.dart';
 
 import 'package:yamaiter/data/params/create_sos_params.dart';
@@ -64,7 +56,6 @@ import '../../data/params/accept_terms_params.dart';
 import '../../data/params/all_sos_params.dart';
 import '../../data/params/change_password_params.dart';
 import '../../data/params/chat_room_by_id_params.dart';
-import '../../data/params/client/delete_task_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
 import '../../data/params/forget_password_params.dart';
@@ -254,7 +245,7 @@ abstract class RemoteRepository {
   /// assign task
   Future<Either<AppError, PayEntity>> assignTask(PayForTaskParams params);
 
-  /// get my my_tasks
+  /// get my posted_tasks
   Future<Either<AppError, List<TaskEntity>>> getMyTasks(
       GetMyTasksParams params);
 
@@ -289,7 +280,7 @@ abstract class RemoteRepository {
   /// accept terms
   Future<Either<AppError, SuccessModel>> acceptTerms(AcceptTermsParams params);
 
-  /// get my my_tasks
+  /// get my posted_tasks
   Future<Either<AppError, List<TaskEntity>>> getAllTasks(
       GetAllTasksParams params);
 

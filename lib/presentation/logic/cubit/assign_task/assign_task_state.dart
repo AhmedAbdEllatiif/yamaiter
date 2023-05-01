@@ -29,6 +29,13 @@ class PaymentLinkToAssignTaskFetched extends PaymentToAssignTaskState {
   List<Object> get props => [payEntity];
 }
 
+
+/// success with wallet
+class TaskAssignedSuccessfullyWithWallet extends PaymentToAssignTaskState {}
+
+/// Insufficient fund in the wallet
+class InsufficientWalletFundToAssignTask extends PaymentToAssignTaskState {}
+
 /// error
 class ErrorWhilePaymentToAssignTask extends PaymentToAssignTaskState {
   final AppError appError;

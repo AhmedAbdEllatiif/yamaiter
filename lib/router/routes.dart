@@ -30,8 +30,9 @@ import 'package:yamaiter/presentation/journeys/chat_list/chat_list_screen.dart';
 import 'package:yamaiter/presentation/journeys/chat_room/chat_room_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
 import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/client/screens_client/my_consultations/my_consultations.dart';
+import 'package:yamaiter/presentation/journeys/drawer/screens/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/invite_lawyer_by_client_screen.dart';
+import 'package:yamaiter/presentation/journeys/my_single_task/my_single_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/pay_out/pay_out_screen.dart';
 import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/journeys/refund/refund_screen.dart';
@@ -39,15 +40,6 @@ import 'package:yamaiter/presentation/journeys/drawer/screens/edit_password_scre
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/edit_profile.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/help/help_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_sos/my_sos_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/applied_tasks/upload_file_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/choose_tasks/choose_my_tasks_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/decline_task/decline_task_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_tasks_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/delete_task/delete_task_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/edit_task/edit_task_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/end_task/end_task_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/my_tasks_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/screens/my_tasks/my_tasks/single_task/single_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_taxes/my_taxes_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/settings/settings_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/side_menu_page_screen.dart';
@@ -76,13 +68,21 @@ import '../presentation/journeys/article/create_article/add_article.dart';
 import '../presentation/journeys/article/create_article/create_article_screen.dart';
 import '../presentation/journeys/article/delete_article.dart';
 import '../presentation/journeys/article/single_article_screen.dart';
+import '../presentation/journeys/delete_task/delete_task_screen.dart';
+import '../presentation/journeys/drawer/screens/choose_tasks/choose_my_tasks_screen.dart';
 import '../presentation/journeys/drawer/screens/my_ads/my_ads_screen.dart';
 import '../presentation/journeys/drawer/screens/my_articles/my_articles_screen.dart';
-import '../presentation/journeys/drawer/screens/my_tasks/applied_tasks/tasks_for_other_screen.dart';
-import '../presentation/journeys/drawer/screens/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
+import '../presentation/journeys/edit_task/edit_task_screen.dart';
+import '../presentation/journeys/end_task/end_task_screen.dart';
 import '../presentation/journeys/filtered_tasks_result/filtered_tasks_result_screen.dart';
 import '../presentation/journeys/invite_lawyer/invite_lawyer_screen.dart';
 import '../presentation/journeys/main/main_screen.dart';
+import '../presentation/journeys/my_tasks/applied_tasks/tasks_for_other_screen.dart';
+import '../presentation/journeys/my_tasks/applied_tasks/upload_file_screen.dart';
+import '../presentation/journeys/my_tasks/invited_tasks/decline_task/decline_task_screen.dart';
+import '../presentation/journeys/my_tasks/invited_tasks/invited_task_details/invited_task_details_screen.dart';
+import '../presentation/journeys/my_tasks/invited_tasks/invited_tasks_screen.dart';
+import '../presentation/journeys/my_tasks/posted_tasks/my_tasks_screen.dart';
 import '../presentation/journeys/search_result_for_lawyers/search_result_for_lawyers.dart';
 import '../presentation/journeys/sos/create_sos_screen.dart';
 import '../presentation/journeys/apply_for_task/appy_for_task_screen.dart';
@@ -125,9 +125,9 @@ class Routes {
         RouteList.loginScreen: (context) => const LoginScreen(),
 
         /// forgetPassword
-        RouteList.forgetPassword: (context) =>  ForgetPasswordScreen(
-          arguments: settings.arguments as ForgetPasswordArguments,
-        ),
+        RouteList.forgetPassword: (context) => ForgetPasswordScreen(
+              arguments: settings.arguments as ForgetPasswordArguments,
+            ),
 
         /// chooseUserType
         RouteList.chooseUserType: (context) => const ChooseUserTypeScreen(),
@@ -196,9 +196,9 @@ class Routes {
               deleteTaskArguments: settings.arguments as DeleteTaskArguments,
             ),
 
-        /// single task
-        RouteList.singleTask: (context) => SingleTaskScreen(
-              singleTaskParams: settings.arguments as SingleTaskArguments,
+        /// my single task
+        RouteList.singleTask: (context) => MySingleTaskScreen(
+              singleTaskParams: settings.arguments as MySingleTaskArguments,
             ),
 
         /// end task
@@ -327,7 +327,6 @@ class Routes {
 
         /// payoutScreen
         RouteList.payoutScreen: (context) => const PayoutScreen(),
-
 
         /// chargeBalanceScreen
         RouteList.chargeBalanceScreen: (context) => const ChargeBalanceScreen(),

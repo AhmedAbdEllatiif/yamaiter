@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/journeys/all_lawyers/loading_more_lawyers_widget.dart';
 import 'package:yamaiter/presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
+import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
@@ -116,31 +118,37 @@ class _AllLawyerListState extends State<AllLawyerList> {
             }
 
             //==> fetched
-            return ListView.separated(
-              controller: _controller,
-              physics: const BouncingScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: allLawyersList.length + 1,
-              // controller: _controller,
-              separatorBuilder: (context, index) => SizedBox(
-                height: Sizes.dimen_2.h,
-              ),
-              itemBuilder: (context, index) {
-                if (index < allLawyersList.length) {
-                  return LawyerItem(
-                    lawyer: allLawyersList[index],
-                    onInvitePressed: () =>
-                        _navigateToInviteLawyerByClientScreen(
-                      lawyerId: allLawyersList[index].id,
-                    ),
-                  );
-                }
-
-                /// loading or end of list
-                return LoadingMoreLawyersWidget(
-                  fetchLawyersCubit: _lawyersCubit,
-                );
+            return AppRefreshIndicator(
+              onRefresh: () async {
+                allLawyersList.clear();
+                _fetchLawyersList();
               },
+              child: ListView.separated(
+                controller: _controller,
+                physics: const BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: allLawyersList.length + 1,
+                // controller: _controller,
+                separatorBuilder: (context, index) => SizedBox(
+                  height: Sizes.dimen_2.h,
+                ),
+                itemBuilder: (context, index) {
+                  if (index < allLawyersList.length) {
+                    return LawyerItem(
+                      lawyer: allLawyersList[index],
+                      onInvitePressed: () =>
+                          _navigateToInviteLawyerByClientScreen(
+                        lawyerId: allLawyersList[index].id,
+                      ),
+                    );
+                  }
+
+                  /// loading or end of list
+                  return LoadingMoreLawyersWidget(
+                    fetchLawyersCubit: _lawyersCubit,
+                  );
+                },
+              ),
             );
           }),
         ),
@@ -150,10 +158,8 @@ class _AllLawyerListState extends State<AllLawyerList> {
 
   /// to fetch lawyers list
   void _fetchLawyersList() {
-    final userToken = context.read<UserTokenCubit>().state.userToken;
-
     _lawyersCubit.fetchLawyers(
-      userToken: userToken,
+      userToken: getUserToken(context),
       currentListLength: allLawyersList.length,
       offset: allLawyersList.length,
     );

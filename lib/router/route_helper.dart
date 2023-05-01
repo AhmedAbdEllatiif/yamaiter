@@ -192,7 +192,7 @@ class RouteHelper {
     Navigator.of(context).pushNamed(RouteList.createSos);
   }
 
-  /// To choose my_tasks screen \\\
+  /// To choose posted_tasks screen \\\
   void chooseTasks(BuildContext context) {
     Navigator.of(context).pushNamed(RouteList.chooseTasks);
   }
@@ -258,7 +258,7 @@ class RouteHelper {
 
   /// To single task screen \\\
   void singleTask(BuildContext context,
-      {required SingleTaskArguments editTaskArguments}) {
+      {required MySingleTaskArguments editTaskArguments}) {
     Navigator.of(context)
         .pushNamed(RouteList.singleTask, arguments: editTaskArguments);
   }
@@ -277,7 +277,7 @@ class RouteHelper {
         .pushNamed(RouteList.deleteTask, arguments: deleteTaskArguments);
   }
 
-  /// To my my_tasks screen \\\
+  /// To my posted_tasks screen \\\
   void myTasks(BuildContext context,
       {bool isReplacement = false,
       bool isPushNamedAndRemoveUntil = false,

@@ -11,6 +11,7 @@ import '../../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
 import '../../../../widgets/app_error_widget.dart';
+import '../../../../widgets/app_refersh_indicator.dart';
 import '../../../../widgets/article_item.dart';
 import '../../../../widgets/lawyers/top_rated_lawyers_widget.dart';
 import '../../../../widgets/loading_widget.dart';
@@ -115,67 +116,72 @@ class _HomePageClientState extends State<HomePageClient> {
 
             /// LastPageAllArticlesReached
             if (state is LastPageAllArticlesReached) {
-              return CustomScrollView(
-                physics: const BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  /// special lawyers
-                  SliverAppBar(
-                    pinned: true,
-                    snap: _snap,
-                    floating: true,
-                    automaticallyImplyLeading: false,
-                    expandedHeight: ScreenUtil.screenHeight * 0.28,
-                    backgroundColor: Colors.white,
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: const MainPageTitle(
-                        title: "احدث المنشورات",
-                      ),
-                      titlePadding: const EdgeInsets.only(top: 1),
-                      expandedTitleScale: 1.3,
-                      background: Container(
-                        color: AppColor.white,
-                        //padding: const EdgeInsets.only(bottom: 10),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: const [
-                            MainPageTitle(
-                              title: "محامين متمزين",
-                            ),
-                            TopRatedLawyersWidget(),
-                          ],
+              return AppRefreshIndicator(
+                onRefresh: () async {
+                  _fetchMyArticlesList();
+                },
+                child: CustomScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  slivers: <Widget>[
+                    /// special lawyers
+                    SliverAppBar(
+                      pinned: true,
+                      snap: _snap,
+                      floating: true,
+                      automaticallyImplyLeading: false,
+                      expandedHeight: ScreenUtil.screenHeight * 0.28,
+                      backgroundColor: Colors.white,
+                      flexibleSpace: FlexibleSpaceBar(
+                        title: const MainPageTitle(
+                          title: "احدث المنشورات",
+                        ),
+                        titlePadding: const EdgeInsets.only(top: 1),
+                        expandedTitleScale: 1.3,
+                        background: Container(
+                          color: AppColor.white,
+                          //padding: const EdgeInsets.only(bottom: 10),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: const [
+                              MainPageTitle(
+                                title: "محامين متمزين",
+                              ),
+                              TopRatedLawyersWidget(),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
 
-                  /// text
-                  /*const SliverToBoxAdapter(
-                    child: MainPageTitle(
-                      title: "احدث المنشورات",
-                    ),
-                  ),*/
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        if (index == state.articlesList.length - 1) {
-                          return Padding(
-                            padding: const EdgeInsets.only(bottom: 8.0),
-                            child: ArticleItem(
+                    /// text
+                    /*const SliverToBoxAdapter(
+                      child: MainPageTitle(
+                        title: "احدث المنشورات",
+                      ),
+                    ),*/
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (BuildContext context, int index) {
+                          if (index == state.articlesList.length - 1) {
+                            return Padding(
+                              padding: const EdgeInsets.only(bottom: 8.0),
+                              child: ArticleItem(
+                                articleEntity: state.articlesList[index],
+                                withMenu: false,
+                              ),
+                            );
+                          } else {
+                            return ArticleItem(
                               articleEntity: state.articlesList[index],
                               withMenu: false,
-                            ),
-                          );
-                        } else {
-                          return ArticleItem(
-                            articleEntity: state.articlesList[index],
-                            withMenu: false,
-                          );
-                        }
-                      },
-                      childCount: state.articlesList.length,
+                            );
+                          }
+                        },
+                        childCount: state.articlesList.length,
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               );
             }
 

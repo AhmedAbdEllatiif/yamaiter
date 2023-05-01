@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/journeys/all_lawyers/all_lawyers_widget.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen__client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/client/home_page_client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
-import 'package:yamaiter/presentation/journeys/drawer/client/drawer_screen__client/drawer_screen_client.dart';
+import 'package:yamaiter/presentation/journeys/drawer/drawer_screen/drawer_screen_client.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -41,6 +42,7 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
     super.initState();
     _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
     _initScreenUtil();
+    _fetchMyArticlesList();
   }
 
   @override
@@ -166,6 +168,15 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
       final w = MediaQuery.of(context).size.width;
       ScreenUtil.init(height: h, width: w);
     }
+  }
+
+  /// to fetch Articles list
+  void _fetchMyArticlesList() {
+    _getAllArticlesCubit.fetchAllArticlesList(
+      userToken: getUserToken(context),
+      currentListLength: 0,
+      offset: 0,
+    );
   }
 
   /// to navigate to search for lawyer

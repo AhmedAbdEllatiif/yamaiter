@@ -64,6 +64,8 @@ class PayForTaxCubit extends Cubit<PayForTaxState> {
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedCreateTax());
+    } else if (appError.appErrorType == AppErrorType.insufficientWalletFund) {
+      _emitIfNotClosed(InsufficientWalletFundToPayForTax());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToCreateTax());
     } else {
