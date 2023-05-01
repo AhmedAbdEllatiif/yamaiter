@@ -92,7 +92,7 @@ class _AdsWidgetState extends State<AdsWidget> {
                       velocity: 50.0,
                       style: Theme.of(context)
                           .textTheme
-                          .caption!
+                          .bodySmall!
                           .copyWith(color: AppColor.white),
                       // scrollAxis: Axis.horizontal,
                       // crossAxisAlignment: CrossAxisAlignment.start,

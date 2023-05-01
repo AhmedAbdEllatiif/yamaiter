@@ -3076,7 +3076,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     try {
       log("dataSource >> getBalance >> Start request");
       // init request
-      final request = GetUserBalance();
+      final request = GetUserBalanceRequest();
 
       // response
       final response = await request(params);

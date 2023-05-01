@@ -135,7 +135,7 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
                   ),
 
                   /// AllSosScreen
-                  AllSosScreen(),
+                  AllSosScreen(getAllSosCubit: _getAllSosCubit,),
 
                   /// ChooseToAddScreen
                   const ChooseToAddScreen(),

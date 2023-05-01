@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
@@ -29,7 +31,11 @@ class CachedImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
+    log("ImgUrl >>>>>>>>>> $imageUrl");
+    return imageUrl == AppUtils.undefined ? const Icon(
+      Icons.error,
+      color: AppColor.accentColor,
+    ): CachedNetworkImage(
       /// imageUrl
       imageUrl: imageUrl,
       width: width,

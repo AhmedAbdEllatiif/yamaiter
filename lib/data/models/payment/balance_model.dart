@@ -22,7 +22,7 @@ class BalanceModel extends BalanceEntity {
 
   factory BalanceModel.fromJson(dynamic json) {
     return BalanceModel(
-      balanceAmount: json["total_amount"] ?? -1,
+      balanceAmount: json["current balance"] ?? -1,
     );
   }
 }

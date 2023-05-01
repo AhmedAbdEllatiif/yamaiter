@@ -5,7 +5,11 @@ import 'package:yamaiter/data/params/payment/get_balance_params.dart';
 
 import '../../../constants.dart';
 
-class GetUserBalance extends GetRequest<GetBalanceParams> {
+
+/// This request used for :
+/// 1.Update current user balance in our database.
+/// 2.Return the current user balance.
+class GetUserBalanceRequest extends GetRequest<GetBalanceParams> {
   @override
   Future<http.Response> call(GetBalanceParams params) async {
     var response = await initGetRequest(

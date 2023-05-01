@@ -18,7 +18,10 @@ import '../../../widgets/sos_item/sos_item.dart';
 import 'loading_more_all_sos.dart';
 
 class AllSosScreen extends StatefulWidget {
-  const AllSosScreen({Key? key}) : super(key: key);
+  final GetAllSosCubit getAllSosCubit;
+
+  const AllSosScreen({Key? key, required this.getAllSosCubit})
+      : super(key: key);
 
   @override
   State<AllSosScreen> createState() => _AllSosScreenState();
@@ -37,7 +40,7 @@ class _AllSosScreenState extends State<AllSosScreen> {
   @override
   void initState() {
     super.initState();
-    _getAllSosCubit = getItInstance<GetAllSosCubit>();
+    _getAllSosCubit = widget.getAllSosCubit;//getItInstance<GetAllSosCubit>();
     //_fetchMySosList();
     _controller = ScrollController();
     _listenerOnScrollController();

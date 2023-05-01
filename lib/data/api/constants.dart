@@ -624,7 +624,7 @@ class EndPoints {
   static String payout = "${_apiVersion}pay-out";
 
   /// balance
-  static String balance = "${_apiVersion}pay-out";
+  static String balance = "${_apiVersion}transaction-data";
 }
 
 /// The api request type
