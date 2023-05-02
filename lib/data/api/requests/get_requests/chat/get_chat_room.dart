@@ -3,7 +3,7 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/get_request.dart';
 
 import '../../../../params/chat_room_by_id_params.dart';
-import '../../../constants.dart';
+import '../../../request_type.dart';
 
 
 class GetChatRoom extends GetRequest<ChatRoomByIdParams> {

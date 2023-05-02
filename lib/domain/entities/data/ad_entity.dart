@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:yamaiter/data/api/constants.dart';
+import 'package:yamaiter/data/api/api_constants.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/enum/ad_status.dart';

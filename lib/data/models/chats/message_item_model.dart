@@ -2,7 +2,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 
-import '../../api/constants.dart';
+import '../../api/api_constants.dart';
 
 /// to return a list of  [MessageItemModel]
 List<MessageItemModel> listOfChatItemsFromJson(dynamic listOfContent) {

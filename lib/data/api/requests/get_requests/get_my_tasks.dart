@@ -3,7 +3,8 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/get_request.dart';
 
 import '../../../params/get_my_tasks_params.dart';
-import '../../constants.dart';
+import '../../api_constants.dart';
+import '../../request_type.dart';
 
 class GetMyTasksRequest extends GetRequest<GetMyTasksParams> {
   @override

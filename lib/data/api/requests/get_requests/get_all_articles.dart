@@ -3,7 +3,8 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/get_request.dart';
 import 'package:yamaiter/data/params/all_articles_params.dart';
 
-import '../../constants.dart';
+import '../../request_type.dart';
+import '../../api_constants.dart';
 
 class GetAllArticlesRequest extends GetRequest<GetArticlesParams> {
   @override

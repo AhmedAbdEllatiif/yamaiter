@@ -3,7 +3,7 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/delete_request.dart';
 
 import '../../../params/delete_task_params.dart';
-import '../../constants.dart';
+import '../../request_type.dart';
 
 class DeleteTaskRequest extends DeleteRequest<DeleteTaskParams> {
   @override

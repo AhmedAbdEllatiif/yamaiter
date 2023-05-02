@@ -5,7 +5,7 @@ import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../data/api/constants.dart';
+import '../../../data/api/api_constants.dart';
 
 class AuthorizedUserEntity extends Equatable {
   final int id;

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
-import 'package:yamaiter/data/api/constants.dart';
+import 'package:yamaiter/data/api/api_constants.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 
 class SosEntity extends Equatable {

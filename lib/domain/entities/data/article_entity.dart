@@ -3,7 +3,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/data/models/article/article_model.dart';
 import 'package:yamaiter/data/models/user_lawyer_model.dart';
 
-import '../../../data/api/constants.dart';
+import '../../../data/api/api_constants.dart';
 
 class ArticleEntity extends Equatable {
   final int id;

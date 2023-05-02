@@ -1,12 +1,11 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 
 import '../../../../params/chat/send_chat_message.dart';
-
+import '../../../request_type.dart';
 class SendChatMessageRequest
     extends MultiPartPostRequest<SendChatMessageParams> {
   @override

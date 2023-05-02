@@ -2,11 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
-import 'package:yamaiter/data/models/update_profile/update_client_request_model.dart';
 import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
+
+import '../../../request_type.dart';
 
 class UpdateClientRequest extends MultiPartPostRequest<UpdateClientParams> {
   @override
@@ -31,7 +31,7 @@ class UpdateClientRequest extends MultiPartPostRequest<UpdateClientParams> {
 
     //==> email
     if (params.email.isNotEmpty) {
-       request.fields["email"] = params.email;
+      request.fields["email"] = params.email;
     }
 
     //==> governorates

@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-import '../../../data/api/constants.dart';
+import '../../../data/api/api_constants.dart';
 
 class LawyerEntity extends Equatable {
   final int id;

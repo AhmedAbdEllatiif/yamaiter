@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 
-import '../../../../data/api/constants.dart';
+import '../../../../data/api/api_constants.dart';
 import '../../../../data/models/consultations/consultation_model.dart';
 
 class ConsultationEntity extends Equatable {

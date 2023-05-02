@@ -1,11 +1,11 @@
 import 'package:http/http.dart' as http;
-import 'package:yamaiter/data/api/constants.dart';
+import 'package:yamaiter/data/api/api_constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 
 
 import '../../../models/auth/login/login_request.dart';
-
+import '../../request_type.dart';
 class LoginRequest extends MultiPartPostRequest<LoginRequestModel> {
 
   @override

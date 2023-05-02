@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:yamaiter/data/api/constants.dart';
+import 'package:yamaiter/data/api/api_constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
 import 'package:yamaiter/data/params/create_article_params.dart';
-
+import '../../request_type.dart';
 class UpdateArticleRequest extends MultiPartPostRequest<CreateOrUpdateArticleParams> {
   @override
   Future<http.MultipartRequest> call(CreateOrUpdateArticleParams params) async {

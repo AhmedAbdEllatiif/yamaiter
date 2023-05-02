@@ -2,13 +2,11 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:yamaiter/data/api/constants.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/multi_part_post_request.dart';
-import 'package:yamaiter/data/models/update_profile/update_client_request_model.dart';
-import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/data/params/update_profile/update_lawyer_profile.dart';
-import 'package:yamaiter/data/params/update_profile/update_lawyer_profile.dart';
+
+import '../../../request_type.dart';
 
 class UpdateLawyerRequest extends MultiPartPostRequest<UpdateLawyerParams> {
   @override

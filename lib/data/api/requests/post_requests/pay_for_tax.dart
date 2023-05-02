@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:http/http.dart' as http;
 import 'package:yamaiter/common/enum/payment_method.dart';
 import 'package:yamaiter/data/api/init_rest_api_client.dart';
+
 import '../../../params/create_tax_params.dart';
-import '../../constants.dart';
 import '../multi_part_post_request.dart';
+import '../../request_type.dart';
 
 class CreateTaxRequest extends MultiPartPostRequest<CreateTaxParams> {
   @override

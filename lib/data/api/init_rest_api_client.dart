@@ -1,20 +1,17 @@
-import 'dart:convert';
-import 'dart:developer';
-import 'dart:io';
-
 import 'package:http/http.dart' as http;
-
-import 'constants.dart';
+import 'package:yamaiter/data/api/request_type.dart';
 
 http.Client initHttpClient() {
   return http.Client();
 }
 
+///
+///
 /// return a post request
 http.MultipartRequest initMultiPartPostRequest(
     {required RequestType requestType, required String token, String id = ""}) {
   // build url according to request type
-  final url = ApiConstants.buildUrl(requestType, id: id);
+  final url = requestType.toUriString(id: id);
 
   // build post request
   final request = http.MultipartRequest("POST", url);
@@ -28,6 +25,8 @@ http.MultipartRequest initMultiPartPostRequest(
   return request;
 }
 
+///
+///
 /// return a post request
 Future<http.Response> initRawPostRequest(
     {required RequestType requestType,
@@ -36,11 +35,7 @@ Future<http.Response> initRawPostRequest(
     String id = "",
     required String token}) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(
-    requestType,
-    id: id,
-    queryParams: queryParams,
-  );
+  final url = requestType.toUriString(id: id, queryParams: queryParams);
 
   // build post request
   final request = await http.post(url,
@@ -53,6 +48,8 @@ Future<http.Response> initRawPostRequest(
   return request;
 }
 
+///
+///
 /// return a get response
 Future<http.Response> initGetRequest({
   required RequestType requestType,
@@ -61,11 +58,7 @@ Future<http.Response> initGetRequest({
   Map<String, String> queryParams = const {"": ""},
 }) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(
-    requestType,
-    id: id,
-    queryParams: queryParams,
-  );
+  final url = requestType.toUriString(id: id, queryParams: queryParams);
 
   // build post request
   final response = await http.get(url, headers: {
@@ -76,15 +69,15 @@ Future<http.Response> initGetRequest({
   return response;
 }
 
-
-
+///
+///
 /// return a delete response
 Future<http.Response> initDeleteRequest(
     {required RequestType requestType,
     required String token,
     String id = ""}) async {
   // build url according to request type
-  final url = ApiConstants.buildUrl(requestType, id: id);
+  final url = requestType.toUriString(id: id);
 
   // build post request
   final response = await http.delete(url, headers: {

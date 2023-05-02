@@ -3,7 +3,7 @@ import 'dart:developer';
 import 'package:equatable/equatable.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../data/api/constants.dart';
+import '../../../data/api/api_constants.dart';
 import '../../../data/models/user_lawyer_model.dart';
 
 class TaskEntity extends Equatable {

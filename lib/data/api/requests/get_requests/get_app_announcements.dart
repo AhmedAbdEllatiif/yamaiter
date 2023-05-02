@@ -5,7 +5,8 @@ import 'package:yamaiter/data/api/init_rest_api_client.dart';
 import 'package:yamaiter/data/api/requests/get_request.dart';
 import 'package:yamaiter/data/params/get_app_announcements.dart';
 
-import '../../constants.dart';
+import '../../api_constants.dart';
+import '../../request_type.dart';
 
 class GetAppAnnouncements extends GetRequest<GetAnnouncementsParams> {
   @override
