@@ -9,18 +9,17 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:responsive_framework/utils/scroll_behavior.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/journeys/login/login_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/main_screen.dart';
-import 'package:yamaiter/presentation/journeys/payment/payment_screen.dart';
 import 'package:yamaiter/presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/user_token/user_token_cubit.dart';
-import '../common/extensions/size_extensions.dart';
 import '../common/functions/firebase.dart';
 import '../main.dart';
 import '../presentation/journeys/on_boarding/on_boarding_screen.dart';
-import '../presentation/journeys/sos/delete_sos.dart';
+import '../presentation/logic/common/store_fb_token/store_firebase_token_cubit.dart';
 import '../presentation/logic/cubit/first_launch/first_launch_cubit.dart';
 import '../presentation/themes/theme_color.dart';
 import '../router/transition_page_route.dart';
@@ -42,6 +41,9 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
   /// FirstLaunchStatusCubit
   late final FirstLaunchStatusCubit firstLaunchCubit;
 
+  /// StoreFirebaseTokenCubit
+  late final StoreFirebaseTokenCubit _firebaseTokenCubit;
+
   @override
   void initState() {
     //==> current user token
@@ -60,9 +62,12 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     firstLaunchCubit = getItInstance<FirstLaunchStatusCubit>();
     firstLaunchCubit.loadFirstLaunchStatus();
 
+    _firebaseTokenCubit = getItInstance<StoreFirebaseTokenCubit>();
+
     _interactedMessageWhenAppIsOpenedInBackground();
     _interactedMessageWhenAppIsTerminated();
     _showReceivedNotification();
+    _storeFirebaseToken();
     super.initState();
   }
 
@@ -74,6 +79,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         BlocProvider(create: (context) => authorizedUserCubit),
         BlocProvider(create: (context) => notificationsListenersCubit),
         BlocProvider(create: (context) => firstLaunchCubit),
+        BlocProvider(create: (context) => _firebaseTokenCubit),
       ],
       child: MultiBlocListener(
         listeners: [
@@ -196,6 +202,18 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
   void dispose() {
     userToken.close();
     super.dispose();
+  }
+
+  /// store the firebase token on change
+  void _storeFirebaseToken() async {
+    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+      _firebaseTokenCubit.tryToStoreFirebaseToken(
+        userToken: getUserToken(context),
+        firebaseToken: fcmToken,
+      );
+    }).onError((err) {
+      log("BaseMaterialApp  >> _storeFirebaseToken >> $err");
+    });
   }
 
   /// To interact with clicked notification when app is open in background
