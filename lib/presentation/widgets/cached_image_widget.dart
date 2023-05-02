@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
@@ -31,48 +29,52 @@ class CachedImageWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log("ImgUrl >>>>>>>>>> $imageUrl");
-    return imageUrl == AppUtils.undefined ? const Icon(
-      Icons.error,
-      color: AppColor.accentColor,
-    ): CachedNetworkImage(
-      /// imageUrl
-      imageUrl: imageUrl,
-      width: width,
-      height: height,
-      fit: BoxFit.contain,
+    //  log("ImgUrl >>>>>>>>>> $imageUrl");
+    return imageUrl == AppUtils.undefined
+        ? const Icon(
+            Icons.error,
+            color: AppColor.accentColor,
+          )
+        : CachedNetworkImage(
+            /// imageUrl
+            imageUrl: imageUrl,
+            width: width,
+            height: height,
+            fit: BoxFit.contain,
 
-      /// imageBuilder
-      imageBuilder: (context, imageProvider) => Container(
-        decoration: BoxDecoration(
-          shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
-          //borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_10.w)),
-          borderRadius: withBorderRadius
-              ? BorderRadius.circular(AppUtils.cornerRadius)
-              : null,
-          image: DecorationImage(
-            image: imageProvider,
-            fit: boxFit,
-            // colorFilter: ColorFilter.mode(
-            //   Colors.red,
-            //   BlendMode.colorBurn,
-            // ),
-          ),
-        ),
-      ),
+            /// imageBuilder
+            imageBuilder: (context, imageProvider) => Container(
+              decoration: BoxDecoration(
+                shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+                //borderRadius: BorderRadius.all(Radius.circular(Sizes.dimen_10.w)),
+                borderRadius: withBorderRadius
+                    ? BorderRadius.circular(AppUtils.cornerRadius)
+                    : null,
+                image: DecorationImage(
+                  image: imageProvider,
+                  fit: boxFit,
+                  // colorFilter: ColorFilter.mode(
+                  //   Colors.red,
+                  //   BlendMode.colorBurn,
+                  // ),
+                ),
+              ),
+            ),
 
-      /// progressBar
-      progressIndicatorBuilder: (context, url, downloadProgress) =>
-          CustomCircularProgressBar(
-        scale: progressBarScale,
-        progress: downloadProgress.progress,
-      ),
+            /// progressBar
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                CustomCircularProgressBar(
+              scale: progressBarScale,
+              progress: downloadProgress.progress,
+            ),
 
-      /// error widget
-      errorWidget: (context, url, error) => errorWidget ?? const Icon(
-        Icons.error,
-        color: AppColor.accentColor,
-      ),
-    );
+            /// error widget
+            errorWidget: (context, url, error) =>
+                errorWidget ??
+                const Icon(
+                  Icons.error,
+                  color: AppColor.accentColor,
+                ),
+          );
   }
 }

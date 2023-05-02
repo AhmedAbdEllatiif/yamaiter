@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/journeys/all_lawyers/all_lawyers_widget.dart';
@@ -10,6 +11,7 @@ import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../../common/constants/app_utils.dart';
+import '../../../../common/constants/assets_constants.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/ads_pages.dart';
 import '../../../../common/screen_utils/screen_util.dart';
@@ -192,37 +194,52 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
   List<Widget> _clientDestinations() {
     return [
       /// home
-      NavigationDestination(
+       NavigationDestination(
         //==> icon
-        icon: IconWithBadge(
-          iconData: Icons.home_outlined,
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-        ),
+        // icon: IconWithBadge(
+        //   iconData: Icons.home_outlined,
+        //   onPressed: () {
+        //     setState(() {
+        //       _selectedIndex = 0;
+        //     });
+        //   },
+        // ),
+        icon: SvgPicture.asset(AssetsImages.homeSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
 
-        //==> selected icon
-        selectedIcon: const Icon(
-          Icons.home,
-          color: AppColor.primaryDarkColor,
-        ),
-
+        selectedIcon: SvgPicture.asset(AssetsImages.homeSvg,
+            height: Sizes.dimen_22.w,
+            width: Sizes.dimen_22.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
         //==> label
         label: 'الرئيسية',
       ),
 
       /// articles
-      const NavigationDestination(
-        icon: Icon(
-          Icons.book_online_outlined,
-          color: AppColor.primaryColor,
-        ),
-        selectedIcon: Icon(
-          Icons.book_online,
-          color: AppColor.primaryDarkColor,
-        ),
+      NavigationDestination(
+        // icon: Icon(
+        //   Icons.book_online_outlined,
+        //   color: AppColor.primaryColor,
+        // ),
+        icon: SvgPicture.asset(AssetsImages.documentsSvg,
+            height: Sizes.dimen_30.w,
+            width: Sizes.dimen_30.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
+
+        selectedIcon: SvgPicture.asset(AssetsImages.documentsSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
+        // selectedIcon: Icon(
+        //   Icons.book_online,
+        //   color: AppColor.primaryDarkColor,
+        // ),
         label: 'المنشورات',
       ),
 
@@ -252,19 +269,28 @@ class _ClientMainScreenState extends State<ClientMainScreen> {
         label: 'اضافة',
       ),
 
-      /// AllLAwyers
-      const NavigationDestination(
-        //==> icon
-        icon: Icon(
-          Icons.person,
-          color: AppColor.primaryColor,
-        ),
-        //==>selectedIcon
-        selectedIcon: Icon(
-          Icons.person_outline_outlined,
-          color: AppColor.primaryDarkColor,
-        ),
-        label: "الاستغاثات",
+      /// AllLawyers
+      NavigationDestination(
+        // icon: Icon(
+        //   Icons.book_online_outlined,
+        //   color: AppColor.primaryColor,
+        // ),
+        icon: SvgPicture.asset(AssetsImages.personsSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
+
+        selectedIcon: SvgPicture.asset(AssetsImages.personsSvg,
+            height: Sizes.dimen_24.w,
+            width: Sizes.dimen_24.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
+        // selectedIcon: Icon(
+        //   Icons.book_online,
+        //   color: AppColor.primaryDarkColor,
+        // ),
+        label: 'المحامين',
       ),
     ];
   }

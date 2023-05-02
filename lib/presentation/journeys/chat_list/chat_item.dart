@@ -44,8 +44,18 @@ class _ChatItemState extends State<ChatItem> {
     _lawyerEntity = widget.receivedChatListEntity.lawyerEntity;
 
     //==> _messageDate
-    _messageDate =
+    String messageCreatedAt =
         widget.receivedChatListEntity.lastMessageToShow.messageCreatedAt;
+    DateTime? createdAt = DateTime.tryParse(messageCreatedAt);
+    if (createdAt != null) {
+      _messageDate =
+          "${createdAt.year.toString()}-${createdAt.month.toString().padLeft(2, '0')}-"
+          "${createdAt.day.toString().padLeft(2, '0')} "
+          " ${createdAt.hour.toString().padLeft(2, '0')}:"
+          "${createdAt.minute.toString().padLeft(2, '0')}";
+    } else {
+      _messageDate = AppUtils.undefined;
+    }
 
     //==> init chatId
     _chatId = widget.receivedChatListEntity.chatId;
@@ -107,7 +117,7 @@ class _ChatItemState extends State<ChatItem> {
                             iconSize: Sizes.dimen_16.w,
                             text: _messageDate,
                             textStyle:
-                                Theme.of(context).textTheme.caption!.copyWith(
+                                Theme.of(context).textTheme.bodySmall!.copyWith(
                                       color: AppColor.accentColor,
                                       height: 1.3,
                                     ),
@@ -121,6 +131,4 @@ class _ChatItemState extends State<ChatItem> {
       ),
     );
   }
-
-
 }

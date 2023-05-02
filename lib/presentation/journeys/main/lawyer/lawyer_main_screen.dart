@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/all_task_screen.dart';
@@ -135,7 +137,9 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
                   ),
 
                   /// AllSosScreen
-                  AllSosScreen(getAllSosCubit: _getAllSosCubit,),
+                  AllSosScreen(
+                    getAllSosCubit: _getAllSosCubit,
+                  ),
 
                   /// ChooseToAddScreen
                   const ChooseToAddScreen(),
@@ -205,23 +209,28 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
   List<Widget> _lawyerDestinations() {
     return [
       /// home
+      /// home
       NavigationDestination(
         //==> icon
-        icon: IconWithBadge(
-          iconData: Icons.home_outlined,
-          onPressed: () {
-            setState(() {
-              _selectedIndex = 0;
-            });
-          },
-        ),
+        // icon: IconWithBadge(
+        //   iconData: Icons.home_outlined,
+        //   onPressed: () {
+        //     setState(() {
+        //       _selectedIndex = 0;
+        //     });
+        //   },
+        // ),
+        icon: SvgPicture.asset(AssetsImages.homeSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
 
-        //==> selected icon
-        selectedIcon: const Icon(
-          Icons.home,
-          color: AppColor.primaryDarkColor,
-        ),
-
+        selectedIcon: SvgPicture.asset(AssetsImages.homeSvg,
+            height: Sizes.dimen_22.w,
+            width: Sizes.dimen_22.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
         //==> label
         label: 'الرئيسية',
       ),
@@ -268,28 +277,50 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
       ),
 
       /// articles
-      const NavigationDestination(
-        icon: Icon(
-          Icons.book_online_outlined,
-          color: AppColor.primaryColor,
-        ),
-        selectedIcon: Icon(
-          Icons.book_online,
-          color: AppColor.primaryDarkColor,
-        ),
+      NavigationDestination(
+        // icon: Icon(
+        //   Icons.book_online_outlined,
+        //   color: AppColor.primaryColor,
+        // ),
+        icon: SvgPicture.asset(AssetsImages.documentsSvg,
+            height: Sizes.dimen_30.w,
+            width: Sizes.dimen_30.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
+
+        selectedIcon: SvgPicture.asset(AssetsImages.documentsSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
+        // selectedIcon: Icon(
+        //   Icons.book_online,
+        //   color: AppColor.primaryDarkColor,
+        // ),
         label: 'المنشورات',
       ),
 
       /// tasks
-      const NavigationDestination(
-        icon: Icon(
-          Icons.shopping_bag_outlined,
-          color: AppColor.primaryColor,
-        ),
-        selectedIcon: Icon(
-          Icons.shopping_bag,
-          color: AppColor.primaryDarkColor,
-        ),
+       NavigationDestination(
+        // icon: Icon(
+        //   Icons.shopping_bag_outlined,
+        //   color: AppColor.primaryColor,
+        // ),
+        // selectedIcon: Icon(
+        //   Icons.shopping_bag,
+        //   color: AppColor.primaryDarkColor,
+        // ),
+        icon: SvgPicture.asset(AssetsImages.briefcaseSvg,
+            height: Sizes.dimen_26.w,
+            width: Sizes.dimen_26.w,
+            color: AppColor.primaryColor,
+            semanticsLabel: ''),
+
+        selectedIcon: SvgPicture.asset(AssetsImages.briefcaseSvg,
+            height: Sizes.dimen_22.w,
+            width: Sizes.dimen_22.w,
+            color: AppColor.primaryDarkColor,
+            semanticsLabel: ''),
         label: 'المهمات',
       ),
     ];

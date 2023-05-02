@@ -70,7 +70,7 @@ class ChooseToAddScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ChooseToAddItem(
-                image: AssetsImages.documentsSvg,
+                image: AssetsImages.taxSvg,
                 text: "قدم إقرارك الضريبى السنوى من هنا",
                 onPressed: () => _navigateToCreateTax(context),
               ),

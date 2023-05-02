@@ -41,7 +41,7 @@ class ChooseToAddItem extends StatelessWidget {
                   image,
                   height: Sizes.dimen_40.w,
                   width: Sizes.dimen_40.w,
-                  color: AppColor.primaryDarkColor,
+                  //color: AppColor.primaryDarkColor,
                   semanticsLabel: 'A red up arrow'
               ),
 

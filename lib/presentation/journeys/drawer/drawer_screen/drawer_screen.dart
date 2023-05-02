@@ -27,16 +27,18 @@ class DrawerScreen extends StatelessWidget {
     final items = drawerItems(context);
     return Container(
       color: AppColor.primaryDarkColor,
-      //padding: EdgeInsets.only(top: Sizes.dimen_1.h),
+      padding: EdgeInsets.only(
+        top: Sizes.dimen_20.h,
+        right: Sizes.dimen_30.w,
+        left: Sizes.dimen_30.w,
+      ),
       child: Column(
         children: [
+          /// image and balance
           Container(
             color: AppColor.primaryDarkColor,
-            height: ScreenUtil.screenHeight * 0.15,
-            padding: EdgeInsets.only(
-                top: Sizes.dimen_10.h,
-                right: Sizes.dimen_8.w,
-                left: Sizes.dimen_8.w),
+            height: ScreenUtil.screenHeight * 0.10,
+            padding: EdgeInsets.only(top: Sizes.dimen_10.h),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -60,11 +62,9 @@ class DrawerScreen extends StatelessWidget {
             ),
           ),
 
-          SizedBox(
-            width: ScreenUtil.screenWidth * 0.8,
-            child: const Divider(
-              color: AppColor.white,
-            ),
+          /// divider
+          const Divider(
+            color: AppColor.white,
           ),
 
           /// menu items
@@ -73,6 +73,10 @@ class DrawerScreen extends StatelessWidget {
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: items.length,
+              padding: const EdgeInsets.only(
+                top: 30,
+                bottom: 50,
+              ),
               itemBuilder: (context, index) {
                 return items[index].animate(
                     slideDuration: Duration(milliseconds: 300 + (70 * index)),
@@ -159,22 +163,33 @@ class DrawerScreen extends StatelessWidget {
 
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
-          iconData: Icons.shopping_bag_outlined,
+          // iconData: Icons.shopping_bag_outlined,
+          svgImage: AssetsImages.briefcaseSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "مهامى",
           onPressed: () => _navigateMyTasksScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.list_alt_outlined,
+          //iconData: Icons.list_alt_outlined,
+          svgImage: AssetsImages.newsPaperSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "منشوراتى",
           onPressed: () => _navigateMyArticlesScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.surround_sound_outlined,
+          // iconData: Icons.surround_sound_outlined,
+          svgImage: AssetsImages.publishAdSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "إعلاناتى",
           onPressed: () => _navigateMyAdsListScreen(context),
         ),
+
         DrawerItem(
-          iconData: Icons.shopping_bag_outlined,
+          //iconData: Icons.shopping_bag_outlined,
+          svgImage: AssetsImages.taxSvg,
           title: "اقراراتى الضريبية",
           onPressed: () => _navigateMyTaxesScreen(context),
         ),
@@ -184,7 +199,9 @@ class DrawerScreen extends StatelessWidget {
           onPressed: () => _navigateMySosListScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.chat_outlined,
+          // iconData: Icons.chat_outlined,
+          svgImage: AssetsImages.chatSvg,
+          imgColor: AppColor.white,
           title: "المحادثات",
           onPressed: () => _navigateChatScreen(context),
         ),
@@ -203,12 +220,18 @@ class DrawerScreen extends StatelessWidget {
           },
         ),
         DrawerItem(
-          iconData: Icons.shield_outlined,
+          //iconData: Icons.shield_outlined,
+          svgImage: AssetsImages.privacySvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "سياسة الخصوصية",
           onPressed: () => _navigateToPrivacyScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.shield_outlined,
+          //iconData: Icons.shield_outlined,
+          svgImage: AssetsImages.privacySvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "شروط الاستخدام",
           onPressed: () => _navigateToTermsAndConditionsScreen(context),
         ),

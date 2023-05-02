@@ -10,11 +10,13 @@ import 'package:yamaiter/presentation/journeys/drawer/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
+import '../../../../common/constants/assets_constants.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/animation_type.dart';
 import '../../../../domain/entities/screen_arguments/side_menu_page_args.dart';
 import '../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
+import '../../../widgets/balance_widget.dart';
 import '../../../widgets/image_name_rating_widget.dart';
 
 class DrawerScreenClient extends StatefulWidget {
@@ -39,16 +41,17 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
     final items = drawerItems(context);
     return Container(
       color: AppColor.primaryDarkColor,
-      //padding: EdgeInsets.only(top: Sizes.dimen_1.h),
+      padding: EdgeInsets.only(
+        top: Sizes.dimen_20.h,
+        right: Sizes.dimen_30.w,
+        left: Sizes.dimen_30.w,
+      ),
       child: Column(
         children: [
           Container(
             color: AppColor.primaryDarkColor,
-            height: ScreenUtil.screenHeight * 0.15,
-            padding: EdgeInsets.only(
-                top: Sizes.dimen_10.h,
-                right: Sizes.dimen_8.w,
-                left: Sizes.dimen_8.w),
+            height: ScreenUtil.screenHeight * 0.10,
+
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -66,6 +69,9 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
                     );
                   },
                 ),
+
+                /// BalanceWidget
+                const BalanceWidget(),
               ],
             ),
           ),
@@ -83,6 +89,10 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
               physics: const BouncingScrollPhysics(),
               shrinkWrap: true,
               itemCount: items.length,
+              padding: const EdgeInsets.only(
+                top: 30,
+                bottom: 50,
+              ),
               itemBuilder: (context, index) {
                 return items[index].animate(
                     slideDuration: Duration(milliseconds: 300 + (70 * index)),
@@ -157,25 +167,41 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
             pageTitle: "تواصل معنا", sideMenuPage: SideMenuPage.contactUs),
       );
 
+  /// to charge balance screen
+  void _navigateToChargeBalance(BuildContext context) =>
+      RouteHelper().chargeBalanceScreen(context);
+
   /// DrawerItems
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
-          iconData: Icons.shopping_bag_outlined,
+          // iconData: Icons.shopping_bag_outlined,
+          svgImage: AssetsImages.briefcaseSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "طلبات المساعدة القانونية",
           onPressed: () => _navigateMyTasksScreen(context),
         ),
+
         DrawerItem(
-          iconData: Icons.list_alt_outlined,
+          //iconData: Icons.list_alt_outlined,
+          svgImage: AssetsImages.documentsSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "استشاراتى القانونية",
           onPressed: () => _navigateMyConsultationsScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.surround_sound_outlined,
+          // iconData: Icons.surround_sound_outlined,
+          svgImage: AssetsImages.publishAdSvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "إعلاناتى",
           onPressed: () => _navigateMyAdsListScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.chat_outlined,
+          // iconData: Icons.chat_outlined,
+          svgImage: AssetsImages.chatSvg,
+          imgColor: AppColor.white,
           title: "المحادثات",
           onPressed: () => _navigateChatScreen(context),
         ),
@@ -195,15 +221,27 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
           },
         ),
         DrawerItem(
-          iconData: Icons.shield_outlined,
+          //iconData: Icons.shield_outlined,
+          svgImage: AssetsImages.privacySvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "سياسة الخصوصية",
           onPressed: () => _navigateToPrivacyScreen(context),
         ),
         DrawerItem(
-          iconData: Icons.shield_outlined,
+          //iconData: Icons.shield_outlined,
+          svgImage: AssetsImages.privacySvg,
+          imgColor: AppColor.white,
+          imgSize: Sizes.dimen_20.w,
           title: "شروط الاستخدام",
           onPressed: () => _navigateToTermsAndConditionsScreen(context),
         ),
+        DrawerItem(
+          iconData: Icons.account_balance_wallet_outlined,
+          title: "شحن المحفظة",
+          onPressed: () => _navigateToChargeBalance(context),
+        ),
+
         DrawerItem(
           iconData: Icons.question_mark_outlined,
           title: "اتصل بنا",

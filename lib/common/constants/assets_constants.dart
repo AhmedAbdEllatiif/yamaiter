@@ -21,6 +21,18 @@ class AssetsImages {
   static const String documentsSvg = '${_baseImages}documents.svg';
 
   static const String sosSvg = '${_baseImages}sos.svg';
+
+  static const String taxSvg = '${_baseImages}tax.svg';
+
+  static const String chatSvg = '${_baseImages}chat.svg';
+
+  static const String privacySvg = '${_baseImages}privacy.svg';
+
+  static const String briefcaseSvg = '${_baseImages}briefcase.svg';
+
+  static const String personsSvg = '${_baseImages}persons.svg';
+
+  static const String homeSvg = '${_baseImages}home.svg';
 }
 
 class AssetsLottie {
