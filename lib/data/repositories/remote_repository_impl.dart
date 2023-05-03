@@ -19,7 +19,6 @@ import 'package:yamaiter/data/models/pay_response_model.dart';
 import 'package:yamaiter/data/models/payment/balance_model.dart';
 import 'package:yamaiter/data/models/payment/charge_balance/charge_balance_response_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
-import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';

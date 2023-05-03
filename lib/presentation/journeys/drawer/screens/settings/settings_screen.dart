@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
-import 'package:yamaiter/presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/item_with_arrow_next.dart';
 import 'package:yamaiter/presentation/widgets/title_with_divider.dart';

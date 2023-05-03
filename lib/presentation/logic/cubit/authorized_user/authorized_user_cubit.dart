@@ -6,7 +6,6 @@ import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import '../../../../common/enum/user_type.dart';
 import '../../../../data/params/no_params.dart';
 import '../../../../domain/entities/app_error.dart';
-import '../../../../domain/use_cases/authorized_user/authorized_user_data/delete_user_data.dart';
 import '../../../../domain/use_cases/authorized_user/authorized_user_data/get_user_data.dart';
 import '../../../../domain/use_cases/authorized_user/authorized_user_data/save_user_data.dart';
 

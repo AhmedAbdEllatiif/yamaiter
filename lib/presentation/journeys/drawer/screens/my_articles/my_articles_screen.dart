@@ -11,15 +11,11 @@ import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../../../common/constants/app_utils.dart';
-import '../../../../../common/constants/assets_constants.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/enum/app_error_type.dart';
-import '../../../../../domain/entities/app_error.dart';
-import '../../../../../domain/entities/data/ad_entity.dart';
 import '../../../../../router/route_helper.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
-import '../../../../widgets/ads_list/ads_list_view.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/article_item.dart';
 import '../../../../widgets/title_with_add_new_item.dart';

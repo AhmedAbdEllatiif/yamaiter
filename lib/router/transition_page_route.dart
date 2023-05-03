@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../common/extensions/widgetExtension.dart';
+import '../common/extensions/widget_extension.dart';
 
 import '../common/enum/animation_type.dart';
 

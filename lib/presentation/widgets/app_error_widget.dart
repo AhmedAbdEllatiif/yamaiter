@@ -3,7 +3,6 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import '../../common/constants/sizes.dart';
 import '../../common/enum/app_error_type.dart';
 import '../../common/screen_utils/screen_util.dart';
-import '../../domain/entities/app_error.dart';
 import '../themes/theme_color.dart';
 import 'app_button.dart';
 
@@ -58,7 +57,7 @@ class AppErrorWidget extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context)
                     .textTheme
-                    .subtitle1!
+                    .titleMedium!
                     .copyWith(color: AppColor.primaryDarkColor),
               ),
 

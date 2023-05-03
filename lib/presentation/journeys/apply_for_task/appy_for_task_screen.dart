@@ -159,7 +159,7 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
 
                   /// original price
                   Text(
-                    "المبلغ المعروض " + "${_taskEntity.price}" + " جنيه",
+                    "المبلغ المعروض ${_taskEntity.price} جنيه",
                     style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppColor.white,
                           fontWeight: FontWeight.bold,
@@ -178,7 +178,7 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
                       errorText: errorText,
                       textInputType: TextInputType.number,
                       labelStyle:
-                          Theme.of(context).textTheme.subtitle1!.copyWith(
+                          Theme.of(context).textTheme.titleMedium!.copyWith(
                                 color: AppColor.white,
                                 fontWeight: FontWeight.bold,
                               ),

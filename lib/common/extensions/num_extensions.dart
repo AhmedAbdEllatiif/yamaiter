@@ -1,5 +1,5 @@
 extension NumExtension on num{
   String convertToPercentageString(){
-    return ((this) * 10).toStringAsFixed(0) + '%';
+    return '${((this) * 10).toStringAsFixed(0)}%';
   }
 }

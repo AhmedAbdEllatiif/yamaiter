@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/functions/get_authoried_user.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/chat_room_args.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
-import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
@@ -30,8 +27,6 @@ class _ChatItemState extends State<ChatItem> {
   late final String _lastMessageToShow;
   late final LawyerEntity _lawyerEntity;
   late final String _messageDate;
-  late final int _chatId;
-  late final String _chatChannel;
 
   @override
   void initState() {
@@ -58,10 +53,8 @@ class _ChatItemState extends State<ChatItem> {
     }
 
     //==> init chatId
-    _chatId = widget.receivedChatListEntity.chatId;
 
     //==> init chatChannel
-    _chatChannel = widget.receivedChatListEntity.chatChannel;
   }
 
   @override
@@ -93,7 +86,7 @@ class _ChatItemState extends State<ChatItem> {
                       child: Center(
                         child: Text(
                           "ابدء المحادثة الان",
-                          style: Theme.of(context).textTheme.bodyText2,
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
                       ),
                     )

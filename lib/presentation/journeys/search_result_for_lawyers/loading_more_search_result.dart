@@ -57,7 +57,7 @@ class LoadingMoreSearchResultWidget extends StatelessWidget {
                     "تحقق من الاتصال بالنترنت",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
+                        .bodySmall!
                         .copyWith(color: AppColor.white),
                   ),
                 ],

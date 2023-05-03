@@ -29,7 +29,7 @@ import 'package:yamaiter/presentation/journeys/charge_balance/charge_balance_scr
 import 'package:yamaiter/presentation/journeys/chat_list/chat_list_screen.dart';
 import 'package:yamaiter/presentation/journeys/chat_room/chat_room_screen.dart';
 import 'package:yamaiter/presentation/journeys/choose_user_type/choose_user_type_screen.dart';
-import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_Screen.dart';
+import 'package:yamaiter/presentation/journeys/consultation_details/consultation_details_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/my_consultations/my_consultations.dart';
 import 'package:yamaiter/presentation/journeys/invite_lawyer_by_client/invite_lawyer_by_client_screen.dart';
 import 'package:yamaiter/presentation/journeys/my_single_task/my_single_task_screen.dart';

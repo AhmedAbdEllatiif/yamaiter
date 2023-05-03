@@ -10,17 +10,17 @@ class ThemeText {
 
   static TextTheme get _poppinsTextTheme => GoogleFonts.cairoTextTheme();
 
-  static TextStyle get _whiteHeadline6 => _poppinsTextTheme.headline6!.copyWith(
+  static TextStyle get _whiteHeadline6 => _poppinsTextTheme.titleLarge!.copyWith(
         fontSize: Sizes.dimen_20.sp,
         color: Colors.white,
       );
 
-  static TextStyle get _whiteHeadline5 => _poppinsTextTheme.headline5!.copyWith(
+  static TextStyle get _whiteHeadline5 => _poppinsTextTheme.headlineSmall!.copyWith(
         fontSize: Sizes.dimen_24.sp,
         color: Colors.white,
       );
 
-  static TextStyle get _whiteSubTitle1 => _poppinsTextTheme.headline6!.copyWith(
+  static TextStyle get _whiteSubTitle1 => _poppinsTextTheme.titleLarge!.copyWith(
         fontSize: Sizes.dimen_14.sp,
         color: Colors.white,
         wordSpacing: 0.25,
@@ -28,13 +28,13 @@ class ThemeText {
         height: 1.5,
       );
 
-  static TextStyle get _whiteSubTitle2 => _poppinsTextTheme.headline6!.copyWith(
+  static TextStyle get _whiteSubTitle2 => _poppinsTextTheme.titleLarge!.copyWith(
         fontSize: Sizes.dimen_16.sp,
         color: Colors.white,
       );
 
   //violetHeadLine6
-  static TextStyle get _whiteBodyText2 => _poppinsTextTheme.bodyText2!.copyWith(
+  static TextStyle get _whiteBodyText2 => _poppinsTextTheme.bodyMedium!.copyWith(
         color: Colors.white,
         fontSize: Sizes.dimen_14.sp,
         wordSpacing: 0.25,
@@ -42,23 +42,23 @@ class ThemeText {
         height: 1.5,
       );
 
-  static TextStyle get _button => _poppinsTextTheme.button!.copyWith(
+  static TextStyle get _button => _poppinsTextTheme.labelLarge!.copyWith(
         fontSize: Sizes.dimen_14.sp,
         color: Colors.white,
       );
 
   static getTextTheme() => TextTheme(
-        headline5: _whiteHeadline5,
-        headline6: _whiteHeadline6,
-        subtitle1: _whiteSubTitle1,
-        subtitle2: _whiteSubTitle2,
-        bodyText2: _whiteBodyText2,
-        button: _button,
+        headlineSmall: _whiteHeadline5,
+        titleLarge: _whiteHeadline6,
+        titleMedium: _whiteSubTitle1,
+        titleSmall: _whiteSubTitle2,
+        bodyMedium: _whiteBodyText2,
+        labelLarge: _button,
       );
 }
 
 extension ThemeTextExtension on TextTheme {
-  TextStyle get submitTextButton => button!.copyWith(
+  TextStyle get submitTextButton => labelLarge!.copyWith(
         fontSize: Sizes.dimen_14.sp,
         color: Colors.white,
         letterSpacing: 1.5,
@@ -66,44 +66,44 @@ extension ThemeTextExtension on TextTheme {
         fontWeight: FontWeight.bold,
       );
 
-  TextStyle get gerySubtitle1 => subtitle1!.copyWith(
+  TextStyle get gerySubtitle1 => titleMedium!.copyWith(
         color: Colors.grey,
       );
 
-  TextStyle get whiteSubtitle1 => subtitle1!.copyWith(
+  TextStyle get whiteSubtitle1 => titleMedium!.copyWith(
         color: Colors.white,
       );
 
-  TextStyle get wHeadLine6 => headline6!.copyWith(
+  TextStyle get wHeadLine6 => titleLarge!.copyWith(
         color: Colors.white,
       );
 
-  TextStyle get violetHeadLine6 => headline6!.copyWith(
+  TextStyle get violetHeadLine6 => titleLarge!.copyWith(
         color: AppColor.accentColor,
       );
 
-  TextStyle get vulcanBodyText2 => bodyText2!.copyWith(
+  TextStyle get vulcanBodyText2 => bodyMedium!.copyWith(
         color: AppColor.primaryDarkColor,
       );
 
-  TextStyle get whiteCaption => caption!.copyWith(
+  TextStyle get whiteCaption => bodySmall!.copyWith(
         color: Colors.white,
       );
 
-  TextStyle get geryCaption => caption!.copyWith(
+  TextStyle get geryCaption => bodySmall!.copyWith(
         color: Colors.grey,
       );
 
-  TextStyle get vulcanCaption => caption!.copyWith(
+  TextStyle get vulcanCaption => bodySmall!.copyWith(
         color: AppColor.primaryDarkColor,
       );
 
-  TextStyle get letterSpaceHeadLine6 => headline6!.copyWith(
+  TextStyle get letterSpaceHeadLine6 => titleLarge!.copyWith(
       color: AppColor.primaryDarkColor,
       letterSpacing: 2,
       fontWeight: FontWeight.bold);
 
-  TextStyle get blackBodyText2 => bodyText2!.copyWith(
+  TextStyle get blackBodyText2 => bodyMedium!.copyWith(
         color: AppColor.primaryDarkColor,
         fontSize: Sizes.dimen_14.sp,
         wordSpacing: 0.25,
@@ -111,7 +111,7 @@ extension ThemeTextExtension on TextTheme {
         height: 1.5,
       );
 
-  TextStyle get boldVulcanBodyText2 => bodyText2!.copyWith(
+  TextStyle get boldVulcanBodyText2 => bodyMedium!.copyWith(
       color: AppColor.primaryDarkColor,
       fontSize: Sizes.dimen_14.sp,
       wordSpacing: 0.25,

@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
@@ -111,9 +110,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
             *
             * */
             if (state is AboutUsPageFetchedSuccess) {
-              //launcjjj(state.sideMenuPages.url);
               return CustomWebViewWidget(url: state.sideMenuPages.url);
-            return const SizedBox.shrink();
             }
 
             /*

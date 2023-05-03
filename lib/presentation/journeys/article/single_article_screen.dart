@@ -6,18 +6,15 @@ import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/ads_pages.dart';
 import '../../../common/enum/app_error_type.dart';
 import '../../../common/functions/open_url.dart';
-import '../../../domain/entities/data/ad_entity.dart';
 import '../../../domain/entities/screen_arguments/single_article_screen_args.dart';
 import '../../../router/route_helper.dart';
 import '../../logic/cubit/get_single_article/get_single_article_cubit.dart';
 import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
-import '../../widgets/ads_list/ads_list_view.dart';
 import '../../widgets/ads_widget.dart';
 import '../../widgets/app_error_widget.dart';
 import '../../widgets/image_name_rating_widget.dart';
@@ -161,7 +158,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                                         articleEntity.createdAt,
                                         style: Theme.of(context)
                                             .textTheme
-                                            .caption!
+                                            .bodySmall!
                                             .copyWith(
                                               color: AppColor.accentColor,
                                             ),

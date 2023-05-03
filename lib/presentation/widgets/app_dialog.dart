@@ -90,7 +90,7 @@ class AppDialog extends StatelessWidget {
                             'Version: 1.0.0',
                             style: Theme.of(context)
                                 .textTheme
-                                .bodyText2!
+                                .bodyMedium!
                                 .copyWith(color: AppColor.accentColor),
                             textAlign: TextAlign.center,
                           ),
@@ -107,7 +107,7 @@ class AppDialog extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     color: AppColor.primaryDarkColor,
                                     fontWeight: FontWeight.bold),
@@ -126,7 +126,7 @@ class AppDialog extends StatelessWidget {
                             overflow: TextOverflow.ellipsis,
                             style: Theme.of(context)
                                 .textTheme
-                                .subtitle2!
+                                .titleSmall!
                                 .copyWith(
                                     color: AppColor.primaryDarkColor,
                                     fontWeight: FontWeight.normal),

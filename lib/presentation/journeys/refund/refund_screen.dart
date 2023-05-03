@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
 import 'package:yamaiter/common/enum/payment_mission_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/refund_args.dart';
 import 'package:yamaiter/presentation/logic/common/refund_payment/refund_payment_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';

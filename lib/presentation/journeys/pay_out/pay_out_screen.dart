@@ -147,7 +147,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                   return Center(
                     child: Text(
                       "0",
-                      style: Theme.of(context).textTheme.headline3!.copyWith(
+                      style: Theme.of(context).textTheme.displaySmall!.copyWith(
                             color: AppColor.accentColor,
                             fontWeight: FontWeight.bold,
                           ),
@@ -178,7 +178,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                       /// title
                       Text(
                         "${balanceState.balanceEntity.currentBalance}",
-                        style: Theme.of(context).textTheme.headline3!.copyWith(
+                        style: Theme.of(context).textTheme.displaySmall!.copyWith(
                               color: AppColor.accentColor,
                               fontWeight: FontWeight.bold,
                             ),

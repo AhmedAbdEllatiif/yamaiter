@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/presentation/widgets/app_button.dart';
 
 import '../../common/constants/sizes.dart';
 import '../../common/screen_utils/screen_util.dart';

@@ -11,7 +11,7 @@ class AppDropDownField extends StatefulWidget {
   final String? initialValue;
   late final List<String> itemsList;
   late final List<TaskEntity> taskItems;
-  final Function(dynamic?) onChanged;
+  final Function(dynamic) onChanged;
   final double? height;
   final double? width;
   final EdgeInsets? margin;
@@ -130,6 +130,7 @@ class _AppDropDownFieldState extends State<AppDropDownField> {
                 // if (value.isEmpty) return "* اختر المحافظة محل العمل";
                 if (value == null) return "* مطلوب ادخاله";
                 if (value.isEmpty) return "* مطلوب ادخاله";
+                return null;
               }
             : null,
         // items

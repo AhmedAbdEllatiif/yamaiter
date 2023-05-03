@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/common/functions/get_authoried_user.dart';
-import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/forms/client_edit_profile_form.dart';
 import 'package:yamaiter/presentation/journeys/drawer/screens/edit_profile/forms/lawyer_edit_profile_form.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
@@ -11,7 +10,6 @@ import 'package:yamaiter/presentation/themes/theme_color.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/functions/get_user_token.dart';
 import '../../../../../di/git_it_instance.dart';
-import '../../../../logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../../logic/cubit/pick_images/pick_image_cubit.dart';
 import '../../../../logic/cubit/update_client_profile/update_client_profile_cubit.dart';
 import '../../../../logic/cubit/update_lawyer_profile/update_lawyer_profile_cubit.dart';
@@ -34,8 +32,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   /// UpdateLawyerProfileCubit
   late final UpdateLawyerProfileCubit _updateLawyerCubit;
 
-  /// AuthorizedUserEntity
-  late final AuthorizedUserEntity _authorizedUserEntity;
 
   /// profile image path
   String _profileImagePath = " ";
@@ -185,7 +181,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   void _initAuthorizedUserEntity() {
-    _authorizedUserEntity = getAuthorizedUserEntity(context);
   }
 
   void _updateLawyerProfileOnSubmit({

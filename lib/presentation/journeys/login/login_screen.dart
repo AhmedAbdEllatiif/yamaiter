@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/forget_password_arguments.dart';
 import 'package:yamaiter/presentation/logic/common/store_fb_token/store_firebase_token_cubit.dart';

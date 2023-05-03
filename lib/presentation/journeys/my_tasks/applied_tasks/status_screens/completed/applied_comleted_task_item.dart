@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 
@@ -95,7 +95,7 @@ class AppliedCompletedItem extends StatelessWidget {
                               /// date, court, applicants
                               Container(
                                 width: double.infinity,
-                                padding: EdgeInsets.only(top: 20, right: 5),
+                                padding: const EdgeInsets.only(top: 20, right: 5),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [

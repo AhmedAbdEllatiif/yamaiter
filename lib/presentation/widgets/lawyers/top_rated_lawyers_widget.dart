@@ -142,7 +142,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption!
+                                          .bodySmall!
                                           .copyWith(height: 1.3),
                                     )),
 
@@ -155,7 +155,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                           "${lawyer.tasksCount} مهمة",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2!
+                                              .bodyMedium!
                                               .copyWith(height: .5),
                                         ),
                                         RoundedText(
@@ -164,7 +164,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                                 horizontal: 10),
                                             textStyle: Theme.of(context)
                                                 .textTheme
-                                                .caption!
+                                                .bodySmall!
                                                 .copyWith(
                                                   color: AppColor.accentColor,
                                                 ),
@@ -240,7 +240,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption!
+                                          .bodySmall!
                                           .copyWith(height: 1.3),
                                     )),
 
@@ -253,7 +253,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                           "${lawyer.tasksCount} مهمة",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .bodyText2!
+                                              .bodyMeduim!
                                               .copyWith(height: .5),
                                         ),
                                         RoundedText(
@@ -262,7 +262,7 @@ class _TopRatedLawyersWidgetState extends State<TopRatedLawyersWidget> {
                                                 horizontal: 10),
                                             textStyle: Theme.of(context)
                                                 .textTheme
-                                                .caption!
+                                                .bodySmall!
                                                 .copyWith(
                                                   color: AppColor.accentColor,
                                                 ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:developer';
 
 import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';

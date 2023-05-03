@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
 import '../../../../../common/enum/app_error_type.dart';
 import '../../../../../di/git_it_instance.dart';
@@ -25,9 +24,7 @@ class HomePageClient extends StatefulWidget {
 }
 
 class _HomePageClientState extends State<HomePageClient> {
-  bool _pinned = true;
-  bool _snap = false;
-  bool _floating = false;
+  final bool _snap = false;
 
   late final GetAllArticlesCubit _getAllArticlesCubit;
 

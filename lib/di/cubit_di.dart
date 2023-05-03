@@ -1,7 +1,6 @@
 import 'package:yamaiter/presentation/logic/client_cubit/create_consultation/create_consultation_cubit.dart';
 import 'package:yamaiter/presentation/logic/common/chat_room/chat_room_cubit.dart';
 import 'package:yamaiter/presentation/logic/common/get_balance/get_balance_cubit.dart';
-import 'package:yamaiter/presentation/logic/common/get_balance/get_balance_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/assign_task/assign_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';

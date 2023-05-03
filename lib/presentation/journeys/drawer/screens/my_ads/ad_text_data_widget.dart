@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../../themes/theme_color.dart';
-
 class AddTextData extends StatelessWidget {
   final String text;
   final String value;
@@ -17,7 +15,7 @@ class AddTextData extends StatelessWidget {
       overflow: TextOverflow.ellipsis,
       textAlign: TextAlign.center,
       maxLines: 1,
-      style: Theme.of(context).textTheme.caption!.copyWith(
+      style: Theme.of(context).textTheme.bodySmall!.copyWith(
         color: Colors.black,
       ),
     );

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
@@ -6,7 +5,6 @@ import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/loading_m
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/data/article_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';

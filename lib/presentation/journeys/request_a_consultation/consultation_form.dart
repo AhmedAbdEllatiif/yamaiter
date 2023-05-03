@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/payment_method.dart';
@@ -237,7 +236,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
               TextSpan(
                 text:
                     "حتي تحصل على الخدمة بصورة صحيحة برجاء إرفاق المستندات الخاصة بطلبك حتى يتمكن فريقنا من الرد على استفسارك بصورة مهنية. \n",
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: Sizes.dimen_10.sp,
@@ -248,7 +247,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
               ),
               TextSpan(
                 text: "قيمة الاستشارة ",
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: Sizes.dimen_10.sp,
@@ -259,7 +258,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
               ),
               TextSpan(
                 text: widget.consultFees.toString(),
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: Sizes.dimen_14.sp,
@@ -270,7 +269,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
               ),
               TextSpan(
                 text: " جنيه",
-                style: Theme.of(context).textTheme.caption!.copyWith(
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
                       height: 1.5,
                       fontWeight: FontWeight.bold,
                       fontSize: Sizes.dimen_10.sp,

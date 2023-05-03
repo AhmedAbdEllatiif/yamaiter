@@ -3,7 +3,6 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../common/constants/app_utils.dart';
 import '../../common/constants/sizes.dart';
-import '../../router/route_helper.dart';
 import '../themes/theme_color.dart';
 import 'app_logo.dart';
 
@@ -74,7 +73,7 @@ class CustomAppBar extends PreferredSize {
                                   overflow: TextOverflow.ellipsis,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .caption!
+                                      .bodySmall!
                                       .copyWith(color: AppColor.white),
                                 ),
                               ),

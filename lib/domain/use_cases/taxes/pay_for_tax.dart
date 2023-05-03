@@ -5,7 +5,6 @@ import 'package:yamaiter/domain/entities/data/pay_entity.dart';
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
-import '../../../data/models/success_model.dart';
 
 class PayForTaxCase extends UseCase<PayEntity, CreateTaxParams> {
   final RemoteRepository remoteRepository;

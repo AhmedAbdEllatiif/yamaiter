@@ -2,15 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/data/data_source/remote_data_source.dart';
-import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
-import 'package:yamaiter/presentation/widgets/app_logo.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 import '../../../common/constants/assets_constants.dart';
@@ -91,46 +87,43 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Container(
-                // color: Colors.red.withOpacity(.4),
-                child: SmoothPageIndicator(
-                  controller: pageController,
-                  count: 3,
-                  effect: CustomizableEffect(
-                    activeDotDecoration: DotDecoration(
-                      width: Sizes.dimen_16.w,
-                      height: Sizes.dimen_16.w,
-                      color: AppColor.accentColor,
-                      // rotationAngle: 180,
-                      // verticalOffset: -10,
-                      borderRadius: BorderRadius.circular(24),
-                      // dotBorder: DotBorder(
-                      //   padding: 2,
-                      //   width: 2,
-                      //   color: Colors.indigo,
-                      // ),
-                    ),
-                    dotDecoration: DotDecoration(
-                      width: Sizes.dimen_10.w,
-                      height: Sizes.dimen_10.w,
-                      color: Colors.grey,
-                      // dotBorder: DotBorder(
-                      //   padding: 2,
-                      //   width: 2,
-                      //   color: Colors.grey,
-                      // ),
-                      // borderRadius: BorderRadius.only(
-                      //     topLeft: Radius.circular(2),
-                      //     topRight: Radius.circular(16),
-                      //     bottomLeft: Radius.circular(16),
-                      //     bottomRight: Radius.circular(2)),
-                      borderRadius: BorderRadius.circular(16),
-                      verticalOffset: 0,
-                    ),
-                    //spacing: 6.0,
-                    // activeColorOverride: (i) => colors[i],
-                    inActiveColorOverride: (i) => AppColor.white,
+              SmoothPageIndicator(
+                controller: pageController,
+                count: 3,
+                effect: CustomizableEffect(
+                  activeDotDecoration: DotDecoration(
+                    width: Sizes.dimen_16.w,
+                    height: Sizes.dimen_16.w,
+                    color: AppColor.accentColor,
+                    // rotationAngle: 180,
+                    // verticalOffset: -10,
+                    borderRadius: BorderRadius.circular(24),
+                    // dotBorder: DotBorder(
+                    //   padding: 2,
+                    //   width: 2,
+                    //   color: Colors.indigo,
+                    // ),
                   ),
+                  dotDecoration: DotDecoration(
+                    width: Sizes.dimen_10.w,
+                    height: Sizes.dimen_10.w,
+                    color: Colors.grey,
+                    // dotBorder: DotBorder(
+                    //   padding: 2,
+                    //   width: 2,
+                    //   color: Colors.grey,
+                    // ),
+                    // borderRadius: BorderRadius.only(
+                    //     topLeft: Radius.circular(2),
+                    //     topRight: Radius.circular(16),
+                    //     bottomLeft: Radius.circular(16),
+                    //     bottomRight: Radius.circular(2)),
+                    borderRadius: BorderRadius.circular(16),
+                    verticalOffset: 0,
+                  ),
+                  //spacing: 6.0,
+                  // activeColorOverride: (i) => colors[i],
+                  inActiveColorOverride: (i) => AppColor.white,
                 ),
               ),
             ],

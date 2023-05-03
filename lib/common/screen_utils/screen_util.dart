@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -33,14 +34,14 @@ class ScreenUtil {
         bool allowFontScaling = false,
       }) {
 
-    print("init ..........\n}");
-    print("devicePixelRatio >> ${window.devicePixelRatio}");
-    print("physicalSize.width >> ${window.physicalSize.width}");
-    print("physicalSize.height >> ${window.physicalSize.height}");
-    print("padding.top >> ${window.padding.top}");
-    print("padding.bottom >> ${window.padding.bottom}");
-    print("textScaleFactor >> ${window.textScaleFactor}");
-    print("end ..........\n}");
+    log("init ..........\n}");
+    log("devicePixelRatio >> ${window.devicePixelRatio}");
+    log("physicalSize.width >> ${window.physicalSize.width}");
+    log("physicalSize.height >> ${window.physicalSize.height}");
+    log("padding.top >> ${window.padding.top}");
+    log("padding.bottom >> ${window.padding.bottom}");
+    log("textScaleFactor >> ${window.textScaleFactor}");
+    log("end ..........\n}");
     _instance = ScreenUtil._();
     _instance.uiWidthPx = width;
     _instance.uiHeightPx = height;
@@ -63,14 +64,14 @@ class ScreenUtil {
         required double pixelRatio,
         required double textScaleFactor
       }) {
-    print("initWithMediaQuery \n............");
-    print("devicePixelRatio >> $pixelRatio ");
-    print("_screenWidth >> $screenWidth");
-    print("_screenHeight >> $screenHeight");
-    print("padding.top >> ${padding.top}");
-    print("padding.bottom >> ${padding.bottom}");
-    print("textScaleFactor >> ${window.textScaleFactor}");
-    print("End \n............");
+    log("initWithMediaQuery \n............");
+    log("devicePixelRatio >> $pixelRatio ");
+    log("_screenWidth >> $screenWidth");
+    log("_screenHeight >> $screenHeight");
+    log("padding.top >> ${padding.top}");
+    log("padding.bottom >> ${padding.bottom}");
+    log("textScaleFactor >> ${window.textScaleFactor}");
+    log("End \n............");
     _instance = ScreenUtil._();
     _instance.uiWidthPx = width;
     _instance.uiHeightPx = height;

@@ -69,7 +69,6 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
         /// body
         body: BlocConsumer<FilterTasksCubit, FilterTasksState>(
           listener: (context, state) {
-            print("State >> $state");
             if (state is FilteredTasksFetchedSuccessfully) {
               _navigateToFilteredTaskResultScreen(
                   taskList: state.taskEntityList);
@@ -174,7 +173,7 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                               "اقل من 5",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: AppColor.white),
                             ),
                           ],
@@ -201,7 +200,7 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                               "5-10",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: AppColor.white),
                             ),
                           ],
@@ -228,7 +227,7 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                               "اكثر من 10",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: AppColor.white),
                             ),
                           ],
@@ -271,7 +270,7 @@ class _FilterTasksScreenState extends State<FilterTasksScreen> {
                         Text(
                           "* لا يوجد مهام بهذه المواصفات *",
                           style:
-                              Theme.of(context).textTheme.bodyText2!.copyWith(
+                              Theme.of(context).textTheme.bodyMedium!.copyWith(
                                     color: AppColor.white,
                                     fontWeight: FontWeight.normal,
                                   ),

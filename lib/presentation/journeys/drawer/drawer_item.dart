@@ -1,12 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
-
-import '../../../common/constants/assets_constants.dart';
 
 class DrawerItem extends StatelessWidget {
   final IconData? iconData;

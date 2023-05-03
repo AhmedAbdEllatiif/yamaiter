@@ -1,13 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:yamaiter/common/constants/app_utils.dart';
-import 'package:yamaiter/common/enum/ad_status.dart';
-import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/ad_entity.dart';
 
 import '../../../../../common/screen_utils/screen_util.dart';
-import '../../../../themes/theme_color.dart';
 import '../../../../widgets/cached_image_widget.dart';
 import 'ad_status_widget.dart';
 import 'ad_text_data_widget.dart';

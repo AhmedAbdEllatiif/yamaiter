@@ -6,7 +6,6 @@ import 'package:yamaiter/presentation/widgets/app_refersh_indicator.dart';
 
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/data/task_entity.dart';
 import '../../../../router/route_helper.dart';
 import '../../../logic/cubit/get_all_tasks/get_all_task_cubit.dart';

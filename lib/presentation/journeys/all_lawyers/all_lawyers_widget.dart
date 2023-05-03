@@ -12,7 +12,6 @@ import '../../../../di/git_it_instance.dart';
 import '../../../../router/route_helper.dart';
 import '../../../domain/entities/data/lawyer_entity.dart';
 import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
-import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../themes/theme_color.dart';
 import '../../widgets/app_error_widget.dart';
 import '../../widgets/lawyers/lawyer_item.dart';
@@ -188,7 +187,4 @@ class _AllLawyerListState extends State<AllLawyerList> {
   /// to navigate to login
   void _navigateToLogin() =>
       RouteHelper().loginScreen(context, isClearStack: true);
-
-  /// to navigate to contact us
-  void _navigateToContactUs() => RouteHelper().chooseUserType(context);
 }

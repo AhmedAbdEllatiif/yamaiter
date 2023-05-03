@@ -68,7 +68,7 @@ class _EndTaskScreenState extends State<EndTaskScreen> {
               //==>  title
               AppContentTitleWidget(
                 title: "انهاء المهمة",
-                textStyle: Theme.of(context).textTheme.headline5!.copyWith(
+                textStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: AppColor.accentColor,
                       fontWeight: FontWeight.bold,
                     ),

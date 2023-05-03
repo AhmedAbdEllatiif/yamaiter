@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:yamaiter/common/enum/accept_terms.dart';
 import 'package:yamaiter/common/enum/user_type.dart';

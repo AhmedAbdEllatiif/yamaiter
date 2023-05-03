@@ -115,7 +115,7 @@ class _DeleteTaskScreenState extends State<DeleteTaskScreen> {
 
                   Text(
                     "هل انت متاكد من حذف هذه المهمة",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppColor.white,
                           fontWeight: FontWeight.bold,
                         ),

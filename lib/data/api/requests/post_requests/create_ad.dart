@@ -7,10 +7,10 @@ import '../../request_type.dart';
 
 class CreateAdRequest extends RawPostRequest<CreateAdRequestModel, String> {
   @override
-  Future<http.Response> call(CreateAdRequestModel model, String token) async {
+  Future<http.Response> call(CreateAdRequestModel params, String token) async {
     var response = await initRawPostRequest(
       requestType: RequestType.createAd,
-      body: model.toJson(),
+      body: params.toJson(),
       token: token,
     );
 

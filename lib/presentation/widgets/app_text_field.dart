@@ -4,7 +4,7 @@ import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/string_extensions.dart';
 
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 
 import '../../common/enum/animation_type.dart';
 import '../themes/theme_color.dart';
@@ -81,7 +81,8 @@ class _AppTextFieldState extends State<AppTextField> {
       margin: widget.margin,
       child: TextFormField(
         textDirection: widget.textInputType == TextInputType.emailAddress ||
-            widget.textInputType == TextInputType.number? TextDirection.ltr
+                widget.textInputType == TextInputType.number
+            ? TextDirection.ltr
             : null,
         // controller
         controller: widget.controller,
@@ -142,7 +143,7 @@ class _AppTextFieldState extends State<AppTextField> {
                   borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
                 )
               : const OutlineInputBorder(
-                  borderSide: const BorderSide(color: AppColor.primaryColor),
+                  borderSide: BorderSide(color: AppColor.primaryColor),
                 ),
           errorBorder: OutlineInputBorder(
             borderSide: const BorderSide(color: AppColor.red),

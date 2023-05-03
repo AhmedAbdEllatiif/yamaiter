@@ -5,10 +5,8 @@
 import 'dart:convert';
 
 import 'package:yamaiter/common/constants/app_utils.dart';
-import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/data/models/authorized_user_model.dart';
 import 'package:yamaiter/domain/entities/data/login_response_entity.dart';
-import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
 LoginResponseModel loginResponseModelFromJson(String str) =>
     LoginResponseModel.fromJson(json.decode(str));

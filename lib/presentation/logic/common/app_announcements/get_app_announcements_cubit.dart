@@ -6,7 +6,6 @@ import 'package:yamaiter/domain/entities/data/news_entity.dart';
 import 'package:yamaiter/domain/use_cases/get_app_announcements_case.dart';
 
 import '../../../../common/enum/app_error_type.dart';
-import '../../../../data/models/announcements/new_model.dart';
 import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 import '../../../../domain/entities/data/ad_entity.dart';

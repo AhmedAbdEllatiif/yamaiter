@@ -1,6 +1,4 @@
-import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
-import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/update_sos_cubit/update_sos_cubit.dart';
 
 class UpdateSosArguments {

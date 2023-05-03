@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/tax_entity.dart';
-import 'package:yamaiter/presentation/widgets/app_button.dart';
 
-import '../../../../../common/constants/app_utils.dart';
 import '../../../../../common/constants/assets_constants.dart';
 import '../../../../../common/constants/sizes.dart';
 import '../../../../themes/theme_color.dart';
@@ -55,7 +53,7 @@ class TaxItem extends StatelessWidget {
                       taxEntity.createdAt,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: Theme.of(context).textTheme.caption!.copyWith(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           height: 1.2,
                           color: AppColor.primaryDarkColor,
                           fontWeight: FontWeight.normal),

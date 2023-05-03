@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/sos/sos_form.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/string_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/update_article_args.dart';
@@ -10,7 +10,6 @@ import 'package:yamaiter/presentation/logic/cubit/delete_article/delete_article_
 import 'package:yamaiter/presentation/logic/cubit/update_article/update_article_cubit.dart';
 
 import '../../common/constants/app_utils.dart';
-import '../../common/constants/assets_constants.dart';
 import '../../common/constants/sizes.dart';
 import '../../common/enum/animation_type.dart';
 import '../../router/route_helper.dart';
@@ -40,12 +39,10 @@ class ArticleItem extends StatefulWidget {
 
 class _ArticleItemState extends State<ArticleItem> {
   bool _isMenuOpened = false;
-  bool _isArticleByAdmin = false;
 
   @override
   void initState() {
     super.initState();
-    _isArticleByAdmin = widget.articleEntity.authorName == "admin";
   }
 
   @override

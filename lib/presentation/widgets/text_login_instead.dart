@@ -31,7 +31,7 @@ class LoginOrRegisterWidget extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(Sizes.dimen_5.w),
               child: Text("نسيت كلمة المرور؟",
-                  style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                         letterSpacing: 0.5,
                         fontWeight: FontWeight.bold,
                         color: AppColor.white,
@@ -40,7 +40,7 @@ class LoginOrRegisterWidget extends StatelessWidget {
           ),
         if (!isLogin)
           Text("لديك حساب بالفعل؟",
-              style: Theme.of(context).textTheme.bodyText2!.copyWith(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     letterSpacing: 0,
                     color: AppColor.white,
                     fontWeight: FontWeight.normal,
@@ -53,7 +53,7 @@ class LoginOrRegisterWidget extends StatelessWidget {
           child: Padding(
             padding: EdgeInsets.all(Sizes.dimen_5.w),
             child: Text(isLogin ? "تسجيل حساب جديد" : "قم بتسجيل الدخول",
-                style: Theme.of(context).textTheme.bodyText1!.copyWith(
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                       letterSpacing: 0.5,
                       fontWeight: FontWeight.bold,
                       color: AppColor.accentColor,

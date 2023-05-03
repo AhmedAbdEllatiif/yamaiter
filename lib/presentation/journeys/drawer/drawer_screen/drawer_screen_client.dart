@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/side_menu_page.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/di/git_it_instance.dart';
-import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_item.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/router/route_helper.dart';
@@ -27,13 +25,10 @@ class DrawerScreenClient extends StatefulWidget {
 }
 
 class _DrawerScreenClientState extends State<DrawerScreenClient> {
-  /// current authorized user
-  late final AuthorizedUserEntity _currentUser;
 
   @override
   void initState() {
     super.initState();
-    _currentUser = context.read<AuthorizedUserCubit>().state.userEntity;
   }
 
   @override

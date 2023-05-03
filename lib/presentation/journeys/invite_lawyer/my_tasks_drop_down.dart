@@ -6,7 +6,7 @@ import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 class MyTasksDropDown extends StatelessWidget {
   final GetMyTasksCubit getMyTasksCubit;
-  final Function(dynamic?) onChanged;
+  final Function(dynamic) onChanged;
   final String? errorText;
 
   const MyTasksDropDown({

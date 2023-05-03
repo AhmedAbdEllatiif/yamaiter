@@ -47,7 +47,6 @@ class LoadingMoreAllTasksWidget extends StatelessWidget {
 
             //==> LoadMoreScreensError
             if (state is ErrorWhileGettingMoreAllTasksList) {
-              print("Error: ${state.appError.appErrorType}");
               return Column(
                 children: [
                   const LoadingWidget(),
@@ -55,7 +54,7 @@ class LoadingMoreAllTasksWidget extends StatelessWidget {
                     "تحقق من الاتصال بالنترنت",
                     style: Theme.of(context)
                         .textTheme
-                        .caption!
+                        .bodySmall!
                         .copyWith(color: AppColor.primaryDarkColor),
                   ),
                 ],

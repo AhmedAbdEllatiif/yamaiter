@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -64,7 +63,7 @@ void main() async {
   );
 
   /// to setup firebase messaging
-  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  //FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   /// send fcm
   _setupFCM();

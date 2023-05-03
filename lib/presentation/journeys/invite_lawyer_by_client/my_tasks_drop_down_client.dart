@@ -7,7 +7,7 @@ import '../../logic/cubit/get_my_tasks/get_my_tasks_cubit.dart';
 
 class MyTasksDropDownClient extends StatelessWidget {
   final GetMyTasksCubit getMyTasksCubit;
-  final Function(dynamic?) onChanged;
+  final Function(dynamic) onChanged;
   final String? errorText;
 
   const MyTasksDropDownClient({

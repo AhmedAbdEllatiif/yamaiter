@@ -89,7 +89,7 @@ class _CustomAnimatedWidgetState extends State<CustomAnimatedWidget>
   late AnimationController _slideController;
   late AnimationController _fadeController;
   late AnimationController _sizedController;
-  late final Animation<double> _sizeAnimation;
+  //late final Animation<double> _sizeAnimation;
 
   @override
   void initState() {
@@ -312,13 +312,13 @@ class _CustomAnimatedWidgetState extends State<CustomAnimatedWidget>
 
     final parent =
         tween != null ? _rotationController.drive(tween) : _rotationController;
-    final _animation = CurvedAnimation(
+    final animation = CurvedAnimation(
       parent: parent,
       curve: curve,
       reverseCurve: reverseCurve,
     );
     return {
-      "animation": _animation,
+      "animation": animation,
       RotationAnimationParams.triggerOn: triggerOn,
     };
   }
@@ -450,11 +450,11 @@ class _CustomAnimatedWidgetState extends State<CustomAnimatedWidget>
     final parent =
         tween != null ? _sizedController.drive(tween) : _sizedController;
 
-    final _animation = CurvedAnimation(
+    final animation = CurvedAnimation(
         parent: parent, curve: curve, reverseCurve: reverseCurve);
 
     return {
-      "animation": _animation,
+      "animation": animation,
       SizeAnimationParam.triggerOn: triggerOn,
       SizeAnimationParam.axis: axis,
       SizeAnimationParam.axisAlignment: axisAlignment,

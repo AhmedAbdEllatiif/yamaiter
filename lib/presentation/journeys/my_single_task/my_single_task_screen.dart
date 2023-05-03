@@ -326,7 +326,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                                 _taskEntity.description,
                                 style: Theme.of(context)
                                     .textTheme
-                                    .bodyText2!
+                                    .bodyMedium!
                                     .copyWith(color: Colors.black, height: 1.4),
                               ),
                             ),

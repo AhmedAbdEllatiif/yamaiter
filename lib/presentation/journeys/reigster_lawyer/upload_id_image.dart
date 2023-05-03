@@ -76,7 +76,7 @@ class UploadIdImageWidget extends StatelessWidget {
                                       overflow: TextOverflow.ellipsis,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption!
+                                          .bodySmall!
                                           .copyWith(
                                             color: AppColor.accentColor,
                                           ),
@@ -102,7 +102,7 @@ class UploadIdImageWidget extends StatelessWidget {
                 ),
                 child: Text(
                   getErrorText(state),
-                  style: Theme.of(context).textTheme.caption!.copyWith(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: AppColor.accentColor,
                       ),
                 ),

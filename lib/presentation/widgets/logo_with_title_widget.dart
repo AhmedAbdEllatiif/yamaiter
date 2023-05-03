@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
@@ -30,7 +29,7 @@ class LogoWithTitleWidget extends StatelessWidget {
           child: Text(
            title,
             textAlign: TextAlign.center,
-            style: Theme.of(context).textTheme.headline6!.copyWith(
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
                 color: AppColor.white, fontWeight: FontWeight.bold),
           ),
         ),

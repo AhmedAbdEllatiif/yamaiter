@@ -1,4 +1,4 @@
-import 'dart:ffi';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -48,7 +48,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           '<html><body><iframe src="${widget.paymentArguments.link}" " height=\'100%\' width=\'100%\' "></iframe></body></html>',
           mimeType: 'text/html'));
     }catch (e){
-      print("Error: $e");
+      log("PaymentScreen: Error: $e");
     }
 
   }
@@ -61,7 +61,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onPressed: () {
             Navigator.pop(context, "CheckPaymentStatus");
           },
-          icon: Icon(
+          icon: const Icon(
             Icons.close,
             color: AppColor.white,
           ),
@@ -71,13 +71,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
               onPressed: () {
                 controller.reload();
               },
-              icon: Icon(
+              icon: const Icon(
                 Icons.refresh,
                 color: AppColor.white,
               ))
         ],
       ),
-      body: Container(
+      body: SizedBox(
           width: double.infinity,
           child: WebViewWidget(
             controller: controller,

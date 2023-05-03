@@ -33,7 +33,7 @@ class _AppCheckBoxTileState extends State<AppCheckBoxTile> {
         maxLines: 2,
         style: Theme.of(context)
             .textTheme
-            .caption!
+            .bodySmall!
             .copyWith(color: widget.textColor, height: 1.5,fontWeight: FontWeight.bold),
       ),
 
@@ -44,7 +44,7 @@ class _AppCheckBoxTileState extends State<AppCheckBoxTile> {
               "* يجب الموافقة على شروط الاتفاقية",
               style: Theme.of(context)
                   .textTheme
-                  .caption!
+                  .bodySmall!
                   .copyWith(color: AppColor.red),
             )
           : null,

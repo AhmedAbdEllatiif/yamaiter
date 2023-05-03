@@ -19,7 +19,6 @@ import '../../../../di/git_it_instance.dart';
 import '../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
-import '../../../widgets/icon_with_badge.dart';
 import '../main_page_title.dart';
 
 class ClientMainScreen extends StatefulWidget {

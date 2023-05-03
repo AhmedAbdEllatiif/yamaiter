@@ -9,11 +9,8 @@ import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/functions/call_someone.dart';
-import '../../../domain/entities/data/ad_entity.dart';
-import '../../widgets/ads_list/ads_list_view.dart';
 
 class SingleSosScreen extends StatefulWidget {
   final SingleScreenArguments singleScreenArguments;
@@ -85,7 +82,7 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                                   sosEntity.createdAtString,
                                   style: Theme.of(context)
                                       .textTheme
-                                      .caption!
+                                      .bodySmall!
                                       .copyWith(color: AppColor.accentColor),
                                 ),
                               ],
@@ -139,7 +136,7 @@ class _SingleSosScreenState extends State<SingleSosScreen> {
                         sosEntity.description,
                         style: Theme.of(context)
                             .textTheme
-                            .bodyText2!
+                            .bodyMedium!
                             .copyWith(color: Colors.black, height: 1.4),
                       ),
                     ],

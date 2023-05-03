@@ -129,7 +129,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
               //==>  title
               AppContentTitleWidget(
                 title: "تعديل المهمة",
-                textStyle: Theme.of(context).textTheme.headline5!.copyWith(
+                textStyle: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       color: AppColor.accentColor,
                       fontWeight: FontWeight.bold,
                     ),

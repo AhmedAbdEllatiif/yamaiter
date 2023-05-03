@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
-import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
 import 'package:yamaiter/presentation/widgets/app_button.dart';
 import 'package:yamaiter/presentation/widgets/scrollable_app_card.dart';
 
-import '../../common/constants/sizes.dart';
 import '../../common/enum/app_error_type.dart';
 import '../../router/route_helper.dart';
 import '../logic/cubit/accept_terms/accept_terms_cubit.dart';
@@ -173,7 +171,7 @@ ${widget.acceptTermsEntity.pages[0].sections[0].description}
                   onErrorBuilder: (context, element, error) =>
                       Text('$element error: $error'),
                   onLoadingBuilder: (context, element, loadingProgress) =>
-                      CircularProgressIndicator(),
+                      const CircularProgressIndicator(),
 
                   // this callback will be triggered when user taps a link
                   //onTapUrl: (url) => print('tapped $url'),
@@ -184,7 +182,7 @@ ${widget.acceptTermsEntity.pages[0].sections[0].description}
                   renderMode: RenderMode.column,
 
                   // set the default styling for text
-                  textStyle: TextStyle(fontSize: 14),
+                  textStyle: const TextStyle(fontSize: 14),
                 ),
                 AppCheckBoxTile(
                   onChanged: (isChecked) {

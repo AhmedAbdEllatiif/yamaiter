@@ -84,12 +84,11 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
             BlocListener<PickImageCubit, PickImageState>(
               listener: (context, state) {
                 if (state is ErrorWhilePickingImage) {
-                  print("Error >> ${state.appError}");
+                  log("RegisterLawyerScreen >> Error >> ${state.appError}");
                 }
 
                 if (state is ImagePicked) {
                   _idImagePath = state.image.path;
-                  print("ImagePicked >> ${state.image.path}");
                 }
               },
             ),

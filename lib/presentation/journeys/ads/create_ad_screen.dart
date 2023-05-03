@@ -5,9 +5,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/widgets/ads_widget.dart';
 
 import '../../../common/constants/app_utils.dart';
-import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
-import '../../../domain/entities/data/ad_entity.dart';
 import '../../../router/route_helper.dart';
 import 'create_ad_form.dart';
 

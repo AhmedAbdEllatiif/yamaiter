@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/app_error_type.dart';
@@ -11,7 +9,6 @@ import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
 import '../../../../common/constants/sizes.dart';
-import '../../../../common/functions/common_functions.dart';
 import '../../../../common/functions/navigate_to_login.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/app_button.dart';
@@ -205,7 +202,7 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
                             "تم تغيير كلمة السر بنجاح",
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     color: AppColor.accentColor,
                                     fontWeight: FontWeight.bold),

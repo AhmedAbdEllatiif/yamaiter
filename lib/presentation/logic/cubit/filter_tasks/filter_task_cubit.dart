@@ -50,7 +50,6 @@ class FilterTasksCubit extends Cubit<FilterTasksState> {
   /// this means last page reached
   FilterTasksState _statusToEmit(
       {required List<TaskEntity> tasksList, required int offset}) {
-    print("Size: ${tasksList.length} , offset: $offset ");
     //==> last page reached
     if (offset > 0 && tasksList.isEmpty) {
       return LastPageFilterTasksFetched(taskEntityList: tasksList);

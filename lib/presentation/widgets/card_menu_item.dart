@@ -21,7 +21,7 @@ class CardMenuItem extends StatelessWidget {
           padding: const EdgeInsets.only(right: 8.0, left: 8.0, bottom: 2),
           child: Text(
             text,
-            style: Theme.of(context).textTheme.bodyText2!.copyWith(
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: AppColor.primaryDarkColor,
                 ),
           ),

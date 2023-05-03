@@ -13,7 +13,7 @@ class LastListItem extends StatelessWidget {
       "...",
       style: Theme.of(context)
           .textTheme
-          .headline5!
+          .headlineSmall!
           .copyWith(color: dotsColor, fontWeight: FontWeight.bold),
     );
   }

@@ -1,9 +1,6 @@
 import 'dart:developer';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../common/constants/assets_constants.dart';
@@ -86,26 +83,26 @@ class ImageNameRatingWidget extends StatelessWidget {
                 .copyWith(color: nameColor, fontSize: nameSize),
           ),
 
-          if(!isAdmin)
-          if (showRating)
-            RatingBar.builder(
-              initialRating: rating,
-              minRating: 0.5,
-              itemSize: iconRateSize.w,
-              direction: Axis.horizontal,
-              allowHalfRating: true,
-              itemCount: 5,
-              itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-              unratedColor: unRatedColor,
-              ignoreGestures: true,
-              itemBuilder: (context, _) => Icon(
-                Icons.star,
-                color: ratedColor,
-              ),
-              onRatingUpdate: (rating) {
-                print(rating);
-              },
-            )
+          if (!isAdmin)
+            if (showRating)
+              RatingBar.builder(
+                initialRating: rating,
+                minRating: 0.5,
+                itemSize: iconRateSize.w,
+                direction: Axis.horizontal,
+                allowHalfRating: true,
+                itemCount: 5,
+                itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                unratedColor: unRatedColor,
+                ignoreGestures: true,
+                itemBuilder: (context, _) => Icon(
+                  Icons.star,
+                  color: ratedColor,
+                ),
+                onRatingUpdate: (rating) {
+                  log("$rating");
+                },
+              )
         ],
       ),
     );
@@ -149,26 +146,26 @@ class ImageNameRatingWidget extends StatelessWidget {
                     .titleSmall!
                     .copyWith(color: nameColor),
               ),
-              if(!isAdmin)
-              if (showRating)
-                RatingBar.builder(
-                  initialRating: rating,
-                  minRating: 0,
-                  itemSize: Sizes.dimen_16.w,
-                  direction: Axis.horizontal,
-                  allowHalfRating: true,
-                  itemCount: 5,
-                  itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
-                  unratedColor: unRatedColor,
-                  ignoreGestures: true,
-                  itemBuilder: (context, _) => Icon(
-                    Icons.star,
-                    color: ratedColor,
+              if (!isAdmin)
+                if (showRating)
+                  RatingBar.builder(
+                    initialRating: rating,
+                    minRating: 0,
+                    itemSize: Sizes.dimen_16.w,
+                    direction: Axis.horizontal,
+                    allowHalfRating: true,
+                    itemCount: 5,
+                    itemPadding: const EdgeInsets.symmetric(horizontal: 0.0),
+                    unratedColor: unRatedColor,
+                    ignoreGestures: true,
+                    itemBuilder: (context, _) => Icon(
+                      Icons.star,
+                      color: ratedColor,
+                    ),
+                    onRatingUpdate: (rating) {
+                      log("$rating");
+                    },
                   ),
-                  onRatingUpdate: (rating) {
-                    print(rating);
-                  },
-                ),
             ],
           ),
         )

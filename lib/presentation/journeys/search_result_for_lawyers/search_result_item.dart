@@ -47,7 +47,7 @@ class SearchResultItem extends StatelessWidget {
                         text: "دعوة لمهمة",
                         padding: EdgeInsets.zero,
                         textStyle:
-                            Theme.of(context).textTheme.caption!.copyWith(
+                            Theme.of(context).textTheme.bodySmall!.copyWith(
                                   color: AppColor.accentColor,
                                 ),
                         color: AppColor.primaryDarkColor,

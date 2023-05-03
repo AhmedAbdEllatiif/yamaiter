@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
-import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../common/constants/app_utils.dart';
 import '../../common/constants/sizes.dart';
@@ -89,7 +88,7 @@ class RoundedText extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   style: textStyle ??
-                      Theme.of(context).textTheme.caption!.copyWith(
+                      Theme.of(context).textTheme.bodySmall!.copyWith(
                             height: 1.1,
                             fontSize: textSize,
                             fontWeight: fontWeight ?? FontWeight.bold,

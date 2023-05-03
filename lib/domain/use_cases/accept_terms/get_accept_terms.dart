@@ -4,7 +4,6 @@ import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.d
 import 'package:yamaiter/domain/repositories/remote_repository.dart';
 import 'package:yamaiter/domain/use_cases/use_case.dart';
 
-import '../../../../data/models/success_model.dart';
 
 class GetAcceptTermsCase extends UseCase<AcceptTermsEntity, String> {
   final RemoteRepository remoteRepository;

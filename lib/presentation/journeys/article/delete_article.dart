@@ -109,7 +109,7 @@ class _DeleteArticleScreenState extends State<DeleteArticleScreen> {
 
                   Text(
                     "هل انت متاكد من حذف هذا المنشور",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppColor.white,
                           fontWeight: FontWeight.bold,
                         ),

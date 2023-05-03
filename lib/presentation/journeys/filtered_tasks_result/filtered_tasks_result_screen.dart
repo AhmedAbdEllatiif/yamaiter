@@ -128,7 +128,6 @@ class _FilteredTasksResultScreenState extends State<FilteredTasksResultScreen> {
                   return LoadingTasksWithFilterWidget(
                     filterTasksCubit: _filterTasksCubit,
                   );
-                  return TaskItem(taskEntity: tasksList[index]);
                 },
               );
             },

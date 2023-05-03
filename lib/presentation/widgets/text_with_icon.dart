@@ -42,7 +42,7 @@ class TextWithIconWidget extends StatelessWidget {
               textAlign: TextAlign.center,
               maxLines: 2,
               style: textStyle ??
-                  Theme.of(context).textTheme.caption!.copyWith(
+                  Theme.of(context).textTheme.bodySmall!.copyWith(
                       color: textColor ?? AppColor.accentColor,
                       fontWeight: FontWeight.bold,
                       height: 1.3),

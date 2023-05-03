@@ -153,7 +153,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             textAlign: TextAlign.center,
                             style: Theme.of(context)
                                 .textTheme
-                                .headline6!
+                                .titleLarge!
                                 .copyWith(
                                     color: AppColor.accentColor,
                                     fontWeight: FontWeight.bold),

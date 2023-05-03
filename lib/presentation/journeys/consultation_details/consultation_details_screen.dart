@@ -95,7 +95,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                       _consultationEntity.description,
                       style: Theme.of(context)
                           .textTheme
-                          .bodyText2!
+                          .bodyMedium!
                           .copyWith(color: Colors.black, height: 1.4),
                     ),
 
@@ -105,7 +105,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                     //==> feedback title
                     Text(
                       "الرد على الاستشارة",
-                      style: Theme.of(context).textTheme.headline6!.copyWith(
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
                           height: 1.4),
@@ -122,7 +122,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                               textAlign: TextAlign.center,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(
                                     color: Colors.black,
                                     height: 1.4,
@@ -132,7 +132,7 @@ class _ConsultationDetailScreenState extends State<ConsultationDetailScreen> {
                         : Text(
                             _consultationEntity.feedBack,
                             style:
-                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                Theme.of(context).textTheme.bodyMedium!.copyWith(
                                       color: Colors.black,
                                       height: 1.4,
                                     ),

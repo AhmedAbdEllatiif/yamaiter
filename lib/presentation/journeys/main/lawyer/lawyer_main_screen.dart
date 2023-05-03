@@ -20,7 +20,6 @@ import '../../../logic/cubit/get_all_tasks/get_all_task_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
-import '../../../widgets/icon_with_badge.dart';
 import '../../drawer/drawer_screen/drawer_screen.dart';
 import '../main_page_title.dart';
 

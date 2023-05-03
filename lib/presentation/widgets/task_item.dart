@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/common/functions/open_image.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
-import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/presentation/widgets/image_name_rating_widget.dart';
 import 'package:yamaiter/router/route_helper.dart';
@@ -13,8 +12,6 @@ import '../../../../common/constants/app_utils.dart';
 import '../../../../common/constants/sizes.dart';
 import '../../../../common/enum/animation_type.dart';
 import '../themes/theme_color.dart';
-import 'cached_image_widget.dart';
-import 'card_menu_item.dart';
 import 'text_with_icon.dart';
 
 class TaskItem extends StatefulWidget {
@@ -90,7 +87,7 @@ class _TaskItemState extends State<TaskItem> {
                                       maxLines: 2,
                                       style: Theme.of(context)
                                           .textTheme
-                                          .bodyText2!
+                                          .bodyMedium!
                                           .copyWith(
                                             fontWeight: FontWeight.bold,
                                             height: 1.5,
@@ -163,7 +160,7 @@ class _TaskItemState extends State<TaskItem> {
                         Center(
                           child: Container(
                             width: double.infinity,
-                            padding: EdgeInsets.only(top: 20, right: 5),
+                            padding: const EdgeInsets.only(top: 20, right: 5),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
@@ -179,7 +176,7 @@ class _TaskItemState extends State<TaskItem> {
                                         text: widget.taskEntity.governorates,
                                         textStyle: Theme.of(context)
                                             .textTheme
-                                            .caption!
+                                            .bodySmall!
                                             .copyWith(
                                               color: AppColor.accentColor,
                                               height: 1.3,
@@ -192,7 +189,7 @@ class _TaskItemState extends State<TaskItem> {
                                         text: widget.taskEntity.court,
                                         textStyle: Theme.of(context)
                                             .textTheme
-                                            .caption!
+                                            .bodySmall!
                                             .copyWith(
                                               color: AppColor.accentColor,
                                               height: 1.3,
@@ -216,7 +213,7 @@ class _TaskItemState extends State<TaskItem> {
                                         text: widget.taskEntity.startingDate,
                                         textStyle: Theme.of(context)
                                             .textTheme
-                                            .caption!
+                                            .bodySmall!
                                             .copyWith(
                                               color: AppColor.accentColor,
                                               height: 1.3,
@@ -234,7 +231,7 @@ class _TaskItemState extends State<TaskItem> {
                                                 .toString(),
                                         textStyle: Theme.of(context)
                                             .textTheme
-                                            .caption!
+                                            .bodySmall!
                                             .copyWith(
                                               color: AppColor.accentColor,
                                               height: 1.3,

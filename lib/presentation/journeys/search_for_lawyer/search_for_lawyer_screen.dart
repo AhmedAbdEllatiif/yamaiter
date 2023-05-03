@@ -175,7 +175,7 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
                           Text(
                             "* لا يوجد محامين فى هذه المحافظة *",
                             style:
-                                Theme.of(context).textTheme.bodyText2!.copyWith(
+                                Theme.of(context).textTheme.bodyMedium!.copyWith(
                                       color: AppColor.white,
                                       fontWeight: FontWeight.normal,
                                     ),

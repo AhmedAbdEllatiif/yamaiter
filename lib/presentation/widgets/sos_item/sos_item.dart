@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';

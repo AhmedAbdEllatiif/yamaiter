@@ -8,7 +8,6 @@ import 'package:yamaiter/router/route_helper.dart';
 import '../../common/constants/app_utils.dart';
 import '../../common/functions/common_functions.dart';
 import '../../common/functions/get_authoried_user.dart';
-import '../../domain/entities/data/authorized_user_entity.dart';
 import '../themes/theme_color.dart';
 
 class StartChatButton extends StatelessWidget {

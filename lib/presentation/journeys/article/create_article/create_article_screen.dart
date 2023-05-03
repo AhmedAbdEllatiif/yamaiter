@@ -1,13 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../../../common/constants/app_utils.dart';
-import '../../../../common/constants/assets_constants.dart';
 import '../../../../common/enum/ads_pages.dart';
-import '../../../../domain/entities/data/ad_entity.dart';
 import '../../../../router/route_helper.dart';
-import '../../../widgets/ads_list/ads_list_view.dart';
 import '../../../widgets/ads_widget.dart';
 import 'article_form.dart';
 
@@ -22,7 +18,7 @@ class CreateArticleScreen extends StatelessWidget {
       ),
       body: Column(
         children: [
-          AdsWidget(adsPage: AdsPage.innerPage),
+          const AdsWidget(adsPage: AdsPage.innerPage),
 
           //==> article form
           Expanded(

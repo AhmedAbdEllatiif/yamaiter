@@ -1,7 +1,5 @@
 import 'dart:developer';
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
@@ -81,7 +79,7 @@ class _ChooseProfileImageWidgetState extends State<ChooseProfileImageWidget> {
             ),
             Text(
               "تعديل صورة البروفايل",
-              style: Theme.of(context).textTheme.caption!.copyWith(
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: AppColor.primaryDarkColor,
                   ),
             )

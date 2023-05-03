@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
@@ -7,7 +6,6 @@ import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:yamaiter/common/enum/pusher_error.dart';
 import 'package:yamaiter/data/data_source/pusher_data_source.dart';
-import 'package:yamaiter/data/models/chats/message_item_model.dart';
 
 part 'pusher_state.dart';
 

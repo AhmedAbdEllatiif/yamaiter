@@ -34,17 +34,15 @@ class PickImageCubit extends Cubit<PickImageState> {
   void pickMultiImage() async {
     final ImagePicker picker = ImagePicker();
     try {
-      final List<XFile>? selectedImages = await picker.pickMultiImage(
+      final List<XFile> selectedImages = await picker.pickMultiImage(
           //maxWidth: maxWidth,
           //maxHeight: maxHeight,
           //imageQuality: quality,
           );
 
       List<String> strList = [];
-      if (selectedImages != null) {
-        for (var element in selectedImages) {
-          strList.add(element.path);
-        }
+      for (var element in selectedImages) {
+        strList.add(element.path);
       }
       _emitIfNotClosed(MultiImagesPicked(selectedImagesPaths: strList));
     } catch (e) {

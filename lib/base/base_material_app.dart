@@ -221,7 +221,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     ///==> Also handle any interaction when the app is in the background via a
     ///==> Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print("_interactedMessageWhenAppIsOpenedInBackground");
+      log("_interactedMessageWhenAppIsOpenedInBackground");
       // _handleMessage(message);
     });
   }
@@ -236,7 +236,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     ///==> If the message also contains a data property with a "type" of "chat",
     ///==> navigate to a chat screen
     if (initialMessage != null) {
-      print("_interactedMessageWhenAppIsTerminated");
+      log("_interactedMessageWhenAppIsTerminated");
       //_handleMessage(initialMessage);
     }
   }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
-import 'package:yamaiter/common/constants/assets_constants.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 
 import '../../../common/constants/app_utils.dart';
@@ -85,7 +84,7 @@ class OnBoardingPageItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context)
                   .textTheme
-                  .bodyText2!
+                  .bodyMedium!
                   .copyWith(color: AppColor.white),
             ),
           ),

@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../common/enum/app_error_type.dart';
 import '../../common/functions/get_user_token.dart';
 import '../../di/git_it_instance.dart';
 import '../logic/common/get_balance/get_balance_cubit.dart';
 import '../themes/theme_color.dart';
-import 'app_error_widget.dart';
 import 'loading_widget.dart';
 
 class BalanceWidget extends StatefulWidget {

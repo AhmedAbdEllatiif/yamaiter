@@ -114,7 +114,7 @@ class _DeleteSosScreenState extends State<DeleteSosScreen> {
 
                   Text(
                     "هل انت متاكد من حذف هذه الاستغاثة",
-                    style: Theme.of(context).textTheme.subtitle1!.copyWith(
+                    style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           color: AppColor.white,
                           fontWeight: FontWeight.bold,
                         ),

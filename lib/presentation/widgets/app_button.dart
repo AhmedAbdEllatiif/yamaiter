@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_framework/responsive_value.dart';
 import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
-import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/extensions/widget_extension.dart';
 
 import '../../common/constants/sizes.dart';
 import '../../common/enum/animation_type.dart';
@@ -110,7 +110,7 @@ class AppButton extends StatelessWidget {
             Text(
               text,
               style: textStyle ??
-                  Theme.of(context).textTheme.button!.copyWith(
+                  Theme.of(context).textTheme.labelLarge!.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.bold,
                         fontSize: fontSize ??
@@ -165,7 +165,7 @@ class AppButton extends StatelessWidget {
             Text(
               text,
               style: textStyle ??
-                  Theme.of(context).textTheme.headline6!.copyWith(
+                  Theme.of(context).textTheme.titleLarge!.copyWith(
                         color: textColor,
                         fontWeight: FontWeight.w500,
                         fontSize: fontSize ??

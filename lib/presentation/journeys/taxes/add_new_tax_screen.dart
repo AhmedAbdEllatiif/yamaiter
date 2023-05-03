@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/taxes/create_tax_form.dart';
-import 'package:yamaiter/presentation/logic/cubit/pay_for_tax/pay_for_tax_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../common/constants/sizes.dart';

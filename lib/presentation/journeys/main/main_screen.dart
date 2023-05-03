@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
-import 'package:yamaiter/data/data_source/remote_data_source.dart';
-import 'package:yamaiter/data/params/chat_room_by_id_params.dart';
-import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/presentation/journeys/main/client/client_main_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/lawyer/lawyer_main_screen.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../common/screen_utils/screen_util.dart';
-import '../../logic/cubit/user_token/user_token_cubit.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({Key? key}) : super(key: key);

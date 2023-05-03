@@ -2,7 +2,6 @@ import 'package:equatable/equatable.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 
 import '../../../data/models/chats/message_item_model.dart';
-import '../../../data/models/user_lawyer_model.dart';
 
 class ReceivedChatListEntity extends Equatable {
   final String chatChannel;

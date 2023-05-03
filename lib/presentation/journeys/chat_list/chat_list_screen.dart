@@ -9,7 +9,6 @@ import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/chat/received_chat_list_entity.dart';
 import 'package:yamaiter/presentation/journeys/chat_list/chat_item.dart';
 import 'package:yamaiter/presentation/logic/cubit/fetch_chat_list/fetch_chat_list_cubit.dart';
-import 'package:yamaiter/presentation/logic/cubit/fetch_lawyers/fetch_lawyers_cubit.dart';
 import 'package:yamaiter/presentation/widgets/app_error_widget.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
@@ -19,7 +18,6 @@ import '../../../common/functions/get_authoried_user.dart';
 import '../../../common/functions/navigate_to_login.dart';
 import '../../../domain/entities/screen_arguments/chat_room_args.dart';
 import '../../../router/route_helper.dart';
-import '../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../widgets/ads_widget.dart';
 
 class ChatListScreen extends StatefulWidget {

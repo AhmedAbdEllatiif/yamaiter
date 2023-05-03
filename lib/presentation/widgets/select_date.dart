@@ -67,7 +67,7 @@ class _SelectDateWidgetState extends State<SelectDateWidget> {
               shadowColor: AppColor.primaryDarkColor,
               textButtonTheme: TextButtonThemeData(
                 style: TextButton.styleFrom(
-                  primary: AppColor.primaryDarkColor, // button text color
+                  foregroundColor: AppColor.primaryDarkColor, // button text color
                 ),
               ),
             ),

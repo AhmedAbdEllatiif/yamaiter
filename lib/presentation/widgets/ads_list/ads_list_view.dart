@@ -1,13 +1,7 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
-import 'package:yamaiter/common/constants/assets_constants.dart';
-import 'package:yamaiter/common/enum/ad_status.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
-import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/cached_image_widget.dart';
 
 import '../../../common/functions/open_url.dart';
