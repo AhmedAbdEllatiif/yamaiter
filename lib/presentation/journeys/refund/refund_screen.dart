@@ -121,24 +121,46 @@ class _RefundScreenState extends State<RefundScreen> {
                   height: Sizes.dimen_8.h,
                 ),
 
-                Text(
-                  "هل انت متاكد من حذف هذه المهمة",
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: AppColor.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
 
-                SizedBox(
-                  height: Sizes.dimen_1.h,
-                ),
 
-                Text(
-                  "سيتم خصم ${_refundFees} من المبلغ المدفوع",
-                  style: Theme.of(context).textTheme.subtitle1!.copyWith(
-                        color: AppColor.white,
-                        fontWeight: FontWeight.bold,
+                Text.rich(
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text:  "هل انت متاكد من حذف هذه المهمة\n",
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color: AppColor.white,
+                        ),
                       ),
+                      TextSpan(
+                        text: 'سيتم خص ',
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color:AppColor.white,
+                        ),
+                      ),
+                      TextSpan(
+                        text: " $_refundFees ",
+                        style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color:  AppColor.white,
+                        ),
+                      ),
+
+                      TextSpan(
+                        text: 'من المبلغ المدفوع',
+                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                          height: 1.5,
+                          fontWeight: FontWeight.bold,
+                          color:AppColor.white,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
 
                 SizedBox(

@@ -8,6 +8,7 @@ import '../user_lawyer_model.dart';
 List<TaskModel> listOfTasksFromJson(String str) {
   final List<TaskModel> taskList = [];
 
+  final feesJson = json.decode(str)["fees"];
   final tasksJson = json.decode(str)["tasks"];
 
   if (tasksJson == null) return taskList;
@@ -16,7 +17,7 @@ List<TaskModel> listOfTasksFromJson(String str) {
     taskList.add(
       TaskModel.fromJson(
         taskJson: taskJsonObject,
-        feesJson: taskJsonObject["fees"] ?? {},
+        feesJson: feesJson ?? {},
       ),
     );
   });

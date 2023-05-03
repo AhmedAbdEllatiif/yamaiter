@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
@@ -8,7 +7,6 @@ import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 import 'package:yamaiter/presentation/widgets/card_menu_item.dart';
 
-import '../../../common/constants/assets_constants.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/animation_type.dart';
 import '../../../common/functions/call_someone.dart';
@@ -83,7 +81,7 @@ class _SosItemState extends State<SosItem> {
                               maxLines: 1,
                               style: Theme.of(context)
                                   .textTheme
-                                  .bodyText2!
+                                  .bodyMedium!
                                   .copyWith(
                                     fontWeight: FontWeight.bold,
                                     height: 3,
@@ -123,7 +121,7 @@ class _SosItemState extends State<SosItem> {
                                     maxLines: 1,
                                     style: Theme.of(context)
                                         .textTheme
-                                        .caption!
+                                        .bodySmall!
                                         .copyWith(
                                           color: AppColor.accentColor,
                                           fontWeight: FontWeight.bold,
@@ -166,7 +164,7 @@ class _SosItemState extends State<SosItem> {
                               "اقرأ المزيد",
                               style: Theme.of(context)
                                   .textTheme
-                                  .caption!
+                                  .bodySmall!
                                   .copyWith(color: AppColor.primaryDarkColor),
                             ),
                           ),
@@ -204,7 +202,7 @@ class _SosItemState extends State<SosItem> {
                                       "اتصل بالمحامى",
                                       style: Theme.of(context)
                                           .textTheme
-                                          .caption!
+                                          .bodySmall!
                                           .copyWith(
                                               color: AppColor.accentColor),
                                     ),
