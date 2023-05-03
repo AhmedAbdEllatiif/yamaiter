@@ -2306,6 +2306,16 @@ class RemoteDataSourceImpl extends RemoteDataSource {
               message:
                   "applyForTask Status Code >> ${response.statusCode},Body: ${response.body}");
         // not found
+        case 422:
+          if (response.body.contains("notAcceptedYet")) {
+            return AppError(AppErrorType.notAcceptedYet,
+                message: "applyForTask Status Code >> ${response.statusCode}");
+          } else {
+            return AppError(AppErrorType.api,
+                message: "assignTask Status Code >> ${response.statusCode}"
+                    " \n Body: ${response.body}");
+          }
+
         case 404:
           return AppError(AppErrorType.notFound,
               message: "applyForTask Status Code >> ${response.statusCode}");

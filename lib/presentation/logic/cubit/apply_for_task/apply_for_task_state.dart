@@ -16,6 +16,9 @@ class LoadingApplyForTask extends ApplyForTaskState {}
 /// already applied to this task
 class AlreadyAppliedToThisTask extends ApplyForTaskState {}
 
+/// need to accept terms
+class NeedToAcceptTermsToApplyForTask extends ApplyForTaskState {}
+
 /// not a lawyer to create article
 class NotActivatedUserToApplyForTask extends ApplyForTaskState {}
 

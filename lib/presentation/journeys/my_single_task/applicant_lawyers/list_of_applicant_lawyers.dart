@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/constants/sizes.dart';
 import 'package:yamaiter/common/enum/payment_method.dart';
@@ -43,16 +45,21 @@ class ListOfApplicantLawyers extends StatelessWidget {
           onAssignPressed: (valueOfferedByAppliedLawyer) {
             showChoosePaymentMethodDialog(context,
                 onPaymentMethodSelected: (paymentMethod) {
-              showAppDialog(context,
-                  message: "عمولة يامتر ${taskEntity.costCommission} ",
-                  buttonText: "اسناد المهمة", onPressed: () {
-                _payToAssignTask(
-                  paymentMethod: paymentMethod,
-                  context: context,
-                  lawyerId: applicants[index].id,
-                  value: valueOfferedByAppliedLawyer,
-                );
-              });
+                  log("PaymentMethod >> $paymentMethod");
+              showAppDialog(
+                context,
+                message: "عمولة يامتر ${taskEntity.costCommission} ",
+                buttonText: "اسناد المهمة",
+                onPressed: () {
+                  Navigator.pop(context);
+                  _payToAssignTask(
+                    paymentMethod: paymentMethod,
+                    context: context,
+                    lawyerId: applicants[index].id,
+                    value: valueOfferedByAppliedLawyer,
+                  );
+                },
+              );
             });
           },
         );

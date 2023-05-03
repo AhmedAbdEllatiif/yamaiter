@@ -44,6 +44,8 @@ class ApplyForTaskCubit extends Cubit<ApplyForTaskState> {
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedApplyForTask());
+    } else if (appError.appErrorType == AppErrorType.notAcceptedYet) {
+      _emitIfNotClosed(NeedToAcceptTermsToApplyForTask());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToApplyForTask());
     } else if (appError.appErrorType == AppErrorType.alreadyAppliedToThisTask) {

@@ -113,8 +113,8 @@ class _ChoosePaymentMethodDialogState extends State<ChoosePaymentMethodDialog> {
                             if (_selectedOption == PaymentMethod.kiosk) {
                               _fetchCurrentBalance();
                             } else {
-                              widget.onPaymentMethodSelected(_selectedOption);
                               Navigator.pop(context);
+                              widget.onPaymentMethodSelected(_selectedOption);
                             }
                           },
                         );

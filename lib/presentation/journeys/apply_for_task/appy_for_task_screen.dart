@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
+import 'package:yamaiter/presentation/widgets/accept_terms_widget.dart';
+import 'package:yamaiter/presentation/widgets/app_dialog.dart';
 import 'package:yamaiter/presentation/widgets/app_text_field.dart';
 import 'package:yamaiter/presentation/widgets/loading_widget.dart';
 
@@ -113,6 +115,15 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
                 );
               }
 
+              /// NeedToAcceptTermsToApplyForTask
+              if (state is NeedToAcceptTermsToApplyForTask) {
+                return AcceptTermsWidget(
+                  onTermsSuccessfullyAccepted: () {
+                    _applyForTask();
+                  },
+                );
+              }
+
               /// NotActivatedUser
               if (state is NotActivatedUserToApplyForTask) {
                 return Center(
@@ -152,10 +163,8 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
                         ),
                   ),
 
-
                   /// space
                   SizedBox(height: Sizes.dimen_12.h),
-
 
                   /// original price
                   Text(

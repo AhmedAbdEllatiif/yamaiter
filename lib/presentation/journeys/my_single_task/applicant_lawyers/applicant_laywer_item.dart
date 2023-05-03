@@ -43,10 +43,12 @@ class ApplicantLawyerItem extends StatelessWidget {
         builder: (context, state) {
           return Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
-                color: state is LoadingPaymentToAssignTask
-                    ? AppColor.primaryDarkColor.withOpacity(0.6)
-                    : null),
+              borderRadius: BorderRadius.circular(AppUtils.cornerRadius.w),
+              color: state is LoadingPaymentToAssignTask &&
+                      state.userId == lawyerEntity.id
+                  ? AppColor.primaryDarkColor.withOpacity(0.6)
+                  : null,
+            ),
             child: Padding(
               padding:
                   const EdgeInsets.symmetric(vertical: 15.0, horizontal: 10.0),
@@ -56,7 +58,7 @@ class ApplicantLawyerItem extends StatelessWidget {
                     children: [
                       /// image
                       CachedImageWidget(
-                        imageUrl:lawyerEntity.profileImage,
+                        imageUrl: lawyerEntity.profileImage,
                         isCircle: true,
                         height: Sizes.dimen_40.w,
                         width: Sizes.dimen_40.w,
@@ -198,10 +200,11 @@ class ApplicantLawyerItem extends StatelessWidget {
 
                   /// loading
                   if (state is LoadingPaymentToAssignTask)
-                    const Center(
-                        child: LoadingWidget(
-                      size: 50,
-                    )),
+                    if (state.userId == lawyerEntity.id)
+                      const Center(
+                          child: LoadingWidget(
+                        size: 50,
+                      )),
                 ],
               ),
             ),

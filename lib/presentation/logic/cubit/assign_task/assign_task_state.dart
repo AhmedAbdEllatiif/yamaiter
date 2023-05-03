@@ -11,7 +11,14 @@ abstract class PaymentToAssignTaskState extends Equatable {
 class PaymentToAssignTaskInitial extends PaymentToAssignTaskState {}
 
 /// loading
-class LoadingPaymentToAssignTask extends PaymentToAssignTaskState {}
+class LoadingPaymentToAssignTask extends PaymentToAssignTaskState {
+  final int userId;
+
+  const LoadingPaymentToAssignTask({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
+}
 
 /// not a lawyer to create article
 class NotActivatedUserToPayToAssignTask extends PaymentToAssignTaskState {}
@@ -28,7 +35,6 @@ class PaymentLinkToAssignTaskFetched extends PaymentToAssignTaskState {
   @override
   List<Object> get props => [payEntity];
 }
-
 
 /// success with wallet
 class TaskAssignedSuccessfullyWithWallet extends PaymentToAssignTaskState {}

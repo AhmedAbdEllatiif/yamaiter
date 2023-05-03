@@ -25,7 +25,7 @@ class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
     required String token,
   }) async {
     //==> loading
-    _emitIfNotClosed(LoadingPaymentToAssignTask());
+    _emitIfNotClosed(LoadingPaymentToAssignTask(userId: userId));
 
     //==> init case
     final useCase = getItInstance<AssignTaskCase>();
