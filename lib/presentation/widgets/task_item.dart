@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
+import 'package:yamaiter/common/functions/open_image.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/domain/entities/data/task_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/edit_task_args.dart';
@@ -65,7 +66,13 @@ class _TaskItemState extends State<TaskItem> {
                               unRatedColor: AppColor.primaryColor,
                               minImageSize: Sizes.dimen_40,
                               maxImageSize: Sizes.dimen_50,
-                              onPressed: () {},
+                              onPressed: () {
+                                openImage(
+                                  context,
+                                  image: widget.taskEntity.creatorImage,
+                                  padding: const EdgeInsets.symmetric(horizontal: 20)
+                                );
+                              },
                             ),
 
                             /// data

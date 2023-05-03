@@ -10,6 +10,7 @@ import 'package:yamaiter/presentation/widgets/card_menu_item.dart';
 import '../../../common/constants/sizes.dart';
 import '../../../common/enum/animation_type.dart';
 import '../../../common/functions/call_someone.dart';
+import '../../../common/functions/open_image.dart';
 import '../../../router/route_helper.dart';
 import '../image_name_rating_widget.dart';
 
@@ -62,8 +63,15 @@ class _SosItemState extends State<SosItem> {
                       minImageSize: Sizes.dimen_40.w,
                       maxImageSize: Sizes.dimen_40.w,
                       nameColor: AppColor.primaryDarkColor,
-                      onPressed: () {
-                        // RouteHelper().editProfile(context);
+                      onPressed: widget.sosEntity.creatorImage == AppUtils.undefined
+                          ? null
+                          : (){
+                        openImage(
+                            context,
+                            image: widget.sosEntity.creatorImage,
+                            isCircle: true,
+                            padding: const EdgeInsets.symmetric(horizontal: 20)
+                        );
                       },
                     ),
 

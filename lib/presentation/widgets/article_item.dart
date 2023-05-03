@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/extensions/string_extensions.dart';
 import 'package:yamaiter/common/extensions/widgetExtension.dart';
 import 'package:yamaiter/domain/entities/data/article_entity.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/delete_article_args.dart';
@@ -117,7 +118,7 @@ class _ArticleItemState extends State<ArticleItem> {
 
                             /// description
                             Text(
-                              widget.articleEntity.description,
+                              widget.articleEntity.description.removeHtmlTags(),
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
                               softWrap: true,

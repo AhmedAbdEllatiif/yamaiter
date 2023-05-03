@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/domain/entities/data/lawyer_entity.dart';
 
+import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/functions/open_image.dart';
 import '../../../domain/entities/screen_arguments/invite_lawyer_args.dart';
 import '../../../router/route_helper.dart';
 import '../../themes/theme_color.dart';
@@ -38,6 +40,15 @@ class LawyerItem extends StatelessWidget {
               iconRateSize: Sizes.dimen_12.w,
               minImageSize: Sizes.dimen_40,
               maxImageSize: Sizes.dimen_40,
+              onPressed: lawyer.profileImage == AppUtils.undefined
+                  ? null
+                  : (){
+                openImage(
+                    context,
+                    image: lawyer.profileImage,
+                    padding: const EdgeInsets.symmetric(horizontal: 20)
+                );
+              },
             ),
 
             /// description

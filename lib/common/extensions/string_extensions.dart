@@ -7,6 +7,11 @@ extension StringExtension on String {
     return length > 14 ? '${substring(0, 14)}...' : this;
   }
 
+  String removeHtmlTags() {
+    RegExp exp = RegExp(r"<[^>]*>", multiLine: true, caseSensitive: true);
+    return replaceAll(exp, '');
+  }
+
   bool get containsUppercase => contains(RegExp(r'[A-Z]'));
   bool get containsLowercase => contains(RegExp(r'[a-z]'));
   bool get containsSpecialCharacter => contains(RegExp(r'(?=.*?[!@#\$&*~])'));
