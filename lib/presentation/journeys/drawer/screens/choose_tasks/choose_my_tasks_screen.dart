@@ -46,7 +46,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                   children: [
                     //==> my tasks
                     ChooseMyTasksTypeItem(
-                      image: AssetsImages.documentsSvg,
+                      image: AssetsImages.checkSvg,
                       text: "طلباتى من الغير",
                       onPressed: () => _navigateMyTaxesScreen(context),
                     ),
@@ -54,7 +54,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
 
                     //==> tasks for others
                     ChooseMyTasksTypeItem(
-                      image: AssetsImages.documentsSvg,
+                      image: AssetsImages.briefcaseWithHandSvg,
                       text: "مهام لحساب الغير",
                       onPressed: () => _navigateTasksForOtherScreen(context),
                     ),
@@ -70,7 +70,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                   children: [
                     //==> invitations
                     ChooseMyTasksTypeItem(
-                      image: AssetsImages.newsPaperSvg,
+                      image: AssetsImages.jobSvg,
                       text: "عروض الوظائف",
                       onPressed: () => _navigateInvitedTasksScreen(context),
                     ),

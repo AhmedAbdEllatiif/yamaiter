@@ -33,6 +33,13 @@ class AssetsImages {
   static const String personsSvg = '${_baseImages}persons.svg';
 
   static const String homeSvg = '${_baseImages}home.svg';
+
+  static const String jobSvg = '${_baseImages}job.svg';
+
+  static const String checkSvg = '${_baseImages}check.svg';
+
+  static const String briefcaseWithHandSvg =
+      '${_baseImages}briefcaseWithHand.svg';
 }
 
 class AssetsLottie {
