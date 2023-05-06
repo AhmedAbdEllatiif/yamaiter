@@ -106,7 +106,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
                     backgroundColor: AppColor.accentColor,
                     textColor: AppColor.primaryDarkColor,
                     isFloating: false,
-                    message: "تحقق من اتصال الإنترنت");
+                    message: "حدث خطأ، اعد المحاولة لاحقا");
               }
 
               //==> on success navigate to my sos screen

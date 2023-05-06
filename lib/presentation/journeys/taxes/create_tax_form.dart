@@ -99,7 +99,7 @@ class _CreateTaxFormState extends State<CreateTaxForm> {
                         backgroundColor: AppColor.accentColor,
                         textColor: AppColor.primaryDarkColor,
                         isFloating: false,
-                        message: "تحقق من اتصال الإنترنت");
+                        message: "حدث خطأ، اعد المحاولة لاحقا");
                   }
 
                   /// payment link is ready
