@@ -12,9 +12,9 @@ import '../../../../../../router/route_helper.dart';
 import '../../../../logic/client_cubit/get_my_consultations/get_my_consultations_cubit.dart';
 import '../../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../../themes/theme_color.dart';
-import '../../../../widgets/app_content_title_widget.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/loading_widget.dart';
+import '../../../../widgets/title_with_add_new_item.dart';
 import 'loading_more_my_consultations.dart';
 import 'my_consultation_item.dart';
 
@@ -90,8 +90,11 @@ class _MyConsultationScreenState extends State<MyConsultationScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const AppContentTitleWidget(
+                      /// title with add new sos
+                      TitleWithAddNewItem(
                         title: "استشاراتى القانونية",
+                        addText: "اضف استشارة جديدة",
+                        onAddPressed: () => _navigateToAddConsultation(),
                       ),
                       Padding(
                         padding: EdgeInsets.only(top: Sizes.dimen_10.h),
@@ -203,6 +206,10 @@ class _MyConsultationScreenState extends State<MyConsultationScreen> {
 
   /// To navigate to contactUs
   void _navigateToContactUs() => RouteHelper().chooseUserType(context);
+
+  /// to navigate to create consultation
+  void _navigateToAddConsultation() =>
+      RouteHelper().requestAConsultation(context);
 
   /// listener on controller
   /// when last item reached fetch next page
