@@ -25,6 +25,7 @@ enum AppErrorType {
 
   //payout
   noWithdrawalAmount,
+  errorFromPayMobServer,
 
   // paymentError
   unDefined,

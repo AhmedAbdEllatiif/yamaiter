@@ -178,10 +178,11 @@ class _PayoutScreenState extends State<PayoutScreen> {
                       /// title
                       Text(
                         "${balanceState.balanceEntity.currentBalance}",
-                        style: Theme.of(context).textTheme.displaySmall!.copyWith(
-                              color: AppColor.accentColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        style:
+                            Theme.of(context).textTheme.displaySmall!.copyWith(
+                                  color: AppColor.accentColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
 
                       /// space
@@ -237,7 +238,13 @@ class _PayoutScreenState extends State<PayoutScreen> {
                       SizedBox(height: Sizes.dimen_10.h),
 
                       /// button
-                      BlocBuilder<PayoutCubit, PayoutState>(
+                      BlocConsumer<PayoutCubit, PayoutState>(
+                        listener: (context, state) {
+                          if (state is NoPayoutErrorFromPayMobServer) {
+                            showSnackBar(context,
+                                message: "حدث خطأ، اعد المحاولة لاحقا");
+                          }
+                        },
                         builder: (context, state) {
                           /*
                     *

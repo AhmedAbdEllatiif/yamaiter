@@ -19,6 +19,9 @@ class UnAuthorizedToSendPayout extends PayoutState {}
 /// no amount
 class NoAmountToPayout extends PayoutState{}
 
+///
+class NoPayoutErrorFromPayMobServer extends PayoutState{}
+
 /// success
 class PayoutSentSuccessfully extends PayoutState {}
 

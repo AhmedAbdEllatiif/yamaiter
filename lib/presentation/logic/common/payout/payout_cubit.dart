@@ -46,6 +46,8 @@ class PayoutCubit extends Cubit<PayoutState> {
   void _emitError(AppError appError) {
     if (appError.appErrorType == AppErrorType.unauthorizedUser) {
       _emitIfNotClosed(UnAuthorizedToSendPayout());
+    } else if (appError.appErrorType == AppErrorType.errorFromPayMobServer) {
+      _emitIfNotClosed(NoPayoutErrorFromPayMobServer());
     } else if (appError.appErrorType == AppErrorType.noWithdrawalAmount) {
       _emitIfNotClosed(NoAmountToPayout());
     } else {

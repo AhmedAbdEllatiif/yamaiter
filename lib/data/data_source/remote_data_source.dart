@@ -2753,8 +2753,18 @@ class RemoteDataSourceImpl extends RemoteDataSource {
           return SuccessModel();
         case 422:
           log("refundPayment >> ResponseBody: ${response.body}");
-          return AppError(AppErrorType.noWithdrawalAmount,
-              message: "refundPayment Status Code >> ${response.statusCode}");
+          if(response.body.contains("noPayout")){
+            return AppError(AppErrorType.errorFromPayMobServer,
+                message: "refundPayment Status Code >> ${response.statusCode}");
+          }
+          if(response.body.contains("noEnoughBalance")){
+            return AppError(AppErrorType.noWithdrawalAmount,
+                message: "refundPayment Status Code >> ${response.statusCode}");
+          }
+          log("dataSource >> payout >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "refundPayment Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
         // not found
         case 404:
           log("dataSource >> payout >> ResponseBody: ${response.body}");
