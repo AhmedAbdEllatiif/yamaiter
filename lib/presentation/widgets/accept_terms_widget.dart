@@ -22,13 +22,15 @@ class AcceptTermsWidget extends StatefulWidget {
   final AcceptTermsEntity? acceptTermsEntity;
   final AcceptTermsCubit? acceptTermsCubit;
   final Function()? onTermsSuccessfullyAccepted;
+  final String? buttonText;
 
-  const AcceptTermsWidget(
-      {Key? key,
-      this.acceptTermsEntity,
-      this.acceptTermsCubit,
-      this.onTermsSuccessfullyAccepted})
-      : super(key: key);
+  const AcceptTermsWidget({
+    Key? key,
+    this.acceptTermsEntity,
+    this.acceptTermsCubit,
+    this.onTermsSuccessfullyAccepted,
+    this.buttonText,
+  }) : super(key: key);
 
   @override
   State<AcceptTermsWidget> createState() => _AcceptTermsWidgetState();
@@ -104,7 +106,8 @@ class _AcceptTermsWidgetState extends State<AcceptTermsWidget> {
                 );
               }
               return AppButton(
-                text: "إذهب لاضافة بيانات المهمة المطلوبة",
+                text: widget.buttonText ??
+                    "إذهب لاضافة بيانات المهمة المطلوبة",
                 width: double.infinity,
                 color: AppColor.accentColor,
                 textColor: AppColor.primaryDarkColor,

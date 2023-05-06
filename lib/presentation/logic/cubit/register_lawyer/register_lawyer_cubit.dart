@@ -4,6 +4,7 @@ import 'package:yamaiter/data/params/register_lawyer_request_params.dart';
 import 'package:yamaiter/domain/entities/data/register_response_entity.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
 
+import '../../../../common/enum/app_error_type.dart';
 import '../../../../di/git_it_instance.dart';
 import '../../../../domain/entities/app_error.dart';
 
@@ -46,7 +47,7 @@ class RegisterLawyerCubit extends Cubit<RegisterLawyerState> {
 
     either.fold(
       // error
-      (appError) => _emitIfNotClosed(ErrorWhileRegistrationLawyer(appError: appError)),
+          (appError) => _emitError(appError),
 
       // success to register lawyer
       (registerLawyerResponseEntity) => _emitIfNotClosed(
@@ -54,6 +55,19 @@ class RegisterLawyerCubit extends Cubit<RegisterLawyerState> {
       ),
     );
   }
+
+
+  /// _emit an error according to AppError
+  void _emitError(AppError appError) {
+    if (appError.appErrorType == AppErrorType.emailAlreadyExists) {
+      _emitIfNotClosed(LawyerEmailAlreadyExists());
+    } else if (appError.appErrorType == AppErrorType.alreadyPhoneUsedBefore) {
+      _emitIfNotClosed(LawyerNumberAlreadyExists());
+    } else {
+      _emitIfNotClosed(ErrorWhileRegistrationLawyer(appError: appError));
+    }
+  }
+
 
   /// emit if not close
   void _emitIfNotClosed(RegisterLawyerState state) {

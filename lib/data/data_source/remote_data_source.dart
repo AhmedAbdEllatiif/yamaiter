@@ -970,6 +970,23 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       // success
       case 200:
         return registerResponseModelFromJson(response.body);
+      case 422:
+        log("registerLawyer >> ResponseBody: ${response.body}");
+        //==> alreadyEmailUsedBefore
+        if (response.body.contains("alreadyEmailUsedBefore")) {
+          return AppError(AppErrorType.emailAlreadyExists,
+              message: "registerLawyer Status Code >> ${response.statusCode}");
+        }
+
+        //==> alreadyEmailUsedBefore
+        else if (response.body.contains("alreadyPhoneUsedBefore")) {
+          return AppError(AppErrorType.alreadyPhoneUsedBefore,
+              message: "registerLawyer Status Code >> ${response.statusCode}");
+        }
+
+        return AppError(AppErrorType.api,
+            message: "registerLawyer Status Code >> ${response.statusCode}"
+                " \n Body: ${response.body}");
       // default
       default:
         return AppError(AppErrorType.api,

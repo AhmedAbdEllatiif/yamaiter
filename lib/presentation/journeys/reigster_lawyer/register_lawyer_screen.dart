@@ -50,6 +50,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   // RegisterLawyerCubit
   late final RegisterLawyerCubit _registerLawyerCubit;
 
+  bool? isTermsChecked;
 
   @override
   void initState() {
@@ -100,6 +101,17 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                   // show snackBar
                   showSnackBar(context, message: "حدث خطأ ما حاول مرة أخرى");
                   log("RegisterLawyerScreen Error >> ${state.appError}");
+                }
+
+                // email already exists
+                if (state is LawyerEmailAlreadyExists) {
+                  showSnackBar(context,
+                      message: "البريد الاكترونى مستخدم من قبل");
+                }
+
+                // phone already exists
+                if (state is LawyerNumberAlreadyExists) {
+                  showSnackBar(context, message: "رقم الهاتف مستخدم من قبل");
                 }
 
                 if (state is RegisterLawyerSuccess) {
@@ -216,10 +228,39 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                       ),
                     ),
 
+                    Padding(
+                      padding: EdgeInsets.only(top: Sizes.dimen_4.h),
+                      child: AppCheckBoxTile(
+                        onChanged: (value) {
+                          isTermsChecked = value;
+                        },
+                        text:
+                            "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+                        textColor: AppColor.white,
+                        checkBoxColor: AppColor.accentColor,
+                      ),
+                    ),
+
                     /// loading or button
                     BlocBuilder<RegisterLawyerCubit, RegisterLawyerState>(
                       builder: (context, state) {
-                        return switchLoadingState(state);
+                        return state is LoadingRegisterLawyer
+                            ? const Center(child: LoadingWidget())
+                            : Padding(
+                                padding: EdgeInsets.symmetric(
+                                  vertical: Sizes.dimen_4.h,
+                                ),
+                                child: AppButton(
+                                  text: "تسجيل",
+                                  textColor: AppColor.primaryDarkColor,
+                                  color: AppColor.accentColor,
+                                  onPressed: () {
+                                    if (_isFormValid()) {
+                                      registerNewLawyer();
+                                    }
+                                  },
+                                ),
+                              );
                       },
                     ),
 
@@ -230,51 +271,6 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
           ),
         ),
       ),
-    );
-  }
-
-  /// to show loading or other widget according loading state
-  Widget switchLoadingState(RegisterLawyerState state) {
-    if (state is LoadingRegisterLawyer) {
-      return const LoadingWidget();
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-
-        Padding(
-          padding: EdgeInsets.only(top: Sizes.dimen_4.h),
-          child: AppCheckBoxTile(
-            onChanged: (value) {},
-            text: "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
-            textColor: AppColor.white,
-            checkBoxColor: AppColor.accentColor,
-          ),
-        ),
-
-
-        // submit button
-        Padding(
-          padding: EdgeInsets.symmetric(vertical: Sizes.dimen_4.h),
-          child: AppButton(
-            text: "تسجيل",
-            textColor: AppColor.primaryDarkColor,
-            color: AppColor.accentColor,
-            onPressed: () {
-              if (_isFormValid()) {
-                registerNewLawyer();
-              }
-            },
-          ),
-        ),
-
-
-        // already a user go to login
-        LoginOrRegisterWidget(
-          isLogin: false,
-          onPressed: () => _navigateToLoginScreen(),
-        ),
-      ],
     );
   }
 
@@ -308,22 +304,29 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
   bool _isFormValid() {
     log("Password >> ${passwordController.value.text},"
         " Repassword >> ${rePasswordController.value.text}");
-    if (phoneNumController.value.text.length != 11) {
-      showSnackBar(context, message: "رقم هاتف غير صحيح");
-      return false;
-    }
+    // if (phoneNumController.value.text.length != 11) {
+    //   showSnackBar(context, message: "رقم هاتف غير صحيح");
+    //   return false;
+    // }
     if (_formKey.currentState != null) {
       if (passwordController.value.text != rePasswordController.value.text) {
         showSnackBar(context, message: "* يجب أن تكون كلمات المرور هي نفسها");
         return false;
-      }
-      else if (_formKey.currentState!.validate()) {
+      } else if (_formKey.currentState!.validate()) {
         if (_idImagePath.isEmpty) {
           showSnackBar(context, message: "ارفاق صورة الكارنيه مطلوبة");
           return false;
+        }
+        if (isTermsChecked == null) {
+          showSnackBar(context, message: "يجب الموافقة على الاحكام");
+          return false;
+        }
+
+        if (isTermsChecked == false) {
+          showSnackBar(context, message: "يجب الموافقة على الاحكام");
+          return false;
         } else {
-          log(
-              "RegisterLawyerScreen >> trying to register but _idImagePath is empty");
+          log("RegisterLawyerScreen >> trying to register but _idImagePath is empty");
         }
         return true;
       }

@@ -37,7 +37,7 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
   final _formKey = GlobalKey<FormState>();
 
   /// cost controller
-  final TextEditingController costController = TextEditingController();
+  late final TextEditingController costController ;
 
   /// taskId
   late final TaskEntity _taskEntity;
@@ -48,9 +48,13 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
   @override
   void initState() {
     super.initState();
+    costController = TextEditingController();
     _applyForTaskCubit = widget.applyForTaskArgument.applyForTaskCubit ??
         getItInstance<ApplyForTaskCubit>();
     _taskEntity = widget.applyForTaskArgument.taskEntity;
+    // init with default cost
+    costController.text = _taskEntity.price.toString();
+
   }
 
   @override
@@ -58,7 +62,7 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
     if (widget.applyForTaskArgument.applyForTaskCubit == null) {
       _applyForTaskCubit.close();
     }
-
+    costController.dispose();
     super.dispose();
   }
 
@@ -118,6 +122,7 @@ class _ApplyForTaskScreenState extends State<ApplyForTaskScreen> {
               /// NeedToAcceptTermsToApplyForTask
               if (state is NeedToAcceptTermsToApplyForTask) {
                 return AcceptTermsWidget(
+                  buttonText: "تقدم للمهمة",
                   onTermsSuccessfullyAccepted: () {
                     _applyForTask();
                   },

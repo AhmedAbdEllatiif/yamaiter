@@ -12,6 +12,11 @@ class RegisterLawyerInitial extends RegisterLawyerState {}
 /// loading
 class LoadingRegisterLawyer extends RegisterLawyerState {}
 
+/// emailAlreadyExists
+class LawyerEmailAlreadyExists extends RegisterLawyerState {}
+
+/// numberAlreadyExists
+class LawyerNumberAlreadyExists extends RegisterLawyerState {}
 
 /// success
 class RegisterLawyerSuccess extends RegisterLawyerState {
