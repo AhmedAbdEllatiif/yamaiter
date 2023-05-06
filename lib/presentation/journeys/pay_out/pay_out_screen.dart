@@ -242,7 +242,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                         listener: (context, state) {
                           if (state is NoPayoutErrorFromPayMobServer) {
                             showSnackBar(context,
-                                message: "حدث خطأ، اعد المحاولة لاحقا");
+                                message: "فشلت عملية السحب، حاول لاحقا");
                           }
                         },
                         builder: (context, state) {
