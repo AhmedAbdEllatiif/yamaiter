@@ -128,84 +128,87 @@ class _CreateAdFormState extends State<CreateAdForm> {
   }
 
   Widget _form() {
-    return Column(
-      children: [
-        /// ad pages
-        Form(
-          key: _formKey,
-          child: AppDropDownField(
-            hintText: "صفحة الاعلان",
-            itemsList: adPages.values.toList(),
-            //height: Sizes.dimen_22.h,
-            margin: EdgeInsets.only(bottom: Sizes.dimen_4.h),
-            onChanged: (value) {
-              if (value != null) {
-                _adPage = adPages.keys.firstWhere(
-                  (key) => adPages[key] == value,
-                  orElse: () => "all",
-                );
-              }
-            },
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        children: [
+          /// ad pages
+          Form(
+            key: _formKey,
+            child: AppDropDownField(
+              hintText: "صفحة الاعلان",
+              itemsList: adPages.values.toList(),
+              //height: Sizes.dimen_22.h,
+              margin: EdgeInsets.only(bottom: Sizes.dimen_4.h),
+              onChanged: (value) {
+                if (value != null) {
+                  _adPage = adPages.keys.firstWhere(
+                    (key) => adPages[key] == value,
+                    orElse: () => "all",
+                  );
+                }
+              },
+            ),
           ),
-        ),
 
-        /// space
-        SizedBox(height: Sizes.dimen_5.h),
+          /// space
+          SizedBox(height: Sizes.dimen_5.h),
 
-        /// button
-        SizedBox(
-          width: double.infinity,
-          child: BlocBuilder<CreateAdCubit, CreateAdState>(
-            bloc: _createAdCubit,
-            builder: (context, state) {
-              if (state is LoadingCreateAd) {
-                return const Center(
-                  child: LoadingWidget(),
+          /// button
+          SizedBox(
+            width: double.infinity,
+            child: BlocBuilder<CreateAdCubit, CreateAdState>(
+              bloc: _createAdCubit,
+              builder: (context, state) {
+                if (state is LoadingCreateAd) {
+                  return const Center(
+                    child: LoadingWidget(),
+                  );
+                }
+
+                /// UnAuthorizedCreateSos
+                if (state is UnAuthorizedCreateAd) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.unauthorizedUser,
+                      buttonText: "تسجيل الدخول",
+                      onPressedRetry: () {
+                        _navigateToLogin();
+                      },
+                    ),
+                  );
+                }
+
+                /// NotActivatedUserToCreateSos
+                if (state is NotActivatedUserToCreateAd) {
+                  return Center(
+                    child: AppErrorWidget(
+                      appTypeError: AppErrorType.notActivatedUser,
+                      buttonText: "تواصل معنا",
+                      message:
+                          "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
+                      onPressedRetry: () {
+                        _navigateToContactUs();
+                      },
+                    ),
+                  );
+                }
+
+                return AppButton(
+                  text: "طلب الاعلان",
+                  color: AppColor.accentColor,
+                  textColor: AppColor.primaryDarkColor,
+                  onPressed: () {
+                    if (_isFormValid()) {
+                      _sendCreateAdRequest();
+                    }
+                  },
                 );
-              }
-
-              /// UnAuthorizedCreateSos
-              if (state is UnAuthorizedCreateAd) {
-                return Center(
-                  child: AppErrorWidget(
-                    appTypeError: AppErrorType.unauthorizedUser,
-                    buttonText: "تسجيل الدخول",
-                    onPressedRetry: () {
-                      _navigateToLogin();
-                    },
-                  ),
-                );
-              }
-
-              /// NotActivatedUserToCreateSos
-              if (state is NotActivatedUserToCreateAd) {
-                return Center(
-                  child: AppErrorWidget(
-                    appTypeError: AppErrorType.notActivatedUser,
-                    buttonText: "تواصل معنا",
-                    message:
-                        "نأسف لذلك، لم يتم تفعيل حسابك سوف تصلك رسالة بريدية عند التفعيل",
-                    onPressedRetry: () {
-                      _navigateToContactUs();
-                    },
-                  ),
-                );
-              }
-
-              return AppButton(
-                text: "طلب الاعلان",
-                color: AppColor.accentColor,
-                textColor: AppColor.primaryDarkColor,
-                onPressed: () {
-                  if (_isFormValid()) {
-                    _sendCreateAdRequest();
-                  }
-                },
-              );
-            },
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

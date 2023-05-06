@@ -156,111 +156,114 @@ class _TaskFormState extends State<TaskForm> {
   }
 
   Widget _form(CreateTaskState state) {
-    return Column(
-      crossAxisAlignment: widget.withWithCard
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
-      children: [
-        /// title
-        AppContentTitleWidget(
-          title: "نشر مهمة عمل",
-          textColor:
-              widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
-        ),
-
-        //==> space
-        SizedBox(height: Sizes.dimen_8.h),
-
-        Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              /*AppDropDownField(
-                  hintText: "موضوع المهمة",
-                  itemsList: taskTypeList,
-                  onChanged: (value) {
-                    if (value != null) {
-                      taskType = value;
-                    }
-                  }),*/
-
-              /// price
-              AppTextField(
-                controller: titleController,
-                label: "موضوع المهمة",
-                minLength: 5,
-              ),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              AppDropDownField(
-                  hintText: "نطاق التنفيذ",
-                  itemsList: governoratesListWithSelectAll,
-                  isLastItemHighlighted: true,
-                  onChanged: (value) {
-                    if (value != null) {
-                      governorate = value;
-                    }
-                  }),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              AppDropDownField(
-                  hintText: "المحكمة الكلية المختصة بتنفيذ المهمة",
-                  itemsList: subGovernoratesList,
-                  isLastItemHighlighted: true,
-                  onChanged: (value) {
-                    if (value != null) {
-                      subGovernorate = value;
-                    }
-                  }),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              SelectDateWidget(
-                  hasError: _selectDateError,
-                  onDateSelected: (selectedDate) {
-                    _selectedDate = selectedDate;
-                  }),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              /// price
-              AppTextField(
-                controller: priceController,
-                textInputType: TextInputType.number,
-                label: "حدد مبلغ مكافئة التنفيذ",
-              ),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              TextFieldLargeContainer(
-                appTextField: AppTextField(
-                  controller: descriptionController,
-                  label: "اشرح تفاصيل المهمة هنا",
-                  maxLines: 20,
-                  withFocusedBorder: false,
-                  textInputType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                ),
-              ),
-            ],
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: widget.withWithCard
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: [
+          /// title
+          AppContentTitleWidget(
+            title: "نشر مهمة عمل",
+            textColor:
+                widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
           ),
-        ),
 
-        //==> space
-        SizedBox(height: Sizes.dimen_5.h),
+          //==> space
+          SizedBox(height: Sizes.dimen_8.h),
 
-        _switchLoadingAndButton(state),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                /*AppDropDownField(
+                    hintText: "موضوع المهمة",
+                    itemsList: taskTypeList,
+                    onChanged: (value) {
+                      if (value != null) {
+                        taskType = value;
+                      }
+                    }),*/
 
-        //==> space
-        SizedBox(height: Sizes.dimen_20.h),
-      ],
+                /// price
+                AppTextField(
+                  controller: titleController,
+                  label: "موضوع المهمة",
+                  minLength: 5,
+                ),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                AppDropDownField(
+                    hintText: "نطاق التنفيذ",
+                    itemsList: governoratesListWithSelectAll,
+                    isLastItemHighlighted: true,
+                    onChanged: (value) {
+                      if (value != null) {
+                        governorate = value;
+                      }
+                    }),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                AppDropDownField(
+                    hintText: "المحكمة الكلية المختصة بتنفيذ المهمة",
+                    itemsList: subGovernoratesList,
+                    isLastItemHighlighted: true,
+                    onChanged: (value) {
+                      if (value != null) {
+                        subGovernorate = value;
+                      }
+                    }),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                SelectDateWidget(
+                    hasError: _selectDateError,
+                    onDateSelected: (selectedDate) {
+                      _selectedDate = selectedDate;
+                    }),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                /// price
+                AppTextField(
+                  controller: priceController,
+                  textInputType: TextInputType.number,
+                  label: "حدد مبلغ مكافئة التنفيذ",
+                ),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                TextFieldLargeContainer(
+                  appTextField: AppTextField(
+                    controller: descriptionController,
+                    label: "اشرح تفاصيل المهمة هنا",
+                    maxLines: 20,
+                    withFocusedBorder: false,
+                    textInputType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_5.h),
+
+          _switchLoadingAndButton(state),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_20.h),
+        ],
+      ),
     );
   }
 

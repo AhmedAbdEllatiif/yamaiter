@@ -136,73 +136,76 @@ class _SosFormState extends State<SosForm> {
   }
 
   Widget _form(CreateSosState state) {
-    return Column(
-      crossAxisAlignment: widget.withWithCard
-          ? CrossAxisAlignment.start
-          : CrossAxisAlignment.center,
-      children: [
-        /// title
-        AppContentTitleWidget(
-          title: "نشر استغاثة طارئة",
-          textColor:
-              widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
-        ),
-
-        //==> space
-        SizedBox(height: Sizes.dimen_8.h),
-
-        Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              AppDropDownField(
-                  hintText: "حدد نوع حالة الطوارئ",
-                  itemsList: sosTypeList,
-                  onChanged: (value) {
-                    if (value != null) {
-                      type = value;
-                    }
-                  }),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              AppDropDownField(
-                  hintText: "انشر فى نطاق",
-                  itemsList: governoratesListWithSelectAll,
-                  isLastItemHighlighted: true,
-                  onChanged: (value) {
-                    if (value != null) {
-                      governorate = value;
-                    }
-                  }),
-
-              //==> space
-              SizedBox(height: Sizes.dimen_5.h),
-
-              TextFieldLargeContainer(
-                appTextField: AppTextField(
-                  controller: descriptionController,
-                  label: "اكتب تفاصيل ما تتعرض له للنشر على زملائك",
-                  maxLines: 20,
-                  validateOnSubmit: false,
-                  withFocusedBorder: false,
-                  textInputType: TextInputType.multiline,
-                  textInputAction: TextInputAction.newline,
-                ),
-              ),
-            ],
+    return SingleChildScrollView(
+      physics: const BouncingScrollPhysics(),
+      child: Column(
+        crossAxisAlignment: widget.withWithCard
+            ? CrossAxisAlignment.start
+            : CrossAxisAlignment.center,
+        children: [
+          /// title
+          AppContentTitleWidget(
+            title: "نشر استغاثة طارئة",
+            textColor:
+                widget.withWithCard ? AppColor.primaryDarkColor : AppColor.white,
           ),
-        ),
 
-        //==> space
-        SizedBox(height: Sizes.dimen_5.h),
+          //==> space
+          SizedBox(height: Sizes.dimen_8.h),
 
-        _switchLoadingAndButton(state),
+          Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                AppDropDownField(
+                    hintText: "حدد نوع حالة الطوارئ",
+                    itemsList: sosTypeList,
+                    onChanged: (value) {
+                      if (value != null) {
+                        type = value;
+                      }
+                    }),
 
-        //==> space
-        SizedBox(height: Sizes.dimen_20.h),
-      ],
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                AppDropDownField(
+                    hintText: "انشر فى نطاق",
+                    itemsList: governoratesListWithSelectAll,
+                    isLastItemHighlighted: true,
+                    onChanged: (value) {
+                      if (value != null) {
+                        governorate = value;
+                      }
+                    }),
+
+                //==> space
+                SizedBox(height: Sizes.dimen_5.h),
+
+                TextFieldLargeContainer(
+                  appTextField: AppTextField(
+                    controller: descriptionController,
+                    label: "اكتب تفاصيل ما تتعرض له للنشر على زملائك",
+                    maxLines: 20,
+                    validateOnSubmit: false,
+                    withFocusedBorder: false,
+                    textInputType: TextInputType.multiline,
+                    textInputAction: TextInputAction.newline,
+                  ),
+                ),
+              ],
+            ),
+          ),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_5.h),
+
+          _switchLoadingAndButton(state),
+
+          //==> space
+          SizedBox(height: Sizes.dimen_20.h),
+        ],
+      ),
     );
   }
 
