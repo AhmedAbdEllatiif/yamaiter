@@ -131,7 +131,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                 }
 
                 if (state is TaskAssignedSuccessfullyWithWallet) {
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                   showAppDialog(
                     context,
                     message: " عملية دفع ناجحة",
@@ -141,7 +141,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                 }
 
                 if (state is InsufficientWalletFundToAssignTask) {
-                  Navigator.pop(context);
+                  //Navigator.pop(context);
                   showInsufficientWalletFundDialog(context);
                 }
               },
@@ -177,7 +177,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                   }
                   //==> accepted successfully
                   if (state is PaymentSuccess) {
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
                     showAppDialog(
                       context,
                       message: " عملية دفع ناجحة",
@@ -188,7 +188,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
 
                   //==> NotAPaymentProcessYet
                   if (state is NotAPaymentProcessYet) {
-                    Navigator.pop(context);
+                    //Navigator.pop(context);
                     showAppDialog(
                       context,
                       message: "حدث خطأ فى عملية الدفع",
@@ -199,7 +199,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
 
                   //==> PaymentFailed
                   if (state is PaymentFailed) {
-                    Navigator.pop(context);
+                   // Navigator.pop(context);
                     showAppDialog(
                       context,
                       message: "فشلت عملية الدفع",

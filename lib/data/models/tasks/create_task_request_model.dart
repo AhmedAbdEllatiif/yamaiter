@@ -32,7 +32,7 @@ class CreateTaskRequestModel {
   Map<String, dynamic> toJson() {
     return {
       "title": title,
-      "price": price,
+      "price": "10000000",//price,
       "court": court,
       "description": description,
       "governorates": governorates,
