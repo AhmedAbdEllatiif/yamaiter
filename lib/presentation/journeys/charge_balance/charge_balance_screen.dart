@@ -163,7 +163,7 @@ class _ChargeBalanceScreenState extends State<ChargeBalanceScreen> {
                                         ),
                               ),
                               TextSpan(
-                                text: "و أخبرهم بالرقم المرجعي.",
+                                text: "و أخبرهم بالرقم المرجعي.\n",
                                 style: Theme.of(context)
                                     .textTheme
                                     .bodyMedium!
@@ -173,6 +173,42 @@ class _ChargeBalanceScreenState extends State<ChargeBalanceScreen> {
                                       color: AppColor.white,
                                     ),
                               ),
+                              TextSpan(
+                                text: "تنتهى صلاحية الرقم المرجعى بعد ",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                  height: 1.5,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColor.white,
+                                ),
+                              ),
+
+                              TextSpan(
+                                text: "24",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleLarge!
+                                    .copyWith(
+                                  height: 2,
+                                  fontWeight: FontWeight.bold,
+                                  color: AppColor.white,
+                                ),
+                              ),
+
+                              TextSpan(
+                                text: " ساعة",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                  height: 1.5,
+                                  fontWeight: FontWeight.normal,
+                                  color: AppColor.white,
+                                ),
+                              ),
+
                             ],
                           ),
                           textAlign: TextAlign.center,
