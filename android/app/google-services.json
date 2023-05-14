@@ -30,6 +30,49 @@
             {
               "client_id": "609550492956-o0bc3kqg3cjba53cmjfku3cqvoq6tvls.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.primax.yamaiter.yamaiter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:609550492956:android:71ff914d360d686bc146d9",
+        "android_client_info": {
+          "package_name": "com.primaxcode.yamaitre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "609550492956-o0bc3kqg3cjba53cmjfku3cqvoq6tvls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFPKyC2GTRcn1L2NH9KcHhDtIv-SNUjG4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "609550492956-o0bc3kqg3cjba53cmjfku3cqvoq6tvls.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.primax.yamaiter.yamaiter"
+              }
             }
           ]
         }

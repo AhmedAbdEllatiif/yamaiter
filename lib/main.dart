@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -63,7 +64,7 @@ void main() async {
   );
 
   /// to setup firebase messaging
-  //FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
   /// send fcm
   _setupFCM();
@@ -78,6 +79,8 @@ void main() async {
 Future<void> _setupFCM() async {
   /// Set the background messaging handler early on, as a named top-level function
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
+
 
   if (!kIsWeb) {
     /// init default android notification channel
@@ -95,6 +98,27 @@ Future<void> _setupFCM() async {
             AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
+    DarwinInitializationSettings initializationSettingsDarwin =
+    DarwinInitializationSettings(
+        onDidReceiveLocalNotification: (
+            int? id, String? title, String? body, String? payload) async {});
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+    AndroidInitializationSettings('app_icon');
+
+    final InitializationSettings initializationSettings = InitializationSettings(
+        android: initializationSettingsAndroid,
+        iOS: initializationSettingsDarwin,
+       );
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+        onDidReceiveNotificationResponse: (NotificationResponse notificationResponse) async {
+          final String? payload = notificationResponse.payload;
+          if (notificationResponse.payload != null) {
+            debugPrint('notification payload: $payload');
+          }
+        });
+
     /// Update the iOS foreground notification presentation options to allow
     /// heads up notifications.
     await FirebaseMessaging.instance
@@ -103,5 +127,17 @@ Future<void> _setupFCM() async {
       badge: true,
       sound: true,
     );
+
+
+    final bool? result = await flutterLocalNotificationsPlugin
+        .resolvePlatformSpecificImplementation<
+        IOSFlutterLocalNotificationsPlugin>()
+        ?.requestPermissions(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
   }
+
+
 }

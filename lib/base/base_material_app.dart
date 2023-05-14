@@ -206,6 +206,8 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
 
   /// store the firebase token on change
   void _storeFirebaseToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    log("BaseMaterialApp >> FCM_TOKEN >> $token");
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       _firebaseTokenCubit.tryToStoreFirebaseToken(
         userToken: getUserToken(context),
@@ -214,6 +216,8 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     }).onError((err) {
       log("BaseMaterialApp  >> _storeFirebaseToken >> $err");
     });
+
+     //FirebaseMessaging.instance.getAPNSToken()
   }
 
   /// To interact with clicked notification when app is open in background
@@ -222,7 +226,56 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     ///==> Stream listener
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       log("_interactedMessageWhenAppIsOpenedInBackground");
+      //log("_interactedMessageWhenAppIsOpenedInBackground >> ${notification.title}");
       // _handleMessage(message);
+
+
+
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      AppleNotification? apple = message.notification?.apple;
+
+      log("_showReceivedNotification >> ${notification}");
+
+      if (notification != null && android != null && !kIsWeb) {
+        /// insert into local data base
+        // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ${notification.title}");
+
+        /// show notification
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: 'launch_background',
+                visibility: NotificationVisibility.public),
+          ),
+        );
+      }
+
+      if (notification != null && apple != null && !kIsWeb) {
+        /// insert into local data base
+        // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ios >> ${notification.title}");
+
+        /// show notification
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            iOS: DarwinNotificationDetails(),
+
+          ),
+        );
+      }
     });
   }
 
@@ -238,18 +291,18 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     if (initialMessage != null) {
       log("_interactedMessageWhenAppIsTerminated");
       //_handleMessage(initialMessage);
-    }
-  }
 
-  /// show received notification banner
-  void _showReceivedNotification() {
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
+      RemoteNotification? notification = initialMessage.notification;
+      AndroidNotification? android = initialMessage.notification?.android;
+      AppleNotification? apple = initialMessage.notification?.apple;
+
+      log("_showReceivedNotification >> ${notification}");
 
       if (notification != null && android != null && !kIsWeb) {
         /// insert into local data base
         // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ${notification.title}");
 
         /// show notification
         flutterLocalNotificationsPlugin.show(
@@ -263,6 +316,75 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
                 //      one that already exists in example app.
                 icon: 'launch_background',
                 visibility: NotificationVisibility.public),
+          ),
+        );
+      }
+
+      if (notification != null && apple != null && !kIsWeb) {
+        /// insert into local data base
+        // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ios >> ${notification.title}");
+
+        /// show notification
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            iOS: DarwinNotificationDetails(),
+
+          ),
+        );
+      }
+    }
+  }
+
+  /// show received notification banner
+  void _showReceivedNotification() {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
+      RemoteNotification? notification = message.notification;
+      AndroidNotification? android = message.notification?.android;
+      AppleNotification? apple = message.notification?.apple;
+
+        log("_showReceivedNotification >> ${notification}");
+
+      if (notification != null && android != null && !kIsWeb) {
+        /// insert into local data base
+        // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ${notification.title}");
+
+        /// show notification
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            android: AndroidNotificationDetails(channel.id, channel.name,
+                channelDescription: channel.description,
+                // TODO add a proper drawable resource to android, for now using
+                //      one that already exists in example app.
+                icon: 'launch_background',
+                visibility: NotificationVisibility.public),
+          ),
+        );
+      }
+
+      if (notification != null && apple != null && !kIsWeb) {
+        /// insert into local data base
+        // _insertNotificationIntoLocalDB(message);
+
+        log("_showReceivedNotification >> ios >> ${notification.title}");
+
+        /// show notification
+        flutterLocalNotificationsPlugin.show(
+          notification.hashCode,
+          notification.title,
+          notification.body,
+          NotificationDetails(
+            iOS: DarwinNotificationDetails(),
+
           ),
         );
       }

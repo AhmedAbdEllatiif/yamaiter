@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.primax.yamaiter.yamaiter">
+    package="com.primaxcode.yamaitre">
 
 
     <queries>
