@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr.apps.googleusercontent.com</string>
+	<string>609550492956-1fv2nhji6b9tpbafb74851rq7k5527cj.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.609550492956-o2ipnimtubl9k1kq644ofotqj4hfdpnr</string>
+	<string>com.googleusercontent.apps.609550492956-1fv2nhji6b9tpbafb74851rq7k5527cj</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCY8_tgIPAdn9SBwIUEZ49oWUWtLtarJ_0</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.primax.yamaiter.yamaiter</string>
+	<string>com.primaxcode.yamaitre</string>
 	<key>PROJECT_ID</key>
 	<string>yamaitre-fc7ea</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,7 +29,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:609550492956:ios:317b48d8f8979d51c146d9</string>
+	<string>1:609550492956:ios:7b40e2ba6cba4369c146d9</string>
 	<key>DATABASE_URL</key>
 	<string>https://yamaitre-fc7ea-default-rtdb.firebaseio.com</string>
 </dict>
