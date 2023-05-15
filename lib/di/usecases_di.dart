@@ -38,6 +38,7 @@ import '../domain/use_cases/contact_us.dart';
 import '../domain/use_cases/first_launch/change_first_launch_case.dart';
 import '../domain/use_cases/first_launch/get_first_launch_case.dart';
 import '../domain/use_cases/get_app_announcements_case.dart';
+import '../domain/use_cases/get_single_task_details_case.dart';
 import '../domain/use_cases/notifications_listeners/update_notificaitons_listener.dart';
 import '../domain/use_cases/payment/charge_balance_case.dart';
 import '../domain/use_cases/payment/check_paymet_status.dart';
@@ -260,6 +261,11 @@ Future init() async {
   //==> GetMyConsultationsCase
   getItInstance.registerFactory<GetMyConsultationsCase>(
     () => GetMyConsultationsCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetSingleTaskDetailsCase
+  getItInstance.registerFactory<GetSingleTaskDetailsCase>(
+    () => GetSingleTaskDetailsCase(remoteRepository: getItInstance()),
   );
 
   //==> AssignTaskCase

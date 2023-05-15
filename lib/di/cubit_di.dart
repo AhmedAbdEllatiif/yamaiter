@@ -18,6 +18,8 @@ import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_comple
 import 'package:yamaiter/presentation/logic/cubit/get_invited_tasks/get_invited_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_single_task_details_cubit/get_single_task_details_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_single_task_details_cubit/get_single_task_details_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/invite_lawyer/invite_lawyer_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/my_articles/my_articles_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/side_menu_page/side_menu_page_cubit.dart';
@@ -186,6 +188,11 @@ Future init() async {
   //==> GetAcceptTermsCubit
   getItInstance.registerFactory<GetAcceptTermsCubit>(
     () => GetAcceptTermsCubit(),
+  );
+
+  // GetSingleTaskDetailsCubit
+  getItInstance.registerFactory<GetSingleTaskDetailsCubit>(
+    () => GetSingleTaskDetailsCubit(),
   );
 
   //==> CreateTaskCubit
@@ -368,6 +375,6 @@ Future init() async {
   );
 
   getItInstance.registerFactory<FirstLaunchStatusCubit>(
-        () => FirstLaunchStatusCubit(),
+    () => FirstLaunchStatusCubit(),
   );
 }

@@ -19,6 +19,7 @@ import 'package:yamaiter/data/models/pay_response_model.dart';
 import 'package:yamaiter/data/models/payment/balance_model.dart';
 import 'package:yamaiter/data/models/payment/charge_balance/charge_balance_response_model.dart';
 import 'package:yamaiter/data/models/sos/sos_model.dart';
+import 'package:yamaiter/data/models/tasks/task_model.dart';
 import 'package:yamaiter/data/models/tasks/upload_task_params.dart';
 import 'package:yamaiter/data/models/tax/tax_model.dart';
 import 'package:yamaiter/data/params/accept_terms_params.dart';
@@ -338,7 +339,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
     }
   }
 
-
   @override
   Future<Either<AppError, List<ConsultationEntity>>> getMyConsultations(
       GetMyConsultationParams params) async {
@@ -403,10 +403,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
-
-
-
-
 
   /// fetchLawyers
   @override
@@ -1508,6 +1504,30 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       log("RepoImpl >> getAppAnnouncements >> error: $e");
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  /// getSingleTaskDetails
+  @override
+  Future<Either<AppError, TaskEntity>> getSingleTaskDetails(
+      GetSingleTaskParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.getSingleTaskDetails(params);
+
+      // received success
+      if (result is TaskModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> getSingleTaskDetails >> error: $e");
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }

@@ -19,6 +19,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_single_task_details.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
 import 'package:yamaiter/data/api/requests/get_requests/paymeny/check_payment_status.dart';
 import 'package:yamaiter/data/api/requests/get_requests/policy_and_privacy.dart';
@@ -338,6 +339,9 @@ abstract class RemoteDataSource {
 
   /// filter tasks
   Future<dynamic> filterTasks(FilterTasksParams params);
+
+  /// get single task deatils
+  Future<dynamic> getSingleTaskDetails(GetSingleTaskParams params);
 
   ///===========================>  Payment <============================\\\\
   ///                                                                   \\\\
@@ -2101,6 +2105,53 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// getSingleTaskDetails
+  @override
+  Future<dynamic> getSingleTaskDetails(GetSingleTaskParams params) async {
+    try {
+      log("getSingleTaskDetails >> Start request");
+      // init request
+      final request = GetSingleTaskDetailsRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getSingleTaskDetails >> ResponseCode: ${response.statusCode}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return taskModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message:
+                  "getSingleTaskDetails Status Code >> ${response.statusCode}");
+        // not found
+        case 404:
+          return AppError(AppErrorType.notFound,
+              message:
+                  "getSingleTaskDetails Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message:
+                  "getSingleTaskDetails Status Code >> ${response.statusCode}");
+        // default
+        default:
+          log("getSingleTaskDetails >> ResponseCode: ${response.statusCode}, \nbody:${jsonDecode(response.body)}");
+          return AppError(AppErrorType.api,
+              message:
+                  "getSingleTaskDetails Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("getSingleTaskDetails >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getSingleTaskDetails UnHandledError >> $e");
+    }
+  }
+
   /// getAllTasks
   @override
   Future getAllTasks(GetAllTasksParams params) async {
@@ -2753,11 +2804,11 @@ class RemoteDataSourceImpl extends RemoteDataSource {
           return SuccessModel();
         case 422:
           log("refundPayment >> ResponseBody: ${response.body}");
-          if(response.body.contains("noPayout")){
+          if (response.body.contains("noPayout")) {
             return AppError(AppErrorType.errorFromPayMobServer,
                 message: "refundPayment Status Code >> ${response.statusCode}");
           }
-          if(response.body.contains("noEnoughBalance")){
+          if (response.body.contains("noEnoughBalance")) {
             return AppError(AppErrorType.noWithdrawalAmount,
                 message: "refundPayment Status Code >> ${response.statusCode}");
           }

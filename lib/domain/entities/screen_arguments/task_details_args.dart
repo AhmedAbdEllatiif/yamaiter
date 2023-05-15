@@ -1,11 +1,13 @@
 import '../data/task_entity.dart';
 
 class TaskDetailsArguments {
-  final TaskEntity taskEntity;
+  final TaskEntity? taskEntity;
+  final int? taskId;
   final bool isAlreadyApplied;
 
   TaskDetailsArguments({
-    required this.taskEntity,
+     this.taskEntity,
+     this.taskId,
     required this.isAlreadyApplied,
   });
 }

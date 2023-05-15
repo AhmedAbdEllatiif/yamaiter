@@ -85,6 +85,7 @@ enum RequestType {
   allTasks,
   myTasks,
   mySingleTask,
+  taskDetails,
   appliedTasks,
   invitedTask,
 
@@ -169,6 +170,8 @@ extension ToUriFromString on RequestType {
 
       case RequestType.singleTaskClient:
         return "my-tasks";
+      case RequestType.taskDetails:
+        return "tasks";
 
       /**
      *

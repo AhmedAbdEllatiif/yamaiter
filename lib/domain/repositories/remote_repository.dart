@@ -242,6 +242,10 @@ abstract class RemoteRepository {
   /// create task
   Future<Either<AppError, SuccessModel>> createTask(CreateTaskParams params);
 
+  /// getSingleTaskDetails
+  Future<Either<AppError, TaskEntity>> getSingleTaskDetails(
+      GetSingleTaskParams params);
+
   /// assign task
   Future<Either<AppError, PayEntity>> assignTask(PayForTaskParams params);
 

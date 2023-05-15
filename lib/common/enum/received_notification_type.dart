@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
 enum ReceivedNotificationType {
@@ -79,7 +80,13 @@ extension ToString on ReceivedNotificationType {
         // TODO: Handle this case.
         break;
       case ReceivedNotificationType.task:
-        //RouteHelper().taskDetails(context, isReplacement: false);
+        RouteHelper().taskDetails(
+          context,
+          taskDetailsArguments: TaskDetailsArguments(
+            taskId: id,
+            isAlreadyApplied: true,
+          ),
+        );
         break;
       case ReceivedNotificationType.completedTask:
         RouteHelper().myTasks(
