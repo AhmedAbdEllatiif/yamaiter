@@ -64,10 +64,11 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
 
     _firebaseTokenCubit = getItInstance<StoreFirebaseTokenCubit>();
 
-    _interactedMessageWhenAppIsOpenedInBackground();
-    _interactedMessageWhenAppIsTerminated();
+
+    //==> notifications
     _showReceivedNotification();
     _storeFirebaseToken();
+
     super.initState();
   }
 
@@ -93,7 +94,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         ],
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
-          title: 'YaMaiter',
+          title: 'Yamaitre',
           //navigatorKey: navigatorKey,
 
           /// builder ==> build with ResponsiveWrapper and break points
@@ -216,128 +217,6 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
     }).onError((err) {
       log("BaseMaterialApp  >> _storeFirebaseToken >> $err");
     });
-
-     //FirebaseMessaging.instance.getAPNSToken()
-  }
-
-  /// To interact with clicked notification when app is open in background
-  Future<void> _interactedMessageWhenAppIsOpenedInBackground() async {
-    ///==> Also handle any interaction when the app is in the background via a
-    ///==> Stream listener
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      log("_interactedMessageWhenAppIsOpenedInBackground");
-      //log("_interactedMessageWhenAppIsOpenedInBackground >> ${notification.title}");
-      // _handleMessage(message);
-
-
-
-      RemoteNotification? notification = message.notification;
-      AndroidNotification? android = message.notification?.android;
-      AppleNotification? apple = message.notification?.apple;
-
-      log("_showReceivedNotification >> ${notification}");
-
-      if (notification != null && android != null && !kIsWeb) {
-        /// insert into local data base
-        // _insertNotificationIntoLocalDB(message);
-
-        log("_showReceivedNotification >> ${notification.title}");
-
-        /// show notification
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: 'launch_background',
-                visibility: NotificationVisibility.public),
-          ),
-        );
-      }
-
-      if (notification != null && apple != null && !kIsWeb) {
-        /// insert into local data base
-        // _insertNotificationIntoLocalDB(message);
-
-        log("_showReceivedNotification >> ios >> ${notification.title}");
-
-        /// show notification
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            iOS: DarwinNotificationDetails(),
-
-          ),
-        );
-      }
-    });
-  }
-
-  /// To interact with clicked notification when app is terminated
-  Future<void> _interactedMessageWhenAppIsTerminated() async {
-    ///==> Get any messages which caused the application to open from
-    ///==> a terminated state.
-    RemoteMessage? initialMessage =
-        await FirebaseMessaging.instance.getInitialMessage();
-
-    ///==> If the message also contains a data property with a "type" of "chat",
-    ///==> navigate to a chat screen
-    if (initialMessage != null) {
-      log("_interactedMessageWhenAppIsTerminated");
-      //_handleMessage(initialMessage);
-
-      RemoteNotification? notification = initialMessage.notification;
-      AndroidNotification? android = initialMessage.notification?.android;
-      AppleNotification? apple = initialMessage.notification?.apple;
-
-      log("_showReceivedNotification >> ${notification}");
-
-      if (notification != null && android != null && !kIsWeb) {
-        /// insert into local data base
-        // _insertNotificationIntoLocalDB(message);
-
-        log("_showReceivedNotification >> ${notification.title}");
-
-        /// show notification
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            android: AndroidNotificationDetails(channel.id, channel.name,
-                channelDescription: channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: 'launch_background',
-                visibility: NotificationVisibility.public),
-          ),
-        );
-      }
-
-      if (notification != null && apple != null && !kIsWeb) {
-        /// insert into local data base
-        // _insertNotificationIntoLocalDB(message);
-
-        log("_showReceivedNotification >> ios >> ${notification.title}");
-
-        /// show notification
-        flutterLocalNotificationsPlugin.show(
-          notification.hashCode,
-          notification.title,
-          notification.body,
-          NotificationDetails(
-            iOS: DarwinNotificationDetails(),
-
-          ),
-        );
-      }
-    }
   }
 
   /// show received notification banner
@@ -347,8 +226,6 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
       AndroidNotification? android = message.notification?.android;
       AppleNotification? apple = message.notification?.apple;
 
-        log("_showReceivedNotification >> ${notification}");
-
       if (notification != null && android != null && !kIsWeb) {
         /// insert into local data base
         // _insertNotificationIntoLocalDB(message);
@@ -363,18 +240,13 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
           NotificationDetails(
             android: AndroidNotificationDetails(channel.id, channel.name,
                 channelDescription: channel.description,
-                // TODO add a proper drawable resource to android, for now using
-                //      one that already exists in example app.
-                icon: 'launch_background',
+                // icon: 'launch_background',
                 visibility: NotificationVisibility.public),
           ),
         );
       }
 
       if (notification != null && apple != null && !kIsWeb) {
-        /// insert into local data base
-        // _insertNotificationIntoLocalDB(message);
-
         log("_showReceivedNotification >> ios >> ${notification.title}");
 
         /// show notification
@@ -382,9 +254,8 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
           notification.hashCode,
           notification.title,
           notification.body,
-          NotificationDetails(
+          const NotificationDetails(
             iOS: DarwinNotificationDetails(),
-
           ),
         );
       }

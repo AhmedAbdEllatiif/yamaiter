@@ -30,8 +30,14 @@ List<ArticleModel> myArticlesFromJson(String str) {
   return articleModels.reversed.toList();
 }
 
-ArticleModel articleModelFromJson(String str) =>
-    ArticleModel.fromJson(json.decode(str)["article"]);
+ArticleModel articleModelFromJson(String str) {
+  final myJson = json.decode(str);
+  if (myJson["article"] == null) {
+    throw Exception(
+        "ArticleModel >. articleModelFromJson  >> myJson[article] is null value");
+  }
+  return ArticleModel.fromJson(json.decode(str)["article"]);
+}
 
 class ArticleModel extends ArticleEntity {
   ArticleModel({

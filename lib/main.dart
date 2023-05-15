@@ -104,7 +104,7 @@ Future<void> _setupFCM() async {
             int? id, String? title, String? body, String? payload) async {});
 
     const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('app_icon');
+    AndroidInitializationSettings('ic_launcher');
 
     final InitializationSettings initializationSettings = InitializationSettings(
         android: initializationSettingsAndroid,
