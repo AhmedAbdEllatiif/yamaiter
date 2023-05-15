@@ -7,6 +7,7 @@ import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
 import 'package:yamaiter/presentation/themes/theme_color.dart';
 
 import '../../../../../../common/constants/sizes.dart';
+import '../../../../common/enum/task_status.dart';
 import '../../../logic/cubit/assign_task/assign_task_cubit.dart';
 import '../../../widgets/app_content_title_widget.dart';
 import '../../../widgets/tab_bar/tab_bar_widget.dart';
@@ -46,6 +47,20 @@ class _MyTasksScreenState extends State<MyTasksScreen>
     _tabController = TabController(length: 4, vsync: this);
     _assignTaskCubit = getItInstance<PaymentAssignTaskCubit>();
     _endTaskCubit = getItInstance<EndTaskCubit>();
+    switch (widget.myTasksArguments.taskType) {
+      case TaskType.todo:
+        _tabController.index = 0;
+        break;
+      case TaskType.inprogress:
+        _tabController.index = 1;
+        break;
+      case TaskType.inreview:
+        _tabController.index = 2;
+        break;
+      case TaskType.completed:
+        _tabController.index = 3;
+        break;
+    }
   }
 
   @override

@@ -3,6 +3,9 @@ import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
+import '../../domain/entities/screen_arguments/chat_room_args.dart';
+import '../functions/get_authoried_user.dart';
+
 enum ReceivedNotificationType {
   inprogressTask,
   consultation,
@@ -61,8 +64,13 @@ ReceivedNotificationType receivedNotificationFromString(String? str) {
 
 /// Extension to convert ReceivedNotificationType to string
 extension ToString on ReceivedNotificationType {
-  openRequiredPage(BuildContext context, {required int id}) {
+  openRequiredPage(
+    BuildContext context, {
+    required int id,
+    String chatChannel = "",
+  }) {
     switch (this) {
+      /// inprogressTask
       case ReceivedNotificationType.inprogressTask:
         RouteHelper().myTasks(
           context,
@@ -70,15 +78,30 @@ extension ToString on ReceivedNotificationType {
           taskType: TaskType.inprogress,
         );
         break;
+
+      /// consultation
       case ReceivedNotificationType.consultation:
         RouteHelper().myConsultations(context, isReplacement: false);
         break;
+
+      /// tax
       case ReceivedNotificationType.tax:
         RouteHelper().myTaxesScreen(context, isReplacement: false);
         break;
+
+      /// chat
       case ReceivedNotificationType.chat:
-        // TODO: Handle this case.
+        RouteHelper().chatRoomScreen(
+          context,
+          chatRoomArguments: ChatRoomArguments(
+            chatChannel: chatChannel,
+            chatRoomId: id,
+            authorizedUserEntity: getAuthorizedUserEntity(context),
+          ),
+        );
         break;
+
+      /// task
       case ReceivedNotificationType.task:
         RouteHelper().taskDetails(
           context,
@@ -88,6 +111,8 @@ extension ToString on ReceivedNotificationType {
           ),
         );
         break;
+
+      /// completedTask
       case ReceivedNotificationType.completedTask:
         RouteHelper().myTasks(
           context,
@@ -95,9 +120,13 @@ extension ToString on ReceivedNotificationType {
           taskType: TaskType.completed,
         );
         break;
+
+      /// invitedTask
       case ReceivedNotificationType.invitedTask:
-        // TODO: Handle this case.
+        RouteHelper().invitedTasksScreen(context);
         break;
+
+      /// myTodoTask
       case ReceivedNotificationType.myTodoTask:
         RouteHelper().myTasks(
           context,
@@ -105,6 +134,8 @@ extension ToString on ReceivedNotificationType {
           taskType: TaskType.todo,
         );
         break;
+
+      /// inreviewTask
       case ReceivedNotificationType.inreviewTask:
         RouteHelper().myTasks(
           context,
@@ -112,14 +143,18 @@ extension ToString on ReceivedNotificationType {
           taskType: TaskType.inreview,
         );
         break;
+
+      /// article
       case ReceivedNotificationType.article:
         RouteHelper().singleArticleScreen(context, articleId: id);
         break;
 
+      /// distress
       case ReceivedNotificationType.distress:
         RouteHelper().mySosScreen(context);
         break;
 
+      /// unKnown
       case ReceivedNotificationType.unKnown:
         // TODO: Handle this case.
         break;
