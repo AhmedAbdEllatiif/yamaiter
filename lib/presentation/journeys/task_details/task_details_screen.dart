@@ -160,9 +160,8 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                         if (state is TaskFetchedSuccessfully) {
                           return TaskDetailsWidget(
                             applyForTaskCubit: applyForTaskCubit,
-                            taskEntity: state.taskEntity!,
-                            isAlreadyApplied:
-                                widget.taskDetailsArguments.isAlreadyApplied,
+                            taskEntity: state.taskEntity,
+                            isAlreadyApplied: false,
                           );
                         }
 

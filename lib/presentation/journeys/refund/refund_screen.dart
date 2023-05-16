@@ -134,7 +134,7 @@ class _RefundScreenState extends State<RefundScreen> {
                         ),
                       ),
                       TextSpan(
-                        text: 'سيتم خص ',
+                        text: 'سيتم خصم ',
                         style: Theme.of(context).textTheme.titleMedium!.copyWith(
                           height: 1.5,
                           fontWeight: FontWeight.bold,
