@@ -12,6 +12,7 @@ import 'package:yamaiter/domain/use_cases/help.dart';
 import 'package:yamaiter/domain/use_cases/login.dart';
 import 'package:yamaiter/domain/use_cases/privacy.dart';
 import 'package:yamaiter/domain/use_cases/register_lawyer.dart';
+import 'package:yamaiter/domain/use_cases/sos/get_single_sos_case.dart';
 import 'package:yamaiter/domain/use_cases/taxes/get_in_progress_taxes.dart';
 import 'package:yamaiter/domain/use_cases/terms_and_conditions.dart';
 import 'package:yamaiter/domain/use_cases/fetch_lawyers.dart';
@@ -161,6 +162,11 @@ Future init() async {
   //==> GetConsultationDetailsCase
   getItInstance.registerFactory<GetConsultationDetailsCase>(
     () => GetConsultationDetailsCase(remoteRepository: getItInstance()),
+  );
+
+  //==> GetSingleSosCase
+  getItInstance.registerFactory<GetSingleSosCase>(
+    () => GetSingleSosCase(remoteRepository: getItInstance()),
   );
 
   //==> CreateSosCase

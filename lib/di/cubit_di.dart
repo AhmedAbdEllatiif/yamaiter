@@ -18,6 +18,7 @@ import 'package:yamaiter/presentation/logic/cubit/get_completed_taxes/get_comple
 import 'package:yamaiter/presentation/logic/cubit/get_invited_tasks/get_invited_task_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_ads/get_my_ads_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_my_sos/get_my_sos_cubit.dart';
+import 'package:yamaiter/presentation/logic/cubit/get_single_sos/get_single_sos_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_single_task_details_cubit/get_single_task_details_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/get_single_task_details_cubit/get_single_task_details_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/invite_lawyer/invite_lawyer_cubit.dart';
@@ -99,6 +100,12 @@ Future init() async {
   getItInstance.registerFactory<AboutUsPageCubit>(
     () => AboutUsPageCubit(),
   );
+
+  //==> GetSingleSosCubit
+  getItInstance.registerFactory<GetSingleSosCubit>(
+        () => GetSingleSosCubit(),
+  );
+
 
   //==> CreateSosCubit
   getItInstance.registerFactory<CreateSosCubit>(

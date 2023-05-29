@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -151,7 +152,13 @@ extension ToString on ReceivedNotificationType {
 
       /// distress
       case ReceivedNotificationType.distress:
-        RouteHelper().mySosScreen(context);
+        RouteHelper().singleSosScreen(
+          context,
+          arguments: SingleScreenArguments(
+            sosId: id,
+            withCallButton: true,
+          ),
+        );
         break;
 
       /// unKnown

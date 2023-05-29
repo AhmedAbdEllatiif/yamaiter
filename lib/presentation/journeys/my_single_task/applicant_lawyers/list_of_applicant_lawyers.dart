@@ -48,7 +48,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
                   log("PaymentMethod >> $paymentMethod");
               showAppDialog(
                 context,
-                message: "عمولة يامتر ${taskEntity.costCommission} ",
+                message:  " رسوم أدارية تحصل مقابل الخدمة من ya maitre ${taskEntity.costCommission}يتم إضافة ",
                 buttonText: "اسناد المهمة",
                 onPressed: () {
                   Navigator.pop(context);

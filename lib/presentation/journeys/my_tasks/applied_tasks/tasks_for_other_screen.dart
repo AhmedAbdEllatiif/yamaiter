@@ -83,7 +83,7 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
         child: Scaffold(
           /// appBar
           appBar: AppBar(
-            title: const Text("مهامى لحساب الغير"),
+            title: const Text(" مهام منفذه للغير"),
           ),
 
           body: Column(
@@ -94,7 +94,7 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                 margin: EdgeInsets.symmetric(
                     vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_20.w),
                 child: AppContentTitleWidget(
-                  title: "مهامى لحساب الغير",
+                  title: " مهام منفذه للغير",
                   textStyle: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -110,7 +110,7 @@ class _TasksForOtherScreenState extends State<TasksForOtherScreen>
                 },
                 tabs: [
                   TabItem(
-                    text: "مهامى لحساب الغير",
+                    text: " مهام منفذه للغير",
                     textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: AppColor.white, fontWeight: FontWeight.bold),
                   ),

@@ -50,11 +50,12 @@ enum RequestType {
   contactUs,
   distresses,
 
-  /// soso
+  /// sos
   mySosList,
   allSosList,
   deleteSos,
   updateSos,
+  singleSos,
 
   /// articles
   allArticles,
@@ -229,6 +230,9 @@ extension ToUriFromString on RequestType {
 
       case RequestType.updateSos:
         return "update-distresses";
+
+      case RequestType.singleSos:
+        return "distresses";
 
       /**
      *

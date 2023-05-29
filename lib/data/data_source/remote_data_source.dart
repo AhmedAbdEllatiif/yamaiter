@@ -18,6 +18,7 @@ import 'package:yamaiter/data/api/requests/get_requests/get_invited_tasks.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_articles.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_sos.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_my_tasks.dart';
+import 'package:yamaiter/data/api/requests/get_requests/get_single_sos_request.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_single_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/get_task_details.dart';
 import 'package:yamaiter/data/api/requests/get_requests/help.dart';
@@ -85,6 +86,7 @@ import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_invited_task_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/get_single_sos_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
 import 'package:yamaiter/data/params/no_params.dart';
@@ -227,6 +229,9 @@ abstract class RemoteDataSource {
 
   /// help
   Future<dynamic> getHelp(String userToken);
+
+  /// single sos
+  Future<dynamic> getSingleSos(GetSingleSosParams params);
 
   /// create sos
   Future<dynamic> createSos(CreateSosParams params);
@@ -1238,67 +1243,117 @@ class RemoteDataSourceImpl extends RemoteDataSource {
     }
   }
 
+  /// getSingleSos
+  @override
+  Future<dynamic> getSingleSos(GetSingleSosParams params) async {
+    try {
+      log("getSingleSos >> Start request");
+      // init request
+      final request = GetMySingleSosRequest();
+
+      // response
+      final response = await request(params);
+
+      log("getSingleSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return sosModelFromJson(response.body);
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "getSingleSos Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "getSingleSos Status Code >> ${response.statusCode}");
+        // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "getSingleSos Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } on Exception catch (e) {
+      log("getSingleSos >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "getSingleSos UnHandledError >> $e");
+    }
+  }
+
   /// CreateSosParams
   @override
   Future createSos(CreateSosParams params) async {
-    log("createSos >> Start request");
-    // init request
-    final createSos = CreateSosRequest();
+    try {
+      log("createSos >> Start request");
+      // init request
+      final createSos = CreateSosRequest();
 
-    // response
-    final response = await createSos(params.sosRequestModel, params.token);
+      // response
+      final response = await createSos(params.sosRequestModel, params.token);
 
-    log("createSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+      log("createSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
 
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return SuccessModel();
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "createSos Status Code >> ${response.statusCode}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "createSos Status Code >> ${response.statusCode}");
-      // default
-      default:
-        return AppError(AppErrorType.api,
-            message: "createSos Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "createSos Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "createSos Status Code >> ${response.statusCode}");
+        // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "createSos Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } on Exception catch (e) {
+      log("createSos >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "createSos UnHandledError >> $e");
     }
   }
 
   /// updateSos
   @override
   Future updateSos(UpdateSosParams params) async {
-    log("updateSos >> Start request");
-    // init request
-    final updateRequest = UpdateSosRequest();
+    try {
+      log("updateSos >> Start request");
+      // init request
+      final updateRequest = UpdateSosRequest();
 
-    // response
-    final response = await updateRequest(params, params.token);
+      // response
+      final response = await updateRequest(params, params.token);
 
-    log("updateSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
+      log("updateSos >> ResponseCode: ${response.statusCode},Body: ${jsonDecode(response.body)}");
 
-    switch (response.statusCode) {
-      // success
-      case 200:
-        return SuccessModel();
-      // notActivatedUser
-      case 403:
-        return AppError(AppErrorType.notActivatedUser,
-            message: "updateSos Status Code >> ${response.statusCode}");
-      // unAuthorized
-      case 401:
-        return AppError(AppErrorType.unauthorizedUser,
-            message: "updateSos Status Code >> ${response.statusCode}");
-      // default
-      default:
-        return AppError(AppErrorType.api,
-            message: "updateSos Status Code >> ${response.statusCode}"
-                " \n Body: ${response.body}");
+      switch (response.statusCode) {
+        // success
+        case 200:
+          return SuccessModel();
+        // notActivatedUser
+        case 403:
+          return AppError(AppErrorType.notActivatedUser,
+              message: "updateSos Status Code >> ${response.statusCode}");
+        // unAuthorized
+        case 401:
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "updateSos Status Code >> ${response.statusCode}");
+        // default
+        default:
+          return AppError(AppErrorType.api,
+              message: "updateSos Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } on Exception catch (e) {
+      log("updateSos >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "updateSos UnHandledError >> $e");
     }
   }
 

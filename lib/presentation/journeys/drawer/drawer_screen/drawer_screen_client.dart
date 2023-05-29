@@ -47,10 +47,11 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
             color: AppColor.primaryDarkColor,
             height: ScreenUtil.screenHeight * 0.10,
 
+            /// image and balance
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                /// Avatar and rating
+                //==> Avatar and rating
                 BlocBuilder<AuthorizedUserCubit, AuthorizedUserState>(
                   builder: (context, state) {
                     return ImageNameRatingWidget(

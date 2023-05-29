@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/enum/user_type.dart';
 
 import '../../../domain/entities/data/task_entity.dart';
 import '../user_lawyer_model.dart';
@@ -48,6 +49,7 @@ class TaskModel extends TaskEntity {
     required this.taskStartingDate,
     required this.taskCreatedAt,
     required this.taskUpdatedAt,
+    required this.taskCreatorType,
     required this.userLawyerModel,
     required this.taskAssignedLawyers,
     required this.taskApplicantLawyers,
@@ -70,6 +72,7 @@ class TaskModel extends TaskEntity {
           assignedLawyers: taskAssignedLawyers,
           applicantLawyers: taskApplicantLawyers,
           recommenderLawyers: taskRecommenderLawyers,
+          creatorType: taskCreatorType,
           taskStartingDate: taskStartingDate,
           taskCreatedAt: taskCreatedAt,
           taskUpdatedAt: taskUpdatedAt,
@@ -91,6 +94,7 @@ class TaskModel extends TaskEntity {
   final DateTime? taskStartingDate;
   final DateTime? taskCreatedAt;
   final DateTime? taskUpdatedAt;
+  final UserType taskCreatorType;
   final List<UserLawyerModel> userLawyerModel;
   final List<UserLawyerModel> taskAssignedLawyers;
   final List<UserLawyerModel> taskApplicantLawyers;
@@ -153,6 +157,15 @@ class TaskModel extends TaskEntity {
       refundFees: feesJson["refund_fees"] != null
           ? feesJson["refund_fees"] ?? AppUtils.undefined
           : AppUtils.undefined,
+
+      taskCreatorType: taskJson["user"] != null
+          ? taskJson["user"].isNotEmpty
+              ? (taskJson["user"][0]["userable_type"] as String)
+                      .contains("Client")
+                  ? UserType.client
+                  : UserType.lawyer
+              : UserType.unDefined
+          : UserType.unDefined,
 
       // lawyer owner
       userLawyerModel: taskJson["user"] != null

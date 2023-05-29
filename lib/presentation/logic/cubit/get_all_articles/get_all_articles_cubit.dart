@@ -38,10 +38,10 @@ class GetAllArticlesCubit extends Cubit<GetAllArticlesState> {
     //==> receive result
     either.fold(
       (appError) => _emitError(appError),
-      (articlesList) => {
+      (articlesList)  {
         _emitIfNotClosed(
           _statusToEmit(articlesList: articlesList, offset: offset),
-        )
+        );
       },
     );
   }

@@ -47,7 +47,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                     //==> my tasks
                     ChooseMyTasksTypeItem(
                       image: AssetsImages.checkSvg,
-                      text: "طلباتى من الغير",
+                      text: "طلباتى",
                       onPressed: () => _navigateMyTaxesScreen(context),
                     ),
                     SizedBox(width: Sizes.dimen_5.w),
@@ -55,7 +55,7 @@ class _ChooseTasksScreenState extends State<ChooseTasksScreen> {
                     //==> tasks for others
                     ChooseMyTasksTypeItem(
                       image: AssetsImages.briefcaseWithHandSvg,
-                      text: "مهام لحساب الغير",
+                      text: "مهام منفذه للغير",
                       onPressed: () => _navigateTasksForOtherScreen(context),
                     ),
                   ],

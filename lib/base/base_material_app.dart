@@ -64,7 +64,6 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
 
     _firebaseTokenCubit = getItInstance<StoreFirebaseTokenCubit>();
 
-
     //==> notifications
     _showReceivedNotification();
     _storeFirebaseToken();
@@ -231,6 +230,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
         // _insertNotificationIntoLocalDB(message);
 
         log("_showReceivedNotification >> ${notification.title}");
+        log("_showReceivedNotification >> data >> ${message.data}");
 
         /// show notification
         flutterLocalNotificationsPlugin.show(

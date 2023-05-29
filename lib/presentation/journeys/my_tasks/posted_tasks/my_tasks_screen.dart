@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_authoried_user.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/my_task_args.dart';
 import 'package:yamaiter/presentation/logic/cubit/end_task/end_task_cubit.dart';
@@ -109,7 +110,9 @@ class _MyTasksScreenState extends State<MyTasksScreen>
         child: Scaffold(
           /// appBar
           appBar: AppBar(
-            title: const Text("طلباتى من الغير"),
+            title: Text(isCurrentUserLawyer(context)
+                ? "طلباتى"
+                : "طلباتي المعروضة على المحامين "),
           ),
 
           body: Column(
@@ -120,7 +123,9 @@ class _MyTasksScreenState extends State<MyTasksScreen>
                 margin: EdgeInsets.symmetric(
                     vertical: Sizes.dimen_10.h, horizontal: Sizes.dimen_20.w),
                 child: AppContentTitleWidget(
-                  title: "طلباتى من الغير",
+                  title: isCurrentUserLawyer(context)
+                      ? "طلباتى"
+                      : "طلباتي المعروضة على المحامين ",
                   textStyle: Theme.of(context).textTheme.headlineSmall,
                 ),
               ),
@@ -136,7 +141,9 @@ class _MyTasksScreenState extends State<MyTasksScreen>
                 },
                 tabs: [
                   TabItem(
-                    text: "طلباتى من الغير",
+                    text: isCurrentUserLawyer(context)
+                        ? "طلباتى"
+                        : "طلباتي المعروضة على المحامين ",
                     textStyle: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: AppColor.white, fontWeight: FontWeight.bold),
                   ),

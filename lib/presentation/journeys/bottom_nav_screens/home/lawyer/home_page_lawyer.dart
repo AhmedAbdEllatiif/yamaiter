@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:yamaiter/common/screen_utils/screen_util.dart';
+import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/loading_more_all_articles.dart';
 
+import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/enum/app_error_type.dart';
-import '../../../../../di/git_it_instance.dart';
 import '../../../../../domain/entities/data/article_entity.dart';
 import '../../../../../router/route_helper.dart';
 import '../../../../logic/cubit/get_all_articles/get_all_articles_cubit.dart';
@@ -12,20 +13,23 @@ import '../../../../themes/theme_color.dart';
 import '../../../../widgets/app_error_widget.dart';
 import '../../../../widgets/app_refersh_indicator.dart';
 import '../../../../widgets/article_item.dart';
-import '../../../../widgets/lawyers/top_rated_lawyers_widget.dart';
 import '../../../../widgets/loading_widget.dart';
-import '../../../main/main_page_title.dart';
 
-class HomePageClient extends StatefulWidget {
-  const HomePageClient({Key? key}) : super(key: key);
+class HomePageLawyer extends StatefulWidget {
+  final GetAllArticlesCubit getAllArticlesCubit;
+  final int? limitToShow;
+
+  const HomePageLawyer({
+    Key? key,
+    required this.getAllArticlesCubit,
+    this.limitToShow,
+  }) : super(key: key);
 
   @override
-  State<HomePageClient> createState() => _HomePageClientState();
+  State<HomePageLawyer> createState() => _HomePageLawyerState();
 }
 
-class _HomePageClientState extends State<HomePageClient> {
-  final bool _snap = false;
-
+class _HomePageLawyerState extends State<HomePageLawyer> {
   late final GetAllArticlesCubit _getAllArticlesCubit;
 
   int offset = 0;
@@ -35,13 +39,12 @@ class _HomePageClientState extends State<HomePageClient> {
   // ScrollController
   late final ScrollController _controller;
 
-  final List<ArticleEntity> _articlesList = [];
-
   @override
   void initState() {
     super.initState();
-    _getAllArticlesCubit = getItInstance<GetAllArticlesCubit>();
-    _fetchMyArticlesList();
+    _getAllArticlesCubit =
+        widget.getAllArticlesCubit; //getItInstance<GetAllArticlesCubit>();
+    //_fetchMyArticlesList();
     _controller = ScrollController();
     _listenerOnScrollController();
   }
@@ -53,24 +56,30 @@ class _HomePageClientState extends State<HomePageClient> {
     super.dispose();
   }
 
-  bool isStretched = true;
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => _getAllArticlesCubit,
-      child: Builder(builder: (context) {
-        return BlocConsumer<GetAllArticlesCubit, GetAllArticlesState>(
-          listener: (context, state) {
-            if (state is AllArticlesListFetchedSuccessfully) {
-              _articlesList.addAll(state.articlesList);
-            }
-
-            if (state is LastPageAllArticlesReached) {
-              _articlesList.addAll(state.articlesList);
-            }
-          },
-          builder: (context, state) {
+      child: BlocListener<GetAllArticlesCubit, GetAllArticlesState>(
+        listener: (context, state) {
+          //==> fetched
+          if (state is AllArticlesListFetchedSuccessfully) {
+            allArticlesList.addAll(state.articlesList);
+          }
+          //==> last page reached
+          if (state is LastPageAllArticlesReached) {
+            allArticlesList.addAll(state.articlesList);
+          }
+        },
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: Sizes.dimen_10.h,
+            bottom: Sizes.dimen_2.h,
+            left: Sizes.dimen_10.w,
+            right: Sizes.dimen_10.w,
+          ),
+          child: BlocBuilder<GetAllArticlesCubit, GetAllArticlesState>(
+              builder: (_, state) {
             //==> loading
             if (state is LoadingGetAllArticlesList) {
               return const Center(
@@ -122,83 +131,44 @@ class _HomePageClientState extends State<HomePageClient> {
               );
             }
 
-            /// LastPageAllArticlesReached
-            if (state is LastPageAllArticlesReached) {}
-
+            //==> fetched
             return AppRefreshIndicator(
               onRefresh: () async {
+                allArticlesList.clear();
                 _fetchMyArticlesList();
               },
-              child: CustomScrollView(
+              child: ListView.separated(
+                controller: _controller,
                 physics: const BouncingScrollPhysics(),
-                slivers: <Widget>[
-                  /// special lawyers
-                  SliverAppBar(
-                    pinned: true,
-                    snap: _snap,
-                    floating: true,
-                    automaticallyImplyLeading: false,
-                    expandedHeight: ScreenUtil.screenHeight * 0.28,
-                    backgroundColor: Colors.white,
-                    flexibleSpace: FlexibleSpaceBar(
-                      title: const MainPageTitle(
-                        title: "احدث المنشورات",
-                      ),
-                      titlePadding: const EdgeInsets.only(top: 1),
-                      expandedTitleScale: 1.3,
-                      background: Container(
-                        color: AppColor.white,
-                        //padding: const EdgeInsets.only(bottom: 10),
-                        child: const Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            MainPageTitle(
-                              title: "محامين متمزين",
-                            ),
-                            TopRatedLawyersWidget(),
-                          ],
+                shrinkWrap: true,
+                itemCount: allArticlesList.length + 1,
+                // controller: _controller,
+                separatorBuilder: (context, index) => SizedBox(
+                  height: Sizes.dimen_2.h,
+                ),
+                itemBuilder: (context, index) {
+                  if (allArticlesList.isNotEmpty) {
+                    if (index == allArticlesList.length - 1 || index == 4) {
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 12.0),
+                        child: ArticleItem(
+                          articleEntity: allArticlesList[index],
+                          withMenu: false,
                         ),
-                      ),
-                    ),
-                  ),
-
-                  /// SliverList
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (BuildContext context, int index) {
-                        // to add space below the lastItem
-                        // index == _articlesList.length - 1 ==> when the list length is
-                        // smaller than 5
-                        // index == 4 ==>  when the list length is larger than 5
-                        if(_articlesList.isNotEmpty){
-                          if (index == _articlesList.length - 1 || index == 4) {
-                            return Padding(
-                              padding: const EdgeInsets.only(bottom: 12.0),
-                              child: ArticleItem(
-                                articleEntity: _articlesList[index],
-                                withMenu: false,
-                              ),
-                            );
-                          } else {
-                            return ArticleItem(
-                              articleEntity: _articlesList[index],
-                              withMenu: false,
-                            );
-                          }
-                        }
-                      },
-                      childCount:
-                          _articlesList.length > 5 ? 5 : _articlesList.length,
-                    ),
-                  ),
-                ],
+                      );
+                    } else {
+                      return ArticleItem(
+                        articleEntity: allArticlesList[index],
+                        withMenu: false,
+                      );
+                    }
+                  }
+                },
               ),
             );
-
-            return const SizedBox.shrink();
-          },
-        );
-      }),
+          }),
+        ),
+      ),
     );
   }
 

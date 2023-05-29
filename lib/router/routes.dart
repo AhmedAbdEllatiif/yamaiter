@@ -52,7 +52,7 @@ import 'package:yamaiter/presentation/journeys/request_a_consultation/request_a_
 import 'package:yamaiter/presentation/journeys/search_for_lawyer/search_for_lawyer_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/add_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/delete_sos.dart';
-import 'package:yamaiter/presentation/journeys/sos/single_sos_screen.dart';
+import 'package:yamaiter/presentation/journeys/sos/single_sos_details/single_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/sos/update_sos/update_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/create_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/task_details/task_details_screen.dart';

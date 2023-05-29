@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/extensions/widget_extension.dart';
 import 'package:yamaiter/common/functions/open_image.dart';
@@ -52,24 +53,43 @@ class _TaskItemState extends State<TaskItem> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            ImageNameRatingWidget(
-                              imgUrl: widget.taskEntity.creatorImage,
-                              name: widget.taskEntity.creatorName,
-                              rating:
-                                  widget.taskEntity.creatorRating.toDouble(),
-                              withRow: false,
-                              nameColor: AppColor.primaryDarkColor,
-                              ratedColor: AppColor.accentColor,
-                              unRatedColor: AppColor.primaryColor,
-                              minImageSize: Sizes.dimen_40,
-                              maxImageSize: Sizes.dimen_50,
-                              onPressed: () {
-                                openImage(
-                                  context,
-                                  image: widget.taskEntity.creatorImage,
-                                  padding: const EdgeInsets.symmetric(horizontal: 20)
-                                );
-                              },
+                            Column(
+                              children: [
+                                ImageNameRatingWidget(
+                                  imgUrl: widget.taskEntity.creatorImage,
+                                  name: widget.taskEntity.creatorName,
+                                  rating: widget.taskEntity.creatorRating
+                                      .toDouble(),
+                                  withRow: false,
+                                  nameColor: AppColor.primaryDarkColor,
+                                  ratedColor: AppColor.accentColor,
+                                  unRatedColor: AppColor.primaryColor,
+                                  minImageSize: Sizes.dimen_40,
+                                  maxImageSize: Sizes.dimen_50,
+                                  onPressed: () {
+                                    openImage(context,
+                                        image: widget.taskEntity.creatorImage,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 20));
+                                  },
+                                ),
+                                if (widget.taskEntity.creatorType !=
+                                    UserType.unDefined)
+                                  Text(
+                                    widget.taskEntity.creatorType ==
+                                            UserType.client
+                                        ? "عميل"
+                                        : "محامى",
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodySmall!
+                                        .copyWith(
+                                            color:
+                                                AppColor.black.withOpacity(0.6),
+                                            height: 1.2),
+                                  ),
+                              ],
                             ),
 
                             /// data

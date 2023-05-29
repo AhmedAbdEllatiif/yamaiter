@@ -84,6 +84,7 @@ import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
 import '../params/forget_password_params.dart';
 import '../params/get_app_announcements.dart';
+import '../params/get_single_sos_params.dart';
 import '../params/get_taxes_params.dart';
 import '../params/payment/charge_balance_params.dart';
 import '../params/payment/check_payment_status_params.dart';
@@ -597,6 +598,29 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
 
       // failed to get about
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      return Left(AppError(AppErrorType.api, message: "Message: $e"));
+    }
+  }
+
+
+  /// getSingleSos
+  @override
+  Future<Either<AppError, SosEntity>> getSingleSos(
+      GetSingleSosParams params) async {
+    try {
+      // send create sos request
+      final result = await remoteDataSource.getSingleSos(params);
+
+      // received success
+      if (result is SosModel) {
+        return Right(result);
+      }
+
+      // failed to create sos
       else {
         return Left(result);
       }

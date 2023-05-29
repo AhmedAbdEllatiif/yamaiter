@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:equatable/equatable.dart';
+import 'package:yamaiter/common/enum/user_type.dart';
 
 import '../../../common/constants/app_utils.dart';
 import '../../../data/api/api_constants.dart';
@@ -34,6 +35,7 @@ class TaskEntity extends Equatable {
   late final String updatedAt;
 
   /// creator
+  final UserType creatorType;
   late final String creatorName;
   late final String creatorPhoneNum;
   late final num creatorRating;
@@ -58,6 +60,7 @@ class TaskEntity extends Equatable {
       costCommission: AppUtils.undefined,
       refundCommission: AppUtils.undefined,
       applicantsCount: 10,
+      creatorType: UserType.unDefined,
       assignedLawyers: const [],
       applicantLawyers: const [],
       recommenderLawyers: const [],
@@ -85,6 +88,7 @@ class TaskEntity extends Equatable {
     required this.recommenderLawyers,
     required this.chatId,
     required this.chatChannel,
+    required this.creatorType,
     required List<UserLawyerModel> assignedLawyers,
     required UserLawyerModel lawyerModel,
     required final DateTime? taskStartingDate,

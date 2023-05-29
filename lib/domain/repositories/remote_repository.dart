@@ -23,6 +23,7 @@ import 'package:yamaiter/data/params/get_all_task_params.dart';
 import 'package:yamaiter/data/params/get_applied_tasks_params.dart';
 import 'package:yamaiter/data/params/get_my_tasks_params.dart';
 import 'package:yamaiter/data/params/get_single_article_params.dart';
+import 'package:yamaiter/data/params/get_single_sos_params.dart';
 import 'package:yamaiter/data/params/invite_to_task_params.dart';
 import 'package:yamaiter/data/params/login_request_params.dart';
 import 'package:yamaiter/data/params/my_single_task_params.dart';
@@ -175,6 +176,10 @@ abstract class RemoteRepository {
 
   /// help
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(String userToken);
+
+  /// getSingleSos
+  Future<Either<AppError, SosEntity>> getSingleSos(
+      GetSingleSosParams params);
 
   /// create sos
   Future<Either<AppError, SuccessModel>> createSos(

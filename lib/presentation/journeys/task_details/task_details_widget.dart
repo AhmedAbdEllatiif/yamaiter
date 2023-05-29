@@ -5,6 +5,7 @@ import 'package:yamaiter/presentation/logic/cubit/apply_for_task/apply_for_task_
 
 import '../../../common/constants/app_utils.dart';
 import '../../../common/constants/sizes.dart';
+import '../../../common/enum/user_type.dart';
 import '../../../domain/entities/screen_arguments/apply_for_task_args.dart';
 import '../../../router/route_helper.dart';
 import '../../themes/theme_color.dart';
@@ -111,17 +112,30 @@ class TaskDetailsWidget extends StatelessWidget {
               ),
 
               /// img, rating
-              ImageNameRatingWidget(
-                imgUrl: taskEntity.creatorImage,
-                name: taskEntity.creatorName,
-                rating: taskEntity.creatorRating.toDouble(),
-                nameColor: AppColor.primaryDarkColor,
-                ratedColor: AppColor.accentColor,
-                unRatedColor: AppColor.primaryColor,
-                minImageSize: Sizes.dimen_40,
-                maxImageSize: Sizes.dimen_48,
-                withRow: false,
-                onPressed: () {},
+              Column(
+                children: [
+                  ImageNameRatingWidget(
+                    imgUrl: taskEntity.creatorImage,
+                    name: taskEntity.creatorName,
+                    rating: taskEntity.creatorRating.toDouble(),
+                    nameColor: AppColor.primaryDarkColor,
+                    ratedColor: AppColor.accentColor,
+                    unRatedColor: AppColor.primaryColor,
+                    minImageSize: Sizes.dimen_40,
+                    maxImageSize: Sizes.dimen_48,
+                    withRow: false,
+                    onPressed: () {},
+                  ),
+                  if (taskEntity.creatorType != UserType.unDefined)
+                    Text(
+                      taskEntity.creatorType == UserType.client
+                          ? "عميل"
+                          : "محامى",
+                      overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          color: AppColor.black.withOpacity(0.6), height: 1.2),
+                    ),
+                ],
               ),
             ],
           ),

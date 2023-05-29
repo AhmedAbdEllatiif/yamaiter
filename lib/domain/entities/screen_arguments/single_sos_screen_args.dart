@@ -1,9 +1,13 @@
 import 'package:yamaiter/domain/entities/data/sos_entity.dart';
 
 class SingleScreenArguments {
-  final SosEntity sosEntity;
+  final SosEntity? sosEntity;
+  final int? sosId;
   final bool withCallButton;
 
-  SingleScreenArguments(
-      {required this.sosEntity, required this.withCallButton});
+  SingleScreenArguments({
+    this.sosEntity,
+    this.sosId,
+    required this.withCallButton,
+  });
 }

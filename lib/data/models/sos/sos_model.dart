@@ -29,12 +29,26 @@ class SosResponseModel {
         ),
       );
 
-  factory SosResponseModel.fromJsonAllDistressDataCalls(Map<String, dynamic> json) =>
+  factory SosResponseModel.fromJsonAllDistressDataCalls(
+          Map<String, dynamic> json) =>
       SosResponseModel(
         mySosList: List<SosModel>.from(
           json["All Distresses calls"].map((x) => SosModel.fromJson(x)),
         ),
       );
+}
+
+SosModel sosModelFromJson(String body) {
+  final myJson = jsonDecode(body);
+
+  if (myJson == null) {
+    throw Exception("SosModel >> sosModelFromJson >> myJson is null");
+  }
+
+  if (myJson["Sos"] == null) {
+    throw Exception("SosModel >> sosModelFromJson >> myJson[Sos] is null");
+  }
+  return SosModel.fromJson(myJson["Sos"]);
 }
 
 /// Sos model
