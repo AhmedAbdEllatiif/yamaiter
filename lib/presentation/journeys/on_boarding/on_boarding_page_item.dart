@@ -10,9 +10,16 @@ import '../../themes/theme_color.dart';
 import '../../widgets/app_logo.dart';
 
 class OnBoardingPageItem extends StatelessWidget {
-
+  final String title;
+  final String description;
   final String imgPath;
-  const OnBoardingPageItem({Key? key, required this.imgPath}) : super(key: key);
+
+  const OnBoardingPageItem({
+    Key? key,
+     this.title = "yamaitre",
+    required this.description,
+    required this.imgPath,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +70,7 @@ class OnBoardingPageItem extends StatelessWidget {
             constraints:
                 BoxConstraints(maxHeight: ScreenUtil.screenWidth * 0.50),
             child: Text(
-              " عن تطبيق يامترعن تطبيق يامتر",
+             title,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               textAlign: TextAlign.center,
@@ -78,7 +85,7 @@ class OnBoardingPageItem extends StatelessWidget {
           Padding(
             padding: EdgeInsets.symmetric(vertical: Sizes.dimen_3.h),
             child: Text(
-              "كان لوريم إيبسوم ولايزال المعيار للنص الشكلي منذ القرن الخامس عشر عندما قامت مطبعة مجهولة برص مجموعة من الأحرف بشكل عشوائي أخذتها من نص، لتكوّن كتيّب بمثابة دليل أو مرجع شكلي لهذه الأحرف. خمسة قرون من الزمن لم تقضي على هذا النص.",
+              description,
               textAlign: TextAlign.center,
               maxLines: 5,
               overflow: TextOverflow.ellipsis,
