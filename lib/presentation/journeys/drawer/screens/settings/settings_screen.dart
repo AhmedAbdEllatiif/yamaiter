@@ -8,6 +8,7 @@ import 'package:yamaiter/presentation/widgets/title_with_divider.dart';
 
 import '../../../../../common/constants/sizes.dart';
 import '../../../../../common/enum/notifications_listeners.dart';
+import '../../../../../common/functions/get_authoried_user.dart';
 import '../../../../../router/route_helper.dart';
 import '../../../../widgets/app_content_title_widget.dart';
 import 'notifiaction_item_switcher.dart';
@@ -83,19 +84,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   title: "الاشعارات",
                                 ),
 
-                                ///==> new tasks
-                                NotificationItemSwitcher(
-                                  title: "مهام جديدة",
-                                  currentValue: state.listeners[
-                                          NotificationsListeners.tasks.name] ??
-                                      true,
-                                  onChanged: (value) {
-                                    _updateNotificationsListeners({
-                                      NotificationsListeners.tasks.name: value
-                                    });
-                                  },
-                                ),
-
                                 ///==> new articles
                                 NotificationItemSwitcher(
                                   currentValue: state.listeners[
@@ -111,18 +99,40 @@ class _SettingsScreenState extends State<SettingsScreen> {
                                   },
                                 ),
 
-                                ///==> sos
-                                NotificationItemSwitcher(
-                                  currentValue: state.listeners[
-                                          NotificationsListeners.sos.name] ??
-                                      true,
-                                  title: "نداءات الاستغاثة",
-                                  onChanged: (value) {
-                                    _updateNotificationsListeners({
-                                      NotificationsListeners.sos.name: value
-                                    });
-                                  },
-                                ),
+                                if (isCurrentUserLawyer(context))
+                                  Column(
+                                    children: [
+                                      ///==> new tasks
+                                      NotificationItemSwitcher(
+                                        title: "مهام جديدة",
+                                        currentValue: state.listeners[
+                                                NotificationsListeners
+                                                    .tasks.name] ??
+                                            true,
+                                        onChanged: (value) {
+                                          _updateNotificationsListeners({
+                                            NotificationsListeners.tasks.name:
+                                                value
+                                          });
+                                        },
+                                      ),
+
+                                      ///==> sos
+                                      NotificationItemSwitcher(
+                                        currentValue: state.listeners[
+                                                NotificationsListeners
+                                                    .sos.name] ??
+                                            true,
+                                        title: "نداءات الاستغاثة",
+                                        onChanged: (value) {
+                                          _updateNotificationsListeners({
+                                            NotificationsListeners.sos.name:
+                                                value
+                                          });
+                                        },
+                                      ),
+                                    ],
+                                  ),
 
                                 ///==> chats
                                 // NotificationItemSwitcher(
@@ -153,6 +163,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
   void _navigateToEditPassword() => RouteHelper().editPasswordScreen(context);
 
   void _updateNotificationsListeners(Map<String, bool> value) {
-    context.read<NotificationsListenersCubit>().tryUpdateTasksListeners(value);
+    context.read<NotificationsListenersCubit>().tryUpdateTasksListeners(
+          valueToUpdate: value,
+          lawyerUser: isCurrentUserLawyer(context),
+        );
   }
 }

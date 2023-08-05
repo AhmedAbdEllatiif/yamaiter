@@ -77,6 +77,7 @@ class ImageNameRatingWidget extends StatelessWidget {
             ),
           Text(
             isAdmin ? "يامتر" : name,
+            overflow: TextOverflow.ellipsis,
             style: Theme.of(context)
                 .textTheme
                 .titleSmall!

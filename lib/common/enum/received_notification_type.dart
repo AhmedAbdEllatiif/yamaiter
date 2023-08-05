@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:yamaiter/common/enum/task_status.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_sos_screen_args.dart';
+import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/task_details_args.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -12,7 +13,8 @@ enum ReceivedNotificationType {
   consultation,
   tax,
   chat,
-  task,
+  singleTask,
+  myPostedTask,
   completedTask,
   invitedTask,
   myTodoTask,
@@ -38,8 +40,12 @@ ReceivedNotificationType receivedNotificationFromString(String? str) {
   if (str == "chat") {
     return ReceivedNotificationType.chat;
   }
-  if (str == "task") {
-    return ReceivedNotificationType.task;
+  if (str == "singleTask") {
+    return ReceivedNotificationType.singleTask;
+  }
+
+  if (str == "myPostedTask") {
+    return ReceivedNotificationType.myPostedTask;
   }
   if (str == "completedTask") {
     return ReceivedNotificationType.completedTask;
@@ -103,12 +109,22 @@ extension ToString on ReceivedNotificationType {
         break;
 
       /// task
-      case ReceivedNotificationType.task:
+      case ReceivedNotificationType.singleTask:
         RouteHelper().taskDetails(
           context,
           taskDetailsArguments: TaskDetailsArguments(
             taskId: id,
             isAlreadyApplied: true,
+          ),
+        );
+        break;
+
+      /// task
+      case ReceivedNotificationType.myPostedTask:
+        RouteHelper().singleTask(
+          context,
+          mySingleTaskArguments: MySingleTaskArguments(
+            taskId: id,
           ),
         );
         break;

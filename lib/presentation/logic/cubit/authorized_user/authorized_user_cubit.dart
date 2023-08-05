@@ -1,5 +1,10 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:yamaiter/common/constants/drop_down_list.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/data/authorized_user_entity.dart';
 
@@ -12,8 +17,8 @@ import '../../../../domain/use_cases/authorized_user/authorized_user_data/save_u
 part 'authorized_user_state.dart';
 
 class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
-
-  AuthorizedUserCubit() : super(
+  AuthorizedUserCubit()
+      : super(
           CurrentAuthorizedUserData(
             userEntity: AuthorizedUserEntity.empty(),
           ),
@@ -25,13 +30,19 @@ class AuthorizedUserCubit extends Cubit<AuthorizedUserState> {
     // await deleteCase(NoParams());
 
     final useCase = getItInstance<SaveUserDataCase>();
+    log("AuthorizedUserCubit >> ${userEntity.governorates}");
+    log("AuthorizedUserCubit >> ${governoratesMap[userEntity.governorates]}");
+    if (governoratesMap.containsKey(userEntity.governorates)) {
+      FirebaseMessaging.instance
+          .subscribeToTopic(governoratesMap[userEntity.governorates]!);
+    }
+
     await useCase(userEntity);
     await loadCurrentAuthorizedUserData();
   }
 
   /// delete current authorized user data
   Future<void> delete() async {
-
     await loadCurrentAuthorizedUserData();
   }
 

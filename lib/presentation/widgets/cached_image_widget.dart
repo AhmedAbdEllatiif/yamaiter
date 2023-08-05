@@ -24,7 +24,7 @@ class CachedImageWidget extends StatelessWidget {
     required this.isCircle,
     this.errorWidget,
     this.withBorderRadius = false,
-    this.boxFit = BoxFit.cover,
+    this.boxFit = BoxFit.fill,
   }) : super(key: key);
 
   @override
@@ -40,7 +40,7 @@ class CachedImageWidget extends StatelessWidget {
             imageUrl: imageUrl,
             width: width,
             height: height,
-            fit: BoxFit.contain,
+            fit: BoxFit.fitHeight,
 
             /// imageBuilder
             imageBuilder: (context, imageProvider) => Container(

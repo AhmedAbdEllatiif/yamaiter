@@ -23,6 +23,9 @@ class LoadingPaymentToAssignTask extends PaymentToAssignTaskState {
 /// not a lawyer to create article
 class NotActivatedUserToPayToAssignTask extends PaymentToAssignTaskState {}
 
+/// already assigned before
+class AlreadyAssignedBeforeToPayToAssignTask extends PaymentToAssignTaskState {}
+
 /// unAuthorized
 class UnAuthorizedPayToAssignTask extends PaymentToAssignTaskState {}
 

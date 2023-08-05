@@ -25,7 +25,6 @@ class DrawerScreenClient extends StatefulWidget {
 }
 
 class _DrawerScreenClientState extends State<DrawerScreenClient> {
-
   @override
   void initState() {
     super.initState();
@@ -167,6 +166,10 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
   void _navigateToChargeBalance(BuildContext context) =>
       RouteHelper().chargeBalanceScreen(context);
 
+  /// to payout screen
+  void _navigateToPayoutScreen(BuildContext context) =>
+      RouteHelper().payoutScreen(context);
+
   /// DrawerItems
   List<Widget> drawerItems(BuildContext context) => [
         DrawerItem(
@@ -174,7 +177,7 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
           svgImage: AssetsImages.briefcaseSvg,
           imgColor: AppColor.white,
           imgSize: Sizes.dimen_20.w,
-          title: "طلبات المساعدة القانونية",
+          title: "طلباتي",
           onPressed: () => _navigateMyTasksScreen(context),
         ),
 
@@ -236,6 +239,12 @@ class _DrawerScreenClientState extends State<DrawerScreenClient> {
           iconData: Icons.account_balance_wallet_outlined,
           title: "شحن المحفظة",
           onPressed: () => _navigateToChargeBalance(context),
+        ),
+
+        DrawerItem(
+          iconData: Icons.account_balance_outlined,
+          title: "استلام النقود",
+          onPressed: () => _navigateToPayoutScreen(context),
         ),
 
         DrawerItem(

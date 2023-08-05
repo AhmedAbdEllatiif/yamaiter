@@ -207,6 +207,7 @@ class _ConsultationFormState extends State<ConsultationForm> {
                 AppTextField(
                   controller: titleController,
                   label: "عنوان الاستشارة",
+                  minLength: 6,
                 ),
 
                 /// upload images

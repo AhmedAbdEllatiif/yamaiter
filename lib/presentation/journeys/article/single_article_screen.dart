@@ -130,6 +130,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                         /// title
                         title: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Expanded(
                               child: Column(
@@ -137,7 +138,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                                 children: [
                                   Text(
                                     articleEntity.title,
-                                    maxLines: 2,
+                                    maxLines: 4,
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
                                         .textTheme

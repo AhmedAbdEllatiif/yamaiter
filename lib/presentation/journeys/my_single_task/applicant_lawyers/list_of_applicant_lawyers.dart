@@ -48,7 +48,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
                   log("PaymentMethod >> $paymentMethod");
               showAppDialog(
                 context,
-                message:  " رسوم أدارية تحصل مقابل الخدمة من ya maitre ${taskEntity.costCommission}يتم إضافة ",
+                message:  "يتم إضافة ${taskEntity.costCommission} رسوم أدارية تحصل مقابل الخدمة من yamaitre  ",
                 buttonText: "اسناد المهمة",
                 onPressed: () {
                   Navigator.pop(context);
@@ -58,7 +58,7 @@ class ListOfApplicantLawyers extends StatelessWidget {
                     lawyerId: applicants[index].id,
                     value: valueOfferedByAppliedLawyer,
                   );
-                },
+                },//${taskEntity.costCommission}
               );
             });
           },

@@ -60,11 +60,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           children: const [
             OnBoardingPageItem(
               imgPath: AssetsImages.slide1,
-              description: "هو مساعدك الشخصى ذو الاستجابة السريعة الذى يسهل لك نمط عملك و اسلوب حياتك و يساعدك على توفير وقتك عن طريق توزيع مهامك و انابة عملك ",
+              description: "هو مساعدك الشخصى ذو الاستجابة السريعة الذى يسهل لك نمط عملك و اسلوب حياتك و يساعدك على توفير وقتك عن طريق توزيع مهامك و انابة اعمالك ",
             ),
             OnBoardingPageItem(
               imgPath: AssetsImages.slide2,
-              description: "يساعدك على مد جسور التواصل مع زملائك و يمكنك لانتشار بعيدا عن حدودك و يجعلك قادرا على زيادة مصادر دخلك و توسعة قاعدة عملائك ",
+              description: "يساعدك على مد جسور التواصل مع زملائك و يمكنك لانتشار بعيدا عن محيطك و دائرة عملك و مكانك و يذهب بك بعيدا عن حدودك و يجعلك قادرا على زيادة مصادر دخلك و توسعة قاعدة عملائك ",
             ),
             OnBoardingPageItem(
               imgPath: AssetsImages.slide3,

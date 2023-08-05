@@ -18,13 +18,11 @@ import '../../widgets/text_with_icon.dart';
 class TaskDetailsWidget extends StatelessWidget {
   final ApplyForTaskCubit applyForTaskCubit;
   final TaskEntity taskEntity;
-  final bool isAlreadyApplied;
 
   const TaskDetailsWidget({
     Key? key,
     required this.applyForTaskCubit,
     required this.taskEntity,
-    required this.isAlreadyApplied,
   }) : super(key: key);
 
   @override
@@ -129,7 +127,7 @@ class TaskDetailsWidget extends StatelessWidget {
                   if (taskEntity.creatorType != UserType.unDefined)
                     Text(
                       taskEntity.creatorType == UserType.client
-                          ? "عميل"
+                          ? "زائر"
                           : "محامى",
                       overflow: TextOverflow.ellipsis,
                       style: Theme.of(context).textTheme.bodySmall!.copyWith(
@@ -155,7 +153,7 @@ class TaskDetailsWidget extends StatelessWidget {
                     ),
                   ),
 
-                  if (!isAlreadyApplied)
+                  if (!taskEntity.alreadyApplied)
                     //==> apply for the task
                     RoundedText(
                       text: "تقدم للمهمة",
@@ -167,6 +165,21 @@ class TaskDetailsWidget extends StatelessWidget {
                       onPressed: () {
                         _navigateToApplyForTask(context);
                       },
+                    ),
+                  if (taskEntity.alreadyApplied)
+                     RoundedText(
+                      text: "تقدمت بالفعل",
+                      background: AppColor.green,
+                      leftIconData: Icons.done_outline_outlined,
+                      leftIconColor: AppColor.white,
+                      textColor: AppColor.white,
+                      onPressed: (){
+                        RouteHelper().appliedTasksScreen(context);
+                      },
+                      padding: EdgeInsets.symmetric(
+                        vertical: Sizes.dimen_10,
+                        horizontal: Sizes.dimen_15,
+                      ),
                     ),
                 ],
               ),

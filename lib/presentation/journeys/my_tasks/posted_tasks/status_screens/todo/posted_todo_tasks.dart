@@ -288,8 +288,8 @@ class _PostedTodoTasksState extends State<PostedTodoTasks>
   void _navigateToSingleTaskScreen({required TaskEntity taskEntity}) {
     RouteHelper().singleTask(
       context,
-      editTaskArguments: MySingleTaskArguments(
-        taskEntity: taskEntity,
+      mySingleTaskArguments: MySingleTaskArguments(
+        taskId: taskEntity.id,
         checkPaymentStatusCubit: _checkPaymentStatusCubit,
         updateTaskCubit: _updateTaskCubit,
         deleteTaskCubit: _deleteTaskCubit,

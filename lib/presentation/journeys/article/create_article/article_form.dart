@@ -279,7 +279,7 @@ class _ArticleFormState extends State<ArticleForm> {
           isFloating: false,
           backgroundColor: AppColor.accentColor,
           textColor: AppColor.primaryDarkColor,
-          message: "ارفاق صورة على الاقل مطلوب");
+          message: "مطلوب صورة واحدة على الأقل");
       return false;
     }
 

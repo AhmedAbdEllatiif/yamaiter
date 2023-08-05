@@ -56,7 +56,7 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
 
     //==> current authorized token
     notificationsListenersCubit = getItInstance<NotificationsListenersCubit>();
-    notificationsListenersCubit.loadListeners();
+
 
     //==> firstLaunchCubit
     firstLaunchCubit = getItInstance<FirstLaunchStatusCubit>();

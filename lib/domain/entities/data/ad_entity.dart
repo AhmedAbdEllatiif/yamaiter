@@ -31,7 +31,7 @@ class AdEntity extends Equatable {
     /// init image
     image = adImage == AppUtils.undefined
         ? AppUtils.undefined
-        : ApiConstants.mediaUrl + adImage;
+        : ApiConstants.mediaUrl + (adImage.startsWith("/") ? adImage.replaceFirst("/", ""):adImage);
 
     /// init create at
     if (createdDateAt != null) {

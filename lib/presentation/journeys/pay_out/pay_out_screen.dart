@@ -227,7 +227,7 @@ class _PayoutScreenState extends State<PayoutScreen> {
                                   (k) => payoutTypes[k] == value,
                                   orElse: () => PayoutType.unKnown,
                                 );
-                                _validate();
+
                               },
                             ),
                           ],
@@ -299,6 +299,23 @@ class _PayoutScreenState extends State<PayoutScreen> {
                             return AppErrorWidget(
                               appTypeError: state.appError.appErrorType,
                               onPressedRetry: () => _tryToSendPayout(),
+                            );
+                          }
+
+                          /*
+                          *
+                          *
+                          * success
+                          *
+                          *
+                          * */
+                          if (state is PayoutSentSuccessfully) {
+                            return AppErrorWidget(
+                              onPressedRetry: () => _tryToSendPayout(),
+                              iconData: Icons.done_all,
+                              buttonText: "الرجوع",
+                              message: "تمت عملية السحب بنجاح",
+                              appTypeError: AppErrorType.unDefined,
                             );
                           }
 

@@ -18,6 +18,7 @@ class TaskEntity extends Equatable {
   final int applicantsCount;
   final int chatId;
   final String chatChannel;
+  final bool alreadyApplied;
   late final String taskFileUrl;
   late final String fileName;
 
@@ -54,6 +55,7 @@ class TaskEntity extends Equatable {
       description: "description",
       price: 100,
       status: "status",
+      alreadyApplied: false,
       file: "file",
       chatId: -1,
       chatChannel: "chatChannel not found",
@@ -79,6 +81,7 @@ class TaskEntity extends Equatable {
     required this.description,
     required this.price,
     required this.status,
+    required this.alreadyApplied,
     required final String file,
     required this.costCommission,
     required this.refundCommission,

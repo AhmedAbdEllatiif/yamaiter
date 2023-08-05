@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/constants/app_utils.dart';
+import 'package:yamaiter/common/enum/cost_type.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
+import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_entity.dart';
+import 'package:yamaiter/domain/entities/data/accept_terms/accept_terms_page.dart';
+import 'package:yamaiter/domain/entities/data/accept_terms/cost_entity.dart';
 import 'package:yamaiter/presentation/journeys/create_task/lawyer_create_task/task_form.dart';
 import 'package:yamaiter/presentation/logic/cubit/accept_terms/accept_terms_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/create_task/create_task_cubit.dart';

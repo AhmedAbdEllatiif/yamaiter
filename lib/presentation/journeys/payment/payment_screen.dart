@@ -35,22 +35,22 @@ class _PaymentScreenState extends State<PaymentScreen> {
           onPageStarted: (String url) {},
           onPageFinished: (String url) {},
           onWebResourceError: (WebResourceError error) {},
-          onNavigationRequest: (NavigationRequest request) {
-            if (request.url.startsWith('https://www.youtube.com/')) {
-              return NavigationDecision.prevent;
-            }
-            return NavigationDecision.navigate;
-          },
+          // onNavigationRequest: (NavigationRequest request) {
+          //   if (request.url.startsWith('https://www.youtube.com/')) {
+          //     return NavigationDecision.prevent;
+          //   }
+          //   return NavigationDecision.navigate;
+          // },
         ),
       );
-    try{
-      controller.loadRequest(Uri.dataFromString(
-          '<html><body><iframe src="${widget.paymentArguments.link}" " height=\'100%\' width=\'100%\' "></iframe></body></html>',
-          mimeType: 'text/html'));
-    }catch (e){
+    try {
+      // controller.loadRequest(Uri.dataFromString(
+      //     '<html><body><iframe src="${widget.paymentArguments.link}" " height=\'100%\' width=\'100%\' "></iframe></body></html>',
+      //     mimeType: 'text/html'));
+      controller.loadRequest(Uri.parse(widget.paymentArguments.link));
+    } catch (e) {
       log("PaymentScreen: Error: $e");
     }
-
   }
 
   @override

@@ -6,8 +6,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/enum/user_type.dart';
 import 'package:yamaiter/presentation/journeys/main/client/client_main_screen.dart';
 import 'package:yamaiter/presentation/journeys/main/lawyer/lawyer_main_screen.dart';
+import 'package:yamaiter/presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
 import 'package:yamaiter/presentation/logic/cubit/authorized_user/authorized_user_cubit.dart';
 import '../../../common/classes/notification_handler.dart';
+import '../../../common/enum/notifications_listeners.dart';
+import '../../../common/functions/get_authoried_user.dart';
 import '../../../common/screen_utils/screen_util.dart';
 
 class MainScreen extends StatefulWidget {
@@ -25,6 +28,7 @@ class _MainScreenState extends State<MainScreen> {
 
     _interactedMessageWhenAppIsOpenedInBackground();
     _interactedMessageWhenAppIsTerminated();
+    _updateNotificationsListeners();
   }
 
   @override
@@ -75,6 +79,18 @@ class _MainScreenState extends State<MainScreen> {
         NotificationHandler(context, remoteMessage: remoteMessage)
             .navigateToThePage();
       }
+    }
+  }
+
+  void _updateNotificationsListeners() {
+    if (isCurrentUserLawyer(context)) {
+      context.read<NotificationsListenersCubit>().tryUpdateTasksListeners(
+        valueToUpdate: {
+          NotificationsListeners.tasks.name: true,
+          NotificationsListeners.sos.name: true,
+        },
+        lawyerUser: isCurrentUserLawyer(context),
+      );
     }
   }
 }

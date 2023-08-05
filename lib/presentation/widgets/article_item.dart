@@ -161,22 +161,24 @@ class _ArticleItemState extends State<ArticleItem> {
                     ),
 
                     /// ImageNameRatingWidget
-                    ImageNameRatingWidget(
-                      name: widget.articleEntity.authorName,
-                      imgUrl: widget.articleEntity.creatorImage,
-                      rating: widget.articleEntity.creatorRating.toDouble(),
-                      isAdmin: widget.articleEntity.authorName == "admin" ||
-                          widget.articleEntity.authorName == "يامتر",
-                      unRatedColor: AppColor.primaryColor.withOpacity(0.6),
-                      withRow: false,
-                      nameSize: Sizes.dimen_12.sp,
-                      iconRateSize: Sizes.dimen_12,
-                      minImageSize: Sizes.dimen_40.w,
-                      maxImageSize: Sizes.dimen_40.w,
-                      nameColor: AppColor.primaryDarkColor,
-                      onPressed: () {
-                        // RouteHelper().editProfile(context);
-                      },
+                    Expanded(
+                      child: ImageNameRatingWidget(
+                        name: widget.articleEntity.authorName,
+                        imgUrl: widget.articleEntity.creatorImage,
+                        rating: widget.articleEntity.creatorRating.toDouble(),
+                        isAdmin: widget.articleEntity.authorName == "admin" ||
+                            widget.articleEntity.authorName == "يامتر",
+                        unRatedColor: AppColor.primaryColor.withOpacity(0.6),
+                        withRow: false,
+                        nameSize: Sizes.dimen_12.sp,
+                        iconRateSize: Sizes.dimen_12,
+                        minImageSize: Sizes.dimen_40.w,
+                        maxImageSize: Sizes.dimen_40.w,
+                        nameColor: AppColor.primaryDarkColor,
+                        onPressed: () {
+                          // RouteHelper().editProfile(context);
+                        },
+                      ),
                     ),
                   ],
                 ),

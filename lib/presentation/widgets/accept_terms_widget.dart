@@ -341,6 +341,7 @@ ${acceptTermsEntity.pages[0].sections[0].description}
             _isTermsAccepted = currentValue;
           },
           hasError: _showCheckBoxError,
+          checkBoxColor: AppColor.accentColor,
           text: "اوافق على شروط الاتفاقية و اتحمل كامل المسؤولية القانونية",
         ),
       ],

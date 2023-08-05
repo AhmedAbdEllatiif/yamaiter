@@ -249,9 +249,7 @@ class _EditTaskScreenState extends State<EditTaskScreen> {
                             /// price
                             AppTextField(
                               controller: priceController,
-                              enabled: false,
-                              textStyle: const TextStyle(
-                                  color: AppColor.primaryDarkColor),
+                              enabled: true,
                               label: "",
                             ),
 

@@ -78,7 +78,7 @@ class _TaskItemState extends State<TaskItem> {
                                   Text(
                                     widget.taskEntity.creatorType ==
                                             UserType.client
-                                        ? "عميل"
+                                        ? "زائر"
                                         : "محامى",
                                     overflow: TextOverflow.ellipsis,
                                     style: Theme.of(context)
@@ -321,7 +321,7 @@ class _TaskItemState extends State<TaskItem> {
   void _navigateToTaskDetailsScreen() {
     RouteHelper().taskDetails(context,
         taskDetailsArguments: TaskDetailsArguments(
-          taskEntity: widget.taskEntity,
+          taskId: widget.taskEntity.id,
           isAlreadyApplied: false,
         ));
   }

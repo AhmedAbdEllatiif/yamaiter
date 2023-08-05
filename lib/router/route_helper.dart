@@ -258,9 +258,9 @@ class RouteHelper {
 
   /// To single task screen \\\
   void singleTask(BuildContext context,
-      {required MySingleTaskArguments editTaskArguments}) {
+      {required MySingleTaskArguments mySingleTaskArguments}) {
     Navigator.of(context)
-        .pushNamed(RouteList.singleTask, arguments: editTaskArguments);
+        .pushNamed(RouteList.singleTask, arguments: mySingleTaskArguments);
   }
 
   /// To end task screen \\\

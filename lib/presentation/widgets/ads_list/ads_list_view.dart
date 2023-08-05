@@ -6,6 +6,7 @@ import 'package:yamaiter/presentation/widgets/cached_image_widget.dart';
 
 import '../../../common/functions/open_url.dart';
 import '../../../domain/entities/data/ad_entity.dart';
+import '../../themes/theme_color.dart';
 
 class AdsListViewWidget extends StatelessWidget {
   final List<AdEntity> adsList;
@@ -21,7 +22,7 @@ class AdsListViewWidget extends StatelessWidget {
       options: CarouselOptions(
         height: ScreenUtil.screenHeight * 0.15,
         aspectRatio: 16 / 9,
-        viewportFraction: 0.8,
+        viewportFraction: 1,
         initialPage: 0,
         enableInfiniteScroll: true,
         reverse: false,
@@ -42,13 +43,16 @@ class AdsListViewWidget extends StatelessWidget {
               },
               child: Container(
                 //width: MediaQuery.of(context).size.width,
-                margin: const EdgeInsets.symmetric(horizontal: 3.0),
+                //margin: const EdgeInsets.symmetric(horizontal: 3.0),
                 //color: AppColor.deepOrange,
+                height: ScreenUtil.screenHeight * 0.15,
+                width: double.infinity,
                 child: CachedImageWidget(
                   imageUrl: singleAd.image,
                   height: ScreenUtil.screenHeight * 0.15,
                   width: double.infinity,
                   progressBarScale: 0.1,
+                  boxFit: BoxFit.fill,
                   isCircle: false,
                 ),
               ),

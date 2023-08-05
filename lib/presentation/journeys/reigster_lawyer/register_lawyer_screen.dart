@@ -24,6 +24,7 @@ import '../../widgets/app_check_box.dart';
 import '../../widgets/loading_widget.dart';
 import '../../widgets/logo_with_title_widget.dart';
 import '../../widgets/text_login_instead.dart';
+import '../../widgets/text_terms_and_policy.dart';
 
 class RegisterLawyerScreen extends StatefulWidget {
   const RegisterLawyerScreen({Key? key}) : super(key: key);
@@ -234,8 +235,7 @@ class _RegisterLawyerScreenState extends State<RegisterLawyerScreen> {
                         onChanged: (value) {
                           isTermsChecked = value;
                         },
-                        text:
-                            "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+                        title: const TextTermsAndPolicy(),
                         textColor: AppColor.white,
                         checkBoxColor: AppColor.accentColor,
                       ),

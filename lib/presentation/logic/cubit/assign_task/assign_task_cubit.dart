@@ -48,15 +48,18 @@ class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
     final either = await useCase(params);
 
     //==> receive result
-    either.fold((appError) => _emitError(appError), (payEntity) {
-      if (paymentMethod == PaymentMethod.kiosk) {
-        _emitIfNotClosed(TaskAssignedSuccessfullyWithWallet());
-      } else {
-        _emitIfNotClosed(
-          PaymentLinkToAssignTaskFetched(payEntity: payEntity),
-        );
-      }
-    });
+    either.fold(
+      (appError) => _emitError(appError),
+      (payEntity) {
+        if (paymentMethod == PaymentMethod.kiosk) {
+          _emitIfNotClosed(TaskAssignedSuccessfullyWithWallet());
+        } else {
+          _emitIfNotClosed(
+            PaymentLinkToAssignTaskFetched(payEntity: payEntity),
+          );
+        }
+      },
+    );
   }
 
   /// _emit an error according to AppError
@@ -67,6 +70,8 @@ class PaymentAssignTaskCubit extends Cubit<PaymentToAssignTaskState> {
       _emitIfNotClosed(InsufficientWalletFundToAssignTask());
     } else if (appError.appErrorType == AppErrorType.notActivatedUser) {
       _emitIfNotClosed(NotActivatedUserToPayToAssignTask());
+    } else if (appError.appErrorType == AppErrorType.alreadyAssignedBefore) {
+      _emitIfNotClosed(AlreadyAssignedBeforeToPayToAssignTask());
     } else {
       _emitIfNotClosed(ErrorWhilePaymentToAssignTask(appError: appError));
     }

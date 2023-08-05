@@ -247,6 +247,7 @@ class _TaskFormState extends State<TaskForm> {
                     label: "اشرح تفاصيل المهمة هنا",
                     maxLines: 20,
                     withFocusedBorder: false,
+                    minLength: 5,
                     textInputType: TextInputType.multiline,
                     textInputAction: TextInputAction.newline,
                   ),

@@ -56,6 +56,7 @@ class TaskModel extends TaskEntity {
     required this.taskRecommenderLawyers,
     required this.currentChatId,
     required this.currentChatChannel,
+    required this.appliedForThisTask
   }) : super(
           id: taskId,
           title: taskTitle,
@@ -64,6 +65,7 @@ class TaskModel extends TaskEntity {
           description: taskDescription,
           price: taskPrice,
           status: taskStatus,
+          alreadyApplied: appliedForThisTask,
           file: taskFile,
           costCommission: costFees,
           refundCommission: refundFees,
@@ -102,6 +104,7 @@ class TaskModel extends TaskEntity {
 
   final int currentChatId;
   final String currentChatChannel;
+  final bool appliedForThisTask;
 
   factory TaskModel.fromJson(
       {required Map<String, dynamic> taskJson,
@@ -147,6 +150,9 @@ class TaskModel extends TaskEntity {
       taskUpdatedAt: taskJson["updated_at"] != null
           ? DateTime.tryParse(taskJson["updated_at"])
           : null,
+
+      // appliedForThisTask
+      appliedForThisTask: taskJson["already_applied"] ?? false,
 
       // costFees
       costFees: feesJson["task_fees"] != null

@@ -2172,6 +2172,7 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       final response = await request(params);
 
       log("getSingleTaskDetails >> ResponseCode: ${response.statusCode}");
+      log("getSingleTaskDetails >> Body: ${response.body}");
 
       switch (response.statusCode) {
         // success
@@ -2283,6 +2284,11 @@ class RemoteDataSourceImpl extends RemoteDataSource {
         case 422:
           if (response.body.contains("noEnoughBalance")) {
             return AppError(AppErrorType.insufficientWalletFund,
+                message: "payToAssignTask Code >> ${response.statusCode}"
+                    " \n Body: ${response.body}");
+          }
+          if (response.body.contains("alreadyAssignedBefore")) {
+            return AppError(AppErrorType.alreadyAssignedBefore,
                 message: "payToAssignTask Code >> ${response.statusCode}"
                     " \n Body: ${response.body}");
           }

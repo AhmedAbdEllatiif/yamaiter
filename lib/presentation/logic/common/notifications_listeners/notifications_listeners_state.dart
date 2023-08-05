@@ -12,8 +12,6 @@ abstract class NotificationsListenersState extends Equatable {
 class NotificationsListenersInitial extends NotificationsListenersState {
   NotificationsListenersInitial()
       : super(listeners: {
-          NotificationsListeners.tasks.name: true,
-          NotificationsListeners.sos.name: true,
           NotificationsListeners.articles.name: true,
         });
 }

@@ -30,6 +30,7 @@ class HomePageLawyer extends StatefulWidget {
 }
 
 class _HomePageLawyerState extends State<HomePageLawyer> {
+
   late final GetAllArticlesCubit _getAllArticlesCubit;
 
   int offset = 0;
@@ -141,7 +142,8 @@ class _HomePageLawyerState extends State<HomePageLawyer> {
                 controller: _controller,
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: allArticlesList.length + 1,
+                itemCount:
+                    allArticlesList.length > 5 ? 5 : allArticlesList.length,
                 // controller: _controller,
                 separatorBuilder: (context, index) => SizedBox(
                   height: Sizes.dimen_2.h,
@@ -186,7 +188,7 @@ class _HomePageLawyerState extends State<HomePageLawyer> {
   /// listener on controller
   /// when last item reached fetch next page
   /// when last item reached no action needed
-  void _listenerOnScrollController() {
+  void _listenerOnScrollController() async{
     _controller.addListener(() {
       if (_controller.position.maxScrollExtent == _controller.offset) {
         if (_getAllArticlesCubit.state is! LastPageAllArticlesReached) {

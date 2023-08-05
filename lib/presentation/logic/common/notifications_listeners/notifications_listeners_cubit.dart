@@ -18,7 +18,10 @@ class NotificationsListenersCubit extends Cubit<NotificationsListenersState> {
         );
 
   /// try to update a value
-  void tryUpdateTasksListeners(Map<String, bool> valueToUpdate) async {
+  void tryUpdateTasksListeners({
+    required Map<String, bool> valueToUpdate,
+    required bool lawyerUser,
+  }) async {
     // init get case
     final getListenersCase = getItInstance<GetNotificationsListenersCase>();
 
@@ -32,20 +35,20 @@ class NotificationsListenersCubit extends Cubit<NotificationsListenersState> {
       // update the current value in the map
       if (mapValue.containsKey(keyToUpdate)) {
         mapValue[keyToUpdate] = valueToUpdate.values.toList().first;
-        _update(mapValue);
+        _update(value: mapValue,lawyerUser: lawyerUser);
       }
 
       // not in the map
       else {
         final newMapValue = mapValue;
         newMapValue.addAll(valueToUpdate);
-        _update(newMapValue);
+        _update(value: newMapValue,lawyerUser: lawyerUser);
       }
     });
   }
 
   /// update
-  void _update(Map<String, bool> value) async {
+  void _update({required Map<String, bool> value, required bool lawyerUser,}) async {
     // init update case
     final updateListenersCase =
         getItInstance<UpdateNotificationsListenersCase>();
@@ -57,12 +60,12 @@ class NotificationsListenersCubit extends Cubit<NotificationsListenersState> {
       _emitIfNotClosed(state);
       log("NotificationsListenersCubit >> _update >>error: $appError");
     }, (_) {
-      loadListeners();
+      loadListeners(lawyerUser: lawyerUser);
     });
   }
 
   /// load
-  void loadListeners() async {
+  void loadListeners({required bool lawyerUser}) async {
     // init get case
     final getListenersCase = getItInstance<GetNotificationsListenersCase>();
 

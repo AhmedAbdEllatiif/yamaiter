@@ -201,6 +201,8 @@ class AppliedTodoTaskItem extends StatelessWidget {
   void _navigateToTaskDetails(BuildContext context) {
     RouteHelper().taskDetails(context,
         taskDetailsArguments: TaskDetailsArguments(
-            taskEntity: taskEntity, isAlreadyApplied: true));
+          taskId: taskEntity.id,
+          isAlreadyApplied: true,
+        ));
   }
 }

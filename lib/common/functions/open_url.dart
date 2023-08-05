@@ -2,7 +2,7 @@ import 'dart:developer';
 
 import 'package:url_launcher/url_launcher.dart';
 
-void openUrl({required String url}) async {
+Future<bool> openUrl({required String url}) async {
   try {
     String fallbackUrl = url;
 
@@ -11,16 +11,18 @@ void openUrl({required String url}) async {
       var canLaunchNatively = await canLaunchUrl(fbBundleUri);
 
       if (canLaunchNatively) {
-        launchUrl(fbBundleUri);
+        return await launchUrl(fbBundleUri);
       } else {
-        await launchUrl(
+        return await launchUrl(
           Uri.parse(fallbackUrl),
         );
       }
     } catch (e) {
       log("openUrl >> onTap >> error: $e");
+      return false;
     }
   } on Exception catch (e) {
     log("openUrl >> onTap >> Exception >> error: $e");
+    return false;
   }
 }

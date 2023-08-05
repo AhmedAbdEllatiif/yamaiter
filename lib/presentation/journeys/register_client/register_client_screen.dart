@@ -20,6 +20,7 @@ import '../../widgets/app_drop_down_field.dart';
 import '../../widgets/app_text_field.dart';
 import '../../widgets/logo_with_title_widget.dart';
 import '../../widgets/text_login_instead.dart';
+import '../../widgets/text_terms_and_policy.dart';
 
 class RegisterClientScreen extends StatefulWidget {
   const RegisterClientScreen({Key? key}) : super(key: key);
@@ -207,8 +208,7 @@ class _RegisterClientScreenState extends State<RegisterClientScreen> {
                                 _showOrHideAcceptTermsError(false);
                               }
                             },
-                            text:
-                                "من خلال إنشاء حساب، فأنك توافق على الشروط و الأحكام سياسة الخصوصية و اتفاقية المعاملات القانونية ",
+                            title: const TextTermsAndPolicy(),
                             hasError: acceptTermsHasError,
                             textColor: AppColor.white,
                             checkBoxColor: AppColor.accentColor,

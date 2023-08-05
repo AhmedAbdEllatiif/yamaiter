@@ -41,8 +41,9 @@ class _AllArticlesScreenState extends State<AllArticlesScreen> {
   void initState() {
     super.initState();
     _getAllArticlesCubit =
-        widget.getAllArticlesCubit; //getItInstance<GetAllArticlesCubit>();
-    //_fetchMyArticlesList();
+    //getItInstance<GetAllArticlesCubit>();
+        widget.getAllArticlesCubit;
+    _fetchMyArticlesList();
     _controller = ScrollController();
     _listenerOnScrollController();
   }
@@ -172,7 +173,7 @@ class _AllArticlesScreenState extends State<AllArticlesScreen> {
     _getAllArticlesCubit.fetchAllArticlesList(
       userToken: userToken,
       currentListLength: allArticlesList.length,
-      offset: allArticlesList.length,
+      offset: allArticlesList.length + 5,
     );
   }
 

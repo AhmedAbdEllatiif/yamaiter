@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/common/functions/common_functions.dart';
 import 'package:yamaiter/common/functions/get_user_token.dart';
+import 'package:yamaiter/common/functions/open_url.dart';
 import 'package:yamaiter/common/functions/show_insufficent_wallet_fund_dialog.dart';
 import 'package:yamaiter/di/git_it_instance.dart';
 import 'package:yamaiter/domain/entities/screen_arguments/single_task_details_params.dart';
@@ -59,12 +62,17 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
   @override
   void initState() {
     super.initState();
-    _taskEntity = widget.singleTaskParams.taskEntity;
+
+    log("MySingleTaskScreen >> taskId: ${widget.singleTaskParams.taskId}");
     _getMySingleTaskCubit = getItInstance<GetMySingleTaskCubit>();
     _payToAssignTaskCubit = getItInstance<PaymentAssignTaskCubit>();
-    _checkPaymentStatusCubit = widget.singleTaskParams.checkPaymentStatusCubit;
-    _updateTaskCubit = widget.singleTaskParams.updateTaskCubit;
-    _deleteTaskCubit = widget.singleTaskParams.deleteTaskCubit;
+    _checkPaymentStatusCubit =
+        widget.singleTaskParams.checkPaymentStatusCubit ??
+            getItInstance<CheckPaymentStatusCubit>();
+    _updateTaskCubit = widget.singleTaskParams.updateTaskCubit ??
+        getItInstance<UpdateTaskCubit>();
+    _deleteTaskCubit = widget.singleTaskParams.deleteTaskCubit ??
+        getItInstance<DeleteTaskCubit>();
 
     // fetch current task data
     _fetchMySingleTask();
@@ -82,38 +90,53 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => _getMySingleTaskCubit),
-        BlocProvider(create: (context) => _payToAssignTaskCubit)
+        BlocProvider(create: (context) => _payToAssignTaskCubit),
+
+        /// provide if null because they are not provided before
+        /// they are freshly created
+        if (widget.singleTaskParams.checkPaymentStatusCubit == null)
+          BlocProvider(create: (context) => _checkPaymentStatusCubit),
+        if (widget.singleTaskParams.updateTaskCubit == null)
+          BlocProvider(create: (context) => _updateTaskCubit),
+        if (widget.singleTaskParams.deleteTaskCubit == null)
+          BlocProvider(create: (context) => _deleteTaskCubit),
       ],
       child: Scaffold(
         /// appBar
         appBar: AppBar(
           title: const Text("تفاصيل المهمة"),
           actions: [
-            PopupMenuButton(
-                // add icon, by default "3 dot" icon
-                // icon: Icon(Icons.book)
-                position: PopupMenuPosition.under,
-                itemBuilder: (context) {
-                  return [
-                    const PopupMenuItem<int>(
-                      value: 0,
-                      child: Text("تعديل المهمة"),
-                    ),
-                    const PopupMenuItem<int>(
-                      value: 1,
-                      child: Text("حذف المهمة"),
-                    ),
-                  ];
-                },
-                onSelected: (value) {
-                  if (value == 0) {
-                    //==> update Task
-                    _navigateToEditTaskScreen(_taskEntity);
-                  } else if (value == 1) {
-                    //==> deleteTask
-                    _navigateToDeleteTaskScreen(_taskEntity.id);
-                  }
-                }),
+            BlocBuilder<GetMySingleTaskCubit, GetMySingleTaskState>(
+              builder: (context, state) {
+                return PopupMenuButton(
+                    // add icon, by default "3 dot" icon
+                    // icon: Icon(Icons.book)
+                    position: PopupMenuPosition.under,
+                    itemBuilder: (context) {
+                      return [
+                        const PopupMenuItem<int>(
+                          value: 0,
+                          child: Text("تعديل المهمة"),
+                        ),
+                        const PopupMenuItem<int>(
+                          value: 1,
+                          child: Text("حذف المهمة"),
+                        ),
+                      ];
+                    },
+                    onSelected: (value) {
+                      if (state is MySingleTaskFetchedSuccessfully) {
+                        if (value == 0) {
+                          //==> update Task
+                          _navigateToEditTaskScreen(state.taskEntity);
+                        } else if (value == 1) {
+                          //==> deleteTask
+                          _navigateToDeleteTaskScreen(state.taskEntity.id);
+                        }
+                      }
+                    });
+              },
+            ),
           ],
         ),
 
@@ -130,6 +153,21 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                   );
                 }
 
+                //
+                // AlreadyAssignedBeforeToPayToAssignTask
+                //
+                //
+                if (state is AlreadyAssignedBeforeToPayToAssignTask) {
+                  showSnackBar(
+                    context,
+                    message: "تم اسناد المهمة من قبل",
+                  );
+                }
+
+                //
+                // TaskAssignedSuccessfullyWithWallet
+                //
+                //
                 if (state is TaskAssignedSuccessfullyWithWallet) {
                   //Navigator.pop(context);
                   showAppDialog(
@@ -140,6 +178,10 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                   );
                 }
 
+                //
+                // InsufficientWalletFundToAssignTask
+                //
+                //
                 if (state is InsufficientWalletFundToAssignTask) {
                   //Navigator.pop(context);
                   showInsufficientWalletFundDialog(context);
@@ -199,7 +241,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
 
                   //==> PaymentFailed
                   if (state is PaymentFailed) {
-                   // Navigator.pop(context);
+                    // Navigator.pop(context);
                     showAppDialog(
                       context,
                       message: "فشلت عملية الدفع",
@@ -339,16 +381,17 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
                         ],
                       ),
 
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.only(top: 8.0),
-                          child: ListOfApplicantLawyers(
-                            payToAssignTaskCubit: _payToAssignTaskCubit,
-                            taskEntity: state.taskEntity,
-                            applicants: state.taskEntity.applicantLawyers,
+                      if (state.taskEntity.status == "todo")
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 8.0),
+                            child: ListOfApplicantLawyers(
+                              payToAssignTaskCubit: _payToAssignTaskCubit,
+                              taskEntity: state.taskEntity,
+                              applicants: state.taskEntity.applicantLawyers,
+                            ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 );
@@ -367,6 +410,8 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
   void _navigateToPaymentScreen({
     required String paymentLink,
   }) async {
+    // final kk =  await openUrl(url: paymentLink);
+    // log("After Payment >> $kk");
     await RouteHelper().paymentScreen(
       context,
       paymentArguments: PaymentArguments(link: paymentLink),
@@ -382,7 +427,7 @@ class _MySingleTaskScreenState extends State<MySingleTaskScreen> {
   void _fetchMySingleTask() {
     _getMySingleTaskCubit.fetchMySingleTask(
       userToken: getUserToken(context),
-      taskId: widget.singleTaskParams.taskEntity.id,
+      taskId: widget.singleTaskParams.taskId,
     );
   }
 

@@ -37,11 +37,12 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
     super.initState();
     applyForTaskCubit = getItInstance<ApplyForTaskCubit>();
     _singleTaskDetailsCubit = getItInstance<GetSingleTaskDetailsCubit>();
-    if (widget.taskDetailsArguments.taskEntity != null) {
-      _taskEntity = widget.taskDetailsArguments.taskEntity!;
-    } else {
-      _fetchTaskDetails();
-    }
+    // if (widget.taskDetailsArguments.taskEntity != null) {
+    //   _taskEntity = widget.taskDetailsArguments.taskEntity!;
+    // } else {
+    //   _fetchTaskDetails();
+    // }
+    _fetchTaskDetails();
   }
 
   @override
@@ -91,14 +92,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                 height: 10,
               ),
 
-              widget.taskDetailsArguments.taskEntity != null
-                  ? TaskDetailsWidget(
-                      applyForTaskCubit: applyForTaskCubit,
-                      taskEntity: widget.taskDetailsArguments.taskEntity!,
-                      isAlreadyApplied:
-                          widget.taskDetailsArguments.isAlreadyApplied,
-                    )
-                  : BlocBuilder<GetSingleTaskDetailsCubit,
+              BlocBuilder<GetSingleTaskDetailsCubit,
                       GetSingleTaskDetailsState>(
                       builder: (context, state) {
                         /*
@@ -144,7 +138,7 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                             child: AppErrorWidget(
                               appTypeError: state.appError.appErrorType,
                               onPressedRetry: () {
-                                navigateToLogin(context);
+                                _fetchTaskDetails();
                               },
                             ),
                           );
@@ -161,7 +155,6 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                           return TaskDetailsWidget(
                             applyForTaskCubit: applyForTaskCubit,
                             taskEntity: state.taskEntity,
-                            isAlreadyApplied: false,
                           );
                         }
 
