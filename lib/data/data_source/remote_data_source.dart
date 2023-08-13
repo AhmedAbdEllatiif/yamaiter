@@ -79,6 +79,7 @@ import 'package:yamaiter/data/params/create_tax_params.dart';
 import 'package:yamaiter/data/params/decline_task_params.dart';
 import 'package:yamaiter/data/params/delete_article_params.dart';
 import 'package:yamaiter/data/params/delete_task_params.dart';
+import 'package:yamaiter/data/params/delete_user_params.dart';
 import 'package:yamaiter/data/params/end_task_params.dart';
 import 'package:yamaiter/data/params/filter_task_params.dart';
 import 'package:yamaiter/data/params/forget_password_params.dart';
@@ -101,6 +102,7 @@ import 'package:yamaiter/data/params/update_profile/update_client_params.dart';
 import 'package:yamaiter/data/params/update_sos_params.dart';
 
 import '../../domain/entities/app_error.dart';
+import '../api/requests/delete_requests/delete_user.dart';
 import '../api/requests/get_requests/chat/get_chat_room.dart';
 import '../api/requests/get_requests/chat/get_chats_list.dart';
 import '../api/requests/get_requests/client/get_my_consultations.dart';
@@ -368,6 +370,15 @@ abstract class RemoteDataSource {
 
   /// chargeBalance
   Future<dynamic> chargeBalance(ChargeBalanceParams params);
+
+  ///=========================>  Delete User <==========================\\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///                                                                   \\\\
+  ///===================================================================\\\\
+
+  /// delete user
+  Future<dynamic> deleteUserRemote(DeleteUserParams params);
 }
 
 class RemoteDataSourceImpl extends RemoteDataSource {
@@ -2987,6 +2998,48 @@ class RemoteDataSourceImpl extends RemoteDataSource {
       log("dataSource >> chargeBalance >> Error: $e");
       return AppError(AppErrorType.unHandledError,
           message: "dataSource >> chargeBalance UnHandledError >> $e");
+    }
+  }
+
+  ///
+  /// delete user
+  ///
+  ///
+  @override
+  Future<dynamic> deleteUserRemote(DeleteUserParams params) async {
+    try {
+      log("dataSource >> deleteUserRemote >> Start request");
+      // init request
+      final request = DeleteUserRequest();
+
+      // response
+      final response = await request(params);
+
+      log("dataSource >> deleteUserRemote >> ResponseCode: ${response.statusCode}");
+      // log("dataSource >> deleteUserRemote >> ResponseBody: ${response.body}");
+
+      switch (response.statusCode) {
+        // success
+        case 200:
+          log("dataSource >> deleteUserRemote >> ResponseBody: ${json.decode(response.body)}");
+          return SuccessModel();
+        // success
+        case 401:
+          log("dataSource >> deleteUserRemote >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.unauthorizedUser,
+              message: "chargeBalance Status Code >> ${response.statusCode}");
+
+        // default
+        default:
+          log("dataSource >> deleteUserRemote >> ResponseBody: ${response.body}");
+          return AppError(AppErrorType.api,
+              message: "chargeBalance Status Code >> ${response.statusCode}"
+                  " \n Body: ${response.body}");
+      }
+    } catch (e) {
+      log("dataSource >> deleteUserRemote >> Error: $e");
+      return AppError(AppErrorType.unHandledError,
+          message: "dataSource >> deleteUserRemote UnHandledError >> $e");
     }
   }
 }

@@ -59,6 +59,7 @@ import '../../data/params/change_password_params.dart';
 import '../../data/params/chat_room_by_id_params.dart';
 import '../../data/params/client/get_lawyers_params.dart';
 import '../../data/params/create_article_params.dart';
+import '../../data/params/delete_user_params.dart';
 import '../../data/params/forget_password_params.dart';
 import '../../data/params/get_app_announcements.dart';
 import '../../data/params/get_invited_task_params.dart';
@@ -178,8 +179,7 @@ abstract class RemoteRepository {
   Future<Either<AppError, List<HelpResponseModel>>> getHelp(String userToken);
 
   /// getSingleSos
-  Future<Either<AppError, SosEntity>> getSingleSos(
-      GetSingleSosParams params);
+  Future<Either<AppError, SosEntity>> getSingleSos(GetSingleSosParams params);
 
   /// create sos
   Future<Either<AppError, SuccessModel>> createSos(
@@ -334,4 +334,7 @@ abstract class RemoteRepository {
   /// to charge user balance
   Future<Either<AppError, ChargeBalanceEntity>> chargeBalance(
       ChargeBalanceParams params);
+
+  /// to delete user
+  Future<Either<AppError, SuccessModel>> deleteUser(DeleteUserParams params);
 }

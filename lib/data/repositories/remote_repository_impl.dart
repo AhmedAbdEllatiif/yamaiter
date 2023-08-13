@@ -82,6 +82,7 @@ import '../params/client/create_consultation_params.dart';
 import '../params/client/get_consultation_details.dart';
 import '../params/client/get_lawyers_params.dart';
 import '../params/client/get_my_consultations_params.dart';
+import '../params/delete_user_params.dart';
 import '../params/forget_password_params.dart';
 import '../params/get_app_announcements.dart';
 import '../params/get_single_sos_params.dart';
@@ -605,7 +606,6 @@ class RemoteRepositoryImpl extends RemoteRepository {
       return Left(AppError(AppErrorType.api, message: "Message: $e"));
     }
   }
-
 
   /// getSingleSos
   @override
@@ -1552,6 +1552,33 @@ class RemoteRepositoryImpl extends RemoteRepository {
       }
     } on Exception catch (e) {
       log("RepoImpl >> getSingleTaskDetails >> error: $e");
+      return Left(
+          AppError(AppErrorType.unHandledError, message: "Message: $e"));
+    }
+  }
+
+  ///
+  /// to delete user
+  ///
+  ///
+  @override
+  Future<Either<AppError, SuccessModel>> deleteUser(
+      DeleteUserParams params) async {
+    try {
+      // send request
+      final result = await remoteDataSource.deleteUserRemote(params);
+
+      // received success
+      if (result is SuccessModel) {
+        return Right(result);
+      }
+
+      // failed to send request
+      else {
+        return Left(result);
+      }
+    } on Exception catch (e) {
+      log("RepoImpl >> deleteUser >> error: $e");
       return Left(
           AppError(AppErrorType.unHandledError, message: "Message: $e"));
     }

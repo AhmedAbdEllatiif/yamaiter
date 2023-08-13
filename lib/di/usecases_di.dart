@@ -36,6 +36,7 @@ import '../domain/use_cases/chat/fetch_chat_list.dart';
 import '../domain/use_cases/chat/get_chat_room_by_id.dart';
 import '../domain/use_cases/chat/send_chat_message_case.dart';
 import '../domain/use_cases/contact_us.dart';
+import '../domain/use_cases/delete_remote_user.dart';
 import '../domain/use_cases/first_launch/change_first_launch_case.dart';
 import '../domain/use_cases/first_launch/get_first_launch_case.dart';
 import '../domain/use_cases/get_app_announcements_case.dart';
@@ -427,6 +428,11 @@ Future init() async {
   //==> ForgetPasswordCase
   getItInstance.registerFactory<ForgetPasswordCase>(
     () => ForgetPasswordCase(remoteRepository: getItInstance()),
+  );
+
+  //==> DeleteRemoteUserCase
+  getItInstance.registerFactory<DeleteRemoteUserCase>(
+    () => DeleteRemoteUserCase(remoteRepository: getItInstance()),
   );
 
   ///===================>  Notifications Listeners <====================\\\\

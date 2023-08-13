@@ -34,6 +34,7 @@ import '../presentation/logic/client_cubit/get_my_consultations/get_my_consultat
 import '../presentation/logic/common/app_announcements/get_app_announcements_cubit.dart';
 import '../presentation/logic/common/change_password/change_password_cubit.dart';
 import '../presentation/logic/common/check_payment_status/check_payment_status_cubit.dart';
+import '../presentation/logic/common/delete_remote_user/delete_remote_user_cubit.dart';
 import '../presentation/logic/common/notifications_listeners/notifications_listeners_cubit.dart';
 import '../presentation/logic/common/payout/payout_cubit.dart';
 import '../presentation/logic/common/refund_payment/refund_payment_cubit.dart';
@@ -103,9 +104,8 @@ Future init() async {
 
   //==> GetSingleSosCubit
   getItInstance.registerFactory<GetSingleSosCubit>(
-        () => GetSingleSosCubit(),
+    () => GetSingleSosCubit(),
   );
-
 
   //==> CreateSosCubit
   getItInstance.registerFactory<CreateSosCubit>(
@@ -374,6 +374,11 @@ Future init() async {
   //==> ChangePasswordCubit
   getItInstance.registerFactory<ChangePasswordCubit>(
     () => ChangePasswordCubit(),
+  );
+
+  //==> DeleteRemoteUserCubit
+  getItInstance.registerFactory<DeleteRemoteUserCubit>(
+    () => DeleteRemoteUserCubit(),
   );
 
   //==> NotificationsListenersCubit

@@ -62,9 +62,10 @@ class _ArticleItemState extends State<ArticleItem> {
         borderRadius: BorderRadius.circular(AppUtils.cornerRadius),
         child: Padding(
           padding: EdgeInsets.only(
-              left: Sizes.dimen_8.w,
-              right: Sizes.dimen_8.w,
-              bottom: Sizes.dimen_8.h),
+            left: Sizes.dimen_8.w,
+            right: Sizes.dimen_8.w,
+            bottom: Sizes.dimen_8.h,
+          ),
           child: Stack(
             children: [
               Padding(
@@ -161,24 +162,23 @@ class _ArticleItemState extends State<ArticleItem> {
                     ),
 
                     /// ImageNameRatingWidget
-                    Expanded(
-                      child: ImageNameRatingWidget(
-                        name: widget.articleEntity.authorName,
-                        imgUrl: widget.articleEntity.creatorImage,
-                        rating: widget.articleEntity.creatorRating.toDouble(),
-                        isAdmin: widget.articleEntity.authorName == "admin" ||
-                            widget.articleEntity.authorName == "يامتر",
-                        unRatedColor: AppColor.primaryColor.withOpacity(0.6),
-                        withRow: false,
-                        nameSize: Sizes.dimen_12.sp,
-                        iconRateSize: Sizes.dimen_12,
-                        minImageSize: Sizes.dimen_40.w,
-                        maxImageSize: Sizes.dimen_40.w,
-                        nameColor: AppColor.primaryDarkColor,
-                        onPressed: () {
-                          // RouteHelper().editProfile(context);
-                        },
-                      ),
+                    ImageNameRatingWidget(
+                      name: widget.articleEntity.authorName,
+                      imgUrl: widget.articleEntity.creatorImage,
+                      rating: widget.articleEntity.creatorRating.toDouble(),
+                      isAdmin: widget.articleEntity.authorName == "admin" ||
+                          widget.articleEntity.authorName == "ya maitre" ||
+                          widget.articleEntity.authorName == "يامتر",
+                      unRatedColor: AppColor.primaryColor.withOpacity(0.6),
+                      withRow: false,
+                      nameSize: Sizes.dimen_12.sp,
+                      iconRateSize: Sizes.dimen_12,
+                      minImageSize: Sizes.dimen_40.w,
+                      maxImageSize: Sizes.dimen_40.w,
+                      nameColor: AppColor.primaryDarkColor,
+                      onPressed: () {
+                        // RouteHelper().editProfile(context);
+                      },
                     ),
                   ],
                 ),

@@ -34,6 +34,7 @@ enum RequestType {
   registerLawyer,
   changePassword,
   forgetPassword,
+  deleteUser,
 
   /// ===> Client
   createTaskClient,
@@ -159,6 +160,8 @@ extension ToUriFromString on RequestType {
 
       case RequestType.forgetPassword:
         return "forget-password";
+      case RequestType.deleteUser:
+        return "delete-profile";
 
       /**
      *

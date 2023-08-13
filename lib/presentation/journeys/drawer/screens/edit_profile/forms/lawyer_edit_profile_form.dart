@@ -198,6 +198,7 @@ class _LawyerEditProfileFormState extends State<LawyerEditProfileForm> {
 
         //==> bottom space
         SizedBox(height: Sizes.dimen_200.h),
+
       ],
     ));
   }

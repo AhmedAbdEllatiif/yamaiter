@@ -32,7 +32,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   /// UpdateLawyerProfileCubit
   late final UpdateLawyerProfileCubit _updateLawyerCubit;
 
-
   /// profile image path
   String _profileImagePath = " ";
 

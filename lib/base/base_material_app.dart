@@ -206,16 +206,21 @@ class _BaseMaterialAppState extends State<BaseMaterialApp> {
 
   /// store the firebase token on change
   void _storeFirebaseToken() async {
-    final token = await FirebaseMessaging.instance.getToken();
-    log("BaseMaterialApp >> FCM_TOKEN >> $token");
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      _firebaseTokenCubit.tryToStoreFirebaseToken(
-        userToken: getUserToken(context),
-        firebaseToken: fcmToken,
-      );
-    }).onError((err) {
-      log("BaseMaterialApp  >> _storeFirebaseToken >> $err");
-    });
+    try{
+      final token = await FirebaseMessaging.instance.getToken();
+      log("BaseMaterialApp >> FCM_TOKEN >> $token");
+      FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
+        _firebaseTokenCubit.tryToStoreFirebaseToken(
+          userToken: getUserToken(context),
+          firebaseToken: fcmToken,
+        );
+      }).onError((err) {
+        log("BaseMaterialApp  >> _storeFirebaseToken >> $err");
+      });
+    }catch (e){
+      log("BaseMaterialApp >> _storeFirebaseToken >> $e");
+    }
+
   }
 
   /// show received notification banner

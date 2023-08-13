@@ -175,6 +175,7 @@ class _SingleArticleScreenState extends State<SingleArticleScreen> {
                               name: articleEntity.authorName,
                               imgUrl: articleEntity.creatorImage,
                               isAdmin: articleEntity.authorName == "admin" ||
+                                  articleEntity.authorName == "ya maitre" ||
                                   articleEntity.authorName == "يامتر",
                               rating: articleEntity.creatorRating.toDouble(),
                               unRatedColor:
