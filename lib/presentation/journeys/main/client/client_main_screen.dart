@@ -5,7 +5,7 @@ import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/journeys/all_lawyers/all_lawyers_widget.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen__client.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/client/home_page_client.dart';
-import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/all_articles_screen.dart';
 import 'package:yamaiter/presentation/journeys/drawer/drawer_screen/drawer_screen_client.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';

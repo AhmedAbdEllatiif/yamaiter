@@ -159,7 +159,8 @@ class _SearchForLawyerScreenState extends State<SearchForLawyerScreen> {
                             padding: EdgeInsets.zero,
                             onPressed: () {
                               if (_validate()) {
-                                _searchForLawyers();
+                                //_searchForLawyers();
+                                _navigateToSearchResult(resultList: []);
                               }
                             },
                           ),

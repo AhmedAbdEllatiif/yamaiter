@@ -14,7 +14,7 @@ List<ArticleModel> allArticlesFromJson(String str) {
     });
   }
 
-  return articleModels.reversed.toList();
+  return articleModels.toList();
 }
 
 /// return list of Articles form my articles request
@@ -27,7 +27,7 @@ List<ArticleModel> myArticlesFromJson(String str) {
     });
   }
 
-  return articleModels.reversed.toList();
+  return articleModels.toList();
 }
 
 ArticleModel articleModelFromJson(String str) {

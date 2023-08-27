@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:yamaiter/common/screen_utils/screen_util.dart';
 import 'package:yamaiter/presentation/widgets/cached_image_widget.dart';
 
@@ -39,7 +40,10 @@ class AdsListViewWidget extends StatelessWidget {
           builder: (BuildContext context) {
             return GestureDetector(
               onTap: () {
-                openUrl(url: singleAd.url);
+                openUrl(
+                  url: singleAd.url,
+                  launchMode: LaunchMode.externalApplication,
+                );
               },
               child: Container(
                 //width: MediaQuery.of(context).size.width,

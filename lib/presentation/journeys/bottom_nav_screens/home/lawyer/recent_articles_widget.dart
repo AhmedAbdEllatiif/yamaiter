@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:yamaiter/common/extensions/size_extensions.dart';
+import 'package:yamaiter/common/functions/get_user_token.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/loading_more_all_articles.dart';
 
 import '../../../../../common/constants/sizes.dart';
@@ -15,22 +16,21 @@ import '../../../../widgets/app_refersh_indicator.dart';
 import '../../../../widgets/article_item.dart';
 import '../../../../widgets/loading_widget.dart';
 
-class HomePageLawyer extends StatefulWidget {
+class RecentArticles extends StatefulWidget {
   final GetAllArticlesCubit getAllArticlesCubit;
   final int? limitToShow;
 
-  const HomePageLawyer({
+  const RecentArticles({
     Key? key,
     required this.getAllArticlesCubit,
     this.limitToShow,
   }) : super(key: key);
 
   @override
-  State<HomePageLawyer> createState() => _HomePageLawyerState();
+  State<RecentArticles> createState() => _RecentArticlesState();
 }
 
-class _HomePageLawyerState extends State<HomePageLawyer> {
-
+class _RecentArticlesState extends State<RecentArticles> {
   late final GetAllArticlesCubit _getAllArticlesCubit;
 
   int offset = 0;
@@ -136,15 +136,14 @@ class _HomePageLawyerState extends State<HomePageLawyer> {
             return AppRefreshIndicator(
               onRefresh: () async {
                 allArticlesList.clear();
-                _fetchMyArticlesList();
+                _fetchMyArticlesList(clear: true);
               },
               child: ListView.separated(
-                controller: _controller,
+                //controller: _controller,
                 physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount:
                     allArticlesList.length > 5 ? 5 : allArticlesList.length,
-                // controller: _controller,
                 separatorBuilder: (context, index) => SizedBox(
                   height: Sizes.dimen_2.h,
                 ),
@@ -175,20 +174,20 @@ class _HomePageLawyerState extends State<HomePageLawyer> {
   }
 
   /// to fetch Articles list
-  void _fetchMyArticlesList() {
-    final userToken = context.read<UserTokenCubit>().state.userToken;
+  void _fetchMyArticlesList({bool clear = false}) {
+    final userToken = getUserToken(context);
 
     _getAllArticlesCubit.fetchAllArticlesList(
       userToken: userToken,
-      currentListLength: allArticlesList.length,
-      offset: allArticlesList.length,
+      currentListLength: clear ? 0 : allArticlesList.length,
+      offset: clear ? 0 : allArticlesList.length,
     );
   }
 
   /// listener on controller
   /// when last item reached fetch next page
   /// when last item reached no action needed
-  void _listenerOnScrollController() async{
+  void _listenerOnScrollController() async {
     _controller.addListener(() {
       if (_controller.position.maxScrollExtent == _controller.offset) {
         if (_getAllArticlesCubit.state is! LastPageAllArticlesReached) {

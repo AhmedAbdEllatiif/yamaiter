@@ -39,11 +39,9 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSCameraUsageDescription</key>
-	<string>يتطلب هذا التطبيق الوصول إلى مكتبة الكاميرا.</string>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>يتطلب هذا التطبيق الوصول إلى مكتبة المايك.</string>
+	<string>اسمح لـ يامتر بالوصول إلى الكامير لتعيين صورة الملف الشخصي ، أو بطاقة النقابة أو لإرسالها عبر الدردشة</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>يتطلب هذا التطبيق الوصول إلى مكتبة الصور.</string>
+	<string>اسمح لـ يامتر بالوصول إلى صورك لتعيين صورة الملف الشخصي ، أو بطاقة النقابة أو لإرسالها عبر الدردشة</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>

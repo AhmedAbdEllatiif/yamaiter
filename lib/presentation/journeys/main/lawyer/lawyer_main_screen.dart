@@ -6,7 +6,7 @@ import 'package:yamaiter/common/extensions/size_extensions.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_sos/all_sos_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/all_tasks/all_task_screen.dart';
 import 'package:yamaiter/presentation/journeys/bottom_nav_screens/choose_to_add/choose_to_add_screen.dart';
-import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/home_screen.dart';
+import 'package:yamaiter/presentation/journeys/bottom_nav_screens/home/all_articles_screen.dart';
 import 'package:yamaiter/presentation/widgets/custom_app_bar.dart';
 import 'package:yamaiter/router/route_helper.dart';
 
@@ -20,7 +20,7 @@ import '../../../logic/cubit/get_all_tasks/get_all_task_cubit.dart';
 import '../../../logic/cubit/user_token/user_token_cubit.dart';
 import '../../../themes/theme_color.dart';
 import '../../../widgets/ads_widget.dart';
-import '../../bottom_nav_screens/home/lawyer/home_page_lawyer.dart';
+import '../../bottom_nav_screens/home/lawyer/recent_articles_widget.dart';
 import '../../drawer/drawer_screen/drawer_screen.dart';
 import '../main_page_title.dart';
 
@@ -132,7 +132,7 @@ class _LawyerMainScreenState extends State<LawyerMainScreen> {
                 index: _selectedIndex,
                 children: [
                   /// Home >> allArticles
-                  HomePageLawyer(
+                  RecentArticles(
                     getAllArticlesCubit: _getAllArticlesCubit,
                   ),
 

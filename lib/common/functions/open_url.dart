@@ -2,7 +2,10 @@ import 'dart:developer';
 
 import 'package:url_launcher/url_launcher.dart';
 
-Future<bool> openUrl({required String url}) async {
+Future<bool> openUrl({
+  required String url,
+  LaunchMode launchMode = LaunchMode.platformDefault,
+}) async {
   try {
     String fallbackUrl = url;
 
@@ -11,7 +14,10 @@ Future<bool> openUrl({required String url}) async {
       var canLaunchNatively = await canLaunchUrl(fbBundleUri);
 
       if (canLaunchNatively) {
-        return await launchUrl(fbBundleUri);
+        return await launchUrl(
+          fbBundleUri,
+          mode: launchMode,
+        );
       } else {
         return await launchUrl(
           Uri.parse(fallbackUrl),
